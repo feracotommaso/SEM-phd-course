@@ -58,7 +58,7 @@ Brief table (optional):
 
 ## Conceptual model (diagram)
 Insert a figure if you have one:
-![](../assets/images/your_model_diagram.png){width=70%}
+<!-- ![](../assets/images/your_model_diagram.png){width=70%} -->
 
 ## lavaan syntax
 

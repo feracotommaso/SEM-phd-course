@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Student Name">
 
-<title>Setup – Structural Equation Modelling in Psychological Sciences</title>
+<title>SEM Report — Title – Structural Equation Modelling in Psychological Sciences</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,26 +56,45 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-69548dc370d8aa5186370da619938e85.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -113,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Structural Equation Modelling in Psychological Sciences</span>
     </a>
   </div>
@@ -124,23 +144,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./setup.html" aria-current="page"> 
+    <a class="nav-link" href="../setup.html"> 
 <span class="menu-text">Setup</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./glossary.html"> 
+    <a class="nav-link" href="../glossary.html"> 
 <span class="menu-text">Glossary</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./reporting-checklist.html"> 
+    <a class="nav-link" href="../reporting-checklist.html"> 
 <span class="menu-text">Reporting checklist</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./extras/extras_index.html"> 
+    <a class="nav-link" href="../extras/extras_index.html"> 
 <span class="menu-text">Extras</span></a>
   </li>  
 </ul>
@@ -166,36 +186,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#installupdate-software" id="toc-installupdate-software" class="nav-link active" data-scroll-target="#installupdate-software">1) Install/update software</a></li>
-  <li><a href="#get-the-course-materials" id="toc-get-the-course-materials" class="nav-link" data-scroll-target="#get-the-course-materials">2) Get the course materials</a>
+  <li><a href="#research-question" id="toc-research-question" class="nav-link active" data-scroll-target="#research-question"><span class="header-section-number">1</span> Research question</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a>
   <ul class="collapse">
-  <li><a href="#option-a-git-recommended" id="toc-option-a-git-recommended" class="nav-link" data-scroll-target="#option-a-git-recommended">Option A — Git (recommended)</a></li>
-  <li><a href="#option-b-download-zip" id="toc-option-b-download-zip" class="nav-link" data-scroll-target="#option-b-download-zip">Option B — Download ZIP</a></li>
+  <li><a href="#sample" id="toc-sample" class="nav-link" data-scroll-target="#sample"><span class="header-section-number">2.1</span> Sample</a></li>
+  <li><a href="#variables" id="toc-variables" class="nav-link" data-scroll-target="#variables"><span class="header-section-number">2.2</span> Variables</a></li>
+  <li><a href="#missingness" id="toc-missingness" class="nav-link" data-scroll-target="#missingness"><span class="header-section-number">2.3</span> Missingness</a></li>
   </ul></li>
-  <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages">3) Install packages</a></li>
-  <li><a href="#reproducibility-option-recommended-renv" id="toc-reproducibility-option-recommended-renv" class="nav-link" data-scroll-target="#reproducibility-option-recommended-renv">4) Reproducibility option (recommended): renv</a></li>
-  <li><a href="#quick-test-can-you-run-lavaan" id="toc-quick-test-can-you-run-lavaan" class="nav-link" data-scroll-target="#quick-test-can-you-run-lavaan">5) Quick test: can you run lavaan?</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">3</span> Model</a>
   <ul class="collapse">
-  <li><a href="#package-x-is-not-available" id="toc-package-x-is-not-available" class="nav-link" data-scroll-target="#package-x-is-not-available">“Package X is not available”</a></li>
-  <li><a href="#quarto-not-found" id="toc-quarto-not-found" class="nav-link" data-scroll-target="#quarto-not-found">“Quarto not found”</a></li>
-  <li><a href="#rendering-fails" id="toc-rendering-fails" class="nav-link" data-scroll-target="#rendering-fails">“Rendering fails”</a></li>
+  <li><a href="#conceptual-model-diagram" id="toc-conceptual-model-diagram" class="nav-link" data-scroll-target="#conceptual-model-diagram"><span class="header-section-number">3.1</span> Conceptual model (diagram)</a></li>
+  <li><a href="#lavaan-syntax" id="toc-lavaan-syntax" class="nav-link" data-scroll-target="#lavaan-syntax"><span class="header-section-number">3.2</span> lavaan syntax</a></li>
+  </ul></li>
+  <li><a href="#estimation-choices" id="toc-estimation-choices" class="nav-link" data-scroll-target="#estimation-choices"><span class="header-section-number">4</span> Estimation choices</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">5</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#global-fit" id="toc-global-fit" class="nav-link" data-scroll-target="#global-fit"><span class="header-section-number">5.1</span> Global fit</a></li>
+  <li><a href="#key-parameters" id="toc-key-parameters" class="nav-link" data-scroll-target="#key-parameters"><span class="header-section-number">5.2</span> Key parameters</a></li>
+  <li><a href="#interpretation-write-up" id="toc-interpretation-write-up" class="nav-link" data-scroll-target="#interpretation-write-up"><span class="header-section-number">5.3</span> Interpretation (write-up)</a></li>
+  </ul></li>
+  <li><a href="#diagnostics-and-respecification-if-applicable" id="toc-diagnostics-and-respecification-if-applicable" class="nav-link" data-scroll-target="#diagnostics-and-respecification-if-applicable"><span class="header-section-number">6</span> Diagnostics and respecification (if applicable)</a></li>
+  <li><a href="#robustness-sensitivity-checks-optional-but-appreciated" id="toc-robustness-sensitivity-checks-optional-but-appreciated" class="nav-link" data-scroll-target="#robustness-sensitivity-checks-optional-but-appreciated"><span class="header-section-number">7</span> Robustness / sensitivity checks (optional but appreciated)</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">8</span> Limitations</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">9</span> Conclusion</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">10</span> Reproducibility</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10.1</span> References</a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="report-template.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Setup</h1>
+<h1 class="title">SEM Report — Title</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Student Name </p>
+          </div>
+  </div>
     
   
     
@@ -206,204 +244,186 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page helps you get R, packages, and the course repository running smoothly.</p>
-<section id="installupdate-software" class="level2">
-<h2 class="anchored" data-anchor-id="installupdate-software">1) Install/update software</h2>
+<section id="research-question" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Research question</h1>
+<p>Write 3–6 lines: - What is the substantive question? - What are the constructs? - What would be convincing evidence?</p>
+</section>
+<section id="data" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data</h1>
+<section id="sample" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sample"><span class="header-section-number">2.1</span> Sample</h2>
 <ul>
-<li><strong>R</strong> (recommended: recent CRAN release)</li>
-<li><strong>RStudio</strong> (recommended)</li>
-<li><strong>Quarto</strong> (needed only if you want to render slides/labs locally)</li>
+<li><strong>N</strong> =</li>
+<li><strong>Inclusion/exclusion</strong> =</li>
+<li><strong>Grouping variable (if any)</strong> =</li>
+<li><strong>Clustering (if any)</strong> = (e.g., students in classrooms)</li>
 </ul>
 </section>
-<section id="get-the-course-materials" class="level2">
-<h2 class="anchored" data-anchor-id="get-the-course-materials">2) Get the course materials</h2>
-<section id="option-a-git-recommended" class="level3">
-<h3 class="anchored" data-anchor-id="option-a-git-recommended">Option A — Git (recommended)</h3>
+<section id="variables" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="variables"><span class="header-section-number">2.2</span> Variables</h2>
+<p>Brief table (optional): - Indicators for each latent factor - Outcomes/predictors - Scale type (continuous vs ordinal Likert)</p>
+</section>
+<section id="missingness" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="missingness"><span class="header-section-number">2.3</span> Missingness</h2>
 <ul>
-<li>Clone the repository</li>
-<li>Pull updates during the course if needed</li>
+<li>% missing overall =</li>
+<li>Key variables with missingness =</li>
+<li>Strategy (FIML / MI / listwise) + short justification</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional quick checks (edit to match your data)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(dat)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># colMeans(is.na(dat))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="model" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Model</h1>
+<section id="conceptual-model-diagram" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="conceptual-model-diagram"><span class="header-section-number">3.1</span> Conceptual model (diagram)</h2>
+<p>Insert a figure if you have one: <!-- ![](../assets/images/your_model_diagram.png){width=70%} --></p>
+</section>
+<section id="lavaan-syntax" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="lavaan-syntax"><span class="header-section-number">3.2</span> lavaan syntax</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # Measurement</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">  f1 =~ x1 + x2 + x3</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">  f2 =~ y1 + y2 + y3</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # Structural</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">  f2 ~ f1</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="estimation-choices" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Estimation choices</h1>
+<p>Report and justify:</p>
+<ul>
+<li><strong>Estimator</strong>: (e.g., ML / MLR / WLSMV)</li>
+<li><strong>Ordered indicators</strong>: (yes/no; which variables)</li>
+<li><strong>Standardization</strong>: (e.g., <code>std.lv=TRUE</code> or marker variable)</li>
+<li><strong>Missing data handling</strong>: (FIML / MI)</li>
+<li><strong>Cluster-robust SE</strong> (if clustered): yes/no; rationale</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example fit call (edit as needed)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fit &lt;- sem(model, data = dat, estimator = "MLR", missing = "fiml")</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(fit, fit.measures = TRUE, standardized = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="results" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Results</h1>
+<section id="global-fit" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="global-fit"><span class="header-section-number">5.1</span> Global fit</h2>
+<p>Report a small set consistently (and add CI where relevant): - χ²(df) = - CFI = - TLI = - RMSEA [90% CI] = - SRMR =</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fitMeasures(fit, c("chisq","df","cfi","tli","rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="key-parameters" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="key-parameters"><span class="header-section-number">5.2</span> Key parameters</h2>
+<p>Focus on the parameters tied to your research question. - Main paths (standardized estimates + CI) - Loadings (and any problematic indicators) - R² for outcomes</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: parameter table</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pe &lt;- parameterEstimates(fit, standardized = TRUE)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pe[pe$op %in% c("~","=~"), c("lhs","op","rhs","est","se","pvalue","std.all")]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="interpretation-write-up" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="interpretation-write-up"><span class="header-section-number">5.3</span> Interpretation (write-up)</h2>
+<p>Write 1–2 short paragraphs: - What do the results mean substantively? - Are effects small/medium/large in context? - What alternative explanations remain?</p>
+<p>Include citations when relevant, e.g. <span class="citation" data-cites="rosseel2012lavaan">(<a href="#ref-rosseel2012lavaan" role="doc-biblioref"><strong>rosseel2012lavaan?</strong></a>)</span>.</p>
+</section>
+</section>
+<section id="diagnostics-and-respecification-if-applicable" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Diagnostics and respecification (if applicable)</h1>
+<p>State what you checked: - Residuals inspected? yes/no - Modification indices used? yes/no<br>
+If yes: what changes were made and why they are substantively defensible?</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example (optional)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># modindices(fit, sort. = TRUE, maximum.number = 10)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="robustness-sensitivity-checks-optional-but-appreciated" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Robustness / sensitivity checks (optional but appreciated)</h1>
+<p>Examples: - Alternative estimator (MLR vs ML) - Treat Likert as ordered vs continuous - With/without a debated residual covariance - With/without outliers</p>
+</section>
+<section id="limitations" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Limitations</h1>
+<ul>
+<li>Design limits (causality, measurement, sample, generalizability)</li>
+<li>Model dependence / equivalent models</li>
+<li>Potential violations (non-normality, MNAR, clustering not modeled)</li>
 </ul>
 </section>
-<section id="option-b-download-zip" class="level3">
-<h3 class="anchored" data-anchor-id="option-b-download-zip">Option B — Download ZIP</h3>
-<ul>
-<li>Download the ZIP from GitHub</li>
-<li>Unzip and open the project folder in RStudio</li>
-</ul>
+<section id="conclusion" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Conclusion</h1>
+<p>2–4 bullet points: - What did you learn? - What is the main takeaway for the research question? - What would you do next?</p>
 </section>
-</section>
-<section id="install-packages" class="level2">
-<h2 class="anchored" data-anchor-id="install-packages">3) Install packages</h2>
-<p>Run this once (edit if you already have everything):</p>
+<section id="reproducibility" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Reproducibility</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lavaan"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"semTools"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"psych"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MVN"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mice"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"modsem"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ggplot2"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dplyr"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyr"</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(pkgs, <span class="fu">rownames</span>(<span class="fu">installed.packages</span>()))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="fu">install.packages</span>(to_install)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">lapply</span>(pkgs, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>This is lavaan 0.6-19
-lavaan is FREE software! Please report any bugs.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code> </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>###############################################################################</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>This is semTools 0.5-7</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>All users of R (or SEM) are invited to submit functions or ideas for functions.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>###############################################################################</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Caricamento pacchetto: 'psych'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>I seguenti oggetti sono mascherati da 'package:semTools':
-
-    reliability, skew</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Il seguente oggetto è mascherato da 'package:lavaan':
-
-    cor2cov</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: il pacchetto 'MVN' è stato creato con R versione 4.5.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Caricamento pacchetto: 'MVN'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Il seguente oggetto è mascherato da 'package:psych':
-
-    mardia</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: il pacchetto 'mice' è stato creato con R versione 4.5.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Caricamento pacchetto: 'mice'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Il seguente oggetto è mascherato da 'package:stats':
-
-    filter</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>I seguenti oggetti sono mascherati da 'package:base':
-
-    cbind, rbind</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>This is modsem (1.0.11). Please report any bugs!</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Caricamento pacchetto: 'ggplot2'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>I seguenti oggetti sono mascherati da 'package:psych':
-
-    %+%, alpha</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Caricamento pacchetto: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>I seguenti oggetti sono mascherati da 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>I seguenti oggetti sono mascherati da 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-</div>
-</section>
-<section id="reproducibility-option-recommended-renv" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibility-option-recommended-renv">4) Reproducibility option (recommended): renv</h2>
-<p>If the repo uses <code>renv</code>, you can restore the exact package versions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("renv")</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># renv::restore()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="quick-test-can-you-run-lavaan" class="level2">
-<h2 class="anchored" data-anchor-id="quick-test-can-you-run-lavaan">5) Quick test: can you run lavaan?</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="st">'f =~ x1 + x2 + x3'</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m, <span class="at">data =</span> HolzingerSwineford1939)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="st">"converged"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  cfi rmsea  srmr 
-    1     0     0 </code></pre>
-</div>
-</div>
-</section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
-<section id="package-x-is-not-available" class="level3">
-<h3 class="anchored" data-anchor-id="package-x-is-not-available">“Package X is not available”</h3>
-<ul>
-<li>Update R</li>
-<li>Try a different CRAN mirror</li>
-<li>Install from source if needed (rare)</li>
-</ul>
-</section>
-<section id="quarto-not-found" class="level3">
-<h3 class="anchored" data-anchor-id="quarto-not-found">“Quarto not found”</h3>
-<ul>
-<li>Install Quarto and restart RStudio</li>
-</ul>
-</section>
-<section id="rendering-fails" class="level3">
-<h3 class="anchored" data-anchor-id="rendering-fails">“Rendering fails”</h3>
-<ul>
-<li>Re-run package installation</li>
-<li>Try rendering a single file first (e.g., one lab)</li>
-<li>Check for path issues (especially on Windows)</li>
-</ul>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] LC_COLLATE=Italian_Italy.utf8  LC_CTYPE=Italian_Italy.utf8   
+[3] LC_MONETARY=Italian_Italy.utf8 LC_NUMERIC=C                  
+[5] LC_TIME=Italian_Italy.utf8    
+
+time zone: Europe/Rome
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] lavaan_0.6-19
+
+loaded via a namespace (and not attached):
+ [1] digest_0.6.37     fastmap_1.2.0     xfun_0.52         knitr_1.50       
+ [5] htmltools_0.5.8.1 pbivnorm_0.6.0    rmarkdown_2.29    stats4_4.5.1     
+ [9] cli_3.6.5         mnormt_2.1.1      compiler_4.5.1    rstudioapi_0.17.1
+[13] tools_4.5.1       evaluate_1.0.4    yaml_2.3.10       quadprog_1.5-8   
+[17] rlang_1.1.6       jsonlite_2.0.0    htmlwidgets_1.6.4</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>If you run into errors during class, copy-paste the <strong>error message + the code you ran</strong> into your notes (or send it). It speeds up debugging a lot.</p>
-</div>
+<section id="references" class="level2 tiny" data-number="10.1">
+<h2 class="tiny anchored" data-number="10.1" data-anchor-id="references"><span class="header-section-number">10.1</span> References</h2>
+<div id="refs" role="list">
+
 </div>
 
 

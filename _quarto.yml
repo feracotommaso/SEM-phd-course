@@ -26,7 +26,7 @@ website:
         text: Extras
     right:
       - icon: github
-        href: "https://github.com/feracotommaso/SEM-phd-course"   # <- replace
+        href: "https://github.com/feracotommaso/SEM-phd-course"  
 
 format:
   html:
