@@ -70,67 +70,102 @@
     "text": "References"
   },
   {
-    "objectID": "reporting-checklist.html",
-    "href": "reporting-checklist.html",
-    "title": "Reporting checklist",
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
     "section": "",
-    "text": "Use this as a copy/paste checklist for assignments, papers, and thesis chapters."
+    "text": "This page helps you get R, packages, and the course repository running smoothly."
   },
   {
-    "objectID": "reporting-checklist.html#always-report-any-semcfa",
-    "href": "reporting-checklist.html#always-report-any-semcfa",
-    "title": "Reporting checklist",
-    "section": "Always report (any SEM/CFA)",
-    "text": "Always report (any SEM/CFA)\n\nSoftware + version (R, lavaan, semTools, etc.)\nSample size (N) and any exclusions\nVariables (which indicators for each factor; scales; whether ordinal)\nEstimator (ML / MLR / WLSMV etc.) + justification\nMissing data handling (FIML / MI / listwise) + justification\nModel syntax (append or supplement)\nModel identification choices (marker vs std.lv=TRUE, constraints, etc.)\nGlobal fit: χ²(df), CFI/TLI, RMSEA (+ CI), SRMR\nKey parameters: estimates + SE/CI + standardized solution (when meaningful)\nInterpretation tied to the research question\nDiagnostics: what you checked (residuals, MI/EPC) and what you changed (if anything)\nReproducibility: session info (and seed if simulation)"
+    "objectID": "setup.html#installupdate-software",
+    "href": "setup.html#installupdate-software",
+    "title": "Setup",
+    "section": "1) Install/update software",
+    "text": "1) Install/update software\n\nR (recommended: recent CRAN release)\nRStudio (recommended)\nQuarto (needed only if you want to render slides/labs locally)"
   },
   {
-    "objectID": "reporting-checklist.html#cfa-specific",
-    "href": "reporting-checklist.html#cfa-specific",
-    "title": "Reporting checklist",
-    "section": "CFA-specific",
-    "text": "CFA-specific\n\nFactor loadings (unstd + std), indicator residual variances\nFactor variances/covariances\nReliability: ω (omega) and/or other chosen indices (with method stated)\nHandling of cross-loadings / correlated residuals:\n\nwere any added?\nwhat was the substantive rationale?\nwas this preregistered / cross-validated / replicated?"
+    "objectID": "setup.html#get-the-course-materials",
+    "href": "setup.html#get-the-course-materials",
+    "title": "Setup",
+    "section": "2) Get the course materials",
+    "text": "2) Get the course materials\n\nOption A — Git (recommended)\n\nClone the repository\nPull updates during the course if needed\n\n\n\nOption B — Download ZIP\n\nDownload the ZIP from GitHub\nUnzip and open the project folder in RStudio"
   },
   {
-    "objectID": "reporting-checklist.html#sem-structural-specific",
-    "href": "reporting-checklist.html#sem-structural-specific",
-    "title": "Reporting checklist",
-    "section": "SEM (structural) specific",
-    "text": "SEM (structural) specific\n\nStructural paths (standardized + CI)\nR² for endogenous variables\nIndirect effects:\n\nmethod (bootstrap recommended when appropriate)\neffect + CI + interpretation (avoid “p-value only” reporting)\n\nClarify causal language:\n\nobservational vs experimental\nidentification assumptions (temporal ordering, confounding, etc.)"
+    "objectID": "setup.html#install-packages",
+    "href": "setup.html#install-packages",
+    "title": "Setup",
+    "section": "3) Install packages",
+    "text": "3) Install packages\nRun this once (edit if you already have everything):\n\npkgs &lt;- c(\n  \"lavaan\",\n  \"semTools\",\n  \"psych\",\n  \"MVN\",\n  \"mice\",\n  \"modsem\",\n  \"ggplot2\",\n  \"dplyr\",\n  \"tidyr\"\n)\n\nto_install &lt;- setdiff(pkgs, rownames(installed.packages()))\nif (length(to_install) &gt; 0) install.packages(to_install)\n\ninvisible(lapply(pkgs, library, character.only = TRUE))\n\nThis is lavaan 0.6-19\nlavaan is FREE software! Please report any bugs.\n\n\n \n\n\n###############################################################################\n\n\nThis is semTools 0.5-7\n\n\nAll users of R (or SEM) are invited to submit functions or ideas for functions.\n\n\n###############################################################################\n\n\n\nCaricamento pacchetto: 'psych'\n\n\nI seguenti oggetti sono mascherati da 'package:semTools':\n\n    reliability, skew\n\n\nIl seguente oggetto è mascherato da 'package:lavaan':\n\n    cor2cov\n\n\nWarning: il pacchetto 'MVN' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'MVN'\n\n\nIl seguente oggetto è mascherato da 'package:psych':\n\n    mardia\n\n\nWarning: il pacchetto 'mice' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'mice'\n\n\nIl seguente oggetto è mascherato da 'package:stats':\n\n    filter\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    cbind, rbind\n\n\nThis is modsem (1.0.11). Please report any bugs!\n\n\n\nCaricamento pacchetto: 'ggplot2'\n\n\nI seguenti oggetti sono mascherati da 'package:psych':\n\n    %+%, alpha\n\n\n\nCaricamento pacchetto: 'dplyr'\n\n\nI seguenti oggetti sono mascherati da 'package:stats':\n\n    filter, lag\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    intersect, setdiff, setequal, union"
   },
   {
-    "objectID": "reporting-checklist.html#multi-group-invariance",
-    "href": "reporting-checklist.html#multi-group-invariance",
-    "title": "Reporting checklist",
-    "section": "Multi-group / invariance",
-    "text": "Multi-group / invariance\n\nGroups (definition, Ns per group)\nInvariance steps tested:\n\nconfigural, metric, scalar (and strict if used)\n\nWhat constraints were imposed at each step\nDecision rules used (e.g., ΔCFI / ΔRMSEA thresholds) and references for your rule\nIf partial invariance:\n\nwhich parameters freed\nrationale (substantive + statistical)\nwhat comparisons remain interpretable (e.g., latent means only after (partial) scalar)"
+    "objectID": "setup.html#reproducibility-option-recommended-renv",
+    "href": "setup.html#reproducibility-option-recommended-renv",
+    "title": "Setup",
+    "section": "4) Reproducibility option (recommended): renv",
+    "text": "4) Reproducibility option (recommended): renv\nIf the repo uses renv, you can restore the exact package versions:\n\n# install.packages(\"renv\")\n# renv::restore()"
   },
   {
-    "objectID": "reporting-checklist.html#ordinal-indicators",
-    "href": "reporting-checklist.html#ordinal-indicators",
-    "title": "Reporting checklist",
-    "section": "Ordinal indicators",
-    "text": "Ordinal indicators\n\nWhich variables treated as ordered\nEstimator and link (e.g., WLSMV / probit-type default framework)\nThresholds vs intercepts (make clear what was constrained in invariance)\nFit interpretation caveat: note if thresholds or residual structures drive misfit\nSensitivity check (optional but strong): treat as continuous vs ordered and compare conclusions"
+    "objectID": "setup.html#quick-test-can-you-run-lavaan",
+    "href": "setup.html#quick-test-can-you-run-lavaan",
+    "title": "Setup",
+    "section": "5) Quick test: can you run lavaan?",
+    "text": "5) Quick test: can you run lavaan?\n\nlibrary(lavaan)\n\nm &lt;- 'f =~ x1 + x2 + x3'\nfit &lt;- cfa(m, data = HolzingerSwineford1939)\n\ninspect(fit, \"converged\")\n\n[1] TRUE\n\nfitMeasures(fit, c(\"cfi\",\"rmsea\",\"srmr\"))\n\n  cfi rmsea  srmr \n    1     0     0"
   },
   {
-    "objectID": "reporting-checklist.html#longitudinal-sem",
-    "href": "reporting-checklist.html#longitudinal-sem",
-    "title": "Reporting checklist",
-    "section": "Longitudinal SEM",
-    "text": "Longitudinal SEM\n\nTime points and spacing\nWhether you tested longitudinal measurement invariance\nHow you handled correlated uniqueness (same items across time)\nFor growth models:\n\ncoding of slope loadings (0,1,2… or actual time)\nrandom effects included (intercept/slope variance)\n\nFor cross-lagged models:\n\nclarify whether you used CLPM vs alternatives (if relevant)\ninterpret cross-lagged paths cautiously"
+    "objectID": "setup.html#troubleshooting",
+    "href": "setup.html#troubleshooting",
+    "title": "Setup",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\n“Package X is not available”\n\nUpdate R\nTry a different CRAN mirror\nInstall from source if needed (rare)\n\n\n\n“Quarto not found”\n\nInstall Quarto and restart RStudio\n\n\n\n“Rendering fails”\n\nRe-run package installation\nTry rendering a single file first (e.g., one lab)\nCheck for path issues (especially on Windows)\n\n\n\n\n\n\n\nTip\n\n\n\nIf you run into errors during class, copy-paste the error message + the code you ran into your notes (or send it). It speeds up debugging a lot."
   },
   {
-    "objectID": "reporting-checklist.html#clustered-multilevel",
-    "href": "reporting-checklist.html#clustered-multilevel",
-    "title": "Reporting checklist",
-    "section": "Clustered / multilevel",
-    "text": "Clustered / multilevel\n\nClustering variable (e.g., class, clinic, therapist) and cluster sizes\nStrategy used:\n\ncluster-robust SE (and why sufficient), or\nexplicit multilevel model (within/between)\n\nIf multilevel:\n\nwhich parameters vary within vs between\nICC motivation (optional but helpful)"
+    "objectID": "labs/labs_index.html",
+    "href": "labs/labs_index.html",
+    "title": "Labs",
+    "section": "",
+    "text": "These labs are the hands-on part of the course. Each lab is designed to be runnable end-to-end and includes exercises."
   },
   {
-    "objectID": "reporting-checklist.html#a-short-results-paragraph-template",
-    "href": "reporting-checklist.html#a-short-results-paragraph-template",
-    "title": "Reporting checklist",
-    "section": "A short “results paragraph” template",
-    "text": "A short “results paragraph” template\n\n“We fit a [CFA/SEM] using lavaan (version …) with estimator … . Missing data were handled using … . Model fit was [acceptable/problematic] (χ²(df)=…, CFI=…, RMSEA=… [CI], SRMR=…). The key effect of interest was … (β=…, 95% CI […, …]). Diagnostics indicated … ; we [did/did not] respecify the model. Results suggest …, with limitations including … .”\n\n\n\n\n\n\n\n\nImportant\n\n\n\nRule of thumb\nIf you changed the model after looking at the data, state exactly what you changed and why. “Transparency beats perfection.”"
+    "objectID": "labs/labs_index.html#day-1",
+    "href": "labs/labs_index.html#day-1",
+    "title": "Labs",
+    "section": "Day 1",
+    "text": "Day 1\n\nLab 01 — lavaan basics\nOpen lab\nLab 02 — path analysis & mediation\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-2",
+    "href": "labs/labs_index.html#day-2",
+    "title": "Labs",
+    "section": "Day 2",
+    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability (omega)\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-3",
+    "href": "labs/labs_index.html#day-3",
+    "title": "Labs",
+    "section": "Day 3",
+    "text": "Day 3\n\nLab 05 — SEM capstone (flagship dataset)\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-4",
+    "href": "labs/labs_index.html#day-4",
+    "title": "Labs",
+    "section": "Day 4",
+    "text": "Day 4\n\nLab 07 — MG-CFA invariance\nOpen lab\nLab 08 — ordinal SEM + ordinal invariance\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-5",
+    "href": "labs/labs_index.html#day-5",
+    "title": "Labs",
+    "section": "Day 5",
+    "text": "Day 5\n\nLab 09 — longitudinal SEM (growth model)\nOpen lab\nLab 10 — clustered data (robust SE) + two-level CFA\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#optional-extra-practice",
+    "href": "labs/labs_index.html#optional-extra-practice",
+    "title": "Labs",
+    "section": "Optional extra practice",
+    "text": "Optional extra practice\nIf you want more practice beyond the core labs, check the Extras page."
   },
   {
     "objectID": "glossary.html",
@@ -217,6 +252,55 @@
     "text": "T\nTwo-step mindset\nA practical workflow: evaluate measurement quality before interpreting structural relations.\n\n\n\n\n\n\n\nTip\n\n\n\nIf you want to add to this glossary during the course, just make a PR / issue or send the term + how you’d define it."
   },
   {
+    "objectID": "book/index.html",
+    "href": "book/index.html",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "",
+    "text": "Welcome! This book is a practical introduction to Structural Equation Modelling (SEM) for psychological research, with examples in R (mainly using lavaan).\nThis book is built from the course materials in the companion repository and is designed to be:"
+  },
+  {
+    "objectID": "book/index.html#how-to-read-this-book",
+    "href": "book/index.html#how-to-read-this-book",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "How to read this book",
+    "text": "How to read this book\n\nIf you are new to SEM: read chapters 1–5 in order.\nIf you already know basics: jump to the chapter you need (ordinal, invariance, longitudinal, multilevel).\nEach chapter ends with:\n\na summary of key points\ncommon pitfalls\nexercises (optional)"
+  },
+  {
+    "objectID": "book/index.html#what-you-should-know-already",
+    "href": "book/index.html#what-you-should-know-already",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "What you should know already",
+    "text": "What you should know already\n\nComfortable with R (data wrangling, plotting, writing functions)\nLinear regression basics\nCorrelation/covariance intuition"
+  },
+  {
+    "objectID": "book/index.html#companion-materials",
+    "href": "book/index.html#companion-materials",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "Companion materials",
+    "text": "Companion materials\n\nSlides and labs: see the course GitHub Pages site\nGlossary: key terms and common confusions\nReporting checklist: copy-paste guidance for papers and theses\nExtras: optional modules (power, latent interactions, SAM today’s methods, etc.)"
+  },
+  {
+    "objectID": "book/index.html#book-roadmap",
+    "href": "book/index.html#book-roadmap",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "Book roadmap",
+    "text": "Book roadmap\n\nFoundations: SEM logic, identification intuition, estimation choices, lavaan grammar\nPath analysis: regression models in SEM form, mediation, equivalent models\nFit & diagnostics: global vs local fit, residuals, MI discipline\nCFA: measurement models, identification strategies, reliability\nSEM: measurement + structure, two-step mindset, applied workflow\nExtensions: missing data, invariance, ordinal SEM, longitudinal, multilevel\nAppendices: lavaan recipes + reporting templates"
+  },
+  {
+    "objectID": "book/index.html#citation",
+    "href": "book/index.html#citation",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "Citation",
+    "text": "Citation\nIf you cite this book/course notes, you can use the following format (update the year/date when final):\n\nFeraco, T. (Year). Structural Equation Modelling in Psychological Sciences: Applied SEM with lavaan. Course notes, University of Padova."
+  },
+  {
+    "objectID": "book/index.html#acknowledgements-optional",
+    "href": "book/index.html#acknowledgements-optional",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "Acknowledgements (optional)",
+    "text": "Acknowledgements (optional)\nThanks to colleagues and students who provided feedback on earlier versions of these materials."
+  },
+  {
     "objectID": "extras/extras_index.html",
     "href": "extras/extras_index.html",
     "title": "Extras",
@@ -294,53 +378,109 @@
     "text": "Conventions used in this course\n\nCore fit indices (default): χ², CFI/TLI, RMSEA (+ CI), SRMR\nLocal fit: residuals + MI/EPC (with “modification discipline”)\nDefault mindset: measurement first, then structure (“two-step mindset”)\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
   },
   {
-    "objectID": "setup.html",
-    "href": "setup.html",
-    "title": "Setup",
+    "objectID": "reporting-checklist.html",
+    "href": "reporting-checklist.html",
+    "title": "Reporting checklist",
     "section": "",
-    "text": "This page helps you get R, packages, and the course repository running smoothly."
+    "text": "Use this as a copy/paste checklist for assignments, papers, and thesis chapters."
   },
   {
-    "objectID": "setup.html#installupdate-software",
-    "href": "setup.html#installupdate-software",
-    "title": "Setup",
-    "section": "1) Install/update software",
-    "text": "1) Install/update software\n\nR (recommended: recent CRAN release)\nRStudio (recommended)\nQuarto (needed only if you want to render slides/labs locally)"
+    "objectID": "reporting-checklist.html#always-report-any-semcfa",
+    "href": "reporting-checklist.html#always-report-any-semcfa",
+    "title": "Reporting checklist",
+    "section": "Always report (any SEM/CFA)",
+    "text": "Always report (any SEM/CFA)\n\nSoftware + version (R, lavaan, semTools, etc.)\nSample size (N) and any exclusions\nVariables (which indicators for each factor; scales; whether ordinal)\nEstimator (ML / MLR / WLSMV etc.) + justification\nMissing data handling (FIML / MI / listwise) + justification\nModel syntax (append or supplement)\nModel identification choices (marker vs std.lv=TRUE, constraints, etc.)\nGlobal fit: χ²(df), CFI/TLI, RMSEA (+ CI), SRMR\nKey parameters: estimates + SE/CI + standardized solution (when meaningful)\nInterpretation tied to the research question\nDiagnostics: what you checked (residuals, MI/EPC) and what you changed (if anything)\nReproducibility: session info (and seed if simulation)"
   },
   {
-    "objectID": "setup.html#get-the-course-materials",
-    "href": "setup.html#get-the-course-materials",
-    "title": "Setup",
-    "section": "2) Get the course materials",
-    "text": "2) Get the course materials\n\nOption A — Git (recommended)\n\nClone the repository\nPull updates during the course if needed\n\n\n\nOption B — Download ZIP\n\nDownload the ZIP from GitHub\nUnzip and open the project folder in RStudio"
+    "objectID": "reporting-checklist.html#cfa-specific",
+    "href": "reporting-checklist.html#cfa-specific",
+    "title": "Reporting checklist",
+    "section": "CFA-specific",
+    "text": "CFA-specific\n\nFactor loadings (unstd + std), indicator residual variances\nFactor variances/covariances\nReliability: ω (omega) and/or other chosen indices (with method stated)\nHandling of cross-loadings / correlated residuals:\n\nwere any added?\nwhat was the substantive rationale?\nwas this preregistered / cross-validated / replicated?"
   },
   {
-    "objectID": "setup.html#install-packages",
-    "href": "setup.html#install-packages",
-    "title": "Setup",
-    "section": "3) Install packages",
-    "text": "3) Install packages\nRun this once (edit if you already have everything):\n\npkgs &lt;- c(\n  \"lavaan\",\n  \"semTools\",\n  \"psych\",\n  \"MVN\",\n  \"mice\",\n  \"modsem\",\n  \"ggplot2\",\n  \"dplyr\",\n  \"tidyr\"\n)\n\nto_install &lt;- setdiff(pkgs, rownames(installed.packages()))\nif (length(to_install) &gt; 0) install.packages(to_install)\n\ninvisible(lapply(pkgs, library, character.only = TRUE))\n\nThis is lavaan 0.6-19\nlavaan is FREE software! Please report any bugs.\n\n\n \n\n\n###############################################################################\n\n\nThis is semTools 0.5-7\n\n\nAll users of R (or SEM) are invited to submit functions or ideas for functions.\n\n\n###############################################################################\n\n\n\nCaricamento pacchetto: 'psych'\n\n\nI seguenti oggetti sono mascherati da 'package:semTools':\n\n    reliability, skew\n\n\nIl seguente oggetto è mascherato da 'package:lavaan':\n\n    cor2cov\n\n\nWarning: il pacchetto 'MVN' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'MVN'\n\n\nIl seguente oggetto è mascherato da 'package:psych':\n\n    mardia\n\n\nWarning: il pacchetto 'mice' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'mice'\n\n\nIl seguente oggetto è mascherato da 'package:stats':\n\n    filter\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    cbind, rbind\n\n\nThis is modsem (1.0.11). Please report any bugs!\n\n\n\nCaricamento pacchetto: 'ggplot2'\n\n\nI seguenti oggetti sono mascherati da 'package:psych':\n\n    %+%, alpha\n\n\n\nCaricamento pacchetto: 'dplyr'\n\n\nI seguenti oggetti sono mascherati da 'package:stats':\n\n    filter, lag\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    intersect, setdiff, setequal, union"
+    "objectID": "reporting-checklist.html#sem-structural-specific",
+    "href": "reporting-checklist.html#sem-structural-specific",
+    "title": "Reporting checklist",
+    "section": "SEM (structural) specific",
+    "text": "SEM (structural) specific\n\nStructural paths (standardized + CI)\nR² for endogenous variables\nIndirect effects:\n\nmethod (bootstrap recommended when appropriate)\neffect + CI + interpretation (avoid “p-value only” reporting)\n\nClarify causal language:\n\nobservational vs experimental\nidentification assumptions (temporal ordering, confounding, etc.)"
   },
   {
-    "objectID": "setup.html#reproducibility-option-recommended-renv",
-    "href": "setup.html#reproducibility-option-recommended-renv",
-    "title": "Setup",
-    "section": "4) Reproducibility option (recommended): renv",
-    "text": "4) Reproducibility option (recommended): renv\nIf the repo uses renv, you can restore the exact package versions:\n\n# install.packages(\"renv\")\n# renv::restore()"
+    "objectID": "reporting-checklist.html#multi-group-invariance",
+    "href": "reporting-checklist.html#multi-group-invariance",
+    "title": "Reporting checklist",
+    "section": "Multi-group / invariance",
+    "text": "Multi-group / invariance\n\nGroups (definition, Ns per group)\nInvariance steps tested:\n\nconfigural, metric, scalar (and strict if used)\n\nWhat constraints were imposed at each step\nDecision rules used (e.g., ΔCFI / ΔRMSEA thresholds) and references for your rule\nIf partial invariance:\n\nwhich parameters freed\nrationale (substantive + statistical)\nwhat comparisons remain interpretable (e.g., latent means only after (partial) scalar)"
   },
   {
-    "objectID": "setup.html#quick-test-can-you-run-lavaan",
-    "href": "setup.html#quick-test-can-you-run-lavaan",
-    "title": "Setup",
-    "section": "5) Quick test: can you run lavaan?",
-    "text": "5) Quick test: can you run lavaan?\n\nlibrary(lavaan)\n\nm &lt;- 'f =~ x1 + x2 + x3'\nfit &lt;- cfa(m, data = HolzingerSwineford1939)\n\ninspect(fit, \"converged\")\n\n[1] TRUE\n\nfitMeasures(fit, c(\"cfi\",\"rmsea\",\"srmr\"))\n\n  cfi rmsea  srmr \n    1     0     0"
+    "objectID": "reporting-checklist.html#ordinal-indicators",
+    "href": "reporting-checklist.html#ordinal-indicators",
+    "title": "Reporting checklist",
+    "section": "Ordinal indicators",
+    "text": "Ordinal indicators\n\nWhich variables treated as ordered\nEstimator and link (e.g., WLSMV / probit-type default framework)\nThresholds vs intercepts (make clear what was constrained in invariance)\nFit interpretation caveat: note if thresholds or residual structures drive misfit\nSensitivity check (optional but strong): treat as continuous vs ordered and compare conclusions"
   },
   {
-    "objectID": "setup.html#troubleshooting",
-    "href": "setup.html#troubleshooting",
-    "title": "Setup",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\n“Package X is not available”\n\nUpdate R\nTry a different CRAN mirror\nInstall from source if needed (rare)\n\n\n\n“Quarto not found”\n\nInstall Quarto and restart RStudio\n\n\n\n“Rendering fails”\n\nRe-run package installation\nTry rendering a single file first (e.g., one lab)\nCheck for path issues (especially on Windows)\n\n\n\n\n\n\n\nTip\n\n\n\nIf you run into errors during class, copy-paste the error message + the code you ran into your notes (or send it). It speeds up debugging a lot."
+    "objectID": "reporting-checklist.html#longitudinal-sem",
+    "href": "reporting-checklist.html#longitudinal-sem",
+    "title": "Reporting checklist",
+    "section": "Longitudinal SEM",
+    "text": "Longitudinal SEM\n\nTime points and spacing\nWhether you tested longitudinal measurement invariance\nHow you handled correlated uniqueness (same items across time)\nFor growth models:\n\ncoding of slope loadings (0,1,2… or actual time)\nrandom effects included (intercept/slope variance)\n\nFor cross-lagged models:\n\nclarify whether you used CLPM vs alternatives (if relevant)\ninterpret cross-lagged paths cautiously"
+  },
+  {
+    "objectID": "reporting-checklist.html#clustered-multilevel",
+    "href": "reporting-checklist.html#clustered-multilevel",
+    "title": "Reporting checklist",
+    "section": "Clustered / multilevel",
+    "text": "Clustered / multilevel\n\nClustering variable (e.g., class, clinic, therapist) and cluster sizes\nStrategy used:\n\ncluster-robust SE (and why sufficient), or\nexplicit multilevel model (within/between)\n\nIf multilevel:\n\nwhich parameters vary within vs between\nICC motivation (optional but helpful)"
+  },
+  {
+    "objectID": "reporting-checklist.html#a-short-results-paragraph-template",
+    "href": "reporting-checklist.html#a-short-results-paragraph-template",
+    "title": "Reporting checklist",
+    "section": "A short “results paragraph” template",
+    "text": "A short “results paragraph” template\n\n“We fit a [CFA/SEM] using lavaan (version …) with estimator … . Missing data were handled using … . Model fit was [acceptable/problematic] (χ²(df)=…, CFI=…, RMSEA=… [CI], SRMR=…). The key effect of interest was … (β=…, 95% CI […, …]). Diagnostics indicated … ; we [did/did not] respecify the model. Results suggest …, with limitations including … .”\n\n\n\n\n\n\n\n\nImportant\n\n\n\nRule of thumb\nIf you changed the model after looking at the data, state exactly what you changed and why. “Transparency beats perfection.”"
+  },
+  {
+    "objectID": "slides/slides_index.html",
+    "href": "slides/slides_index.html",
+    "title": "Slides",
+    "section": "",
+    "text": "Here are the slide decks for the course (5×4h, split into two blocks each day)."
+  },
+  {
+    "objectID": "slides/slides_index.html#day-1",
+    "href": "slides/slides_index.html#day-1",
+    "title": "Slides",
+    "section": "Day 1",
+    "text": "Day 1\n\nBlock A: 00 Course map, 01 Foundations\nBlock B: 02 Path analysis"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-2",
+    "href": "slides/slides_index.html#day-2",
+    "title": "Slides",
+    "section": "Day 2",
+    "text": "Day 2\n\nBlock A: 03 Fit & diagnostics\nBlock B: 04 CFA"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-3",
+    "href": "slides/slides_index.html#day-3",
+    "title": "Slides",
+    "section": "Day 3",
+    "text": "Day 3\n\nBlock A: 05 SEM capstone\nBlock B: 06 Missing/robust/reporting"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-4",
+    "href": "slides/slides_index.html#day-4",
+    "title": "Slides",
+    "section": "Day 4",
+    "text": "Day 4\n\nBlock A: 07 Invariance (MG-CFA)\nBlock B: 08 Ordinal SEM"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-5",
+    "href": "slides/slides_index.html#day-5",
+    "title": "Slides",
+    "section": "Day 5",
+    "text": "Day 5\n\nBlock A: 09 Longitudinal on-ramp\nBlock B: 10 Multilevel/clustered"
   },
   {
     "objectID": "templates/report-template.html",
@@ -411,96 +551,5 @@
     "title": "SEM Report — Title",
     "section": "10.1 References",
     "text": "10.1 References"
-  },
-  {
-    "objectID": "slides/slides_index.html",
-    "href": "slides/slides_index.html",
-    "title": "Slides",
-    "section": "",
-    "text": "Here are the slide decks for the course (5×4h, split into two blocks each day)."
-  },
-  {
-    "objectID": "slides/slides_index.html#day-1",
-    "href": "slides/slides_index.html#day-1",
-    "title": "Slides",
-    "section": "Day 1",
-    "text": "Day 1\n\nBlock A: 00 Course map, 01 Foundations\nBlock B: 02 Path analysis"
-  },
-  {
-    "objectID": "slides/slides_index.html#day-2",
-    "href": "slides/slides_index.html#day-2",
-    "title": "Slides",
-    "section": "Day 2",
-    "text": "Day 2\n\nBlock A: 03 Fit & diagnostics\nBlock B: 04 CFA"
-  },
-  {
-    "objectID": "slides/slides_index.html#day-3",
-    "href": "slides/slides_index.html#day-3",
-    "title": "Slides",
-    "section": "Day 3",
-    "text": "Day 3\n\nBlock A: 05 SEM capstone\nBlock B: 06 Missing/robust/reporting"
-  },
-  {
-    "objectID": "slides/slides_index.html#day-4",
-    "href": "slides/slides_index.html#day-4",
-    "title": "Slides",
-    "section": "Day 4",
-    "text": "Day 4\n\nBlock A: 07 Invariance (MG-CFA)\nBlock B: 08 Ordinal SEM"
-  },
-  {
-    "objectID": "slides/slides_index.html#day-5",
-    "href": "slides/slides_index.html#day-5",
-    "title": "Slides",
-    "section": "Day 5",
-    "text": "Day 5\n\nBlock A: 09 Longitudinal on-ramp\nBlock B: 10 Multilevel/clustered"
-  },
-  {
-    "objectID": "labs/labs_index.html",
-    "href": "labs/labs_index.html",
-    "title": "Labs",
-    "section": "",
-    "text": "These labs are the hands-on part of the course. Each lab is designed to be runnable end-to-end and includes exercises."
-  },
-  {
-    "objectID": "labs/labs_index.html#day-1",
-    "href": "labs/labs_index.html#day-1",
-    "title": "Labs",
-    "section": "Day 1",
-    "text": "Day 1\n\nLab 01 — lavaan basics\nOpen lab\nLab 02 — path analysis & mediation\nOpen lab"
-  },
-  {
-    "objectID": "labs/labs_index.html#day-2",
-    "href": "labs/labs_index.html#day-2",
-    "title": "Labs",
-    "section": "Day 2",
-    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability (omega)\nOpen lab"
-  },
-  {
-    "objectID": "labs/labs_index.html#day-3",
-    "href": "labs/labs_index.html#day-3",
-    "title": "Labs",
-    "section": "Day 3",
-    "text": "Day 3\n\nLab 05 — SEM capstone (flagship dataset)\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
-  },
-  {
-    "objectID": "labs/labs_index.html#day-4",
-    "href": "labs/labs_index.html#day-4",
-    "title": "Labs",
-    "section": "Day 4",
-    "text": "Day 4\n\nLab 07 — MG-CFA invariance\nOpen lab\nLab 08 — ordinal SEM + ordinal invariance\nOpen lab"
-  },
-  {
-    "objectID": "labs/labs_index.html#day-5",
-    "href": "labs/labs_index.html#day-5",
-    "title": "Labs",
-    "section": "Day 5",
-    "text": "Day 5\n\nLab 09 — longitudinal SEM (growth model)\nOpen lab\nLab 10 — clustered data (robust SE) + two-level CFA\nOpen lab"
-  },
-  {
-    "objectID": "labs/labs_index.html#optional-extra-practice",
-    "href": "labs/labs_index.html#optional-extra-practice",
-    "title": "Labs",
-    "section": "Optional extra practice",
-    "text": "Optional extra practice\nIf you want more practice beyond the core labs, check the Extras page."
   }
 ]

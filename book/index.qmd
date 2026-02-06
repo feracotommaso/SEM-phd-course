@@ -1,0 +1,62 @@
+---
+title: "Structural Equation Modelling in Psychological Sciences"
+subtitle: "Applied SEM with lavaan"
+author: "Tommaso Feraco"
+date: last-modified
+---
+
+Welcome! This book is a practical introduction to **Structural Equation Modelling (SEM)** for psychological research, with examples in **R** (mainly using **lavaan**).
+
+This book is built from the course materials in the companion repository and is designed to be:
+
+- **Applied** (hands-on, code-driven)
+- **Measurement-aware** (CFA, reliability, invariance are central)
+- **Transparent** (reproducible code; reporting checklist)
+- **Expandable** (advanced topics are available as optional sections)
+
+::: {.callout-tip}
+If you're following the course, use this book as a **reference** when doing labs and assignments.
+:::
+
+## How to read this book
+
+- If you are new to SEM: read chapters **1–5** in order.
+- If you already know basics: jump to the chapter you need (ordinal, invariance, longitudinal, multilevel).
+- Each chapter ends with:
+  - a *summary of key points*
+  - *common pitfalls*
+  - *exercises* (optional)
+
+## What you should know already
+
+- Comfortable with R (data wrangling, plotting, writing functions)
+- Linear regression basics
+- Correlation/covariance intuition
+
+## Companion materials
+
+- **Slides and labs**: see the course GitHub Pages site
+- **Glossary**: key terms and common confusions
+- **Reporting checklist**: copy-paste guidance for papers and theses
+- **Extras**: optional modules (power, latent interactions, SAM today's methods, etc.)
+
+## Book roadmap
+
+- **Foundations**: SEM logic, identification intuition, estimation choices, lavaan grammar
+- **Path analysis**: regression models in SEM form, mediation, equivalent models
+- **Fit & diagnostics**: global vs local fit, residuals, MI discipline
+- **CFA**: measurement models, identification strategies, reliability
+- **SEM**: measurement + structure, two-step mindset, applied workflow
+- **Extensions**: missing data, invariance, ordinal SEM, longitudinal, multilevel
+- **Appendices**: lavaan recipes + reporting templates
+
+## Citation
+
+If you cite this book/course notes, you can use the following format (update the year/date when final):
+
+> Feraco, T. (Year). *Structural Equation Modelling in Psychological Sciences: Applied SEM with lavaan*. Course notes, University of Padova.
+
+## Acknowledgements (optional)
+
+Thanks to colleagues and students who provided feedback on earlier versions of these materials.
+

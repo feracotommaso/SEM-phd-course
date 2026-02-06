@@ -1,0 +1,50 @@
+# =========================
+# FILE: book/_quarto.yml
+# =========================
+
+project:
+  type: book
+  output-dir: ../docs/book
+  resources:
+    - ../assets/
+    - ../refs/
+    - ../data/
+
+book:
+  title: "Structural Equation Modelling in Psychological Sciences"
+  subtitle: "Applied SEM with lavaan"
+  author: "Tommaso Feraco"
+  date: last-modified
+  chapters:
+    - index.qmd
+    # - 01_foundations.qmd
+    # - 02_path_analysis.qmd
+    # - 03_fit_diagnostics.qmd
+    # - 04_cfa.qmd
+    # - 05_sem.qmd
+    # - 06_missing_robustness.qmd
+    # - 07_invariance.qmd
+    # - 08_ordinal_sem.qmd
+    # - 09_longitudinal_sem.qmd
+    # - 10_multilevel_sem.qmd
+    # - 90_appendix_lavaan_recipes.qmd
+    # - 91_appendix_reporting.qmd
+    # - references.qmd
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
