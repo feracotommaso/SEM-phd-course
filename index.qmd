@@ -1,0 +1,47 @@
+---
+title: "Structural Equation Modelling in Psychological Sciences"
+---
+
+![](assets/images/psicostatLogo.png){width=220px}
+
+Welcome! This repository contains **slides (Quarto revealjs)**, **hands-on labs**, and **extras** for self-study.
+
+## How to use this repo
+
+- **During class:** open the slides for today + run the matching lab.
+- **After class:** use the *Glossary* and *Reporting checklist* while doing exercises/projects.
+- **Extras:** optional modules (power, SAM, latent interactions, etc.) you can read when relevant.
+
+::: {.callout-tip}
+**Tip**  
+If you get lost: come back here. This page is the “map” for everything.
+:::
+
+## Timetable (5×4h, split into two 2-hour blocks)
+
+> Links will work after rendering the project (or if you open the pre-rendered website).
+
+| Day | Block A (2h) | Block B (2h) | Core lab |
+|---:|---|---|---|
+| 1 | [00 Course map](slides/00_welcome_course-map.html) + [01 Foundations](slides/01_sem-foundations_workflow_lavaan.html) | [02 Path analysis](slides/02_path-analysis_mediation_equivalence.html) | [Lab 01](labs/lab01_lavaan-basics.html) + [Lab 02](labs/lab02_path-mediation.html) |
+| 2 | [03 Fit & diagnostics](slides/03_model-fit_diagnostics_respecification.html) | [04 CFA](slides/04_cfa_measurement_reliability.html) | [Lab 03](labs/lab03_fit-diagnostics_MI_residuals.html) + [Lab 04](labs/lab04_cfa_reliability_omegas.html) |
+| 3 | [05 SEM capstone](slides/05_sem_measurement-plus-structure_capstone.html) | [06 Missing/robust/reporting](slides/06_missing-data_robustness_reporting.html) | [Lab 05](labs/lab05_sem_capstone_eat.html) + [Lab 06](labs/lab06_missing_fiml_mi_robust.html) |
+| 4 | [07 Invariance (MG-CFA)](slides/07_invariance_mgcfa_partialinvariance.html) | [08 Ordinal SEM](slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html) | [Lab 07](labs/lab07_invariance_mgcfa.html) + [Lab 08](labs/lab08_ordinal_sem_invariance.html) |
+| 5 | [09 Longitudinal on-ramp](slides/09_longitudinal-sem_growth_invariance-over-time.html) | [10 Multilevel/clustered](slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html) | [Lab 09](labs/lab09_longitudinal_growth.html) + [Lab 10](labs/lab10_multilevel_robustse_twolevelcfa.html) |
+
+## What you should keep open while working
+- [Setup](setup.html) (only once, then keep for troubleshooting)
+- [Glossary](glossary.html) (quick definitions, naming conventions)
+- [Reporting checklist](reporting-checklist.html) (what to report in CFA/SEM/invariance/ordinal/etc.)
+- [Extras](extras/extras_index.html) (optional modules; useful later)
+
+## Conventions used in this course
+
+- **Core fit indices** (default): χ², CFI/TLI, RMSEA (+ CI), SRMR
+- **Local fit**: residuals + MI/EPC (with “modification discipline”)
+- **Default mindset:** measurement first, then structure (“two-step mindset”)
+
+::: {.callout-important}
+**Important**  
+Slides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises.
+:::

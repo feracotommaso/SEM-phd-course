@@ -1,0 +1,159 @@
+---
+title: "Lab X — Title"
+author: "Instructor Name"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+# Adjust paths if you move this file out of /templates
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+# Helper: set this to TRUE when you want the instructor version
+SHOW <- isTRUE(params$show_solutions)
+```
+
+# Goals
+
+By the end of this lab, you can:
+
+- Fit a model in lavaan
+- Inspect fit measures and key parameters
+- Make (and justify) one defensible diagnostic decision
+
+# Setup
+
+```{r}
+library(lavaan)
+# library(semTools)  # uncomment when needed
+
+# dat <- readRDS("../data/processed/yourdata.rds")
+# glimpse(dat)
+```
+
+# Exercise 1 — Specify and fit a basic model
+
+**Task**
+
+1. Write a CFA (or path) model in lavaan syntax.
+2. Fit the model.
+3. Report 4 fit measures and 3 key parameters.
+
+```{r}
+# Write your model here:
+model1 <- '
+  f =~ x1 + x2 + x3
+'
+# fit1 <- cfa(model1, data = dat)
+# summary(fit1, fit.measures = TRUE, standardized = TRUE)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 1)\n\n")
+  cat("- Key idea: start simple, confirm measurement before adding structure.\n")
+  cat("- Report: χ²(df), CFI/TLI, RMSEA+CI, SRMR.\n\n")
+  cat("```{r}\n")
+  cat("fit1 <- cfa(model1, data = dat)\n")
+  cat("fitMeasures(fit1, c('chisq','df','cfi','tli','rmsea','srmr'))\n")
+  cat("parameterEstimates(fit1, standardized=TRUE)[, c('lhs','op','rhs','est','se','pvalue','std.all')]\n")
+  cat("```\n\n")
+}
+```
+
+# Exercise 2 — Diagnose local misfit
+
+**Task**
+
+1. Inspect standardized residuals (or MI).
+2. Identify *one* plausible source of misfit.
+3. Propose *one* change **only if** you can justify it substantively.
+
+```{r}
+# Example tools (uncomment if you have fit1)
+# residuals(fit1, type = "standardized")
+# modindices(fit1, sort. = TRUE, maximum.number = 10)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 2)\n\n")
+  cat("**Discipline rule:** Do not add parameters just because MI is large.\n\n")
+  cat("Good justifications often involve:\n")
+  cat("- item wording overlap,\n")
+  cat("- shared method variance,\n")
+  cat("- very similar content.\n\n")
+}
+```
+
+# Exercise 3 — Extend to SEM (optional)
+
+**Task**
+
+1. Add a structural regression among latent variables (or observed variables).
+2. Fit the extended model and compare fit.
+3. Interpret the key regression coefficient.
+
+```{r}
+model2 <- '
+  f1 =~ x1 + x2 + x3
+  f2 =~ y1 + y2 + y3
+  f2 ~ f1
+'
+# fit2 <- sem(model2, data = dat)
+# summary(fit2, fit.measures = TRUE, standardized = TRUE)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 3)\n\n")
+  cat("- Use the two-step mindset: measurement first, then structure.\n")
+  cat("- Interpret standardized path with CI, not only p-value.\n\n")
+}
+```
+
+# Common mistakes checklist
+
+- Confusing fit with truth (equivalent models exist)
+- Overfitting via modification indices
+- Ignoring ordinal indicators (should be treated as ordered where appropriate)
+- Ignoring clustering (consider cluster-robust SE or multilevel)
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+## References {.tiny}
+
+::: {#refs}
+:::
+
+<!--
+How to render:
+- Student version:    quarto render lab.qmd -P show_solutions:false
+- Instructor version: quarto render lab.qmd -P show_solutions:true
+-->

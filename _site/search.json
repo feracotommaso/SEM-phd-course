@@ -1,0 +1,240 @@
+[
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "This page helps you get R, packages, and the course repository running smoothly."
+  },
+  {
+    "objectID": "setup.html#installupdate-software",
+    "href": "setup.html#installupdate-software",
+    "title": "Setup",
+    "section": "1) Install/update software",
+    "text": "1) Install/update software\n\nR (recommended: recent CRAN release)\nRStudio (recommended)\nQuarto (needed only if you want to render slides/labs locally)"
+  },
+  {
+    "objectID": "setup.html#get-the-course-materials",
+    "href": "setup.html#get-the-course-materials",
+    "title": "Setup",
+    "section": "2) Get the course materials",
+    "text": "2) Get the course materials\n\nOption A — Git (recommended)\n\nClone the repository\nPull updates during the course if needed\n\n\n\nOption B — Download ZIP\n\nDownload the ZIP from GitHub\nUnzip and open the project folder in RStudio"
+  },
+  {
+    "objectID": "setup.html#install-packages",
+    "href": "setup.html#install-packages",
+    "title": "Setup",
+    "section": "3) Install packages",
+    "text": "3) Install packages\nRun this once (edit if you already have everything):\n\npkgs &lt;- c(\n  \"lavaan\",\n  \"semTools\",\n  \"psych\",\n  \"MVN\",\n  \"mice\",\n  \"modsem\",\n  \"ggplot2\",\n  \"dplyr\",\n  \"tidyr\"\n)\n\nto_install &lt;- setdiff(pkgs, rownames(installed.packages()))\nif (length(to_install) &gt; 0) install.packages(to_install)\n\ninvisible(lapply(pkgs, library, character.only = TRUE))\n\nThis is lavaan 0.6-19\nlavaan is FREE software! Please report any bugs.\n\n\n \n\n\n###############################################################################\n\n\nThis is semTools 0.5-7\n\n\nAll users of R (or SEM) are invited to submit functions or ideas for functions.\n\n\n###############################################################################\n\n\n\nCaricamento pacchetto: 'psych'\n\n\nI seguenti oggetti sono mascherati da 'package:semTools':\n\n    reliability, skew\n\n\nIl seguente oggetto è mascherato da 'package:lavaan':\n\n    cor2cov\n\n\nWarning: il pacchetto 'MVN' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'MVN'\n\n\nIl seguente oggetto è mascherato da 'package:psych':\n\n    mardia\n\n\nWarning: il pacchetto 'mice' è stato creato con R versione 4.5.2\n\n\n\nCaricamento pacchetto: 'mice'\n\n\nIl seguente oggetto è mascherato da 'package:stats':\n\n    filter\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    cbind, rbind\n\n\nThis is modsem (1.0.11). Please report any bugs!\n\n\n\nCaricamento pacchetto: 'ggplot2'\n\n\nI seguenti oggetti sono mascherati da 'package:psych':\n\n    %+%, alpha\n\n\n\nCaricamento pacchetto: 'dplyr'\n\n\nI seguenti oggetti sono mascherati da 'package:stats':\n\n    filter, lag\n\n\nI seguenti oggetti sono mascherati da 'package:base':\n\n    intersect, setdiff, setequal, union"
+  },
+  {
+    "objectID": "setup.html#reproducibility-option-recommended-renv",
+    "href": "setup.html#reproducibility-option-recommended-renv",
+    "title": "Setup",
+    "section": "4) Reproducibility option (recommended): renv",
+    "text": "4) Reproducibility option (recommended): renv\nIf the repo uses renv, you can restore the exact package versions:\n\n# install.packages(\"renv\")\n# renv::restore()"
+  },
+  {
+    "objectID": "setup.html#quick-test-can-you-run-lavaan",
+    "href": "setup.html#quick-test-can-you-run-lavaan",
+    "title": "Setup",
+    "section": "5) Quick test: can you run lavaan?",
+    "text": "5) Quick test: can you run lavaan?\n\nlibrary(lavaan)\n\nm &lt;- 'f =~ x1 + x2 + x3'\nfit &lt;- cfa(m, data = HolzingerSwineford1939)\n\ninspect(fit, \"converged\")\n\n[1] TRUE\n\nfitMeasures(fit, c(\"cfi\",\"rmsea\",\"srmr\"))\n\n  cfi rmsea  srmr \n    1     0     0"
+  },
+  {
+    "objectID": "setup.html#troubleshooting",
+    "href": "setup.html#troubleshooting",
+    "title": "Setup",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\n“Package X is not available”\n\nUpdate R\nTry a different CRAN mirror\nInstall from source if needed (rare)\n\n\n\n“Quarto not found”\n\nInstall Quarto and restart RStudio\n\n\n\n“Rendering fails”\n\nRe-run package installation\nTry rendering a single file first (e.g., one lab)\nCheck for path issues (especially on Windows)\n\n\n\n\n\n\n\nTip\n\n\n\nIf you run into errors during class, copy-paste the error message + the code you ran into your notes (or send it). It speeds up debugging a lot."
+  },
+  {
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "Short definitions + “what students usually confuse it with”."
+  },
+  {
+    "objectID": "glossary.html#a",
+    "href": "glossary.html#a",
+    "title": "Glossary",
+    "section": "A",
+    "text": "A\nAbsolute fit\nFit measures that evaluate how well the model reproduces the observed covariance structure (e.g., χ², SRMR).\nAIC / BIC\nInformation criteria for comparing models (typically non-nested too). Lower is better (with caveats)."
+  },
+  {
+    "objectID": "glossary.html#c",
+    "href": "glossary.html#c",
+    "title": "Glossary",
+    "section": "C",
+    "text": "C\nCFA (Confirmatory Factor Analysis)\nA measurement model where latent variables explain covariances among observed indicators via factor loadings.\nCFI / TLI\nIncremental fit indices comparing your model to a baseline (independence) model.\nCluster-robust standard errors\nA correction to SEs/p-values when observations are clustered (e.g., students in classrooms) without explicitly fitting a multilevel model.\nConfigural / Metric / Scalar invariance\nLevels of measurement invariance across groups/time: - configural: same pattern of loadings - metric: equal loadings - scalar: equal loadings + intercepts (or thresholds for ordinal)"
+  },
+  {
+    "objectID": "glossary.html#d",
+    "href": "glossary.html#d",
+    "title": "Glossary",
+    "section": "D",
+    "text": "D\nDWLS / WLSMV\nCommon estimators for ordinal indicators. Naming can be confusing: the practical takeaway is that ordinal models often use a weighted least squares approach with robust corrections."
+  },
+  {
+    "objectID": "glossary.html#e",
+    "href": "glossary.html#e",
+    "title": "Glossary",
+    "section": "E",
+    "text": "E\nEquivalent models\nDifferent path diagrams that imply the same covariance structure (same global fit). Fit alone cannot identify the “true” causal story.\nEPC (Expected Parameter Change)\nHow much a parameter estimate would change if a fixed constraint were freed; often reported with modification indices."
+  },
+  {
+    "objectID": "glossary.html#f",
+    "href": "glossary.html#f",
+    "title": "Glossary",
+    "section": "F",
+    "text": "F\nFIML (Full Information Maximum Likelihood)\nA likelihood-based approach to handle missing data under MAR assumptions (with ML-family estimators).\nFit indices (global)\nSummaries of how well the overall model fits (CFI/TLI/RMSEA/SRMR/χ²).\nFit indices (local)\nDiagnostics for specific parts of a model (residuals, MI/EPC, standardized residual covariances)."
+  },
+  {
+    "objectID": "glossary.html#i",
+    "href": "glossary.html#i",
+    "title": "Glossary",
+    "section": "I",
+    "text": "I\nIdentification\nWhether model parameters can be uniquely estimated from the data (rules of thumb help, but do not guarantee identification).\nIntercepts vs thresholds (ordinal)\n- Intercepts: continuous indicator mean structure - Thresholds: cut-points that map a continuous latent response to ordinal categories"
+  },
+  {
+    "objectID": "glossary.html#l",
+    "href": "glossary.html#l",
+    "title": "Glossary",
+    "section": "L",
+    "text": "L\nLatent variable\nUnobserved construct inferred from observed indicators.\nLatent interaction\nAn interaction between latent variables (e.g., F1 × F2 predicting Y). Estimation/interpretation differs from standard linear SEM."
+  },
+  {
+    "objectID": "glossary.html#m",
+    "href": "glossary.html#m",
+    "title": "Glossary",
+    "section": "M",
+    "text": "M\nMeasurement model\nThe part of SEM that links indicators to latent factors (loadings, intercepts/thresholds, residual variances).\nMI (Modification Index)\nA statistic indicating how much χ² would drop if a fixed parameter were freed. Useful but easy to abuse.\nMissingness (MCAR/MAR/MNAR)\nAssumptions about why data are missing: - MCAR: unrelated to observed/unobserved variables - MAR: related to observed variables - MNAR: related to unobserved values themselves"
+  },
+  {
+    "objectID": "glossary.html#r",
+    "href": "glossary.html#r",
+    "title": "Glossary",
+    "section": "R",
+    "text": "R\nRMSEA\nA parsimony-adjusted fit index; usually reported with a confidence interval."
+  },
+  {
+    "objectID": "glossary.html#s",
+    "href": "glossary.html#s",
+    "title": "Glossary",
+    "section": "S",
+    "text": "S\nSAM (Structural After Measurement)\nA two-stage estimation strategy: estimate measurement first, then structural relations using implied latent moments.\nSEM (Structural Equation Model)\nAn integrated model including both measurement (latent variables) and structural relations (regressions/covariances among latents/observeds).\nSRMR\nA fit index based on standardized residuals (difference between observed and model-implied covariances/correlations)."
+  },
+  {
+    "objectID": "glossary.html#t",
+    "href": "glossary.html#t",
+    "title": "Glossary",
+    "section": "T",
+    "text": "T\nTwo-step mindset\nA practical workflow: evaluate measurement quality before interpreting structural relations.\n\n\n\n\n\n\n\nTip\n\n\n\nIf you want to add to this glossary during the course, just make a PR / issue or send the term + how you’d define it."
+  },
+  {
+    "objectID": "reporting-checklist.html",
+    "href": "reporting-checklist.html",
+    "title": "Reporting checklist",
+    "section": "",
+    "text": "Use this as a copy/paste checklist for assignments, papers, and thesis chapters."
+  },
+  {
+    "objectID": "reporting-checklist.html#always-report-any-semcfa",
+    "href": "reporting-checklist.html#always-report-any-semcfa",
+    "title": "Reporting checklist",
+    "section": "Always report (any SEM/CFA)",
+    "text": "Always report (any SEM/CFA)\n\nSoftware + version (R, lavaan, semTools, etc.)\nSample size (N) and any exclusions\nVariables (which indicators for each factor; scales; whether ordinal)\nEstimator (ML / MLR / WLSMV etc.) + justification\nMissing data handling (FIML / MI / listwise) + justification\nModel syntax (append or supplement)\nModel identification choices (marker vs std.lv=TRUE, constraints, etc.)\nGlobal fit: χ²(df), CFI/TLI, RMSEA (+ CI), SRMR\nKey parameters: estimates + SE/CI + standardized solution (when meaningful)\nInterpretation tied to the research question\nDiagnostics: what you checked (residuals, MI/EPC) and what you changed (if anything)\nReproducibility: session info (and seed if simulation)"
+  },
+  {
+    "objectID": "reporting-checklist.html#cfa-specific",
+    "href": "reporting-checklist.html#cfa-specific",
+    "title": "Reporting checklist",
+    "section": "CFA-specific",
+    "text": "CFA-specific\n\nFactor loadings (unstd + std), indicator residual variances\nFactor variances/covariances\nReliability: ω (omega) and/or other chosen indices (with method stated)\nHandling of cross-loadings / correlated residuals:\n\nwere any added?\nwhat was the substantive rationale?\nwas this preregistered / cross-validated / replicated?"
+  },
+  {
+    "objectID": "reporting-checklist.html#sem-structural-specific",
+    "href": "reporting-checklist.html#sem-structural-specific",
+    "title": "Reporting checklist",
+    "section": "SEM (structural) specific",
+    "text": "SEM (structural) specific\n\nStructural paths (standardized + CI)\nR² for endogenous variables\nIndirect effects:\n\nmethod (bootstrap recommended when appropriate)\neffect + CI + interpretation (avoid “p-value only” reporting)\n\nClarify causal language:\n\nobservational vs experimental\nidentification assumptions (temporal ordering, confounding, etc.)"
+  },
+  {
+    "objectID": "reporting-checklist.html#multi-group-invariance",
+    "href": "reporting-checklist.html#multi-group-invariance",
+    "title": "Reporting checklist",
+    "section": "Multi-group / invariance",
+    "text": "Multi-group / invariance\n\nGroups (definition, Ns per group)\nInvariance steps tested:\n\nconfigural, metric, scalar (and strict if used)\n\nWhat constraints were imposed at each step\nDecision rules used (e.g., ΔCFI / ΔRMSEA thresholds) and references for your rule\nIf partial invariance:\n\nwhich parameters freed\nrationale (substantive + statistical)\nwhat comparisons remain interpretable (e.g., latent means only after (partial) scalar)"
+  },
+  {
+    "objectID": "reporting-checklist.html#ordinal-indicators",
+    "href": "reporting-checklist.html#ordinal-indicators",
+    "title": "Reporting checklist",
+    "section": "Ordinal indicators",
+    "text": "Ordinal indicators\n\nWhich variables treated as ordered\nEstimator and link (e.g., WLSMV / probit-type default framework)\nThresholds vs intercepts (make clear what was constrained in invariance)\nFit interpretation caveat: note if thresholds or residual structures drive misfit\nSensitivity check (optional but strong): treat as continuous vs ordered and compare conclusions"
+  },
+  {
+    "objectID": "reporting-checklist.html#longitudinal-sem",
+    "href": "reporting-checklist.html#longitudinal-sem",
+    "title": "Reporting checklist",
+    "section": "Longitudinal SEM",
+    "text": "Longitudinal SEM\n\nTime points and spacing\nWhether you tested longitudinal measurement invariance\nHow you handled correlated uniqueness (same items across time)\nFor growth models:\n\ncoding of slope loadings (0,1,2… or actual time)\nrandom effects included (intercept/slope variance)\n\nFor cross-lagged models:\n\nclarify whether you used CLPM vs alternatives (if relevant)\ninterpret cross-lagged paths cautiously"
+  },
+  {
+    "objectID": "reporting-checklist.html#clustered-multilevel",
+    "href": "reporting-checklist.html#clustered-multilevel",
+    "title": "Reporting checklist",
+    "section": "Clustered / multilevel",
+    "text": "Clustered / multilevel\n\nClustering variable (e.g., class, clinic, therapist) and cluster sizes\nStrategy used:\n\ncluster-robust SE (and why sufficient), or\nexplicit multilevel model (within/between)\n\nIf multilevel:\n\nwhich parameters vary within vs between\nICC motivation (optional but helpful)"
+  },
+  {
+    "objectID": "reporting-checklist.html#a-short-results-paragraph-template",
+    "href": "reporting-checklist.html#a-short-results-paragraph-template",
+    "title": "Reporting checklist",
+    "section": "A short “results paragraph” template",
+    "text": "A short “results paragraph” template\n\n“We fit a [CFA/SEM] using lavaan (version …) with estimator … . Missing data were handled using … . Model fit was [acceptable/problematic] (χ²(df)=…, CFI=…, RMSEA=… [CI], SRMR=…). The key effect of interest was … (β=…, 95% CI […, …]). Diagnostics indicated … ; we [did/did not] respecify the model. Results suggest …, with limitations including … .”\n\n\n\n\n\n\n\n\nImportant\n\n\n\nRule of thumb\nIf you changed the model after looking at the data, state exactly what you changed and why. “Transparency beats perfection.”"
+  },
+  {
+    "objectID": "extras/extras_index.html",
+    "href": "extras/extras_index.html",
+    "title": "Extras",
+    "section": "",
+    "text": "These are optional, self-contained modules you can read when relevant. Each module should include: - a short concept note (why/when) - minimal reproducible example (R code) - exercises (+ solutions if provided)"
+  },
+  {
+    "objectID": "extras/extras_index.html#methods-inference",
+    "href": "extras/extras_index.html#methods-inference",
+    "title": "Extras",
+    "section": "Methods & inference",
+    "text": "Methods & inference\n\nex01 Power: Monte Carlo for SEM\nex02 Bayesian SEM: quickstart"
+  },
+  {
+    "objectID": "extras/extras_index.html#advanced-sem",
+    "href": "extras/extras_index.html#advanced-sem",
+    "title": "Extras",
+    "section": "Advanced SEM",
+    "text": "Advanced SEM\n\nex03 Latent interactions (modsem)\nex04 SAM in lavaan\nex05 MIIVs & consistent factor score regression"
+  },
+  {
+    "objectID": "extras/extras_index.html#longitudinal-deep-dives",
+    "href": "extras/extras_index.html#longitudinal-deep-dives",
+    "title": "Extras",
+    "section": "Longitudinal deep dives",
+    "text": "Longitudinal deep dives\n\nex06 RI-CLPM vs CLPM\nex07 Latent change score models"
+  },
+  {
+    "objectID": "extras/extras_index.html#measurement-extensions",
+    "href": "extras/extras_index.html#measurement-extensions",
+    "title": "Extras",
+    "section": "Measurement extensions",
+    "text": "Measurement extensions\n\nex09 Alignment / approximate invariance\nex10 Bifactor / ESEM / method factors"
+  },
+  {
+    "objectID": "extras/extras_index.html#missing-data-sensitivity",
+    "href": "extras/extras_index.html#missing-data-sensitivity",
+    "title": "Extras",
+    "section": "Missing data sensitivity",
+    "text": "Missing data sensitivity\n\nex08 MNAR sensitivity: conceptual + simple strategies"
+  }
+]

@@ -1,0 +1,117 @@
+/*-- scss:defaults --*/
+/* Quarto revealjs theme customization (loaded after the base theme) */
+
+$presentation-font-size-root: 34px;   // try 32–36 for teaching rooms
+$presentation-line-height: 1.20;
+
+$body-bg: #ffffff;
+$body-color: #111111;
+$link-color: #0b57d0;
+
+$code-block-font-size: 0.80em;
+$code-inline-font-size: 0.85em;
+
+/* If you use Quarto callouts a lot */
+$callout-border-width: 0.20rem;
+
+/*-- scss:rules --*/
+
+.reveal {
+  line-height: $presentation-line-height;
+}
+
+/* Headings: readable, not shouty */
+.reveal h1, .reveal h2, .reveal h3 {
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin-bottom: 0.5rem;
+}
+
+.reveal h1 { font-size: 1.8em; }
+.reveal h2 { font-size: 1.35em; }
+.reveal h3 { font-size: 1.05em; }
+
+/* Text width: avoids super-wide lines on big screens */
+.reveal .slides section {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Lists: less cramped */
+.reveal ul, .reveal ol {
+  margin-top: 0.4rem;
+}
+.reveal li {
+  margin: 0.25rem 0;
+}
+
+/* Code blocks: clearer */
+.reveal pre code {
+  line-height: 1.25;
+  font-size: $code-block-font-size;
+  border-radius: 10px;
+  padding: 0.9rem 1.0rem;
+}
+
+/* Inline code */
+.reveal code:not(pre code) {
+  font-size: $code-inline-font-size;
+  padding: 0.12em 0.32em;
+  border-radius: 6px;
+}
+
+/* Tables: readable without exploding the layout */
+.reveal table {
+  font-size: 0.78em;
+  border-collapse: collapse;
+}
+.reveal table th, .reveal table td {
+  padding: 0.35rem 0.55rem;
+  vertical-align: top;
+}
+.reveal table thead th {
+  border-bottom: 2px solid rgba(0,0,0,0.20);
+}
+
+/* Figures and captions */
+.reveal figure { margin: 0.3rem 0; }
+.reveal figcaption {
+  font-size: 0.60em;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+/* Quarto callouts: keep them slide-sized */
+.reveal .callout {
+  font-size: 0.85em;
+}
+
+/* Utility classes you’ll reuse constantly */
+.reveal .small   { font-size: 0.85em; }
+.reveal .tiny    { font-size: 0.70em; }
+.reveal .muted   { opacity: 0.80; }
+.reveal .center  { text-align: center; }
+.reveal .right   { text-align: right; }
+
+/* Two-column helper (works nicely with reveal layout) */
+.reveal .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+/* “Footnote” line at bottom */
+.reveal .footnote {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.2rem;
+  font-size: 0.55em;
+  opacity: 0.8;
+}
+
+/* Slide numbers: slightly smaller */
+.reveal .slide-number {
+  font-size: 0.55em;
+  opacity: 0.65;
+}

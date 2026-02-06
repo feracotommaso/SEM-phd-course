@@ -1,0 +1,171 @@
+---
+title: "SEM Report — Title"
+author: "Student Name"
+date: ""
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+  pdf:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  warning: false
+  message: false
+
+# Adjust paths if you move this file out of /templates
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+# Research question
+
+Write 3–6 lines:
+- What is the substantive question?
+- What are the constructs?
+- What would be convincing evidence?
+
+# Data
+
+## Sample
+- **N** =
+- **Inclusion/exclusion** =
+- **Grouping variable (if any)** =
+- **Clustering (if any)** = (e.g., students in classrooms)
+
+## Variables
+Brief table (optional):
+- Indicators for each latent factor
+- Outcomes/predictors
+- Scale type (continuous vs ordinal Likert)
+
+## Missingness
+- % missing overall =
+- Key variables with missingness =
+- Strategy (FIML / MI / listwise) + short justification
+
+```{r}
+# Optional quick checks (edit to match your data)
+# summary(dat)
+# colMeans(is.na(dat))
+```
+
+# Model
+
+## Conceptual model (diagram)
+Insert a figure if you have one:
+![](../assets/images/your_model_diagram.png){width=70%}
+
+## lavaan syntax
+
+```{r}
+library(lavaan)
+
+model <- '
+  # Measurement
+  f1 =~ x1 + x2 + x3
+  f2 =~ y1 + y2 + y3
+
+  # Structural
+  f2 ~ f1
+'
+```
+
+# Estimation choices
+
+Report and justify:
+
+- **Estimator**: (e.g., ML / MLR / WLSMV)
+- **Ordered indicators**: (yes/no; which variables)
+- **Standardization**: (e.g., `std.lv=TRUE` or marker variable)
+- **Missing data handling**: (FIML / MI)
+- **Cluster-robust SE** (if clustered): yes/no; rationale
+
+```{r}
+# Example fit call (edit as needed)
+# fit <- sem(model, data = dat, estimator = "MLR", missing = "fiml")
+# summary(fit, fit.measures = TRUE, standardized = TRUE)
+```
+
+# Results
+
+## Global fit
+Report a small set consistently (and add CI where relevant):
+- χ²(df) =
+- CFI =
+- TLI =
+- RMSEA [90% CI] =
+- SRMR =
+
+```{r}
+# Example
+# fitMeasures(fit, c("chisq","df","cfi","tli","rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr"))
+```
+
+## Key parameters
+Focus on the parameters tied to your research question.
+- Main paths (standardized estimates + CI)
+- Loadings (and any problematic indicators)
+- R² for outcomes
+
+```{r}
+# Example: parameter table
+# pe <- parameterEstimates(fit, standardized = TRUE)
+# pe[pe$op %in% c("~","=~"), c("lhs","op","rhs","est","se","pvalue","std.all")]
+```
+
+## Interpretation (write-up)
+Write 1–2 short paragraphs:
+- What do the results mean substantively?
+- Are effects small/medium/large in context?
+- What alternative explanations remain?
+
+Include citations when relevant, e.g. [@rosseel2012lavaan].
+
+# Diagnostics and respecification (if applicable)
+
+State what you checked:
+- Residuals inspected? yes/no
+- Modification indices used? yes/no  
+If yes: what changes were made and why they are substantively defensible?
+
+```{r}
+# Example (optional)
+# modindices(fit, sort. = TRUE, maximum.number = 10)
+```
+
+# Robustness / sensitivity checks (optional but appreciated)
+
+Examples:
+- Alternative estimator (MLR vs ML)
+- Treat Likert as ordered vs continuous
+- With/without a debated residual covariance
+- With/without outliers
+
+# Limitations
+
+- Design limits (causality, measurement, sample, generalizability)
+- Model dependence / equivalent models
+- Potential violations (non-normality, MNAR, clustering not modeled)
+
+# Conclusion
+
+2–4 bullet points:
+- What did you learn?
+- What is the main takeaway for the research question?
+- What would you do next?
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+## References {.tiny}
+
+::: {#refs}
+:::

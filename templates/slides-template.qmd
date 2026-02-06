@@ -1,0 +1,120 @@
+---
+title: "Title of the lecture; <br/>Subtitle (optional)"
+author: "Tommaso Feraco"
+date: ""
+include-in-header: ../assets/slidesheader.html
+
+format:
+  revealjs:
+    code-line-numbers: false
+    slide-number: c/t
+    self-contained: true
+
+    # Keep your colleague's defaults
+    code-fold: false
+    code-summary: "Show code"
+    code-overflow: wrap
+
+    # Use the SCSS theme layers we created (instead of css: custom.css)
+    # Order matters: base theme -> theme.scss -> slides.scss
+    theme:
+      - default
+      - ../assets/css/theme.scss
+      - ../assets/css/slides.scss
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+## Today
+
+-   Point 1
+-   Point 2
+-   Point 3
+
+::: callout-tip
+**Teaching tip:** keep one “workflow map” slide that reappears in every deck.
+:::
+
+------------------------------------------------------------------------
+
+## Learning objectives
+
+By the end of this block, you can:
+
+-   Write a minimal lavaan model string
+-   Fit it with `cfa()` / `sem()`
+-   Interpret key parameters (loadings / paths)
+
+------------------------------------------------------------------------
+
+## Minimal example (code + output)
+
+```{r}
+library(lavaan)
+
+# Toy measurement model
+model <- '
+  f =~ x1 + x2 + x3
+'
+
+fit <- cfa(model, data = HolzingerSwineford1939)
+summary(fit, fit.measures = TRUE, standardized = TRUE)
+```
+
+------------------------------------------------------------------------
+
+## Two-column slide (uses .two-col from slides.scss)
+
+::: two-col
+**Concept** - What is identified? - Why constraints matter? - What is the scale of a latent factor?
+
+**Quick check**
+
+```{r}
+inspect(fit, "converged")
+fitMeasures(fit, c("cfi", "rmsea", "srmr"))
+```
+:::
+
+------------------------------------------------------------------------
+
+## Exercise
+
+::: callout-important
+**Try it (5–10 min)**\
+1. Add `x4` to the factor (if available) or remove an indicator.\
+2. Refit and compare fit measures.\
+3. What changes in the standardized loadings?
+:::
+
+------------------------------------------------------------------------
+
+## Common mistakes
+
+-   Treating arrows as “causal proof” [@rohrer2022]
+-   Chasing modification indices without justification
+-   Ignoring estimator/data-type mismatch
+
+------------------------------------------------------------------------
+
+## References (manual)
+
+-   Rosseel, Y. (2012). *lavaan: An R package for structural equation modeling.*
+
+## References {.tiny}
+
+::: {#refs}
+:::

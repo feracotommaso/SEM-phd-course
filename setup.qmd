@@ -1,0 +1,84 @@
+---
+title: "Setup"
+---
+
+This page helps you get R, packages, and the course repository running smoothly.
+
+## 1) Install/update software
+
+- **R** (recommended: recent CRAN release)
+- **RStudio** (recommended)
+- **Quarto** (needed only if you want to render slides/labs locally)
+
+## 2) Get the course materials
+
+### Option A — Git (recommended)
+- Clone the repository
+- Pull updates during the course if needed
+
+### Option B — Download ZIP
+- Download the ZIP from GitHub
+- Unzip and open the project folder in RStudio
+
+## 3) Install packages
+
+Run this once (edit if you already have everything):
+
+```{r}
+pkgs <- c(
+  "lavaan",
+  "semTools",
+  "psych",
+  "MVN",
+  "mice",
+  "modsem",
+  "ggplot2",
+  "dplyr",
+  "tidyr"
+)
+
+to_install <- setdiff(pkgs, rownames(installed.packages()))
+if (length(to_install) > 0) install.packages(to_install)
+
+invisible(lapply(pkgs, library, character.only = TRUE))
+```
+
+## 4) Reproducibility option (recommended): renv
+
+If the repo uses `renv`, you can restore the exact package versions:
+
+```{r}
+# install.packages("renv")
+# renv::restore()
+```
+
+## 5) Quick test: can you run lavaan?
+
+```{r}
+library(lavaan)
+
+m <- 'f =~ x1 + x2 + x3'
+fit <- cfa(m, data = HolzingerSwineford1939)
+
+inspect(fit, "converged")
+fitMeasures(fit, c("cfi","rmsea","srmr"))
+```
+
+## Troubleshooting
+
+### “Package X is not available”
+- Update R
+- Try a different CRAN mirror
+- Install from source if needed (rare)
+
+### “Quarto not found”
+- Install Quarto and restart RStudio
+
+### “Rendering fails”
+- Re-run package installation
+- Try rendering a single file first (e.g., one lab)
+- Check for path issues (especially on Windows)
+
+::: {.callout-tip}
+If you run into errors during class, copy-paste the **error message + the code you ran** into your notes (or send it). It speeds up debugging a lot.
+:::

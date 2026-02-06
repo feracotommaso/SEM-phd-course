@@ -1,0 +1,39 @@
+# =========================
+# FILE: _quarto.yml
+# =========================
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - assets/
+    - data/
+    - refs/
+
+website:
+  title: "Structural Equation Modelling in Psychological Sciences"
+  site-url: ""
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: setup.qmd
+        text: Setup
+      - href: glossary.qmd
+        text: Glossary
+      - href: reporting-checklist.qmd
+        text: Reporting checklist
+      - href: extras/extras_index.qmd
+        text: Extras
+    right:
+      - icon: github
+        href: "https://github.com/feracotommaso/SEM-phd-course"   # <- replace
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: false
+
+bibliography: refs/references.bib
+csl: refs/apa7.csl

@@ -1,0 +1,94 @@
+---
+title: "Reporting checklist"
+---
+
+Use this as a copy/paste checklist for assignments, papers, and thesis chapters.
+
+## Always report (any SEM/CFA)
+
+- **Software + version** (R, lavaan, semTools, etc.)
+- **Sample size (N)** and any exclusions
+- **Variables** (which indicators for each factor; scales; whether ordinal)
+- **Estimator** (ML / MLR / WLSMV etc.) + justification
+- **Missing data handling** (FIML / MI / listwise) + justification
+- **Model syntax** (append or supplement)
+- **Model identification choices** (marker vs `std.lv=TRUE`, constraints, etc.)
+- **Global fit**: χ²(df), CFI/TLI, RMSEA (+ CI), SRMR
+- **Key parameters**: estimates + SE/CI + standardized solution (when meaningful)
+- **Interpretation** tied to the research question
+- **Diagnostics**: what you checked (residuals, MI/EPC) and what you changed (if anything)
+- **Reproducibility**: session info (and seed if simulation)
+
+## CFA-specific
+
+- Factor loadings (unstd + std), indicator residual variances
+- Factor variances/covariances
+- Reliability: ω (omega) and/or other chosen indices (with method stated)
+- Handling of **cross-loadings / correlated residuals**:
+  - were any added?
+  - what was the substantive rationale?
+  - was this preregistered / cross-validated / replicated?
+
+## SEM (structural) specific
+
+- Structural paths (standardized + CI)
+- R² for endogenous variables
+- Indirect effects:
+  - method (bootstrap recommended when appropriate)
+  - effect + CI + interpretation (avoid “p-value only” reporting)
+- Clarify causal language:
+  - observational vs experimental
+  - identification assumptions (temporal ordering, confounding, etc.)
+
+## Multi-group / invariance
+
+- Groups (definition, Ns per group)
+- Invariance steps tested:
+  - configural, metric, scalar (and strict if used)
+- What constraints were imposed at each step
+- Decision rules used (e.g., ΔCFI / ΔRMSEA thresholds) and references for your rule
+- If partial invariance:
+  - which parameters freed
+  - rationale (substantive + statistical)
+  - what comparisons remain interpretable (e.g., latent means only after (partial) scalar)
+
+## Ordinal indicators
+
+- Which variables treated as ordered
+- Estimator and link (e.g., WLSMV / probit-type default framework)
+- Thresholds vs intercepts (make clear what was constrained in invariance)
+- Fit interpretation caveat: note if thresholds or residual structures drive misfit
+- Sensitivity check (optional but strong): treat as continuous vs ordered and compare conclusions
+
+## Longitudinal SEM
+
+- Time points and spacing
+- Whether you tested **longitudinal measurement invariance**
+- How you handled correlated uniqueness (same items across time)
+- For growth models:
+  - coding of slope loadings (0,1,2… or actual time)
+  - random effects included (intercept/slope variance)
+- For cross-lagged models:
+  - clarify whether you used CLPM vs alternatives (if relevant)
+  - interpret cross-lagged paths cautiously
+
+## Clustered / multilevel
+
+- Clustering variable (e.g., class, clinic, therapist) and cluster sizes
+- Strategy used:
+  - cluster-robust SE (and why sufficient), or
+  - explicit multilevel model (within/between)
+- If multilevel:
+  - which parameters vary within vs between
+  - ICC motivation (optional but helpful)
+
+## A short “results paragraph” template
+
+> “We fit a [CFA/SEM] using lavaan (version …) with estimator … . Missing data were handled using … . Model fit was [acceptable/problematic] (χ²(df)=…, CFI=…, RMSEA=… [CI], SRMR=…). The key effect of interest was … (β=…, 95% CI […, …]). Diagnostics indicated … ; we [did/did not] respecify the model. Results suggest …, with limitations including … .”
+
+---
+
+::: {.callout-important}
+**Rule of thumb**  
+If you changed the model after looking at the data, state exactly what you changed and why. “Transparency beats perfection.”
+:::

@@ -1,0 +1,112 @@
+---
+title: "Glossary"
+---
+
+Short definitions + “what students usually confuse it with”.
+
+## A
+
+**Absolute fit**  
+Fit measures that evaluate how well the model reproduces the observed covariance structure (e.g., χ², SRMR).
+
+**AIC / BIC**  
+Information criteria for comparing models (typically non-nested too). Lower is better (with caveats).
+
+## C
+
+**CFA (Confirmatory Factor Analysis)**  
+A measurement model where latent variables explain covariances among observed indicators via factor loadings.
+
+**CFI / TLI**  
+Incremental fit indices comparing your model to a baseline (independence) model.
+
+**Cluster-robust standard errors**  
+A correction to SEs/p-values when observations are clustered (e.g., students in classrooms) without explicitly fitting a multilevel model.
+
+**Configural / Metric / Scalar invariance**  
+Levels of measurement invariance across groups/time:
+- configural: same pattern of loadings
+- metric: equal loadings
+- scalar: equal loadings + intercepts (or thresholds for ordinal)
+
+## D
+
+**DWLS / WLSMV**  
+Common estimators for ordinal indicators. Naming can be confusing: the practical takeaway is that ordinal models often use a weighted least squares approach with robust corrections.
+
+## E
+
+**Equivalent models**  
+Different path diagrams that imply the same covariance structure (same global fit). Fit alone cannot identify the “true” causal story.
+
+**EPC (Expected Parameter Change)**  
+How much a parameter estimate would change if a fixed constraint were freed; often reported with modification indices.
+
+## F
+
+**FIML (Full Information Maximum Likelihood)**  
+A likelihood-based approach to handle missing data under MAR assumptions (with ML-family estimators).
+
+**Fit indices (global)**  
+Summaries of how well the overall model fits (CFI/TLI/RMSEA/SRMR/χ²).
+
+**Fit indices (local)**  
+Diagnostics for specific parts of a model (residuals, MI/EPC, standardized residual covariances).
+
+## I
+
+**Identification**  
+Whether model parameters can be uniquely estimated from the data (rules of thumb help, but do not guarantee identification).
+
+**Intercepts vs thresholds (ordinal)**  
+- Intercepts: continuous indicator mean structure
+- Thresholds: cut-points that map a continuous latent response to ordinal categories
+
+## L
+
+**Latent variable**  
+Unobserved construct inferred from observed indicators.
+
+**Latent interaction**  
+An interaction between latent variables (e.g., F1 × F2 predicting Y). Estimation/interpretation differs from standard linear SEM.
+
+## M
+
+**Measurement model**  
+The part of SEM that links indicators to latent factors (loadings, intercepts/thresholds, residual variances).
+
+**MI (Modification Index)**  
+A statistic indicating how much χ² would drop if a fixed parameter were freed. Useful but easy to abuse.
+
+**Missingness (MCAR/MAR/MNAR)**  
+Assumptions about why data are missing:
+- MCAR: unrelated to observed/unobserved variables
+- MAR: related to observed variables
+- MNAR: related to unobserved values themselves
+
+## R
+
+**RMSEA**  
+A parsimony-adjusted fit index; usually reported with a confidence interval.
+
+## S
+
+**SAM (Structural After Measurement)**  
+A two-stage estimation strategy: estimate measurement first, then structural relations using implied latent moments.
+
+**SEM (Structural Equation Model)**  
+An integrated model including both measurement (latent variables) and structural relations (regressions/covariances among latents/observeds).
+
+**SRMR**  
+A fit index based on standardized residuals (difference between observed and model-implied covariances/correlations).
+
+## T
+
+**Two-step mindset**  
+A practical workflow: evaluate measurement quality before interpreting structural relations.
+
+---
+
+::: {.callout-tip}
+If you want to add to this glossary during the course, just make a PR / issue or send the term + how you’d define it.
+:::
