@@ -1,0 +1,56 @@
+---
+title: "Labs"
+---
+
+These labs are the hands-on part of the course. Each lab is designed to be runnable end-to-end and includes exercises.
+
+::: {.callout-tip}
+**Tip**  
+If you get stuck, start from the top of the lab and run chunks in order.
+:::
+
+## Day 1
+
+- **Lab 01 — lavaan basics**  
+  [Open lab](lab01_lavaan-basics.html)
+
+- **Lab 02 — path analysis & mediation**  
+  [Open lab](lab02_path-mediation.html)
+
+## Day 2
+
+- **Lab 03 — fit diagnostics (residuals, MI/EPC)**  
+  [Open lab](lab03_fit-diagnostics_MI_residuals.html)
+
+- **Lab 04 — CFA + reliability (omega)**  
+  [Open lab](lab04_cfa_reliability_omegas.html)
+
+## Day 3
+
+- **Lab 05 — SEM capstone (flagship dataset)**  
+  [Open lab](lab05_sem_capstone_eat.html)
+
+- **Lab 06 — missing data (FIML/MI) + robustness**  
+  [Open lab](lab06_missing_fiml_mi_robust.html)
+
+## Day 4
+
+- **Lab 07 — MG-CFA invariance**  
+  [Open lab](lab07_invariance_mgcfa.html)
+
+- **Lab 08 — ordinal SEM + ordinal invariance**  
+  [Open lab](lab08_ordinal_sem_invariance.html)
+
+## Day 5
+
+- **Lab 09 — longitudinal SEM (growth model)**  
+  [Open lab](lab09_longitudinal_growth.html)
+
+- **Lab 10 — clustered data (robust SE) + two-level CFA**  
+  [Open lab](lab10_multilevel_robustse_twolevelcfa.html)
+
+---
+
+## Optional extra practice
+
+If you want more practice beyond the core labs, check the [Extras](../extras/index.html) page.

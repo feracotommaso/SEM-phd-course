@@ -10,7 +10,7 @@ project:
     - refs/
 
 website:
-  title: "Structural Equation Modelling in Psychological Sciences"
+  title: "SEM-PhD"
   site-url: ""
   navbar:
     left:
@@ -18,6 +18,10 @@ website:
         text: Home
       - href: setup.qmd
         text: Setup
+      - href: slides/slides_index.qmd
+        text: Slides
+      - href: labs/labs_index.qmd
+        text: Labs
       - href: glossary.qmd
         text: Glossary
       - href: reporting-checklist.qmd

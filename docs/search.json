@@ -411,5 +411,96 @@
     "title": "SEM Report — Title",
     "section": "10.1 References",
     "text": "10.1 References"
+  },
+  {
+    "objectID": "slides/slides_index.html",
+    "href": "slides/slides_index.html",
+    "title": "Slides",
+    "section": "",
+    "text": "Here are the slide decks for the course (5×4h, split into two blocks each day)."
+  },
+  {
+    "objectID": "slides/slides_index.html#day-1",
+    "href": "slides/slides_index.html#day-1",
+    "title": "Slides",
+    "section": "Day 1",
+    "text": "Day 1\n\nBlock A: 00 Course map, 01 Foundations\nBlock B: 02 Path analysis"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-2",
+    "href": "slides/slides_index.html#day-2",
+    "title": "Slides",
+    "section": "Day 2",
+    "text": "Day 2\n\nBlock A: 03 Fit & diagnostics\nBlock B: 04 CFA"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-3",
+    "href": "slides/slides_index.html#day-3",
+    "title": "Slides",
+    "section": "Day 3",
+    "text": "Day 3\n\nBlock A: 05 SEM capstone\nBlock B: 06 Missing/robust/reporting"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-4",
+    "href": "slides/slides_index.html#day-4",
+    "title": "Slides",
+    "section": "Day 4",
+    "text": "Day 4\n\nBlock A: 07 Invariance (MG-CFA)\nBlock B: 08 Ordinal SEM"
+  },
+  {
+    "objectID": "slides/slides_index.html#day-5",
+    "href": "slides/slides_index.html#day-5",
+    "title": "Slides",
+    "section": "Day 5",
+    "text": "Day 5\n\nBlock A: 09 Longitudinal on-ramp\nBlock B: 10 Multilevel/clustered"
+  },
+  {
+    "objectID": "labs/labs_index.html",
+    "href": "labs/labs_index.html",
+    "title": "Labs",
+    "section": "",
+    "text": "These labs are the hands-on part of the course. Each lab is designed to be runnable end-to-end and includes exercises."
+  },
+  {
+    "objectID": "labs/labs_index.html#day-1",
+    "href": "labs/labs_index.html#day-1",
+    "title": "Labs",
+    "section": "Day 1",
+    "text": "Day 1\n\nLab 01 — lavaan basics\nOpen lab\nLab 02 — path analysis & mediation\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-2",
+    "href": "labs/labs_index.html#day-2",
+    "title": "Labs",
+    "section": "Day 2",
+    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability (omega)\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-3",
+    "href": "labs/labs_index.html#day-3",
+    "title": "Labs",
+    "section": "Day 3",
+    "text": "Day 3\n\nLab 05 — SEM capstone (flagship dataset)\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-4",
+    "href": "labs/labs_index.html#day-4",
+    "title": "Labs",
+    "section": "Day 4",
+    "text": "Day 4\n\nLab 07 — MG-CFA invariance\nOpen lab\nLab 08 — ordinal SEM + ordinal invariance\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#day-5",
+    "href": "labs/labs_index.html#day-5",
+    "title": "Labs",
+    "section": "Day 5",
+    "text": "Day 5\n\nLab 09 — longitudinal SEM (growth model)\nOpen lab\nLab 10 — clustered data (robust SE) + two-level CFA\nOpen lab"
+  },
+  {
+    "objectID": "labs/labs_index.html#optional-extra-practice",
+    "href": "labs/labs_index.html#optional-extra-practice",
+    "title": "Labs",
+    "section": "Optional extra practice",
+    "text": "Optional extra practice\nIf you want more practice beyond the core labs, check the Extras page."
   }
 ]

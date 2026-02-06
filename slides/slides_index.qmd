@@ -1,0 +1,25 @@
+---
+title: "Slides"
+---
+
+Here are the slide decks for the course (5×4h, split into two blocks each day).
+
+## Day 1
+- **Block A:** [00 Course map](00_welcome_course-map.html), [01 Foundations](01_sem-foundations_workflow_lavaan.html)
+- **Block B:** [02 Path analysis](02_path-analysis_mediation_equivalence.html)
+
+## Day 2
+- **Block A:** [03 Fit & diagnostics](03_model-fit_diagnostics_respecification.html)
+- **Block B:** [04 CFA](04_cfa_measurement_reliability.html)
+
+## Day 3
+- **Block A:** [05 SEM capstone](05_sem_measurement-plus-structure_capstone.html)
+- **Block B:** [06 Missing/robust/reporting](06_missing-data_robustness_reporting.html)
+
+## Day 4
+- **Block A:** [07 Invariance (MG-CFA)](07_invariance_mgcfa_partialinvariance.html)
+- **Block B:** [08 Ordinal SEM](08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html)
+
+## Day 5
+- **Block A:** [09 Longitudinal on-ramp](09_longitudinal-sem_growth_invariance-over-time.html)
+- **Block B:** [10 Multilevel/clustered](10_multilevel_clustered-data_robustse_twolevel-cfa.html)
