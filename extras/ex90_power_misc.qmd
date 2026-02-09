@@ -1,0 +1,888 @@
+---
+title: "Power analysis for path and SEM models"
+subtitle: "Advanced / optional materials"
+author: "Tommaso Feraco"
+date: "University of Padova — 2023"
+format:
+  revealjs:
+    slide-number: c/t
+    self-contained: true
+    code-fold: false
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+    
+execute:
+  echo: true
+  warning: false
+  message: false
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+#| echo: false
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## Outline
+
+- Power
+- `for` loops
+- Path analysis — an example
+- Power for model selection
+
+---
+
+## Power
+
+We can define power as the probability to reject the null hypothesis ($H_0$) when the hypothesized alternative hypothesis ($H_{1}$) is true.
+
+It usually depends on:
+
+- Precision of the measurements
+- Precision of the effects
+- Size of the (hypothesized) effect
+- Sample size
+- Number of effects of interest
+- $\alpha$ level (e.g., .05, or the probability of making a type I error)
+- $\beta$ level (e.g., .80, or the probability of making a type II error)
+
+If we do not have the power, our results are inconclusive and estimates, in case we reject $H_0$, inflated.
+
+---
+
+## Calculating the power
+
+For power calculations we can:
+
+- Apply specific formulas
+- Use monograms
+- Use apps
+- [...]
+
+### **Simulate data!**
+
+---
+
+## Calculating power for SEM
+
+In a SEM framework there are many ways to calculate power via simulation. We will only implement it manually in `R`. Here a list of alternatives:
+
+- If you want to detect specific effects  
+  - Use the `pwrSEM` shiny app (Wang et al., 2021): <https://doi.org/10.1177/2515245920918253>  
+  - Use `simsem` package (lavaan objects): <https://simsem.org/> (see also Beaujean, 2014, chapter 8)  
+  - [...]
+
+- If you want to detect model misspecification / fit  
+  - Use `semPower` package  
+  - Use the `power4SEM` shiny app (Jak et al., 2021): <https://doi.org/10.3758/s13428-020-01479-0>  
+  - Satorra & Saris (1985)  
+  - Use MBESS functions for power (e.g., `ss.aipe.rmsea()`; `ss.aipe.sem.path()`; `ss.power.sem()`)  
+  - [...]
+
+Or you can apply rules of thumb that recommend either absolute minimum sample sizes (e.g., $N = 100$ or $200$; Boomsma, 1982, 1985) or sample sizes based on model complexity (e.g., $n = 5$–$10$ per estimated parameter; Bentler & Chou, 1987; $n = 3$–$6$ per variable; Cattell, 1978) **BUT, NO, PLEASE!**
+
+---
+
+## `for` loops
+
+A fundamental skill that you should possess is doing `for` (or `while`) cycles in `R`. This is crucial for estimating power via simulation, but also for many other ordinary analyses.
+
+::: {.center}
+![](../assets/images/power/for.png){width=80%}
+:::
+
+---
+
+## What you can do
+
+With a `for` loop you can iterate one or more action along a sequence of values. This values usually go from 1 to `N`, but can also be character or unordered sequences, or sequences of increasing but random numbers.
+
+::: {.columns}
+::: {.column width="33%"}
+```{r}
+for(i in 1:3){
+  #Sys.sleep(0.5)
+  print(i)
+  print("Well done!")
+}
+```
+:::
+
+::: {.column width="33%"}
+```{r}
+complimento <- c("bravo",
+                 "very well",
+                 "wow")
+for(i in complimento){
+  #Sys.sleep(1)
+  print(paste0(i,
+               "Tommaso"))
+}
+```
+:::
+
+::: {.column width="33%"}
+```{r}
+iter <- c(2,4,11)
+for (i in iter) {
+  #Sys.sleep(0.5)
+  print(4 + i)
+}
+```
+:::
+:::
+
+---
+
+## ...more difficult
+
+```{r}
+#| eval: false
+rm(list = ls())
+iter <- 100
+d <- data.frame(exam = rep(NA, iter),
+                M = rep(NA, iter),
+                X = 1:iter)
+for (i in 1:iter) {
+  # simulate an exam
+  d$exam[i] <- sample(18:30, 1)
+  # calculate mean at each step
+  d$M[i] <- mean(d$exam, na.rm = TRUE)
+}
+```
+
+```{r}
+#| eval: false
+#| echo: true
+#| message: false
+library(ggplot2)
+library(gganimate)
+p <- ggplot(d, aes(x = X, y = M)) +
+  geom_point(size = 5, color = "red") +
+  geom_line() +
+  theme_bw()
+
+panim <- p +
+  gganimate::transition_reveal(X) +
+  gganimate::shadow_wake(wake_length = 0.1, alpha = FALSE)
+
+gganimate::anim_save("../assets/images/power/forimg.gif", panim)
+```
+
+::: {.center}
+![](../assets/images/power/forimg.gif){width=55%}
+:::
+
+<!-- original output file name in Rnw: imgs/forimg.gif -->
+
+---
+
+## `for` loops for power analysis
+
+If we want to run a power analysis via simulation using a `for` loop, in general we need the following structure and elements:
+
+```{r}
+#| eval: false
+# A set of basic info
+iter = 100 # number of desired iterations (i)
+N = 400 # the sample size we test
+population = 1e6
+
+# A population with hypothesized effects
+x = rnorm(population); z = rnorm(population) # predictors
+y = .30*x + .20*z + rnorm(population) # hypothetical model with ES
+d = data.frame(x, y, z)
+
+# A set of objects to store the results
+p <- c()
+
+# A model
+m <- "y ~ x + z"
+
+# The loop with minimum three parts
+for (i in 1:iter) {
+  # Data simulation/sampling
+  dfor <- d[sample(1:nrow(d), N), ]
+  # Test
+  fit <- sem(m, dfor)
+  # Storage
+  p[i] <- parameterEstimates(fit)[1, "pvalue"]
+}
+
+mean(p < .05) # calculate power
+```
+
+You can do the same thing with any model (`lm`, `glm`, `m-clust`, meta-analysis...).
+
+---
+
+## The question
+
+Does adaptability predict academic achievement?
+
+::: {.columns}
+::: {.column width="30%"}
+![](../assets/images/model.png){width=90%}
+:::
+::: {.column width="70%"}
+![](../assets/images/model2.png){width=95%}
+:::
+:::
+
+---
+
+## A simple association
+
+H: adaptability directly influence achievement with an effect = .20.
+
+```{r}
+#| eval: false
+library(lavaan)
+library(MASS)
+
+# Generate and rename two correlated variables (r = .20)
+CovMat <- lav_matrix_lower2full(c(
+  1,
+  .20, 1
+))
+colnames(CovMat) <- rownames(CovMat) <- c("Ad", "Gp")
+
+# The for cycle
+N = 200 # Is this N sufficient to have power?
+iter = 500 # How many iterations we want?
+p = c() # store p-values
+b = c() # store betas
+
+for (i in 1:iter) {
+  # Simulate the data
+  db <- as.data.frame(
+    mvrnorm(CovMat, n = N, mu = c(0, 0),
+            empirical = FALSE) # EMPIRICAL IS FALSE HERE!
+  )
+  # Fit the model
+  m <- lm(Gp ~ Ad, data = db)
+  # Storage
+  p[i] <- summary(m)$coefficients["Ad", "Pr(>|t|)"]
+  b[i] <- summary(m)$coefficients["Ad", "Estimate"]
+}
+
+mean(p < .05)  # calculate power
+mean(b > .15)  # ...
+```
+
+---
+
+## Things are not so easy in the real world
+
+There are too many things that are important for achievement to ignore them!
+
+```{r}
+#| eval: false
+# A more complete matrix Ad Em Se Sr Gp
+CovMat <- lav_matrix_lower2full(c(
+  1,
+  .30, 1,
+  .40, .30, 1,
+  .40, .30, .35, 1,
+  .20, .15, .45, .30, 1
+))
+colnames(CovMat) <- rownames(CovMat) <- c("Ad", "Em", "Se", "Sr", "Gp")
+
+# For cycle
+iter = 1000
+N = 5000
+
+p = as.data.frame(matrix(nrow = iter, ncol = 5))
+colnames(p) <- c("intercept", "ad", "em", "se", "sr")
+
+for (i in 1:iter) {
+  db <- data.frame(mvrnorm(n = N, mu = c(0, 0, 0, 0, 0),
+                           CovMat, empirical = FALSE))
+  m <- lm(Gp ~ Ad + Em + Se + Sr, data = db)
+  p[i, ] <- summary(m)$coefficients[, "Pr(>|t|)"]
+}
+
+colMeans(p < .05)                       # power for each effect
+mean(rowSums(p[, 2:5] < .05) == 4)      # power for all effects together
+```
+
+---
+
+## and finally a path
+
+However, we know that all these variables interact and we also have a hypothetical pattern of associations that suggests that adaptability has no direct link to achievement. Adaptability is associated with achievement only through the mediation of emotions, self-efficacy, and self-regulation.
+
+```{r}
+#| eval: false
+library(lavaan)
+
+path <- "
+
+# REGRESSIONS
+Gp ~ em*Em + se*Se + sr*Sr
+Em ~ ae*Ad
+Se ~ as*Ad
+Sr ~ ar*Ad
+
+# INDIRECT EFFECTS
+ad_em := ae*em
+ad_se := as*se
+ad_sr := ar*sr
+
+"
+```
+
+---
+
+## ...and its power
+
+We want to test whether the indirect effects are significant. Nothing else!
+
+```{r}
+#| eval: false
+iter = 1000
+N = 500
+
+# Store only the three indirect effects
+ps = as.data.frame(matrix(nrow = iter, ncol = 3))
+colnames(ps) <- c("em", "se", "sr")
+
+for (i in 1:iter) {
+  db <- data.frame(mvrnorm(n = N, mu = c(0, 0, 0, 0, 0),
+                           CovMat, empirical = FALSE))
+  fit <- sem(path, data = db)
+  ps[i, ] <- parameterEstimates(fit)[12:14, "pvalue"]
+}
+
+colMeans(ps < .05) # specific powers
+colMeans(ps < .01)
+
+mean(rowSums(ps < .05) == 3) # total power: all 3 indirect effects
+mean(rowSums(ps[, c("se", "sr")] < .05) == 2)
+mean(rowSums(ps[, c("se", "sr")] < .01) == 2)
+```
+
+::: {.center}
+`QUESTIONS? COMMENTS?`
+:::
+
+---
+
+## Simulate from the process and not the correlation matrix
+
+We simulated the covariance matrix directly from a correlation matrix.
+
+- This might be useless (you could make a meta-sem)
+- You understand less what’s going on behind the data
+
+---
+
+## simulateData() function
+
+An easy way to do all these steps is to use the `simulateData()` function in `lavaan`. This make it easier to simulate the data:
+
+```{r}
+#| eval: false
+library(lavaan)
+
+# YOU JUST SPECIFY A MODEL WITH PARAMETERS
+simM <- "
+ Y ~ .20*x1 + .40*x2 + .15*x3
+ x1 ~ .40*x2 + .30*x3
+"
+
+d <- simulateData(simM, sample.nobs = N)
+head(d)
+```
+
+---
+
+## and put it in the loop
+
+```{r}
+#| eval: false
+N = 100
+iter = 1000
+
+m <- "
+ Y ~ x1 + x2 + x3
+ x1 ~ x2 + x3
+"
+
+ps = as.data.frame(matrix(nrow = iter, ncol = 3))
+for (i in 1:iter) {
+  d <- simulateData(simM, sample.nobs = N)
+  fit <- sem(m, data = d)
+  ps[i, ] <- parameterEstimates(fit)[1:3, "pvalue"]
+}
+```
+
+::: {.center}
+`QUESTIONS? COMMENTS?`
+:::
+
+---
+
+## Iterate with a `while` loop
+
+If you don't want to manually change `N` each time, you can nest multiple `for` loops one into the other, or use a `while` loop.
+
+```{r}
+#| eval: false
+iter = 1000        # How many interactions
+p = c()            # Save only what we are interested in
+power_at_n = c(0)  # Here we calculate the power every time a cycle ends
+N = 5000           # The sample size of the first cycle
+k = 2              # This is only needed to make the while loop work
+sample = c()       # Just to keep track of the 'N' used
+
+while (power_at_n[k-1] < 0.80) { # Until power_at_n reaches 0.80, we continue
+  for (i in 1:iter) {
+    db <- data.frame(mvrnorm(n = N, mu = c(0, 0, 0, 0, 0),
+                             CovMat, empirical = FALSE))
+    m <- lm(Gp ~ Ad + Em + Se + Sr, data = db)
+    p[i] <- summary(m)$coefficients[2, 4]
+  }
+  power_at_n[k] <- mean(p < .05) # Calculate the power
+  sample[k-1] <- N               # Save the used N
+  N = N + 500                    # Increase the sample size
+  k = k + 1                      # Move on to the next cycle
+}
+```
+
+---
+
+## Results
+
+```{r}
+#| eval: false
+plot(sample, power_at_n[-1], ylab = "power")
+abline(h = 0.80, col = "red")
+```
+
+<!-- In the original deck this was an animation (imgs/gif/p0001.png ... imgs/gif/p0100.png). -->
+<!-- You can replace this slide with a GIF stored in ../assets/images/power/ (e.g., power_curve.gif). -->
+
+---
+
+## Model comparison power?
+
+The same concepts of power for statistical significance can be applied to every analysis and statistics. It might be interesting for you to compare alternative models (e.g., hierarchical vs oblique model).  
+How to do it is pretty straightforward.
+
+---
+
+## The theoretical model
+
+Let's say we have a four-factor structure with three items per factor. We will keep loadings always equal for simplicity.
+
+::: {.columns}
+::: {.column width="55%"}
+```{r}
+#| eval: false
+# PREPARE THE MODEL FOR SIMULATION
+set.seed(12)
+N <- 450; l <- .65
+
+# Step 1. Simulate the latent variables (hierarchical model)
+hfactor <- rnorm(N)
+
+# Step 2. Simulate the four specific factors
+s1 <- l*hfactor + rnorm(N); s2 <- l*hfactor + rnorm(N)
+s3 <- l*hfactor + rnorm(N); s4 <- l*hfactor + rnorm(N)
+
+# Step 3. Simulate the items of each specific factor
+d <- matrix(nrow = N, ncol = 12)
+colnames(d) <- paste0(
+  rep(c("s1", "s2", "s3", "s4"), each = 3),
+  rep(c(".1", ".2", ".3"), 4)
+)
+
+for (i in 1:3) {
+  d[, i]    <- l*s1 + rnorm(N)
+  d[, i+3]  <- l*s2 + rnorm(N)
+  d[, i+6]  <- l*s3 + rnorm(N)
+  d[, i+9]  <- l*s4 + rnorm(N)
+}
+
+ct <- cor(d) # correlation matrix
+```
+:::
+
+::: {.column width="45%"}
+```{r}
+#| eval: false
+# quick visual check
+corrplot::corrplot(ct, tl.cex = .7)
+```
+:::
+:::
+
+---
+
+## Simulate
+
+We can simulate all the process each time, or use the correlation matrix as input for the simulation. You can do it either way. For space reason, let's use the correlation matrix `ct`.
+
+::: {.columns}
+::: {.column width="40%"}
+```{r}
+#| eval: false
+# Hierarchical model
+mH <- "
+s1 =~ s1.1 + s1.2 + s1.3
+s2 =~ s2.1 + s2.2 + s2.3
+s3 =~ s3.1 + s3.2 + s3.3
+s4 =~ s4.1 + s4.2 + s4.3
+lv =~ s1 + s2 + s3 + s4
+"
+
+# Oblique model
+mO <- "
+s1 =~ s1.1 + s1.2 + s1.3
+s2 =~ s2.1 + s2.2 + s2.3
+s3 =~ s3.1 + s3.2 + s3.3
+s4 =~ s4.1 + s4.2 + s4.3
+s1 ~~ s2 + s3 + s4
+s2 ~~ s3 + s4
+s3 ~~ s4
+"
+
+iter <- 1000
+N <- 200
+fi <- c("cfi", "rmsea", "bic", "aic")
+```
+:::
+
+::: {.column width="60%"}
+```{r}
+#| eval: false
+library(MASS)
+library(lavaan)
+
+fit <- matrix(ncol = 4, nrow = iter)
+compare <- matrix(ncol = 4, nrow = iter)
+
+for (i in 1:iter) {
+  tryCatch({
+    db <- data.frame(mvrnorm(n = N, mu = rep(0, 12),
+                             ct, empirical = FALSE))
+    fH <- sem(mH, data = db)
+    fO <- sem(mO, data = db)
+
+    fitH <- fitmeasures(fH, fi)
+    fitO <- fitmeasures(fO, fi)
+
+    fit[i, ] <- c(
+      ifelse(fitH["cfi"] > .95, 1, 0),
+      ifelse(fitH["rmsea"] < .08, 1, 0),
+      ifelse(fitO["cfi"] > .95, 1, 0),
+      ifelse(fitO["rmsea"] < .08, 1, 0)
+    )
+
+    compare[i, ] <- c(
+      ifelse(fitH["cfi"] > fitO["cfi"], 1, 0),
+      ifelse(fitH["rmsea"] < fitO["rmsea"], 1, 0),
+      ifelse(fitH["bic"] < fitO["bic"], 1, 0),
+      ifelse(fitH["aic"] < fitO["aic"], 1, 0)
+    )
+  }, error = function(e) {
+    fit[i, ] <- NA
+    compare[i, ] <- NA
+  })
+}
+```
+:::
+:::
+
+---
+
+## Results
+
+```{r}
+#| eval: false
+colnames(compare) <- fi
+colMeans(compare, na.rm = TRUE)
+
+colnames(fit) <- c("cfi", "rmsea", "cfi", "rmsea")
+colMeans(fit, na.rm = TRUE)
+
+sum(is.na(fit[, 1]))
+```
+
+::: {.center}
+`QUESTIONS? COMMENTS?`
+:::
+
+---
+
+## Part II — Miscellaneous topics
+
+---
+
+## Outline
+
+- Missing values
+- Bayesian SEM
+- Fit indices
+- More
+
+---
+
+## Missing values in `lavaan`
+
+- The default option in `lavaan` is a listwise deletion
+- You can set different options for missing values:
+  - `"pairwise"`
+  - `"ml"` or `"fiml"`
+
+```{r}
+#| eval: false
+fit <- sem(m, data = d, missing = "fiml")
+```
+
+- If you switch the estimator to `estimator="MLR"`, you will also estimate *robust* standard errors
+
+You can also set standard errors with the `se` argument:
+
+- `"robust"` or `"robust.mlm"` or `"robust.mlr"`
+- `"bootstrap"`
+- `"none"`
+
+```{r}
+#| eval: false
+fit <- sem(m, data = d, se = "robust")
+```
+
+---
+
+## NA example
+
+```{r}
+#| eval: false
+options(digits = 2)
+
+# THESE ARE THE SAME DATA OF THE SEM SLIDES
+d <- readxl::read_excel("../data/Dmissing.xlsx")
+
+colSums(apply(d, 2, is.na))
+sum(complete.cases(d))
+sum(complete.cases(d)) / nrow(d)
+
+m <- "
+# CFA model
+peerPressure =~ PP1 + PP2 + PP3 + PP4
+socialMedia =~ SM1 + SM2 + SM3 + SM4
+socialComparison =~ SC1 + SC2 + SC3
+eatingDisorder =~ ED1 + ED2
+
+# Structural model
+eatingDisorder ~ socialComparison
+socialComparison ~ peerPressure + socialMedia
+"
+```
+
+---
+
+## Results with missing data
+
+```{r}
+#| eval: false
+fit <- sem(m, d)
+summary(fit, std = TRUE)
+```
+
+---
+
+## Results with fiml imputation
+
+```{r}
+#| eval: false
+fitna <- sem(m, d, missing = "fiml")
+summary(fitna, std = TRUE)
+```
+
+---
+
+## Estimates comparison
+
+```{r}
+#| eval: false
+p00 <- parameterEstimates(fit, standardized = TRUE)[1:16, 1:3]
+pt1 <- parameterEstimates(fit, standardized = TRUE)[1:16, 11]
+p0 <- rep("||", 16)
+pt2 <- parameterEstimates(fitna, standardized = TRUE)[1:16, 11]
+
+pt <- cbind(p00, p0, pt1, p0, pt2)
+pt[, c(5, 7)] <- round(pt[, c(5, 7)], 3)
+names(pt)[c(4, 6)] <- "||"
+
+knitr::kable(pt)
+```
+
+---
+
+## Bayesian SEM
+
+If you are interested in using Bayesian analyses, this can also be applied to the SEM framework.  
+This is not the place where we will learn Bayesian analysis, but let's see how to code it using `blavaan`.
+
+---
+
+## `blavaan`
+
+```{r}
+#| eval: false
+# install.packages("blavaan")
+library(blavaan)
+
+model <- '
+  # latent variable definitions
+  ind60 =~ x1 + x2 + x3
+  dem60 =~ y1 + y2 + y3 + y4
+  dem65 =~ y5 + y6 + y7 + y8
+
+  # regressions
+  dem60 ~ ind60
+  dem65 ~ ind60 + dem60
+
+  # residual covariances
+  y1 ~~ y5
+  y2 ~~ y4 + y6
+  y3 ~~ y7
+  y4 ~~ y8
+  y6 ~~ y8
+'
+
+bfit <- bsem(model, data = PoliticalDemocracy)
+```
+
+---
+
+## Results
+
+```{r}
+#| eval: false
+summary(bfit)
+```
+
+---
+
+## Priors
+
+But of course you need priors.
+
+```{r}
+#| eval: false
+dpriors(bfit)
+
+nu     = "normal(0,32)"     # MV intercept
+alpha  = "normal(0,10)"     # LV intercept
+lambda = "normal(0,10)"     # loading
+beta   = "normal(0,10)"     # regression
+theta  = "gamma(1,.5)[sd]"  # MV precision
+psi    = "gamma(1,.5)[sd]"  # LV precision
+rho    = "beta(1,1)"        # correlation
+ibpsi  = "wishart(3,iden)"  # covariance matrix
+tau    = "normal(0,1.5)"    # threshold
+
+# AND YOU CAN CHANGE THEM
+mydp <- dpriors(lambda = "normal(1,2)")
+```
+
+---
+
+## Priors for individual parameters
+
+The priors we just saw are used to set the same prior to all the parameters of a kind (e.g., all loadings).  
+We can also (we should probably), set priors for individual parameters. This is done within the model specification.
+
+```{r}
+#| eval: false
+HS.model <- '
+  visual  =~ x1 + prior("normal(1,2)")*x2 + x3
+  textual =~ x4 + x5 + prior("normal(3,1.5)")*x6
+  speed   =~ x7 + x8 + x9
+  x1 ~~ prior("gamma(3,3)[sd]")*x1
+  visual ~~ prior("beta(1,1)")*textual
+'
+
+HSbfit <- bsem(HS.model, data = HolzingerSwineford1939)
+```
+
+---
+
+## Full results
+
+::: {.columns}
+::: {.column width="65%"}
+```{r}
+#| eval: false
+sp <- standardizedposterior(bfit)
+head(sp)[, 1:5]
+
+fitMeasures(bfit)
+blavFitIndices(bfit)
+```
+:::
+
+::: {.column width="35%"}
+```{r}
+#| eval: false
+plot(density(sp[, "dem60~ind60"]))
+abline(v = median(sp[, "dem60~ind60"]))
+```
+:::
+:::
+
+---
+
+## More about fit indices
+
+The story about fit indices does not finish where we said. There is much more and much more is still going on.
+
+---
+
+## Should we abandon predefined cut-offs?
+
+::: {.center}
+![](../assets/images/abandon.png){width=95%}
+:::
+
+Groskurth et al. (2023): <https://doi.org/10.3758/s13428-023-02193-3>  
+Fit indices do not only depend on model fit/misfit, but also on intrinsic characteristics of the models/analysis.
+
+<!-- original figure name in Rnw: imgs/abandon -->
+
+---
+
+## Dynamic fit indices
+
+::: {.center}
+![](../assets/images/dynamicshiny.png)
+:::
+
+Dynamic shiny app: <https://www.dynamicfit.app/connect/>
+
+---
+
+## Dynamic fit indices
+
+::: {.center}
+![](../assets/images/dynamicresults.png)
+:::
+
+McNeish & Wolf (2023): <https://doi.org/10.1037/met0000425>
+
+<!-- original figure name in Rnw: imgs/dynamicresults -->
+
+---
+
+## Random materials
+
+- Slides by Rosseel on `lavaan` basics: <https://users.ugent.be/~yrosseel/lavaan/lavaan2.pdf>
+- `blavaan` introduction: <https://ecmerkle.github.io/blavaan/index.html>
+

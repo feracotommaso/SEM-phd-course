@@ -1,0 +1,843 @@
+---
+title: "Models with observed variables"
+subtitle: "Structural Equation Modeling"
+author: "Tommaso Feraco"
+date: "Doctoral School in Psychological Sciences • University of Padova"
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+format:
+  revealjs:
+    slide-number: c/t
+    self-contained: true
+    code-fold: false
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(semPlot)
+library(semTools)
+options(digits = 3)
+```
+
+## Outline
+
+- From lm to lavaan
+- Exercise 1
+- Path models
+- Exercise 2
+- Model fit
+- Mediation analysis
+
+## Regression models
+
+What you did since the beginning of the year (with link functions or not) was something like this
+$$
+y = X\beta + \epsilon
+$$
+Where $y$ is the response variable, $X$ the set of predictors and $\epsilon$ the error term. <br>
+
+These models, 
+- assume that all variables are directly observed/manifest
+- allow measurement errors only in endogenous variables
+- are just particular cases of SEM
+
+## SEM formula
+
+In fact, the structural model of a SEM (i.e., excluding latent variables) can be expressed with the following equation:
+$$
+Y = X^\ast B' + \zeta
+$$
+Where 
+- $Y$ is the (*n* x *p*) matrix of endogenous variables
+- $X^\ast$ is the *n* x (*p* + *q*) matrix of endogenous and exogenous variables
+- $B$ is the (*p* + *q*) x (*p* + *q*) coefficient matrices
+- $\zeta$ is the (*p* x *q*) matrix of errors in the equations
+This looks pretty similar to the regression formula, but with some matrices! <br>
+Univariate regression models are just a special case of this formula where the parameter matrix is full of 0!
+
+## LET'S TRY TO FIT AND COMPARE REGRESSION MODELS
+
+```{r}
+#| echo: false
+N = 1000;
+x1 = rnorm(N)
+x2 = rnorm(N)
+x3 = .30*x2 + rnorm(N)
+y = .25*x1 + .25*x2 + .25*x3 + rnorm(N)
+d <- data.frame(x1,x2,x3,y)
+```
+::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: false
+m <- "y~x1+x2+x3"
+fit <- sem(m, d)
+semPaths(fit, whatLabels = "names",
+         edge.label.cex = 5, rotation = 2,
+         residuals = F,
+         sizeMan = 15,
+         curvature = 3,
+         edge.color="black", edge.label.color="black")
+```
+```{r}
+#| echo: false
+m2 <- "y~x1+x2+x3
+      x3~x1+x2
+      x2~x1"
+fit2 <- sem(m2, d)
+semPaths(fit2, whatLabels = "names",
+         edge.label.cex = 5, rotation = 2,
+         residuals = F,
+         sizeMan = 15,
+         curvature = 3,
+         edge.color="black", edge.label.color="black")
+```
+:::
+::: {.column width="50%"}
+
+```{r}
+#| echo: false
+inspect(fit)$beta
+```
+
+```{r}
+#| echo: false
+inspect(fit2)$beta
+```
+
+:::
+:::
+
+`LET'S TRY TO FIT AND COMPARE REGRESSION MODELS`
+
+## A first example with simulated data
+
+Imagine you want to predict scores in the test we will do at the end of this corse ($y$), based on your prior statistical knowledge ($x_1$) and interest ($x_2$):
+- **First** define the model
+
+```{r}
+#| echo: false
+m2 <- "y~x1+x2"
+fit2 <- sem(m2, d)
+semPaths(fit2, whatLabels = "names",
+         edge.label.cex = 3, rotation = 2,
+         edgeLabels = c(expression(paste(beta[1]),paste(beta[2]))),
+         residuals = F,
+         sizeMan = 15,
+         edge.color="black", edge.label.color="black")
+```
+
+- **Second** simulate the data
+
+## A first example with simulated data
+
+```{r}
+#| eval: true
+# Simulate knowledge and interest as predictors of Y
+set.seed(12)
+N = 100
+x1 = rnorm(N)
+x2 = rnorm(N)
+y = .35*x1 + .20*x2 + rnorm(N)
+d <- data.frame(x1,x2,y)
+```
+```{r}
+#| eval: true
+cor(d)
+#
+cov(d)
+```
+
+## lm regression
+
+```{r}
+#| eval: true
+# fit a regression model
+m <- lm(y ~ x1 + x2, data = d)
+summary(m)
+```
+
+## Introducing `lavaan`
+lavaan (**la**tent **va**riable **an**alysis) is actually **THE** package for SEM. You can use it to estimate a wide family of latent variable models, including: factor analysis, structural equation, longitudinal, multilevel, latent class, item respons, and missing data models... <br>
+
+..But also simple regressions
+
+## Model fit and info
+
+```{r}
+#| eval: true
+library(lavaan)
+ml <- "y ~ 1 + x1 + x2" #1 + gives the intercept
+fit <- sem(ml, data = d)
+# summary(fit, rsquare=T)
+```
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fit, rsquare=T))
+cat(c(temp[1:19], "[...]"), sep = "\n")
+```
+
+## Model parameters
+
+```{r}
+#| echo: false
+#| eval: true
+cat(c("[...]", temp[20:37], "[...]"), sep = "\n")
+```
+
+`QUESTIONS? COMMENTS? What about lm?`
+
+## Model plot
+
+::: {.columns}
+::: {.column width="45%"}
+
+```{r}
+# And we can plot it
+library(semPlot)
+semPaths(fit, whatLabels = "parameters",
+         edge.label.cex = 1.5, rotation = 2,
+         residuals = F,
+         sizeMan = 10,
+         curve = 1.9,
+         edge.color="black", edge.label.color="black")
+```
+:::
+::: {.column width="55%"}
+```{r}
+#| echo: false
+# And we can plot it
+library(semPlot)
+semPaths(fit, whatLabels = "parameters",
+         edge.label.cex = 1.5, rotation = 2,
+         residuals = F,
+         sizeMan = 10,
+         curve = 1.9,
+         edge.color="black", edge.label.color="black")
+```
+:::
+:::
+
+## Model matrices
+
+```{r}
+#We can also look at the matrices
+#The parameters matrix
+inspect(fit)$beta
+inspect(fit, "estimates")$beta
+#The residual var-covar matrix
+inspect(fit)$psi
+inspect(fit, "estimates")$psi
+```
+
+## Basic lavaan syntax
+
+As you can see, the regression syntax of lavaan is actually the same as lm, but there is much more in lavaan. <br> 
+
+Model specification sintax:
+
+| Syntax | Function | Example |
+|---|---|---|
+| `~` | Regress onto | Regress B onto A: `B ~ A` |
+| `~~` | Residual (co)variance | Variance of A: `A ~~ A` <br> Variance of A and B: `A ~~ B` |
+| `=~` | Define a reflective LV | F1 is defined by items 1-4: `F1 =~ i1 + i2 + i3 + i4` |
+| `<~` | Define a formative LV | F1 is defined by items 1-4: `F1 <~ i1 + i2 + i3 + i4` |
+| `:=` | Define non-model parameters | `u2 := x + y` |
+| `*` | Label or fix parameter | `Z ~ b*X` labels the regression as `b` |
+
+## Basic lavaan functions
+
+| Function | Command |
+|---|---|
+| `sem()` / `cfa()` | Fit the SEM model (`cfa` is nested in `sem`…which is nested in `lavaan`) |
+| `fitMeasures()` | Return fit indices of the SEM model |
+| `inspect()` | Inspect/extract information that is stored in a fitted model |
+| `lavPredict()` | Compute estimated latent scores |
+| `lavTestLRT()` | Compare (nested) `lavaan` models |
+| `modificationIndices()` | Compute the modification indices of a model |
+| `parameterEstimates()` | Parameter estimates of a latent variable model |
+| `parameterTable()` | Show the table of the parameters of a fitted model |
+| `simulateData()` | Simulate data starting from a `lavaan` model syntax |
+
+## Exercise 1
+
+```{r}
+#| echo: false
+#simulate exercise data
+set.seed(12)
+N = 723; r1 = .40; b1 = .35; b2 = -.15; b3 = .05; b4 = .50
+gender <- c(rep("1", 400), rep("2", 323))
+age <- sample(13:19, N, replace = T)
+nevroticism <- rnorm(N)
+anxiety <- r1*nevroticism + rnorm(N, 0, sqrt(1-r1^2))
+g <- rnorm(N)
+math <- b1*anxiety + b2*nevroticism + b3*age + b4*g
+E1 <- data.frame(gender,
+                 age,
+                 anxiety,
+                 nevroticism,
+                 math)
+
+#write.csv(E1, file = "02.Path/data/Exercise1.csv")
+
+m <- "math ~ age + anxiety + nevroticism + gender"
+fitE1 <- sem(m, data = E1)
+```
+
+Just a very easy exercise to start practicing with the lavaan sintax. The example is similar to the one above. <br>
+The dataset "Exercise1.csv" contains:
+- N = 1100 participants
+- 5 variables
+  - - gender: coded 1;2
+- age: between 13 and 19
+- anxiety
+- nevroticism
+- math
+We want to know whether anxiety and nevroticism have an effect on math achievement. Additionally, is there any effect of demographics variables?
+
+## Plot of the exercise
+
+```{r}
+# E1 <- read.csv("data/Exercise1.csv")
+semPaths(fitE1, rotation = 2, sizeMan = 10,
+         edge.color="black", edge.label.color="black",
+         residuals = F, exoCov = F)
+```
+
+## Results - estimation info
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE1, std=T))
+cat(c(temp[1:19], "[...]"), sep = "\n")
+```
+
+## Regression results
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE1, std=T))
+cat(c("[...]", temp[20:31]), sep = "\n")
+```
+
+## Indirect effects?
+
+`WE JUST ANALYZED NEUROTICISM AND ANXIETY. DO WE REALLY BELIEVE THEY ARE ON THE SAME LEVEL?`
+
+## Path models
+
+Path models are just pictorial representations of theoretical relationships between variables. <br>
+Representations (and simulations) should be the starting point of almost every study. <br>
+Based on these representations, we can build a statistical model and estimate the theoretical paths.
+
+![](../assets/images/path.jpg){height="6cm"}
+
+This, of course, is possible in `lavaan`.
+
+## Path models - the previous example
+
+For example, do we really believe that anxiety and nevroticism could stay on the same level? Isn't there a theoretical effect of one on the other?
+```{r}
+#| echo: false
+semPaths(fitE1, rotation = 2, sizeMan = 10, whatLabels = "parameters",edge.label.cex=1.2,
+         residuals = F, curvature = 4,
+                  edge.color="black", edge.label.color="black")
+```
+
+## Path models - the previous example
+
+For example, do we really believe that anxiety and nevroticism could stay on the same level? Isn't there a theoretical effect of one on the other?
+```{r}
+#| echo: false
+m <- "math ~ age + anxiety + nevroticism + gender
+      anxiety ~ nevroticism"
+fitE1 <- sem(m, data = E1)
+semPaths(fitE1, rotation = 2, sizeMan = 10, whatLabels = "parameters", residuals = F, edge.label.cex=1.2, curvature = 4,
+                  edge.color="black", edge.label.color="black")
+```
+
+## Path models - the previous example
+
+**Code:** We can write the additional regression just by adding one line to the model (plus some additional things for indirect and total effects): <br>
+```{r}
+#| echo: true
+m <- "math ~ age + anxiety + nevroticism + gender
+      anxiety ~ nevroticism"
+fitE1 <- sem(m, data = E1)
+```
+
+```{r}
+#| echo: true
+m <- "math ~ age + am*anxiety + nm*nevroticism + gender
+      anxiety ~ n*nevroticism
+      # Indirect effect
+      ind := n*am
+      # Total effect
+      tot := n*am + nm"
+fitE1 <- sem(m, data = E1)
+```
+
+## Path model example
+
+```{r}
+#| echo: false
+N = 1100
+m <- "
+cohesion ~ -.30*gdp + .20*education + .45*environment
+wellbeing ~ .30*gdp + .20*education + .50*cohesion
+gdp ~~ .20*education
+cohesion ~~ .23*wellbeing
+"
+
+Dprov <- simulateData(m, sample.nobs = N, seed = 12)
+# writexl::write_xlsx(Dprov, "data/Dprov.xlsx")
+```
+
+We have collected data from 1100 Italian cities. <br>
+**Research question**: to what extent do economic factors, education, and environmental policies influence the quality of life of Italian people? Are these relationships mediated by social cohesion?
+- gdp
+- education
+- environment
+- wellbeing
+- cohesion
+The model can be expressed with the following equations:
+$$
+\begin{cases}
+\text{cohesion} & = \beta_{13} X_{\text{gdp}} + \beta_{14} X_{\text{education}} + \beta_{15} X_{\text{environment}} + \zeta_1 \\
+\text{wellbeing} & = \beta_{23} X_{\text{gdp}} + \beta_{24} X_{\text{education}} + \beta_{25} X_{\text{environment}} + \beta_{21} X_{\text{cohesion}} + \zeta_2
+\end{cases}
+$$
+
+## Script
+
+```{r}
+#| echo: true
+m <- "
+cohesion ~ gdp + education + environment
+wellbeing ~ gdp + education + environment + cohesion
+"
+fit <- sem(m, data = Dprov)
+```
+
+## Results
+
+There is an effect of cohesion, which is in the middle.
+```{r}
+#| echo: false
+#| eval: true
+temp = capture.output(summary(fit))
+cat(c("[...]", temp[20:36]), sep = "\n")
+```
+
+## Matrices, again
+
+```{r}
+inspect(fit, "estimates")$psi
+#
+inspect(fit, "estimates")$beta
+```
+
+## The lavaan Psi matrix
+
+It is composed by the actual residual covariance matrix $\Psi$
+```{r}
+inspect(fit, "estimates")$psi[1:2,1:2]
+```
+And the fitted/reproduced covariance matrix $\hat{\Sigma}(\theta)$
+```{r}
+inspect(fit, "estimates")$psi[3:5, 3:5]
+```
+
+## Forgetting a mediator?
+
+```{r}
+#| echo: true
+round(cor(Dprov),2)
+## m <- lm(wellbeing ~ gdp + education + environment, data = Dprov)
+## summary(m)
+```
+
+## Exercise 2
+
+```{r}
+N = 483
+m <- "
+lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary
+selfEsteem ~ .40*parentalSupport + .20*attachment
+attachment ~~ .30*parentalSupport
+"
+m1 <- "
+lifeSatisfaction ~ selfEsteem + salary #+ parentalSupport
+selfEsteem ~ parentalSupport + attachment
+#attachment ~~ parentalSupport
+"
+E2 <- simulateData(m, sample.nobs = N, seed = 12)
+```
+
+
+The dataset "Exercise2.csv" contains:
+
+- N = 1100 participants
+- 5 variables
+  - - salary
+- attachment
+- parental support
+- self-esteem
+- life satisfaction
+
+We want to fit this model (also calculate indirect effects):
+
+![](../assets/images/pathE2.png){height="2cm"}
+
+## Fit a model with indirect effects
+
+```{r}
+mE2 <- "
+#we name (_*variable) the parameters of interest
+lifeSatisfaction ~ a*selfEsteem + salary
+selfEsteem ~ b*parentalSupport + c*attachment
+attachment ~ salary
+parentalSupport ~ salary
+
+#and then define the non-model parameters
+indAttSelf  := c*a
+indSuppSelf := b*a
+"
+fitE2 <- sem(mE2, data = E2) #, se = "bootstrap")
+```
+
+## Results - estimation info
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE2, std=T))
+cat(c(temp[1:20], "[...]"), sep = "\n")
+```
+
+## Regression results
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE2, std=T))
+cat(c("[...]", temp[21:40], "[...]"), sep = "\n")
+```
+
+## Indirect effects
+
+The indirect effects estimated with lavaan in this way are just a mere multiplication of the parameters. You can apply bootstrap procedures to obtain more robust results and errors! <br>
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE2, std=T))
+cat(c("[...]", temp[41:45]), sep = "\n")
+```
+
+## Model fit
+
+You surely remember this slide from before:
+
+*'This is the goal of a good model: reproduce, from a set of theoretical associations/effects (aka covariance matrix), the original covariance matrix.
+
+Formally:
+
+$$
+H_0 : \hat{\Sigma}(\theta) = \Sigma
+$$
+
+where $\Sigma$ is the true covariance matrix among model variables, $\theta$ the parameters vector, and $\hat{\Sigma}$ the reproduced covariance matrix.'*
+
+## Model fit
+
+$$
+H_0 : \hat{\Sigma}(\theta) = \Sigma
+$$
+
+![](../assets/images/modelfit.png)
+
+It's time to evaluate whether our model is capable of it. To do it, we mainly compare the two matrices and obtain different fit indices.
+
+## Fit measures
+
+Model fit refers to the ability of a model to reproduce the original covariance matrix. Fit indexes are the tools we use to estimate how good is our model in reproducing such mutrix. Most fit indexes only work with *overidentified* models, but some (e.g., the residualbased ones) can work with *just-identified* models, as well.
+
+- $\chi^2$ based
+- Alternative indexes
+  - Incremental indexes (or relative or comparative fit indexes)
+  - Parsimony indexes
+  - Absolute (Standalone) indexes
+  - Residuals
+
+## $\chi^2$ based
+
+A *T* statistics following $\chi^2$ distribution can be obtained by multiplying the sample size with the value of the fit function. *df* will be equal to the amount of non-redundant information minus the number of estimated parameters (remember?). <br>
+This is rarely used because of its assumptions
+- independent observations
+- the non-standardized sample cov matrix is used
+- N is sufficiently large
+- manifest endogenous variables follow a multivariate normal
+...and because it tends to reject *$H_0$*, especially with large sample sizes.
+
+```{r}
+fitmeasures(fit,fit.measures=c("npar", "chisq", "df", "pvalue"))
+```
+
+## Comparative indices
+
+These include:
+- Comparative Fit Index (CFI)
+- Normed Fit Index (NFI)
+- Tucker Lewis Index (TLI)
+These indices compare the user model with a baseline model (the worst model).
+```{r}
+fitmeasures(fit, fit.measures =
+c("cfi", "tli", "nfi"))
+```
+
+## Baseline model
+
+```{r}
+bm <- "lifeSatisfaction ~~ lifeSatisfaction
+       selfEsteem ~~ selfEsteem
+       salary ~~ salary
+       parentalSupport ~~ parentalSupport
+       attachment ~~  attachment"
+fitbm <- sem(bm, data = E2)
+```
+
+```{r}
+#| echo: false
+semPaths(fitbm, layout = "tree",
+         edge.label.cex = 2,
+         residuals = T,
+         sizeMan = 15,
+         edge.color="black", edge.label.color="black", nCharNodes = 7)
+```
+
+## Baseline vs user model
+
+::: {.columns}
+::: {.column width="55%"}
+```{r}
+# summary(fitE2, fit.measures=TRUE)
+```
+
+```{r}
+#| echo: false
+temp = capture.output(summary(fitE2, fit.measures=TRUE))
+cat(c(temp[1:25], "[...]"), sep = "\n")
+```
+:::
+::: {.column width="45%"}
+\[
+\text{CFI} = \frac{\delta(\text{Baseline}) - \delta(\text{User})}{\delta(\text{Baseline}) - \delta(\text{Saturated})}
+\]
+\[
+\text{CFI} = \frac{(276.10-10) - (114.172 - 4)}{(276.10-10) - 0}
+\]
+
+With $\delta$ being the difference between $\chi^2$ and $df$ and $\delta(\text{Saturated}) = 0$
+:::
+:::
+
+## Parsimony indexes
+
+These include:
+- Information Criteria (AIC, BIC, SABIC)
+- Noncentrality Parameter-Based Indexes (RNI, Mc/MFI)
+- RMSEA: Root Mean Square Error of Approximation
+These models favor parsimony and penalize complex models. <br>
+Among these, the RMSEA is probably the most used index. It assess how well the model approximate the data (as opposed to assessing if it is an exact fit). It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.
+
+```{r}
+fitmeasures(fit, fit.measures =
+c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper", "aic", "bic"))
+```
+
+## Absolute fit indexes
+
+These include:
+- $\chi^2 / *df*$ ratio
+- GFI: Goodness of Fit Index
+- AGFI: Adjusted Goodness of Fit Index
+- SRMR/RMR: (Standardized) Root Mean Square Residual
+GFI and AGFI want to be 1, while the SRMR wants to be 0!
+
+```{r}
+fitmeasures(fit,fit.measures=c("gfi", "agfi", "srmr", "rmr"))
+```
+
+## Models that fit
+
+Remember that just because your model fits the data, doesn't allow to conclude that your model is correct nor that the data generation process follows your hypothesized paths.
+- With path analysis, the same fit might be achieved with opposite arrows!
+- Test alternative models
+- Errors are included in manifest variables...and in the estimates!
+As usual *all models are false, but some are useful*.
+
+## What about our model?
+
+In Exercise 2 we fit a perfect model, all our hypotheses were confirmed, effects were significant with three stars. <br>
+We were happy...
+
+![](../assets/images/memefit.png)
+
+## Step 5 model modification
+
+Unfortunately, it's time to modify the model or to accept that something was wrong in our hypotheses.
+
+## Modification indices
+
+If you have no clue about the reason why the model doesn't converge, statistics could help you.
+
+```{r}
+modificationindices(fitE2, sort. = T)[,1:7]
+```
+
+**Use it with caution!**
+```{r}
+m <- "
+lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary
+selfEsteem ~ .40*parentalSupport + .20*attachment
+attachment ~~ .30*parentalSupport
+"
+```
+
+## Mediation analysis
+
+While the independent variable is assumed to cause the outcome variable, it's total effect ($c$) is partially/totally mediated by another intervening variable, the mediator variable.
+
+![](../assets/images/mediation.jpg){width="60%"}
+
+Note that our independent causes the mediator ($a$), and the mediator causes the outcome ($b$). The independent can still cause the outcome, but the path might have changed to $c'$.
+
+## Total effects
+
+When we have a mediation, the effect of the independent variable (X) on the outcome is given by the sum of the direct and indirect effect.
+
+total effect = direct effect + indirect effect <br>
+OR <br>
+c = c' + ab
+```{r}
+m <- "
+# Regressions
+Y ~ c*X + b*M
+M ~ a*X
+# Indirect effect
+indirect := a*b
+# Total effect
+total := c + a*b
+"
+# Here of course we have no c'...to avoid R errors
+```
+`COMMENTS?`
+
+## Assumptions
+
+The problem with mediation analyses is that they rely on often-neglected assumptions:
+
+- **No X-M Interaction**:  The effect of M on Y or b does not vary across levels of X.
+- **Causal Direction**:  The variable M causes Y, but Y does not cause M.
+- **Perfect Reliability in M**:  The reliability of M is perfect.
+- **No Confounding**: There is no variable that causes M and Y.
+
+## Other limitations
+
+- Full mediation models are saturated models and we cannot obtain fit indices
+  - You can use BIC, AIC, or SABIC and test (and compare) different models:
+  - no direct effect model
+- no effect from causal variable to the mediator
+- no effect from the mediator to outcome
+- Models with inverted arrows fit the model as well as opposite models
+    - This is true for all equivalent models. Avoid drawing paintings and base your models on strong theoretical assumptions!
+
+## Thinking first
+
+```{r}
+#| echo: false
+set.seed(12)
+sex = rep(c(1,2), 230)
+anxiety = .25*sex + rnorm(460)
+height = .8*sex + rnorm(460)
+math = .20*sex + .30*anxiety + .05*height + rnorm(460)
+d <- data.frame(sex,anxiety,math, height)
+m <- "math ~ anxiety + sex + height
+      sex ~ anxiety
+      height ~ sex
+"
+m2 <- "math ~ anxiety + sex + height
+      anxiety ~ sex
+      height ~ sex
+"
+
+fit <- sem(m, d)
+fit2 <- sem(m2, d)
+
+#fitmeasures(fit)
+semPlot::semPaths(fit, rotation = 3, layout = "tree2",
+         edge.label.cex = 2, #rotation = 2,
+         residuals = F,
+         sizeMan = 15,
+         edge.color="black", edge.label.color="black", nCharNodes = 7)
+```
+
+## Comparison
+
+::: {.columns}
+::: {.column width="40%"}
+```{r}
+#| echo: false
+options(digits = 3)
+semPlot::semPaths(fit, rotation = 3, layout = "tree2",
+         edge.label.cex = 5, #rotation = 2,
+         residuals = F,
+         sizeMan = 15,
+         edge.color="black", edge.label.color="black", nCharNodes = 7)
+fitmeasures(fit, fit.measures = c("cfi", "tli", "srmr", "rmsea"))
+```
+
+```{r}
+#| echo: false
+options(digits = 3)
+semPlot::semPaths(fit2, rotation = 3, layout = "tree2",
+         edge.label.cex = 2, #rotation = 2,
+         residuals = F,
+         curve = 2,
+         sizeMan = 15,
+         edge.color="black", edge.label.color="black", nCharNodes = 7)
+fitmeasures(fit2, fit.measures = c("cfi", "tli", "srmr", "rmsea"))
+```
+:::
+::: {.column width="60%"}
+```{r}
+#| echo: false
+temp = capture.output(summary(fit))
+cat(c(temp[21:31], "[...]"), sep = "\n")
+```
+
+```{r}
+#| echo: false
+temp2 = capture.output(summary(fit2))
+cat(c(temp2[21:31], "[...]"), sep = "\n")
+```
+:::
+:::
+
+## Readings
+
+About mediation analyses, you can read:
+- the webpages by Dave Kenny:
+  - - [The history](https://davidakenny.net/cm/MediationHistory.html) of mediations
+- [Mediations](https://davidakenny.net/cm/mediate.htm) explained and advanced topics
+- [Roher et al.](https://doi.org/10.1177/251524592210958) publication...but there's a lot of information

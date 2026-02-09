@@ -1,0 +1,658 @@
+---
+title: "Structural Equation Models"
+subtitle: "Structural Equation Modeling"
+author: "Tommaso Feraco"
+# date: "Doctoral School in Psychological Sciences • University of Padova — 2024"
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+format:
+  revealjs:
+    slide-number: c/t
+    self-contained: true
+    code-fold: false
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(semTools)
+library(semPlot)
+options(digits = 2)
+data("PoliticalDemocracy")
+```
+
+
+## Outline
+
+- Introduction
+- Identification
+- Example
+- Exercise
+- Results
+
+## Structural equation models
+
+Up to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.
+
+A complete SEM takes both of these things and put them together
+
+## The two parts of a SEM
+
+- **The measurement model**
+  $$
+\begin{aligned}
+x = \Lambda_x\xi + \delta
+  y =\Lambda_y\eta + \epsilon
+\end{aligned}
+$$
+- **The structural model**
+  $$
+\begin{aligned}
+\eta = B\eta + \Gamma\xi + \zeta
+\end{aligned}
+$$
+
+ already seen in the first slides
+
+## Matrices
+
+These models (can) have all the possible matrices:
+- **Loadings and coefficients matrices**
+  $$
+\begin{aligned}
+\Lambda^x &  - relation among  \xi  and  x
+    \Lambda^y &  - relation among  \eta  and  y
+    B &  - relation among  \eta  and  \eta
+    \Gamma &  - relation among  \xi  and  \eta
+\end{aligned}
+$$
+- **Covariance matrices**
+  $$
+\begin{aligned}
+\Theta^\delta &  -  x  errors
+    \Theta^\epsilon &  -  y  errors
+    \Psi &  -  \eta  errors
+    \Phi &  - relations among  \eta
+\end{aligned}
+$$
+Different models are allowew based on the way we define relationships among variables
+
+## ... `lavaan` matrices
+
+`lavaan` does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only:
+1. $\Lambda$ factor loadings matrix $[p x m]$
+1. $\Theta$ measurement residual errors covariance matrix $[p x p]$
+1. $B$ regression coefficients matrix $[m x m]$
+1. $\Psi$ residual structural errors covariance matrix $[m x m]$
+With *p* being the number of manifest variables and *m* being the number of latent variables.
+
+## The `lavaan` matrices
+
+{Lambda: matrix of loadings}
+
+![](../assets/images/lambda.png){width="75%"}
+
+{Beta: regression coefficients}
+
+![](../assets/images/beta.png){width="75%"}
+
+{Psi: residual structural errors matrix}
+
+![](../assets/images/psi.png){width="70%"}
+
+{Theta: observed variance-covariance matrix}
+
+![](../assets/images/teta.png)
+
+## A SEM example - simulation
+
+```{r}
+#| message: false
+library(lavaan)
+dSEM <- simulateData("xi =~ .74*x1 + .65*x2
+                      eta =~ .56*y1 + .75*y2
+                      eta ~ .30*xi
+                     ", sample.nobs = 1000)
+```
+
+```{r}
+#| echo: false
+#| fig-height: 3.0
+#| fig-width: 6.0
+fit <- sem(model = "xi =~ x1 + x2
+                    eta =~ y1 + y2
+                    eta ~ xi", data = dSEM)
+fit1 <- sem(model = "xi =~ x1 + x2
+                    eta =~ y1 + y2
+                    eta ~ xi", data = dSEM, std.lv=T)
+semPlot::semPaths(fit, rotation = 2, style = "lisrel",
+                  sizeMan = 8, 
+                  sizeLat = 13, 
+                  color = c("grey", "grey", 
+                            "lightblue", "lightblue",
+                            "green","yellow"))
+```
+
+## A SEM example - specification and constraints
+
+```{r}
+#| echo: true
+#| eval: false
+fit <- sem(model = "xi =~ x1 + x2
+                     eta =~ y1 + y2
+                     eta ~ xi", data = dSEM)
+```
+
+**Constraints**
+
+ To estimate the model we need to set constraints:
+ - the `sem` or `cfa` functions default is setting to 1 one loading for each latent variable
+- an alternative is to standardized latent variables using the `std.lv = TRUE` option
+
+## Constraints: `default`
+
+```{r}
+#| echo: false
+#| eval: true
+temp = capture.output(summary(fit, std=T))
+cat(c("[...]", temp[21:29], "[...]", temp[35:43], "[...]"), sep = "\n")
+```
+
+## Constraints: `std.lv=T`
+
+```{r}
+#| echo: false
+#| eval: true
+temp = capture.output(summary(fit1, std=T))
+cat(c("[...]", temp[21:29], "[...]", temp[35:43], "[...]"), sep = "\n")
+```
+
+## `lavaan` matrices
+
+```{r}
+#| echo: true
+#| eval: false
+inspect(fit, "std") # OR "est"
+```
+
+```{r}
+#| echo: false
+#| eval: true
+inspect(fit, "std")[1:2] # OR "est"
+```
+
+```{r}
+#| echo: false
+#| eval: true
+inspect(fit, "std")[3:4] # OR "est"
+```
+
+## SEM identification
+
+Once again, remember that identification is a topic relevant to all structural equation models.
+
+If an unknown parameter in $\theta$ can be written as a function of one or more elements of $\Sigma$, that parameter is identified.
+
+If all unknown parameters in $\theta$ are identified, the model is identified.
+- the *t*-rule (again)
+- the *Two-Steps* rule
+
+## *Two-Steps* rule
+
+- *Step 1*. Treat the model as a confirmatory factor analysis: view the original $x$ and $y$ as $x$ variables and the original $\xi$ and $\eta$ as $\xi$ variables. The only relationship between latent variables of interest are their variance and covariance $Phi$. That is, ignore the $B$, $\Gamma$, and $\Psi$ elements.
+
+  $\rightarrow$ apply CFA identification rules
+- *Step 2*. Examine the latent variable equation of the original model ($\eta = B\eta + \Gamma\xi + \zeta$), assuming that each latent variable is an observed variable that is perfectly measured.
+
+## *Two-Steps* rule
+
+**Summary**
+
+If the first step shows that the measurement parameters are identified and the second step shows that the latent variable model parameters also are identified, then this is suficient to identify the whole model.
+
+## `Political democracy` dataset
+
+Bollen (1989) studied the relation between industrialization in 1960 and political democracy of developing countries in 1960 and 1965.
+
+We have 11 variables
+
+```{r}
+#| echo: false
+round(head(PoliticalDemocracy, 3),2)
+```
+
+A first latent variable, Industrialization ($I = x_1 + x_2 + x_3$)
+
+A second latent variable, political democracy in 1960 ($D60 = y_1 + y_2 + y_3 + y_4$)
+
+A third latent variable, political democracy in 1965 ($D65 = y_5 + y_6 + y_7 + y_8$).
+
+`LET'S APLLY THE TWO-STEPS RULE`
+
+## Step 1 - model plot
+
+**The CFA model**
+
+```{r}
+#| echo: false
+m <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+"
+fit <- sem(m, data = PoliticalDemocracy)
+semPlot::semPaths(fit, style = "lisrel",
+                  sizeMan = 8, curve = 2,
+                  sizeLat = 13, 
+                  color = c(rep("grey", 11),rep("green", 3)),
+                  edge.color="black", edge.label.color="black")
+```
+
+## Step 1 - model specification and results
+
+**The CFA model**
+
+```{r}
+#| echo: true
+m <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+"
+```
+
+```{r}
+#| echo: true
+fit1 <- sem(m, data = PoliticalDemocracy)
+fit1@Fit@converged
+```
+
+`PARAMETERS ARE ALL IDENTIFIED. LET'S GO TO STEP 2`
+
+## Step 2 - model plot
+
+**The structural model**
+
+```{r}
+#| echo: false
+#| fig-height: 5.0
+m <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+D65 ~ I + D60
+D60 ~ I
+"
+fit <- sem(m, data = PoliticalDemocracy, std.lv=T)
+semPlot::semPaths(fit, style = "lisrel",
+                  sizeMan = 8, 
+                  sizeLat = 13, 
+                  color = c(rep("grey", 3),rep("lightblue", 8),rep("green", 1),rep("yellow", 2)),
+                  edge.color="black", edge.label.color="black")
+```
+
+## Step 2 - model specification and results
+
+**The structural model**
+
+```{r}
+#| echo: true
+m2 <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+D65 ~ I + D60
+D60 ~ I
+"
+```
+
+```{r}
+#| echo: true
+fit2 <- sem(m2, data = PoliticalDemocracy)
+fit2@Fit@converged
+```
+
+`STRUCTURAL PARAMETERS ARE ALSO IDENTIFIED.`
+
+`LET'S DEFINE THE MODEL CONSIDERING LONGITUDINAL MEASURES`
+
+## Final model
+
+**The modified model**
+
+```{r}
+#| echo: false
+#| fig-height: 5.0
+m <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+D65 ~ I + D60
+D60 ~ I
+y1 ~~ y5
+y2 ~~ y6
+y3 ~~ y7
+y4 ~~ y8
+"
+fit <- sem(m, data = PoliticalDemocracy, std.lv=T)
+semPlot::semPaths(fit, style = "lisrel",
+                  sizeMan = 8, 
+                  sizeLat = 13, 
+                  color = c(rep("grey", 3),rep("lightblue", 8),rep("green", 1),rep("yellow", 2)),
+                  edge.color="black", edge.label.color="black")
+```
+
+## Final model specification
+
+**The modified model**
+
+```{r}
+#| echo: true
+m3 <- "I =~ x1 + x2 + x3
+D60 =~ y1 + y2 + y3 + y4
+D65 =~ y5 + y6 + y7 + y8
+D65 ~ I + D60
+D60 ~ I
+y1 ~~ y5
+y2 ~~ y6
+y3 ~~ y7
+y4 ~~ y8
+"
+```
+
+`SAME ITEMS AT DIFFERENT TIME POINTS HAVE CORRELATED RESIDUALS`
+
+## Final model results
+
+**The modified model**
+
+```{r}
+#| echo: true
+(fit3 <- sem(m3, data = PoliticalDemocracy))
+inspect(fit3, what = "fitmeasures")[
+  c("cfi", "srmr", "rmsea")]
+```
+
+`MODEL FIT IS GOOD!`
+
+## Model comparisons
+
+```{r}
+#| warning: true
+anova(fit1,fit2,fit3)
+```
+
+## Model comparisons
+
+We can also compare the models using fit indices:
+
+```{r}
+#| echo: false
+#| message: false
+library(kableExtra)
+fi <- c("chisq", "df", "cfi", "tli", "srmr", "rmsea", "aic", "bic")
+fitTab <- rbind(fitmeasures(fit1, fit.measures = fi),
+                fitmeasures(fit2, fit.measures = fi),
+                fitmeasures(fit3, fit.measures = fi))
+rownames(fitTab) <- c("model1", "model2", "model3")
+kbl(fitTab, digits = 3) %>% 
+   kable_styling(latex_options="scale_down") %>% 
+   row_spec(0,bold=TRUE)
+```
+
+`WHAT IS THE BEST MODEL? QUESTIONS? COMMENTS?`
+
+# Exercise
+
+```{r}
+#| echo: false
+
+# peer pressure AND social media -> social comparison -> eating disorder
+mE4_1 <- "
+ # CFA model
+ peerPressure =~ .75*PP1 + .72*PP2 + .59*PP3 + .65*PP4
+ socialMedia =~ .45*SM1 + .55*SM2 + .59*SM3 + .65*SM4
+ socialComparison =~ .81*SC1 + .75*SC2 + .86*SC3
+ eatingDisorder =~ .70*ED1 + .65*ED2
+ 
+ # Structural model
+ eatingDisorder ~ .37*socialComparison
+ socialComparison ~ .23*peerPressure + .41*socialMedia
+ 
+ # Misspecifications
+ # within construct
+ PP1 ~~ .43*PP2
+ # between construct
+ SM1 ~~ .53*SC2
+"
+dE4_1 <- simulateData(mE4_1, std.lv = T, sample.nobs = 1423,
+                      seed = 12)
+# save(dE4_1, file = "data/Exercise4_1.Rdata")
+```
+
+```{r}
+#| echo: false
+mE4_1 <- "
+ # CFA model
+ peerPressure =~ PP1 + PP2 + PP3 + PP4
+ socialMedia =~ SM1 + SM2 + SM3 + SM4
+ socialComparison =~ SC1 + SC2 + SC3
+ eatingDisorder =~ ED1 + ED2
+ 
+ # Structural model
+ eatingDisorder ~ socialComparison
+ socialComparison ~ peerPressure + socialMedia
+ 
+ # Misspecifications
+ # within construct
+# PP1 ~~ PP2
+ # between construct
+# SM1 ~~ SC2
+"
+fitE4_1 <- sem(mE4_1, data = dE4_1, std.lv=T)
+m2.1 <- "
+ # CFA model
+ peerPressure =~ PP1 + PP2 + PP3 + PP4
+ socialMedia =~ SM1 + SM2 + SM3 + SM4
+ socialComparison =~ SC1 + SC2 + SC3
+ eatingDisorder =~ ED1 + ED2
+ 
+ # Structural model
+ eatingDisorder ~ socialComparison
+ socialComparison ~ peerPressure + socialMedia
+ 
+ # Misspecifications
+ # within construct
+# PP1 ~~ PP2
+ # between construct
+ SM1 ~~ SC2
+"
+fit2.1 <- sem(m2.1, data = dE4_1, std.lv=T)
+```
+
+## The `EAT` dataset
+
+The dataset includes 13 items that measure 'peer pressure', 'social media use', 'social comparison', and 'eating disorders'.
+
+```{r}
+#| echo: true
+load("../data/Exercise4_1.Rdata")
+round(head(dE4_1),2)
+```
+
+![](../assets/images/social.jpeg)
+
+## The theoretical model
+
+```{r}
+#| echo: false
+semPlot::semPaths(fitE4_1, style = "lisrel",
+                  sizeMan = 5,
+                  sizeLat = 7,
+                  rotation = 2,
+                  layout = "tree2",
+                  residuals = F,
+                  color = c(rep("grey", 13),
+                            rep("yellow", 2),
+                            rep("green", 2)),
+                  edge.color="black", edge.label.color="black")
+```
+
+## The exercise
+
+1. Apply the two-step rule:
+   1. Test the CFA model
+   2. Test the structural model
+2. Inspect model results and fit indices
+   - Are the hypotheses confirmed?
+   - Does the model fit the data well?
+3. If the model is not satisfactory, understand why and change it
+4. Draw the model (in `R`, ppt, or with a pencil)
+5. Try to fit a simple path model using sum scores instead of latent scores
+
+## Model specification
+
+`STEP 1 and 2`
+
+```{r}
+#| echo: true
+#| eval: false
+m1 <- "
+ # CFA model
+ peerPressure =~ PP1 + PP2 + PP3 + PP4
+ socialMedia =~ SM1 + SM2 + SM3 + SM4
+ socialComparison =~ SC1 + SC2 + SC3
+ eatingDisorder =~ ED1 + ED2
+"
+fit1 <- sem(m1, data = dE4_1, std.lv=T)
+fit1@Fit@converged
+m2 <- "
+ [...]
+ # Structural model
+ eatingDisorder ~ socialComparison
+ socialComparison ~ peerPressure + socialMedia"
+fit2 <- sem(m2, data = dE4_1, std.lv=T)
+fit2@Fit@converged
+```
+
+`OK?`
+
+## Results and fit
+
+```{r}
+#| echo: true
+#| eval: false
+summary(fitE4_1, std=T)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+temp = capture.output(summary(fitE4_1, std=T))
+cat(c("[...]", temp[41:48], "[...]"), sep = "\n")
+```
+
+```{r}
+fitmeasures(fitE4_1, 
+            fit.measures = 
+            c("cfi", "tli", "srmr", "rmsea"))
+```
+
+## Model modification
+
+```{r}
+modificationIndices(fitE4_1, sort. = T)[1:10,]
+```
+
+```{r}
+#| eval: false
+m2.1 <- "
+[...]
+# Residual correlations
+SM1 ~~ SC2
+"
+fitmeasures(fit2.1, ...)
+```
+
+```{r}
+#| echo: false
+fitmeasures(fit2.1, 
+            fit.measures = 
+            c("cfi", "tli", "srmr", "rmsea"))
+```
+
+## Sum scores
+
+```{r}
+#| echo: true
+d2 <- data.frame(
+  peerPressure = dE4_1$PP1 + dE4_1$PP2 + dE4_1$PP3 + dE4_1$PP4, 
+  socialMedia = dE4_1$SM1 + dE4_1$SM2 + dE4_1$SM3 + dE4_1$SM4,
+  socialComparison = dE4_1$SC1 + dE4_1$SC2 + dE4_1$SC3,
+  eatingDisorder = dE4_1$ED1 + dE4_1$ED2)
+path <- "
+eatingDisorder ~ socialComparison
+socialComparison ~ peerPressure + socialMedia"
+fitP <- sem(path, d2)
+fitmeasures(fitP, fit.measures = 
+              c("cfi", "tli", "srmr", "rmsea"))
+```
+
+## Sum scores VS latent scores
+
+However, the debate is still open:
+
+- Thinking twice about sum scores  
+- Thinking thrice about sum scores, and then some more about measurement and analysis  
+- Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle  
+- Or some more Schimmack:
+  - Schimmack vs Gelman 1
+  - Schimmack vs Gelman 2
+
+## The ground truth
+
+```{r}
+#| eval: false
+# peer pressure AND social media -> social comparison -> eating disorder
+mE4_1 <- "
+ # CFA model
+ peerPressure =~ .75*PP1 + .72*PP2 + .59*PP3 + .65*PP4
+ socialMedia =~ .45*SM1 + .55*SM2 + .59*SM3 + .65*SM4
+ socialComparison =~ .81*SC1 + .75*SC2 + .86*SC3
+ eatingDisorder =~ .70*ED1 + .65*ED2
+ 
+ # Structural model
+ eatingDisorder ~ .37*socialComparison
+ socialComparison ~ .23*peerPressure + .41*socialMedia
+ 
+ # Misspecifications
+ # within construct
+ PP1 ~~ .43*PP2
+ # between construct
+ SM1 ~~ .53*SC2
+"
+```
+
+## Sum scores VS latent scores
+
+However, the debate is still open:
+
+- Thinking twice about sum scores  
+- Thinking thrice about sum scores, and then some more about measurement and analysis  
+- Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle  
+- Or some more Schimmack:
+  - Schimmack vs Gelman 1
+  - Schimmack vs Gelman 2
+
+## The indifference of the indicator
+
+- How many indicators do we need?
+- How should I select them?
+- ...
+`LET'S SEE THE ADDITIONAL CODE`
+

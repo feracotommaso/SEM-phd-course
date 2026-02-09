@@ -44,4 +44,32 @@
     <loc>/templates/report-template.html</loc>
     <lastmod>2026-02-06T14:43:56.908Z</lastmod>
   </url>
+  <url>
+    <loc>/slides/00_introduction.html</loc>
+    <lastmod>2026-02-07T22:08:02.414Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/01_path_models.html</loc>
+    <lastmod>2026-02-09T09:29:45.217Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/02_cfa.html</loc>
+    <lastmod>2026-02-09T10:45:55.919Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/03_sem.html</loc>
+    <lastmod>2026-02-09T11:39:32.844Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/04_invariance.html</loc>
+    <lastmod>2026-02-09T11:42:28.537Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/05_ordinal.html</loc>
+    <lastmod>2026-02-09T12:00:47.752Z</lastmod>
+  </url>
+  <url>
+    <loc>/extras/ex90_power_misc.html</loc>
+    <lastmod>2026-02-09T15:18:27.248Z</lastmod>
+  </url>
 </urlset>

@@ -1,0 +1,803 @@
+---
+title: "Measurement models and Confirmatory Factor Analysis"
+subtitle: "Structural Equation Modeling"
+author: "Tommaso Feraco"
+date: "Doctoral School in Psychological Sciences • University of Padova"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+format:
+  revealjs:
+    slide-number: c/t
+    self-contained: true
+    code-fold: false
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(semTools)
+library(semPlot)
+
+options(digits = 2)
+```
+
+## Outline
+
+- Intro
+- CFA
+- Identification and fit
+- CFA and validity - R
+- Exercise 3.2
+- A neglected implication
+- Readings
+
+## Factor analysis
+
+- Factor analysis is a statistical technique widely used in the social sciences
+- It is a statistical method used to describe variability among observed, correlated variables in terms of a potentially lower number of unobserved variables called factors.
+- In its original definition (Spearman, 1904) the relationship between observed and latent variables is not defined a priori (Exploratory Factor Analysis, EFA).
+- In SEM framework, the researcher first develops a hypothesis about what factors s/he believes are underlying the measures s/he has used and may impose constraints on the model based on these a priori hypotheses (Confirmatory Factor Analysis, CFA).
+
+## Exploratory Factor Analysis (EFA)
+
+You can run an exploratory factor analysis in `R` using the in-built function `factanal`. (you can also do it in `lavaan`: `efa()`)
+
+::: {.columns}
+::: {.column width="48%"}
+![](../assets/images/efa.png)
+:::
+
+::: {.column width="48%"}
+- The number of latent factor is not predetermined
+- All latent variables are free to influence all the observed variables
+- Measurement errors are not allowed to correlate
+:::
+:::
+
+Is this a good way to find latent variables? `YOUR OPINION?`
+
+## Confirmatory Factor Analysis (CFA)
+
+You can run an CFA in `R` using the `lavaan` functions `cfa`.
+
+::: {.columns}
+::: {.column width="48%"}
+![](../assets/images/cfa.png)
+:::
+
+::: {.column width="48%"}
+- We personally determine the model and the latent variables a priori
+- Latent variables only affect predefined observed variables
+- Measurement errors may correlate
+:::
+:::
+
+Is this a good way to find latent variables? `YOUR OPINION?`
+
+## General formula
+
+- The general model for confirmatory factor analysis can be written as:
+
+$$
+\begin{aligned}
+\mathbf{x} &= \mathbf{\Lambda}_x\,\mathbf{\xi} + \mathbf{\delta} \\
+\mathbf{y} &= \mathbf{\Lambda}_y\,\mathbf{\eta} + \mathbf{\epsilon}
+\end{aligned}
+$$
+
+where $\mathbf{x}$ and $\mathbf{y}$ are observed variables, $\mathbf{\xi}$ and $\mathbf{\eta}$ are latent factors, and $\mathbf{\delta}$ and $\mathbf{\epsilon}$ are errors of measurement.
+
+- The coefficients in $\mathbf{\Lambda}_x$ and $\mathbf{\Lambda}_y$ describe the effects of the latent variables on the observed variables.
+
+## The general formula explained
+
+$$
+\begin{aligned}
+y &= b_0 + b_1 x + \epsilon \\
+y_1 &= \tau_1 + \lambda_1\eta + \epsilon_1
+\end{aligned}
+$$
+
+$$
+\begin{bmatrix}
+  y_1 \\
+  y_2 \\
+  y_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \tau_1 \\
+  \tau_2 \\
+  \tau_3
+\end{bmatrix}
++
+\begin{bmatrix}
+  \lambda_1 \\
+  \lambda_2 \\
+  \lambda_3
+\end{bmatrix}
+(\eta_1)
+\begin{bmatrix}
+  \epsilon_1 \\
+  \epsilon_2 \\
+  \epsilon_3
+\end{bmatrix}
+$$
+
+$$
+\begin{aligned}
+y_1 &= \tau_1 + \lambda_1\eta_1 + \epsilon_1 \\
+y_2 &= \tau_2 + \lambda_2\eta_1 + \epsilon_2 \\
+y_3 &= \tau_3 + \lambda_3\eta_1 + \epsilon_3
+\end{aligned}
+$$
+
+## Reflective variables in a realist definition
+
+When we talk about an effect $\mathbf{\Lambda}$ ($\Rightarrow$) of a latent variable on an observed variable ($\mathbf{x}$), we are basing our model on a realist framework of reflective latent variables. In other words, we assume that:
+
+- **ARROWS** are **ARROWS**: it is the latent construct that affects the observed responses
+- A realist interpretation is needed: the latent variable is something that really exists!
+- Observations are things that are really affected/produced by the latent variable + some error
+
+Pragmatic interpretation of latent variables are of no help: “*a factor model is just a good way of summarizing a large number of items*”.
+
+## Reflective variables in a realist definition
+
+**REMEMBER**: every statistical method applied to psychology has theoretical implications that not only concerns the results obtained. The selected method/model has implication on its own, and CFA is no exception!
+
+If you do not want to assume any realist position or reflective assumptions on your latent variables, you should adopt other methods of data reduction:
+
+- PCA
+- EGA
+- …
+
+## One-factor model
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+d <- simulateData(
+  model = "l1 =~ .75*x1 + .82*x2 + .77*x3\n                           l2 =~ .75*x4 + .82*x5 + .77*x6\n                           l1 ~~ .30*l2",
+  sample.nobs = 429,
+  seed = 12
+)
+```
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit1 <- sem(model = "l1 =~ x1 + x2 + x3", data = d)
+semPlot::semPaths(
+  fit1,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+## Two-factor model with correlated variables
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit2 <- sem(model = "l1 =~ x1 + x2 + x3\n                     l2 =~ x4 + x5 + x6", data = d)
+semPlot::semPaths(
+  fit2,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+## Two-factor model with hortogonal variables
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit2h <- sem(model = "l1 =~ x1 + x2 + x3\n                      l2 =~ x4 + x5 + x6\n                      l1 ~~ 0*l2", data = d)
+semPlot::semPaths(
+  fit2h,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+## Hierarchical model
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fith <- sem(model = "l1 =~ x1 + x2 + x3\n                     l2 =~ x4 + x5 + x6\n                     l =~ l1 + l2", data = d)
+semPlot::semPaths(
+  fith,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+## In `R`
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+fit <- sem(
+  model = "l1 =~ x1 + x2 + x3\n                    l2 =~ x4 + x5 + x6\n                    l1 ~~ l2",
+  data = d
+)
+```
+
+::: {.columns}
+::: {.column width="58%"}
+
+```{r}
+m <- "
+latent1 =~ x1 + x2 + x3 
+latent2 =~ x4 + x5 + x6
+"
+semPlot::semPaths(fit)
+```
+
+:::
+
+::: {.column width="42%"}
+
+- The first latent variable explains item 1,2,3
+- The second latent variable explains item 4,5,6
+- The diagram represents the hypothesized model
+
+:::
+:::
+
+## Matrices
+
+::: {.columns}
+::: {.column width="31%"}
+Lambda: matrix of loadings
+
+![](../assets/images/lambda.png){width="90%"}
+:::
+
+::: {.column width="31%"}
+Phi: latent variance-covariance matrix
+
+![](../assets/images/phi.png){width="70%"}
+:::
+
+::: {.column width="31%"}
+Theta: observed variance-covariance matrix
+
+![](../assets/images/teta.png){width="100%"}
+:::
+:::
+
+## Constraints
+
+In order to estimate the parameters in structural equation models with latent variables, you must set some identification constraints in these models. Otherwise, you won't be able to estimate the variables (the model is not identifiable).
+
+We can choose one of the two following strategies:
+
+- To standardize latent variables such that factor means are fixed to 0 and factor variances are fixed to 1.
+- To set to one a loading ($\lambda$) for each latent variable.
+
+In `R`, the function `sem()` or `cfa()` uses the second strategy as default. To change it, use the `std.lv` option to `TRUE`.
+
+```{r}
+#| eval: false
+fit <- sem(m, std.lv = TRUE, ...)
+```
+
+## Constraints explained
+
+::: {.columns}
+::: {.column width="60%"}
+
+$$
+\Sigma(\eta) = \Lambda\Psi\Lambda' + \Theta_{\epsilon}
+$$
+
+**Marker method**
+
+$$
+\Sigma(\eta)
+=
+\psi_{11}
+\begin{bmatrix}
+  1 \\
+  \lambda_2 \\
+  \lambda_3
+\end{bmatrix}
+(1\,\lambda_2\,\lambda_3)
+\begin{bmatrix}
+  \theta_{11} & 0 & 0 \\
+  0 & \theta_{22} & 0 \\
+  0 & 0 & \theta_{33}
+\end{bmatrix}
+$$
+
+**Standardization**
+
+$$
+\Sigma(\eta)
+=
+(1)
+\begin{bmatrix}
+  \lambda_1 \\
+  \lambda_2 \\
+  \lambda_3
+\end{bmatrix}
+(\lambda_1\,\lambda_2\,\lambda_3)
+\begin{bmatrix}
+  \theta_{11} & 0 & 0 \\
+  0 & \theta_{22} & 0 \\
+  0 & 0 & \theta_{33}
+\end{bmatrix}
+$$
+
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| echo: false
+#| fig-height: 3
+#| fig-width: 5
+fit1 <- sem(model = "l1 =~ x1 + x2 + x3", data = d)
+semPlot::semPaths(
+  fit1,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+```{r}
+#| echo: false
+#| fig-height: 3
+#| fig-width: 5
+fit1s <- sem(model = "l1 =~ x1 + x2 + x3", data = d, std.lv = TRUE)
+semPlot::semPaths(
+  fit1s,
+  edge.label.cex = 2,
+  sizeMan = 11,
+  sizeLat = 11,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+:::
+:::
+
+## Identification rules
+
+If you remember, we talked about identification in the *Introduction*. For CFA models, the following identification rules can be followed:
+
+- the *t*-rule
+- the Three-Indicator Rules
+- the Two-Indicator Rules
+
+## the *t*-rule
+
+We have already seen it. This is a necessary but not sufficient condition:
+
+$$
+t \leq \frac{q(q+1)}{2}
+$$
+
+where $t$ is the number of free parameters and $q$ the number of observed variables.
+
+In this case:
+
+- The number of free parameters ($t$) must be less or equal to the number of nonredundant elements in the covariance matrix of the observed variables
+
+In other words: the number of nonredundant elements in $\mathbf{S}$ is the maximum number of possible equations; if the number of unknowns exceeds the number of equations, the identification of $\mathbf{\theta}$ is not possible.
+
+## the Three-Indicator Rules
+
+The three-indicatore rules is a sufficient but not necessary condition. It poses no restrictions on $\mathbf{\Phi}$ (the var-covar of exogenous latent variables)
+
+1. A sufficient condition to identify a **one-factor model** is to have at least three indicators with nonzero loadings ($\lambda$) and $\mathbf{\Theta}$ diagonal.
+2. A **multifactor** model is identified when:
+
+   1. It has three or more indicators per latent variable.
+   2. Each row of $\mathbf{\Lambda}$ has one and only one nonzero element.
+   3. $\mathbf{\Theta}$ is diagonal.
+
+## the Two-Indicator Rules
+
+The two-indicatore rules is a sufficient but not necessary condition for models with more than one $\mathbf{\xi}$.
+
+- $\mathbf{\Theta}$ is diagonal
+- Each latent variable is scaled (one $\lambda_{ij}$ set to 1 for each $\mathbf{\xi}$).
+- It requires the following conditions:
+
+  1. There are at least two indicators per latent variable
+  2. Each row of $\mathbf{\Lambda}$ has one and only one nonzero element
+  3. $\mathbf{\Theta}$ is diagonal
+  4. Each row of $\mathbf{\Phi}$ has at least one nonzero off-diagonal element
+
+## Model fit
+
+As before, we can evaluate model fit of a CFA using:
+
+- $\chi^2$ test
+
+```{r}
+#| echo: false
+#| eval: false
+temp <- capture.output(summary(fit, std = TRUE))
+cat(c("[...]", temp[11:13], "[...]"), sep = "\n")
+```
+
+- Absolute fit indices
+
+```{r}
+#| eval: false
+inspect(fit, "fit")[c("gfi", "agfi")]
+```
+
+- Absolute fit indices based on residuals
+
+```{r}
+#| eval: false
+inspect(fit, "fit")[c("srmr", "rmsea")]
+```
+
+- Incremental fit indices
+
+```{r}
+#| eval: false
+inspect(fit, "fit")[c("cfi", "nnfi")]
+```
+
+- Information criterion based indices
+
+```{r}
+#| eval: false
+inspect(fit, "fit")[c("aic", "bic")]
+```
+
+- $R^2$ and the total coefficient of determination
+
+```{r}
+#| eval: false
+inspect(fit, "rsquare")
+```
+
+## The total coefficient of determination
+
+While $R^2$ gives the portion of explained variance in single dependent variables
+
+```{r}
+#| echo: true
+#| eval: true
+inspect(fit, "rsquare")
+```
+
+… the total coefficient of determination represents the proportion of variance in the dependent variables that is explained by all the variables in the model, both directly and indirectly.
+
+```{r}
+#| echo: true
+#| eval: true
+TH <- inspect(fit, "estimates")$theta
+S <- fitted(fit)$cov
+1 - det(TH) / det(S)
+```
+
+## Introduction to CFA and validity
+
+```{r}
+#| echo: false
+# DATA GENERATION
+N <- 862
+d <- lav_matrix_lower2full(c(
+  1,
+  .38, 1,
+  .26, .35, 1,
+  .34, .43, .28, 1,
+  .25, .14, .15, .11, 1,
+  .33, .62, .33, .41, .13, 1,
+  .29, .35, .42, .35, .19, .38, 1,
+  .42, .41, .29, .43, .20, .40, .35, 1,
+  .27, .51, .24, .35, .15, .59, .30, .30, 1,
+  .30, .27, .20, .24, .46, .24, .24, .26, .22, 1
+))
+colnames(d) <- c("BD", "SI", "DS", "PCn", "CD", "VC", "LN", "MR", "CO", "SS")
+```
+
+Whenever we estimate a latent variable, we are MEASURING a latent trait that explains observed (or other latent) factors.
+
+In other words, CFA is a tool that is used to measure constructs that are not directly observable (remember the realist framework).
+
+![](../assets/images/cfa.png)
+
+## Step 1: the construct
+
+… this is not the topic of this course but, after theoretical reflections, answer at least these questions that will guide your modeling and **draw it**:
+
+::: {.columns}
+::: {.column width="48%"}
+
+- is it unidimensional?
+- is it multidimensional?
+- are the factors correlated?
+- is it hierarchic?
+- has it a bifactor structure?
+
+All these answers have statistical and theoretical consequences / assumptions.
+
+:::
+
+::: {.column width="48%"}
+![](../assets/images/models.png){width="80%"}
+:::
+:::
+
+## Step 2: items and scale construction
+
+Assuming that the construct exists, you need
+
+- an explicit, precise definition of the measured attribute or construct
+- a set of items sensible to variations of the measured attribute or construct
+
+In fact, we assume that the observations (item responses) should change according to modifications of the latent trait.
+
+Items should (possibly) cover all the aspects of the construct.
+
+To help your work, there are tools that can be used:
+
+- Spoto et al., 2023 https://doi.org/10.1037/met0000545
+
+*this of course happens if the questionnaire/test is new (or if you want to develop a new version)*
+
+## Step 3: collect the data!
+
+Data collection is not obvious and follows your previous decisions. We might plan:
+
+- 2 data collections (cfa measurement + nomological network)
+- 3 data collections (efa + cfa + nomological network)
+- focus groups + pilot on item comprension + […]
+- […]
+- […]
+
+## Step 4: data analysis (CFA only)
+
+Of all the possible options, we will only focus on the CFA.
+
+Imagine we have collected data for `r N` participants using the *WISC-IV*, one of the most famous tests of intelligence. It comprises 15 subtests measuring:
+
+::: {.columns}
+::: {.column width="48%"}
+
+- **VCI**: verbal comprehension ind
+- SI: Similarities
+- VC: Vocabulary
+- CO: Comprehension
+- **WMI**: working memory index
+- DS: Digit span
+- LN: Letter-Number seq.
+
+:::
+
+::: {.column width="48%"}
+
+- **PRI**: perceptual reasoning index
+- BD: Block design
+- PCn: Picture concepts
+- MR: Matrix reasoning
+- **PSI**: processing speed index
+- CD: Coding
+- SS: Symbol search
+
+:::
+:::
+
+The subtests are assumed to belong to specific abilities (bold), that are influenced by a general factor: we have a *hierarchical* structure.
+
+## Open the data
+
+Ops, the data are not in standard form!
+
+```{r}
+# Exercise 3.1
+load("../data/Exercise3_1.Rdata")
+# view(d)
+```
+
+```{r}
+#| echo: false
+knitr::kable(round(d, 2))
+```
+
+## The theoretical model
+
+Intelligence theory suppose that test scores are affected by specific abilities (e.g., processing speed), that are directly influenced by an overarching latent factor (*g*)
+
+![](../assets/images/wisc.png){width="100%"}
+
+Try to write the model
+
+## Specify and fit the mode
+
+We are skipping some steps (validity of single tests and of first-order abilities) … you cannot do it!
+
+```{r}
+m <- "
+VCI=~SI+VC+CO
+PRI=~BD+PCn+MR
+WMI=~DS+LN
+PSI=~CD+SS
+g=~VCI+PRI+WMI+PSI
+"
+fit <- sem(m, std.lv = TRUE, sample.cov = d, sample.nobs = N)
+```
+
+## Model parameters
+
+```{r}
+parameterestimates(fit, standardized = TRUE)[1:14, 1:11]
+# [...]
+```
+
+## Model parameters
+
+```{r}
+# [...]
+parameterestimates(fit, standardized = TRUE)[15:20, 1:11]
+```
+
+## Model fit
+
+```{r}
+fi <- c("cfi", "tli", "nnfi", "agfi", "srmr", "rmsea")
+round(inspect(fit, "fit")[fi], 3)
+```
+
+## Reliability
+
+```{r}
+semTools::reliability(fit)
+```
+
+```{r}
+semTools::reliabilityL2(fit, secondFactor = "g")
+```
+
+## Graphical representation
+
+```{r}
+semPlot::semPaths(
+  fit,
+  edge.label.cex = .8,
+  what = "std",
+  sizeMan = 7,
+  sizeLat = 7,
+  edge.color = "black",
+  edge.label.color = "black"
+)
+```
+
+## A second theoretical model
+
+Parallel theories of intelligence suppose that test scores are affected by a general factor (*g*) AND by specific abilities that explain the remaining variance. Both type of factors directly influence observed scores.
+
+All factors are set to be orthogonal!
+
+![](../assets/images/bifactor.png){width="100%"}
+
+## Bifactor model in R
+
+```{r}
+# Modello bifattoriale
+mb <- "
+VCI=~a*SI+a*VC+a*CO
+PRI=~b*BD+b*PCn+b*MR
+WMI=~c*DS+c*LN
+PSI=~d*CD+d*SS
+g=~SI+VC+CO+BD+PCn+MR+DS+LN+CD+SS
+"
+
+fitb <- sem(
+  mb,
+  orthogonal = TRUE,
+  std.lv = TRUE,
+  sample.cov = d,
+  sample.nobs = N
+)
+```
+
+This model fits the data like the previous one.
+
+`COMMENTS? QUESTIONS?`
+
+## Exercise 3.2
+
+```{r}
+#| eval: false
+# 2. Exercise 3.2 - working with real data and Likert scales
+# The dataset contains data collected from 1083 students on one questionnaire
+# The questionnaire aims to measure adaptability with 9 items on a 7-point scale
+# The first column is just the student's id
+D.ad <- read.csv("../data/Exercise3_2.csv")
+
+# We want to test the factorial validity of the Italian questionnaire
+# Martin et al., 2012 hypothesize three subscales:
+# (behavior [1:3], cognition [4:6], and emotion[7:9])
+# But found 1 or 2 factors in an EFA:
+# (cognitive-bahavioral [1:6] AND affective [7:9])
+# Later, they tested these models with a CFA
+# Test the two models, compare them and make your decisions
+```
+
+## Predictions with latent variables
+
+This will directly bring us to the next set of slides, but some questions before:
+
+- Can we use a latent variable to 'predict' another variable?
+
+## Predictions with latent variables
+
+This will directly bring us to the next set of slides, but some questions before:
+
+- Can we use a latent variable to 'predict' another variable?
+- How (in R)?
+
+## Predictions with latent variables
+
+This will directly bring us to the next set of slides, but some questions before:
+
+- Can we use a latent variable to 'predict' another variable?
+- How (in R)?
+- After we confirm that a latent variable 'exists', can we use manifest variables as predictors?
+
+`LET'S SIMULATE`
+
+## Predictions with latent variables
+
+This will directly bring us to the next set of slides, but some questions before:
+
+- Can we use a latent variable to 'predict' another variable?
+- How (in R)?
+- After we confirm that a latent variable 'exists', can we use manifest variables as predictors?
+- Can we use residuals as predictors?
+
+## Suggested readings
+
+- Best practices for scale development: https://doi.org/10.3389/fpubh.2018.00149
+- Content validity: https://doi.org/10.1037/met0000545
+- (as always) *Latent Variable Modeling Using R: A Step-by-Step Guide* (Beaujean, 2014)
+
+## References
+
+::: {#refs}
+:::
