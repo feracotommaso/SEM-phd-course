@@ -14,13 +14,7 @@ format:
     code-fold: false
     code-summary: "Show code"
     code-overflow: wrap
-
-    # Use the SCSS theme layers we created (instead of css: custom.css)
-    # Order matters: base theme -> theme.scss -> slides.scss
-    theme:
-      - default
-      - ../assets/css/theme.scss
-      - ../assets/css/slides.scss
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
 
     # Title slide background
     title-slide-attributes:

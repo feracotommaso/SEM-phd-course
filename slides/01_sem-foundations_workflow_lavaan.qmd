@@ -1,0 +1,739 @@
+---
+title: "SEM foundations: language, workflow, first lavaan steps"
+subtitle: "Structural Equation Modeling (SEM)"
+author: "Tommaso Feraco"
+date: "Doctoral School in Psychological Sciences • University of Padova"
+format:
+  revealjs:
+    slide-number: c/t
+    code-line-numbers: false
+    code-fold: false
+    code-overflow: wrap
+
+    # Shared course look
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+options(digits = 3)
+library(lavaan)
+library(semTools)
+library(semPlot)
+data("PoliticalDemocracy")
+```
+
+## Today in the workflow
+
+**Specify → Identify → Estimate → Evaluate → Revise/Report**
+
+::: {.callout-note appearance="minimal"}
+**Today:** SEM language + diagram grammar + the workflow, then **first translation to lavaan**.\
+**Next (02):** path analysis & mediation (indirect effects, equivalence, interpretation).
+:::
+
+------------------------------------------------------------------------
+
+## Learning objectives
+
+By the end of this session you should be able to:
+
+-   Translate a verbal hypothesis into a **diagram**
+-   Use the basic SEM “grammar” (variables, errors, arrows, covariances)
+-   Explain the SEM workflow: **Specify → Identify → Estimate → Evaluate → Revise/Report**
+-   Write and run a *minimal* model in **lavaan** (and read the key parts of the output)
+
+------------------------------------------------------------------------
+
+## A quick motivation: “how do you fit these?”
+
+::::: columns
+::: {.column width="50%"}
+![](../assets/images/multivariate.jpg){width="60%"}
+:::
+
+::: {.column width="50%"}
+![](../assets/images/path.jpg){width="60%"}
+:::
+:::::
+
+::::: columns
+::: {.column width="50%"}
+![](../assets/images/cfa.jpg){width="60%"}
+:::
+
+::: {.column width="50%"}
+![](../assets/images/sempath.jpg){width="60%"}
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## SEM = Structural Equation Modeling
+
+A family of models that lets you:
+
+-   represent hypotheses as a **system of relations**
+
+    -   we postulate a data-generating model
+    -   we evaluate whether this model fits the data or not
+
+-   work with **measurement error** (explicitly)
+
+-   model **means and covariances** implied by your theory
+
+::: {.callout-tip appearance="minimal"}
+it includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM. Most things you already do (t-tests, regressions, ANOVA) are special cases of SEM.
+:::
+
+-   What is so special about SEM?
+
+    -   we can model latent variables (e.g., 'invisible constructs')
+    -   we can test indirect and reciprocal effects and more
+    -   we can make diagrams (or PAINTINGS if theory is weak!)
+
+------------------------------------------------------------------------
+
+## Variance–covariance matrices (the “currency”)
+
+::::: columns
+::: {.column width="60%"}
+```{r}
+options(digits = 2)
+cov(PoliticalDemocracy[1:7])
+```
+:::
+
+::: {.column width="40%"}
+SEM works with matrices
+
+-   $\boldsymbol{S}$ observed var-cov
+
+-   $\boldsymbol{\Sigma}$ true var-cov
+
+-   $\boldsymbol{\hat{\Sigma}}$ model-implied var-cov
+
+-   $\boldsymbol{\Sigma}(\theta)$
+:::
+:::::
+
+`THE MAIN AIM OF SEM IS TO RECONSTRUCT THE TRUE VARIANCE-COVARIANCE MATRIX`
+
+## Variance–covariance matrices (the “currency”)
+
+SEM compares what you observe (**S**) with what your model implies (**Σ(θ)**).
+
+![](../assets/images/covmat.jpg){height="3.5cm"}
+
+(We’ll keep the math light today; we’ll return to fit evaluation later.)
+
+------------------------------------------------------------------------
+
+## Classification of variables
+
+Variables are the way those attributes that **vary** across individuals
+are operationalized and represented for further data processing. These
+can be categorized according to many criteria (e.g,
+*dependent/independent*...), but in SEM we classify them firstly as:
+
+-   **Latent variables**
+
+    -   hypothetical variables that correspond to more or less abstract
+        concepts
+
+    -   formative or reflective
+
+    -   examples are intelligence, anxiety, executive functions,
+        personality traits...
+
+-   **Observed variables**
+
+    -   variables that can be directly observed and measured
+
+    -   examples can be weight, height, gender, income...
+
+## Classification of variables
+
+In SEM we also have an additional type of classification:
+
+-   **Exogenous variables**
+
+    -   Variables whose causes lie outside the model; they will be used
+        only as predictors in the model. They do not receive arrows.
+
+    -   They are indicated with $x$, if observed, or with $\xi$, if
+        latent.
+
+-   **Endogenous variables**
+
+    -   Variables that are determined by variables within the model
+        (they receive arrows); can be used as predictors or dependent
+        variables in the model.
+
+    -   They are indicated with $y$, if observed, or with $\eta$, if
+        latent.
+
+## Relationships between variables
+
+-   The general aim of statistical analysis is to study relationship
+    among variables
+
+-   On the basis of the relationship among the variables, we distinguish
+    two kind of models: symmetrical and asymmetrical.
+
+## Asymmetrical relationships
+
+X -\> Y
+
+-   Variables are divided into two sets: dependent or response variables
+    and predictors or explanatory variables
+
+-   *X* is the set of explanatory variables, $Y$ is the set of response
+    variables, arrows represents the direction of the hypothesized
+    relationship.
+
+-   These models imply cause-and-effect relationships.
+
+**Example**
+
+People who study more obtain higher grades.
+
+## Symmetrical relationships
+
+$$
+X_i \Leftrightarrow Y_j \quad \forall i,j
+$$
+
+-   This means that neither a variable *causes* the other, neither a
+    variable can be considered *prior* in time to the other; all these
+    relationships are bidirectional.
+
+-   These models do not imply nor consider causality.
+
+**Example**
+
+People who have higher grades in math have higher grades in art.
+
+## Regression model
+
+Asymmetrical relationships are usually tested with regressions!
+
+As you remember, regression models can be written, using classical
+formulation, as the expression below and graphically depicted (getting
+closer to SEM) like this:
+
+![](../assets/images/regression.jpg)
+
+## More regression?
+
+But what if we have in mind a more complex pattern of relationships?
+What if we have more regression models in mind and need to estimate all
+of them contemporarily?
+
+![](../assets/images/sistema1.jpg)
+
+What we need is a system of equations.
+
+## More regression?
+
+This system can also be drawn with SEM notation, but is actually the
+same...just better!
+
+![](../assets/images/sistema2.jpg)
+
+## Variables and errors
+
+-   **Variables**
+
+    -   $x$ exogenous observed ($q$)
+
+    -   $\xi$ exogenous latent ($n$)
+
+    -   $y$ endogenous observed ($p$)
+
+    -   $\eta$ endogenous latent ($m$)
+
+-   **Stochastic errors**
+
+    -   $\delta$ measurement errors in $x$
+
+    -   $\epsilon$ measurement errors in $y$
+
+    -   $\zeta$ equation errors in the structural relationship between
+        $\eta$ and $\xi$
+
+## SEM matrices - lavaan model
+
+-   **Parameter matrices**
+
+    -   $\boldsymbol{\Lambda}$ relationship between latent ($\xi$ and
+        $\eta$) and observed ($x$ and $y$) \[$(p + q) X (m + n)$\]
+
+    -   $\boldsymbol{B}$ relationship between latent variables
+        \[$(m + n) X (m + n)$\]
+
+-   **Covariance matrices**
+
+    -   $Cov$($\zeta$, $\xi$) = $\boldsymbol{\Psi}$ matrix
+        \[$(m + n) X (m + n)$\]
+
+    -   $Cov$($\epsilon$, $\delta$) = $\boldsymbol{\Theta}$ matrix
+        \[$(p + q) X (p + q)$\]
+
+## SEM equations
+
+The SEM model in its most general form consists of two parts
+
+-   **The measurement model**
+
+    -   $x = \boldsymbol{\Lambda}_x\boldsymbol{\xi} + \boldsymbol{\delta}$
+
+    -   $y = \boldsymbol{\Lambda}_y\boldsymbol{\eta} + \boldsymbol{\epsilon}$
+
+-   **The structural model**
+
+    -   $\boldsymbol{\eta} = \boldsymbol{B\eta} + \boldsymbol{\Gamma\xi} + \boldsymbol{\zeta}$
+
+    -   $\boldsymbol{\eta} = \boldsymbol{B(\eta\xi} + \boldsymbol{\zeta})$
+
+## SEM assumptions
+
+-   Expected values of latent variables and stochastic errors are 0:
+
+    -   $E$($\eta$) = 0
+
+    -   $E$($\xi$) = 0
+
+    -   $E$($\zeta$) = 0
+
+    -   $E$($\epsilon$) = 0
+
+    -   $E$($\delta$) = 0
+
+-   Errors are uncorrelated with latent variables and are mutually
+    uncorrelated:
+
+## SEM assumptions (conceptual version)
+
+-   The model is **confirmatory**: you propose it *before* looking for “fixes”
+-   The model must be **identified** (estimable)
+-   Estimation relies on distributional assumptions (we’ll talk robustness later)
+-   Missing data and non-normality are not afterthoughts (deck 06)
+
+------------------------------------------------------------------------
+
+## Graphical representation
+
+If that all seemed difficult and boring, now comes the funny part:
+colors, figures, and arrows!
+
+Graphical representation is a key attribute of structural equation
+modeling:
+
+-   It helps understanding the model
+
+-   It helps thinking and reasoning about the model (a priori)
+
+-   It helps writing and formalizing the model
+
+-   It is easy, but few rules must be followed to have a readable model
+
+## Graphical representation
+
+-   Latent variables are circles or ellipses
+
+    ![](../assets/images/circles.jpg){height="1.7cm"}
+
+-   Manifest/observed variables are square or rectangular boxes
+
+    ![](../assets/images/squares.jpg){height="1.7cm"}
+
+-   Errors are represented by corresponding letters (or values) only
+
+$$
+\delta_1  /  \epsilon_1  /  \zeta_1
+$$
+
+## Graphic relationships
+
+-   All model relationships are represented by arrows;
+
+    ```         
+     NO relationship NO arrow... 
+
+     ...and usually NO arrow NO relationship
+    ```
+
+-   Each arrow is a model parameter and has two indices (e.g.,
+    $\beta_{21}$)
+
+-   **Asymmetrical relationship** are represented by a single headed
+    arrow: the first index indicates the variable the arrow is pointing
+    to, the second index indicates the variable of origin.
+
+-   **Symmetrical relationships** are represented by double-headed
+    arrows and two indices, one for each variable.
+
+## Asymmetrical relationships
+
+![](../assets/images/asymmetrical.jpg)
+
+## Symmetrical relationships
+
+![](../assets/images/symmetrical.jpg)
+
+## Graphical errors
+
+-   All **errors** have a single headed arrow pointing to a variable;
+    all variables, except $\xi$, may have an error.
+
+-   Double-headed arrows associated to errors indicate error variances.
+
+![](../assets/images/errors.jpg)
+
+## A full representation
+
+![](../assets/images/full.png){width="99%"} img credits to dr. Johnny
+Lin
+
+---
+
+## Graphic relationships
+
+**A summary**
+
+![](../assets/images/symbols.png)
+
+------------------------------------------------------------------------
+
+## SEM steps (the workflow)
+
+1.  **Model specification** (theory → diagram → equations)
+2.  **Model identification** (can we estimate the parameters?)
+3.  **Parameter estimation** (choose estimator, get (\hat\theta))
+4.  **Model evaluation** (global + local diagnostics)
+5.  **Model modification / reporting** (disciplined, transparent)
+
+------------------------------------------------------------------------
+
+## 1) Model specification
+
+**What is a model**
+
+-   A model is a formal representation of a theory and is composed by a set of parameters that we will estimate.
+    
+What you must state *explicitly*:
+
+-   which variables are connected (and in what direction)
+-   which errors/covariances are allowed
+-   which parameters are **fixed**, **free**, or **constrained**
+
+![](../assets/images/Models.jpg)
+
+---
+
+## 2) Model identification
+
+Basically, we want to know if there is enough information to identify a
+solution (aka estimate all the unknown parameters).
+
+A model can be:
+
+-   **Under-identified**: there are MORE parameters to be estimated than
+    elements in the covariance matrix (e.g., $X + Y = 10$)
+
+-   **Just-identified**: the number of parameters to be estimated equals
+    the number of elements in the covariance matrix ($df = 0$)
+
+-   **Over-identified**: there are LESS parameters to be estimated than
+    elements in the covariance matrix ($df > 0$)
+
+------------------------------------------------------------------------
+
+## 2) Model identification (intuition)
+
+To ensure that the number of unknown parameters ($t$) is not greater
+than the number of nonredundant elements in the covariance matrix of $q$
+observed variables. We can use the following formula:
+
+$$
+t \leq \frac{q(q+1)}{2}
+$$
+
+::: {.callout-warning appearance="minimal"}
+If the model is not identified, **nothing else matters** (no fit, no estimates).
+:::
+
+::: columns
+::: {.column width="50%"}
+**Just-identified**  
+![](../assets/images/just.png){width="65%"}
+:::
+
+::: {.column width="50%"}
+**Under-identified**  
+![](../assets/images/under.png){width="65%"}
+:::
+:::
+
+**Over-identified**\
+![](../assets/images/over.png){width="65%"}
+
+------------------------------------------------------------------------
+
+## 3) Parameter estimation (what software does)
+
+To estimate the model parameters we can use different estimation methods. These aim to estimate the model implied (theoretical) correlation matrix $\boldsymbol{\Sigma}$, which is a function of the model parameters, and should hopefully be similar to the observed correlation matrix $\boldsymbol{S}$.
+
+**Some of the many estimation methods are:**
+
+-   Maximum Likelihood (ML), default in lavaan
+
+-   Unweighted Least Squares (ULS)
+
+-   Generalized Least Squares (GLS)
+
+-   Diagonally Weighted Least Squares (DWLS), default for ordinal variables in lavaan
+
+------------------------------------------------------------------------
+
+## 4) Model evaluation (preview)
+
+Is the model adequate? Are our parameter able to construct a theoretical matrix ($\boldsymbol{\Sigma}$) which is close to the original empirical covariance matrix $\boldsymbol{S}$?
+
+This is the goal of a good model: reproduce, from a set of theoretical associations/effects (aka covariance matrix), the original covariance matrix.
+
+-   **Global fit:** is the overall model plausible?
+-   **Local fit:** where does the model misfit?
+
+::: {.callout-note appearance="minimal"}
+We’ll do this properly in deck 03. Today: just remember that **fit ≠ truth**.
+:::
+
+Formally:
+
+$$
+H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
+$$ 
+
+where $\boldsymbol{\Sigma}$ is the true covariance matrix among model variables, $\theta$ the parameters vector, and
+$\boldsymbol{\hat{\Sigma}}$ the reproduced covariance matrix.
+
+------------------------------------------------------------------------
+
+## 5) Model modification (disciplined respecification)
+
+At this point you are '''free''' to modify the model based on the results obtained...**AND THE THEORY!**
+
+-   modifications are *hypotheses*
+-   modifications must be explicitly reported: both what you changed and why
+-   avoid overfitting (change only what is strictly needed/justified)
+
+------------------------------------------------------------------------
+
+# SEM world
+
+## Univariate regressions
+
+![](../assets/images/univariate.jpg)
+
+## Multivariate regressions
+
+![](../assets/images/multivariate.jpg)
+
+## Path analysis
+
+![](../assets/images/path.jpg)
+
+## Confirmatory factor analysis (CFA)
+
+![](../assets/images/cfa.jpg)
+
+## SEM path analysis
+
+![](../assets/images/sempath.jpg)
+
+## t test with latent variables
+
+![](../assets/images/ttest.jpg)
+
+## Cross-lagged panel models
+
+![](../assets/images/panel.jpg)
+
+## Growth curve models
+
+![](../assets/images/growth.jpg)
+
+## And much more
+
+...and much more
+
+`THERE IS EVEN A JOURNAL ON SEM`
+
+Structural Equation Modeling: A Multidisciplinary Journal
+
+------------------------------------------------------------------------
+
+# `lavaan`
+
+## Bridge: from diagrams to lavaan
+
+lavaan is mostly a **model syntax language**:
+
+-   you write relations like “y \~ x”
+-   lavaan estimates the parameters
+-   you read estimates + standard errors + fit indices + diagnostics
+
+::: {.callout-tip appearance="minimal"}
+Think: “diagram ↔ equations ↔ lavaan syntax” (three representations of the same model).
+:::
+
+------------------------------------------------------------------------
+
+## From `lm()` to `lavaan::sem()`
+
+A regression in R:
+
+```{r}
+#| eval: false
+fit_lm <- lm(y ~ x1 + x2, data = dat)
+summary(fit_lm)
+```
+
+The same idea in lavaan (SEM engine):
+
+```{r}
+#| eval: false
+library(lavaan)
+
+mod <- '
+  y ~ x1 + x2
+'
+
+fit <- sem(mod, data = dat)
+summary(fit, standardized = TRUE)
+```
+
+------------------------------------------------------------------------
+
+## Key lavaan syntax operators
+
+-   `~` regression (single-headed arrow)
+-   `~~` (co)variance (double-headed arrow)
+-   `=~` measurement model (factor loading)
+
+```{r}
+#| eval: false
+mod <- '
+  # regression
+  y ~ x1 + x2
+
+  # (co)variances
+  x1 ~~ x2
+  y  ~~ y
+
+  # measurement (example)
+  F =~ y1 + y2 + y3
+'
+```
+
+------------------------------------------------------------------------
+
+## A minimal, runnable example (built-in data)
+
+```{r}
+#| eval: false
+library(lavaan)
+dat <- HolzingerSwineford1939
+
+mod_cfa <- '
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+'
+
+fit_cfa <- cfa(mod_cfa, data = dat)
+summary(fit_cfa, standardized = TRUE, fit.measures = TRUE)
+```
+
+::: {.callout-note appearance="minimal"}
+Don’t worry about fit indices yet—this is just to see the pipeline end-to-end.
+:::
+
+------------------------------------------------------------------------
+
+## Visual check: plot the model
+
+```{r}
+#| eval: false
+library(semPlot)
+semPaths(fit_cfa, what = "std", layout = "tree", residuals = FALSE)
+```
+
+*(Plotting is optional—but very helpful for teaching your brain the diagram grammar.)*
+
+------------------------------------------------------------------------
+
+## Common early mistakes (and how to debug)
+
+-   “lavaan ERROR: model is not identified” → go back to **Identify**
+-   “nothing converges” → simplify; check scaling; check data (missing, outliers)
+-   “why are SE huge?” → identification / multicollinearity / small N
+
+::: {.callout-tip appearance="minimal"}
+In this course, debugging starts by asking: **Which workflow step am I in?**
+:::
+
+------------------------------------------------------------------------
+
+## Exercises (Lab 01)
+
+Go to:
+
+-   **`labs/lab01_lavaan-basics.qmd`**
+
+You’ll practice:
+
+-   writing tiny models (`~`, `~~`, `=~`)
+-   fitting with `sem()` / `cfa()`
+-   extracting key output (estimates, standardized, basic fit)
+
+------------------------------------------------------------------------
+
+## Take-home: 3 things
+
+1.  SEM is a **language**: diagrams, equations, syntax\
+2.  SEM is a **workflow**: Specify → Identify → Estimate → Evaluate → Revise/Report\
+3.  lavaan is your **translator** from theory → estimable model
+
+------------------------------------------------------------------------
+
+## Further reading / self-study
+
+-   Revisit the **glossary** in the repo as new terms appear
+-   Optional extras later in the course:
+    -   power/simulation (ex01)
+    -   SAM / MIIVs / factor-score regression (ex04–ex05)
+
+------------------------------------------------------------------------
+
+## References
+
+(Add citations as we stabilize the final reading list for the course website.)

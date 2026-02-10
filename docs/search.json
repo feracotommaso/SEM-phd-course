@@ -3,8 +3,8 @@
     "objectID": "templates/slides-template.html#today",
     "href": "templates/slides-template.html#today",
     "title": "Title of the lecture; Subtitle (optional)",
-    "section": "Today",
-    "text": "Today\n\nPoint 1\nPoint 2\nPoint 3\n\n\n\n\n\n\n\nTip\n\n\nTeaching tip: keep one “workflow map” slide that reappears in every deck."
+    "section": "",
+    "text": "Point 1\nPoint 2\nPoint 3\n\n\n\n\n\n\n\nTip\n\n\n\nTeaching tip: keep one “workflow map” slide that reappears in every deck."
   },
   {
     "objectID": "templates/slides-template.html#learning-objectives",
@@ -32,7 +32,7 @@
     "href": "templates/slides-template.html#exercise",
     "title": "Title of the lecture; Subtitle (optional)",
     "section": "Exercise",
-    "text": "Exercise\n\n\n\n\n\n\nImportant\n\n\nTry it (5–10 min)\n1. Add x4 to the factor (if available) or remove an indicator.\n2. Refit and compare fit measures.\n3. What changes in the standardized loadings?"
+    "text": "Exercise\n\n\n\n\n\n\nImportant\n\n\n\nTry it (5–10 min)\n1. Add x4 to the factor (if available) or remove an indicator.\n2. Refit and compare fit measures.\n3. What changes in the standardized loadings?"
   },
   {
     "objectID": "templates/slides-template.html#common-mistakes",
@@ -2482,7 +2482,7 @@
     "href": "slides/05_ordinal.html#thresholds-1",
     "title": "SEM with ordinal variables",
     "section": "Thresholds (1)",
-    "text": "Thresholds (1)\n\nWe can assume that a discrete variable \\(x\\) (expressed with \\(k\\) ordered categories) represents an approximation of a continuous latent variable \\(\\xi\\), normally distributed with mean 0.\nTherefore, when we observe \\(x = i\\), it means that the true corresponding value \\(\\xi\\) is ranging between two values, i.e. \\[\n\\alpha_{i-1} &lt; \\xi \\leq \\alpha_i\n\\] where \\(\\alpha_0 = - \\infty, \\alpha_1 &lt; \\alpha_2 &lt; \\dots &lt; \\alpha_{k-1}\\) e \\(\\alpha_k = +\\infty\\) are the thresholds\nConsequenlty we will have that, given a discrete ordered variable with \\(k\\) possible values, there are \\(k - 1\\) unknown thresholds."
+    "text": "Thresholds (1)\n\nWe can assume that a discrete variable \\(x\\) (expressed with \\(k\\) ordered categories) represents an approximation of a continuous latent variable \\(\\xi\\), normally distributed with mean 0.\nTherefore, when we observe \\(x = i\\), it means that the true corresponding value \\(\\xi\\) is ranging between two values, i.e.\n\n\\[\n\\alpha_{i-1} &lt; \\xi \\leq \\alpha_i\n\\] where \\(\\alpha_0 = - \\infty, \\alpha_1 &lt; \\alpha_2 &lt; \\dots &lt; \\alpha_{k-1}\\) e \\(\\alpha_k = +\\infty\\) are the thresholds - Consequenlty we will have that, given a discrete ordered variable with \\(k\\) possible values, there are \\(k - 1\\) unknown thresholds."
   },
   {
     "objectID": "slides/05_ordinal.html#thresholds-2",
@@ -2622,7 +2622,7 @@
     "href": "extras/ex90_power_misc.html#more-difficult",
     "title": "Power analysis for path and SEM models",
     "section": "…more difficult",
-    "text": "…more difficult\n\nrm(list = ls())\niter &lt;- 100\nd &lt;- data.frame(exam = rep(NA, iter),\n                M = rep(NA, iter),\n                X = 1:iter)\nfor (i in 1:iter) {\n  # simulate an exam\n  d$exam[i] &lt;- sample(18:30, 1)\n  # calculate mean at each step\n  d$M[i] &lt;- mean(d$exam, na.rm = TRUE)\n}\n\n\nlibrary(ggplot2)\nlibrary(gganimate)\np &lt;- ggplot(d, aes(x = X, y = M)) +\n  geom_point(size = 5, color = \"red\") +\n  geom_line() +\n  theme_bw()\n\npanim &lt;- p +\n  gganimate::transition_reveal(X) +\n  gganimate::shadow_wake(wake_length = 0.1, alpha = FALSE)\n\ngganimate::anim_save(\"../assets/images/power/forimg.gif\", panim)"
+    "text": "…more difficult\n\nrm(list = ls())\niter &lt;- 100\nd &lt;- data.frame(exam = rep(NA, iter),\n                M = rep(NA, iter),\n                X = 1:iter)\nfor (i in 1:iter) {\n  # simulate an exam\n  d$exam[i] &lt;- sample(18:30, 1)\n  # calculate mean at each step\n  d$M[i] &lt;- mean(d$exam, na.rm = TRUE)\n}"
   },
   {
     "objectID": "extras/ex90_power_misc.html#for-loops-for-power-analysis",
@@ -2861,5 +2861,663 @@
     "title": "Power analysis for path and SEM models",
     "section": "Contact",
     "text": "Contact\n\ntommaso.feraco@unipd.it"
+  },
+  {
+    "objectID": "extras/ex90_power_misc.html#more-difficult-1",
+    "href": "extras/ex90_power_misc.html#more-difficult-1",
+    "title": "Power analysis for path and SEM models",
+    "section": "…more difficult",
+    "text": "…more difficult\n\nlibrary(ggplot2)\nlibrary(gganimate)\np &lt;- ggplot(d, aes(x = X, y = M)) +\n  geom_point(size = 5, color = \"red\") +\n  geom_line() +\n  theme_bw()\n\npanim &lt;- p +\n  gganimate::transition_reveal(X) +\n  gganimate::shadow_wake(wake_length = 0.1, alpha = FALSE)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#today-in-the-workflow",
+    "href": "slides/00_welcome_course-map.html#today-in-the-workflow",
+    "title": "Welcome & course map",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\n\n\n\nWelcome deck (today): logistics + course map + how we’ll work\nNext deck (01): workflow + lavaan foundations (from Specify → Identify → Estimate → Evaluate → Revise/Report)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#who-is-this-course-for",
+    "href": "slides/00_welcome_course-map.html#who-is-this-course-for",
+    "title": "Welcome & course map",
+    "section": "Who is this course for?",
+    "text": "Who is this course for?\n\nPsychology PhD students with solid R skills\nYou’ve run regressions/GLMs; you want to model constructs + relations with SEM\nYou’re willing to think in models (not just tests)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#what-youll-be-able-to-do-by-the-end",
+    "href": "slides/00_welcome_course-map.html#what-youll-be-able-to-do-by-the-end",
+    "title": "Welcome & course map",
+    "section": "What you’ll be able to do (by the end)",
+    "text": "What you’ll be able to do (by the end)\n\nTranslate a verbal theory into a diagram and a lavaan model\nEvaluate global fit and local misfit (and respecify responsibly)\nFit and report:\n\npath models / mediation\nCFA and SEM (measurement + structure)\ninvariance (MG-CFA), ordinal SEM, longitudinal and clustered strategies\n\nProduce reproducible reports (Quarto + a reporting checklist)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#course-contents-big-picture",
+    "href": "slides/00_welcome_course-map.html#course-contents-big-picture",
+    "title": "Welcome & course map",
+    "section": "Course contents (big picture)",
+    "text": "Course contents (big picture)\nWe will (hopefully) cover:\n\nlavaan workflow + foundations\n\nPath analysis & mediation (equivalence and interpretation)\n\nModel fit & diagnostics (global vs local; disciplined respecification)\n\nCFA (measurement first; reliability/validity)\n\nFull SEM (measurement + structural part; capstone)\n\nMeasurement invariance (MG-CFA; partial invariance)\n\nOrdinal SEM (thresholds; WLSMV/ULS; ordinal invariance)\n\nMissing/robustness/reporting (FIML/MI; robust SE; write-up)\n\nLongitudinal SEM (growth + invariance over time)\n\nClustered/multilevel strategies (robust SE; two-level CFA)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#what-we-will-not-focus-on-in-live-sessions",
+    "href": "slides/00_welcome_course-map.html#what-we-will-not-focus-on-in-live-sessions",
+    "title": "Welcome & course map",
+    "section": "What we will not focus on (in live sessions)",
+    "text": "What we will not focus on (in live sessions)\n\nEFA (we’ll mention it, but we are not doing an EFA course)\nBayesian SEM (optional extra)\nAdvanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)\n\n\n\n\nIf you need something specific for your project, park it as a “parking lot question”: we’ll map it to the right module (live vs extra)."
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#format-5-mornings-4-hours",
+    "href": "slides/00_welcome_course-map.html#format-5-mornings-4-hours",
+    "title": "Welcome & course map",
+    "section": "Format: 5 mornings × 4 hours",
+    "text": "Format: 5 mornings × 4 hours\nEach morning is split into two 2-hour blocks:\n\nBlock A: concepts + live coding (short, focused)\nBlock B: guided exercises → lab handout (you work; we troubleshoot)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#the-repository-is-the-course",
+    "href": "slides/00_welcome_course-map.html#the-repository-is-the-course",
+    "title": "Welcome & course map",
+    "section": "The repository is the course",
+    "text": "The repository is the course\nSEM-phd-course is a Quarto website + source files:\n\n/slides/ revealjs decks (what you see in class)\n/labs/ hands-on labs (what you do)\n/extras/ self-study modules (what you can revisit)\n/R/ helper functions (fit, plots, reporting)\n\n\n\n\nGoal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting."
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#how-to-use-materials-during-class",
+    "href": "slides/00_welcome_course-map.html#how-to-use-materials-during-class",
+    "title": "Welcome & course map",
+    "section": "How to use materials during class",
+    "text": "How to use materials during class\n\nKeep the slides open (concepts + code snippets)\nWork in the lab file in parallel (copy/adapt code)\nWhen stuck:\n\nidentify where you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)\nbring the smallest reproducible example"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#software-checklist-do-this-before-we-start",
+    "href": "slides/00_welcome_course-map.html#software-checklist-do-this-before-we-start",
+    "title": "Welcome & course map",
+    "section": "Software checklist (do this before we start)",
+    "text": "Software checklist (do this before we start)\n\nR (recent), RStudio\nQuarto\nPackages (minimum):\n\nlavaan, semTools, semPlot, tidyverse, quarto\n\nOptional but useful:\n\npsych, MVN, performance, broom, parameters\n\n\n\npkgs &lt;- c(\"lavaan\",\"semTools\",\"semPlot\",\"tidyverse\")\nto_install &lt;- pkgs[!pkgs %in% rownames(installed.packages())]\nif(length(to_install)) install.packages(to_install)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#ground-rules-so-this-is-actually-useful",
+    "href": "slides/00_welcome_course-map.html#ground-rules-so-this-is-actually-useful",
+    "title": "Welcome & course map",
+    "section": "Ground rules (so this is actually useful)",
+    "text": "Ground rules (so this is actually useful)\n\nMeasurement-first (“two-step mindset”): measure → then relate constructs\n\nFit ≠ truth: use theory + diagnostics; respecify with discipline\n\nPrefer transparent reporting over “hunting for good fit”"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#what-i-need-from-you",
+    "href": "slides/00_welcome_course-map.html#what-i-need-from-you",
+    "title": "Welcome & course map",
+    "section": "What I need from you",
+    "text": "What I need from you\n\nBring a dataset and one research question (even if rough)\nBe ready to:\n\ndraw your model\nstate what would falsify it\naccept that “good fit” can still be a bad model"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#parking-lot-questions",
+    "href": "slides/00_welcome_course-map.html#parking-lot-questions",
+    "title": "Welcome & course map",
+    "section": "Parking lot questions",
+    "text": "Parking lot questions\nIf your question is:\n\nabout your own project’s model → keep it; we’ll connect it to a module\n\nabout R/lavaan syntax → ask immediately\n\nabout advanced variants (Bayesian, latent interactions, MIIVs, etc.) → likely an extra"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#take-home-3-things",
+    "href": "slides/00_welcome_course-map.html#take-home-3-things",
+    "title": "Welcome & course map",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nThis course is about a workflow, not a list of models\n\nWe will treat SEM as measurement + structure, in that order\n\nThe repo is your long-term reference (slides, labs, extras, helpers)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#next",
+    "href": "slides/00_welcome_course-map.html#next",
+    "title": "Welcome & course map",
+    "section": "Next",
+    "text": "Next\nNext deck (01): SEM foundations + workflow + lavaan basics\n→ we start coding immediately.\n\n\n\nOpen the repo, run the package check, and make sure Quarto renders."
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#references",
+    "href": "slides/00_welcome_course-map.html#references",
+    "title": "Welcome & course map",
+    "section": "References",
+    "text": "References\n(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#why-am-i-here",
+    "href": "slides/00_welcome_course-map.html#why-am-i-here",
+    "title": "Welcome & course map",
+    "section": "Why am I here?",
+    "text": "Why am I here?\nI am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:\n\nMeasurement\nMultivariate analyses\nComplex regression models\nLongitudinal analyses\n…"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#today-in-the-workflow",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#today-in-the-workflow",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: SEM language + diagram grammar + the workflow, then first translation to lavaan.\nNext (02): path analysis & mediation (indirect effects, equivalence, interpretation)."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#learning-objectives",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#learning-objectives",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nTranslate a verbal hypothesis into a diagram\nUse the basic SEM “grammar” (variables, errors, arrows, covariances)\nExplain the SEM workflow: Specify → Identify → Estimate → Evaluate → Revise/Report\nWrite and run a minimal model in lavaan (and read the key parts of the output)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-quick-motivation-how-do-you-fit-these",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-quick-motivation-how-do-you-fit-these",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A quick motivation: “how do you fit these?”",
+    "text": "A quick motivation: “how do you fit these?”"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-structural-equation-modeling",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-structural-equation-modeling",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM = Structural Equation Modeling",
+    "text": "SEM = Structural Equation Modeling\nA family of models that lets you:\n\nrepresent hypotheses as a system of relations\n\nwe postulate a data-generating model\nwe evaluate whether this model fits the data or not\n\nwork with measurement error (explicitly)\nmodel means and covariances implied by your theory\n\n\n\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM. Most things you already do (t-tests, regressions, ANOVA) are special cases of SEM.\n\n\n\n\nWhat is so special about SEM?\n\nwe can model latent variables (e.g., ‘invisible constructs’)\nwe can test indirect and reciprocal effects and more\nwe can make diagrams (or PAINTINGS if theory is weak!)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Variance–covariance matrices (the “currency”)",
+    "text": "Variance–covariance matrices (the “currency”)\n\n\n\noptions(digits = 2)\ncov(PoliticalDemocracy[1:7])\n\n    y1   y2   y3   y4  y5   y6   y7\ny1 6.9  6.3  5.8  6.1 5.1  5.7  5.8\ny2 6.3 15.6  5.8  9.5 5.6  9.4  7.5\ny3 5.8  5.8 10.8  6.7 4.9  4.7  7.0\ny4 6.1  9.5  6.7 11.2 5.7  7.4  7.5\ny5 5.1  5.6  4.9  5.7 6.8  5.0  5.8\ny6 5.7  9.4  4.7  7.4 5.0 11.4  6.7\ny7 5.8  7.5  7.0  7.5 5.8  6.7 10.8\n\n\n\nSEM works with matrices\n\n\\(\\boldsymbol{S}\\) observed var-cov\n\\(\\boldsymbol{\\Sigma}\\) true var-cov\n\\(\\boldsymbol{\\hat{\\Sigma}}\\) model-implied var-cov\n\\(\\boldsymbol{\\Sigma}(\\theta)\\)\n\n\nTHE MAIN AIM OF SEM IS TO RECONSTRUCT THE TRUE VARIANCE-COVARIANCE MATRIX"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Classification of variables",
+    "text": "Classification of variables\nVariables are the way those attributes that vary across individuals are operationalized and represented for further data processing. These can be categorized according to many criteria (e.g, dependent/independent…), but in SEM we classify them firstly as:\n\nLatent variables\n\nhypothetical variables that correspond to more or less abstract concepts\nformative or reflective\nexamples are intelligence, anxiety, executive functions, personality traits…\n\nObserved variables\n\nvariables that can be directly observed and measured\nexamples can be weight, height, gender, income…"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Relationships between variables",
+    "text": "Relationships between variables\n\nThe general aim of statistical analysis is to study relationship among variables\nOn the basis of the relationship among the variables, we distinguish two kind of models: symmetrical and asymmetrical."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#regression-model-as-an-sem-special-case",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#regression-model-as-an-sem-special-case",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Regression model (as an SEM special case)",
+    "text": "Regression model (as an SEM special case)\nA familiar form:\n[ y = X+ ]\n\nall variables are manifest\nmeasurement error is only “hidden” in () for endogenous variables"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#from-one-equation-to-a-system",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#from-one-equation-to-a-system",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "From one equation to a system",
+    "text": "From one equation to a system\nSEM often treats your hypothesis as multiple linked equations."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variables-and-errors-be-explicit",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#variables-and-errors-be-explicit",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Variables and errors (be explicit)",
+    "text": "Variables and errors (be explicit)\nSEM forces you to draw/declare:\n\nresidual variances (errors/disturbances)\ncovariances (exogenous covariances; correlated residuals if justified)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-in-one-picture",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-in-one-picture",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM “in one picture”",
+    "text": "SEM “in one picture”\nA full representation (we’ll decode it gradually):"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-assumptions-conceptual-version",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-assumptions-conceptual-version",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM assumptions (conceptual version)",
+    "text": "SEM assumptions (conceptual version)\n\nThe model is confirmatory: you propose it before looking for “fixes”\nThe model must be identified (estimable)\nEstimation relies on distributional assumptions (we’ll talk robustness later)\nMissing data and non-normality are not afterthoughts (deck 06)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-steps-the-workflow",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-steps-the-workflow",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM steps (the workflow)",
+    "text": "SEM steps (the workflow)\n\nModel specification (theory → diagram → equations)\nModel identification (can we estimate the parameters?)\nParameter estimation (choose estimator, get ())\nModel evaluation (global + local diagnostics)\nModel modification / reporting (disciplined, transparent)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-specification",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-specification",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "1) Model specification",
+    "text": "1) Model specification\nWhat is a model\n\nA model is a formal representation of a theory and is composed by a set of parameters that we will estimate.\n\nWhat you must state explicitly:\n\nwhich variables are connected (and in what direction)\nwhich errors/covariances are allowed\nwhich parameters are fixed, free, or constrained"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-identification-intuition",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-identification-intuition",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "2) Model identification (intuition)",
+    "text": "2) Model identification (intuition)\nTo ensure that the number of unknown parameters (\\(t\\)) is not greater than the number of nonredundant elements in the covariance matrix of \\(q\\) observed variables. We can use the following formula:\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\n\n\n\nIf the model is not identified, nothing else matters (no fit, no estimates).\n\n\n\n\n\nJust-identified\n\n\nUnder-identified\n\n\nOver-identified"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#identification-examples-visual",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#identification-examples-visual",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Identification examples (visual)",
+    "text": "Identification examples (visual)\n\n\nJust-identified\n\n\nUnder-identified\n\n\nOver-identified\n\n\n\n\n\nIf the model is not identified, nothing else matters (no fit, no estimates)."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#parameter-estimation-what-software-does",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#parameter-estimation-what-software-does",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "3) Parameter estimation (what software does)",
+    "text": "3) Parameter estimation (what software does)\nTo estimate the model parameters we can use different estimation methods. These aim to estimate the model implied (theoretical) correlation matrix \\(\\boldsymbol{\\Sigma}\\), which is a function of the model parameters, and should hopefully be similar to the observed correlation matrix \\(\\boldsymbol{S}\\).\nSome of the many estimation methods are:\n\nMaximum Likelihood (ML), default in lavaan\nUnweighted Least Squares (ULS)\nGeneralized Least Squares (GLS)\nDiagonally Weighted Least Squares (DWLS), default for ordinal variables in lavaan"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation-preview",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation-preview",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "4) Model evaluation (preview)",
+    "text": "4) Model evaluation (preview)\nIs the model adequate? Are our parameter able to construct a theoretical matrix (\\(\\boldsymbol{\\Sigma}\\)) which is close to the original empirical covariance matrix \\(\\boldsymbol{S}\\)?\nThis is the goal of a good model: reproduce, from a set of theoretical associations/effects (aka covariance matrix), the original covariance matrix.\n\nGlobal fit: is the overall model plausible?\nLocal fit: where does the model misfit?\n\n\n\n\nWe’ll do this properly in deck 03. Today: just remember that fit ≠ truth.\n\n\n\nFormally:\n\\[\nH_0 : \\boldsymbol{\\hat{\\Sigma}}(\\theta) = \\boldsymbol{\\Sigma}\n\\]\nwhere \\(\\boldsymbol{\\Sigma}\\) is the true covariance matrix among model variables, \\(\\theta\\) the parameters vector, and \\(\\boldsymbol{\\hat{\\Sigma}}\\) the reproduced covariance matrix."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-modification-disciplined-respecification",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-modification-disciplined-respecification",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "5) Model modification (disciplined respecification)",
+    "text": "5) Model modification (disciplined respecification)\nAt this point you are ’‘’free’’’ to modify the model based on the results obtained…AND THE THEORY!\n\nmodifications are hypotheses\nmodifications must be explicitly reported: both what you changed and why\navoid overfitting (change only what is strictly needed/justified)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#diagram-grammar-legend",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#diagram-grammar-legend",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Diagram grammar (legend)",
+    "text": "Diagram grammar (legend)\nCommon SEM symbols:"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#where-these-models-show-up-across-the-course",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#where-these-models-show-up-across-the-course",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Where these models show up across the course",
+    "text": "Where these models show up across the course\n(These pictures are “landmarks” you’ll keep seeing.)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#longitudinal-landmarks-later",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#longitudinal-landmarks-later",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Longitudinal landmarks (later)",
+    "text": "Longitudinal landmarks (later)\nPanel / repeated measures:\n\nGrowth / change:"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#bridge-from-diagrams-to-lavaan",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#bridge-from-diagrams-to-lavaan",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Bridge: from diagrams to lavaan",
+    "text": "Bridge: from diagrams to lavaan\nlavaan is mostly a model syntax language:\n\nyou write relations like “y ~ x”\nlavaan estimates the parameters\nyou read estimates + standard errors + fit indices + diagnostics\n\n\n\n\nThink: “diagram ↔︎ equations ↔︎ lavaan syntax” (three representations of the same model)."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#from-lm-to-lavaansem",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#from-lm-to-lavaansem",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "From lm() to lavaan::sem()",
+    "text": "From lm() to lavaan::sem()\nA regression in R:\n\nfit_lm &lt;- lm(y ~ x1 + x2, data = dat)\nsummary(fit_lm)\n\nThe same idea in lavaan (SEM engine):\n\nlibrary(lavaan)\n\nmod &lt;- '\n  y ~ x1 + x2\n'\n\nfit &lt;- sem(mod, data = dat)\nsummary(fit, standardized = TRUE)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#key-lavaan-syntax-operators",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#key-lavaan-syntax-operators",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Key lavaan syntax operators",
+    "text": "Key lavaan syntax operators\n\n~ regression (single-headed arrow)\n~~ (co)variance (double-headed arrow)\n=~ measurement model (factor loading)\n\n\nmod &lt;- '\n  # regression\n  y ~ x1 + x2\n\n  # (co)variances\n  x1 ~~ x2\n  y  ~~ y\n\n  # measurement (example)\n  F =~ y1 + y2 + y3\n'"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-minimal-runnable-example-built-in-data",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-minimal-runnable-example-built-in-data",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A minimal, runnable example (built-in data)",
+    "text": "A minimal, runnable example (built-in data)\n\nlibrary(lavaan)\ndat &lt;- HolzingerSwineford1939\n\nmod_cfa &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\n\nfit_cfa &lt;- cfa(mod_cfa, data = dat)\nsummary(fit_cfa, standardized = TRUE, fit.measures = TRUE)\n\n\n\n\nDon’t worry about fit indices yet—this is just to see the pipeline end-to-end."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#visual-check-plot-the-model",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#visual-check-plot-the-model",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Visual check: plot the model",
+    "text": "Visual check: plot the model\n\nlibrary(semPlot)\nsemPaths(fit_cfa, what = \"std\", layout = \"tree\", residuals = FALSE)\n\n(Plotting is optional—but very helpful for teaching your brain the diagram grammar.)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#common-early-mistakes-and-how-to-debug",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#common-early-mistakes-and-how-to-debug",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Common early mistakes (and how to debug)",
+    "text": "Common early mistakes (and how to debug)\n\n“lavaan ERROR: model is not identified” → go back to Identify\n“nothing converges” → simplify; check scaling; check data (missing, outliers)\n“why are SE huge?” → identification / multicollinearity / small N\n\n\n\n\nIn this course, debugging starts by asking: Which workflow step am I in?"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#exercises-lab-01",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#exercises-lab-01",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Exercises (Lab 01)",
+    "text": "Exercises (Lab 01)\nGo to:\n\nlabs/lab01_lavaan-basics.qmd\n\nYou’ll practice:\n\nwriting tiny models (~, ~~, =~)\nfitting with sem() / cfa()\nextracting key output (estimates, standardized, basic fit)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#take-home-3-things",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#take-home-3-things",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nSEM is a language: diagrams, equations, syntax\n\nSEM is a workflow: Specify → Identify → Estimate → Evaluate → Revise/Report\n\nlavaan is your translator from theory → estimable model"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#further-reading-self-study",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#further-reading-self-study",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Further reading / self-study",
+    "text": "Further reading / self-study\n\nRevisit the glossary in the repo as new terms appear\nOptional extras later in the course:\n\npower/simulation (ex01)\nSAM / MIIVs / factor-score regression (ex04–ex05)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#references",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#references",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "References",
+    "text": "References\n(Add citations as we stabilize the final reading list for the course website.)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Variance–covariance matrices (the “currency”)",
+    "text": "Variance–covariance matrices (the “currency”)\nSEM compares what you observe (S) with what your model implies (Σ(θ)).\n\n(We’ll keep the math light today; we’ll return to fit evaluation later.)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Classification of variables",
+    "text": "Classification of variables\nIn SEM we also have an additional type of classification:\n\nExogenous variables\n\nVariables whose causes lie outside the model; they will be used only as predictors in the model. They do not receive arrows.\nThey are indicated with \\(x\\), if observed, or with \\(\\xi\\), if latent.\n\nEndogenous variables\n\nVariables that are determined by variables within the model (they receive arrows); can be used as predictors or dependent variables in the model.\nThey are indicated with \\(y\\), if observed, or with \\(\\eta\\), if latent."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-2",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-2",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Classification of variables",
+    "text": "Classification of variables\nVariables are the way those attributes that vary across individuals are operationalized and represented for further data processing. These can be categorized according to many criteria (e.g, dependent/independent…), but in SEM we classify them firstly as:\n\nLatent variables\n\nhypothetical variables that correspond to more or less abstract concepts\nformative or reflective\nexamples are intelligence, anxiety, executive functions, personality traits…\n\nObserved variables\n\nvariables that can be directly observed and measured\nexamples can be weight, height, gender, income…"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-3",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-3",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Classification of variables",
+    "text": "Classification of variables\nIn SEM we also have an additional type of classification:\n\nExogenous variables\n\nVariables whose causes lie outside the model; they will be used only as predictors in the model. They do not receive arrows.\nThey are indicated with \\(x\\), if observed, or with \\(\\xi\\), if latent.\n\nEndogenous variables\n\nVariables that are determined by variables within the model (they receive arrows); can be used as predictors or dependent variables in the model.\nThey are indicated with \\(y\\), if observed, or with \\(\\eta\\), if latent.\n\n\nThis brings us to deepen the relationships between variables."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#asymmetrical-relationships",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#asymmetrical-relationships",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Asymmetrical relationships",
+    "text": "Asymmetrical relationships\nX -&gt; Y\n\nVariables are divided into two sets: dependent or response variables and predictors or explanatory variables\nX is the set of explanatory variables, \\(Y\\) is the set of response variables, arrows represents the direction of the hypothesized relationship.\nThese models imply cause-and-effect relationships.\n\nExample\nPeople who study more obtain higher grades."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#symmetrical-relationships",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#symmetrical-relationships",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Symmetrical relationships",
+    "text": "Symmetrical relationships\n\\[\nX_i \\Leftrightarrow Y_j \\quad \\forall i,j\n\\]\n\nThis means that neither a variable causes the other, neither a variable can be considered prior in time to the other; all these relationships are bidirectional.\nThese models do not imply nor consider causality.\n\nExample\nPeople who have higher grades in math have higher grades in art."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#regression-model",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#regression-model",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Regression model",
+    "text": "Regression model\nAsymmetrical relationships are usually tested with regressions!\nAs you remember, regression models can be written, using classical formulation, as the expression below and graphically depicted (getting closer to SEM) like this:"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#more-regression",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#more-regression",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "More regression?",
+    "text": "More regression?\nBut what if we have in mind a more complex pattern of relationships? What if we have more regression models in mind and need to estimate all of them contemporarily?\n\nWhat we need is a system of equations."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#more-regression-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#more-regression-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "More regression?",
+    "text": "More regression?\nThis system can also be drawn with SEM notation, but is actually the same…just better!"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variables-and-errors",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#variables-and-errors",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Variables and errors",
+    "text": "Variables and errors\n\nVariables\n\n\\(x\\) exogenous observed (\\(q\\))\n\\(\\xi\\) exogenous latent (\\(n\\))\n\\(y\\) endogenous observed (\\(p\\))\n\\(\\eta\\) endogenous latent (\\(m\\))\n\nStochastic errors\n\n\\(\\delta\\) measurement errors in \\(x\\)\n\\(\\epsilon\\) measurement errors in \\(y\\)\n\\(\\zeta\\) equation errors in the structural relationship between \\(\\eta\\) and \\(\\xi\\)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-matrices---lavaan-model",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-matrices---lavaan-model",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM matrices - lavaan model",
+    "text": "SEM matrices - lavaan model\n\nParameter matrices\n\n\\(\\boldsymbol{\\Lambda}\\) relationship between latent (\\(\\xi\\) and \\(\\eta\\)) and observed (\\(x\\) and \\(y\\)) [\\((p + q) X (m + n)\\)]\n\\(\\boldsymbol{B}\\) relationship between latent variables [\\((m + n) X (m + n)\\)]\n\nCovariance matrices\n\n\\(Cov\\)(\\(\\zeta\\), \\(\\xi\\)) = \\(\\boldsymbol{\\Psi}\\) matrix [\\((m + n) X (m + n)\\)]\n\\(Cov\\)(\\(\\epsilon\\), \\(\\delta\\)) = \\(\\boldsymbol{\\Theta}\\) matrix [\\((p + q) X (p + q)\\)]"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-equations",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-equations",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM equations",
+    "text": "SEM equations\nThe SEM model in its most general form consists of two parts\n\nThe measurement model\n\n\\(x = \\boldsymbol{\\Lambda}_x\\boldsymbol{\\xi} + \\boldsymbol{\\delta}\\)\n\\(y = \\boldsymbol{\\Lambda}_y\\boldsymbol{\\eta} + \\boldsymbol{\\epsilon}\\)\n\nThe structural model\n\n\\(\\boldsymbol{\\eta} = \\boldsymbol{B\\eta} + \\boldsymbol{\\Gamma\\xi} + \\boldsymbol{\\zeta}\\)\n\\(\\boldsymbol{\\eta} = \\boldsymbol{B(\\eta\\xi} + \\boldsymbol{\\zeta})\\)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-assumptions",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-assumptions",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM assumptions",
+    "text": "SEM assumptions\n\nExpected values of latent variables and stochastic errors are 0:\n\n\\(E\\)(\\(\\eta\\)) = 0\n\\(E\\)(\\(\\xi\\)) = 0\n\\(E\\)(\\(\\zeta\\)) = 0\n\\(E\\)(\\(\\epsilon\\)) = 0\n\\(E\\)(\\(\\delta\\)) = 0\n\nErrors are uncorrelated with latent variables and are mutually uncorrelated:"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-4",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-4",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Classification of variables",
+    "text": "Classification of variables\n latent variables (constructs)\n observed/manifest variables (items, scores)\n\n\n\nMeasurement-first mindset: define/validate constructs first, then relate them."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Relationships between variables",
+    "text": "Relationships between variables\nTwo basic arrow types:\n\n\n\nSingle-headed: regression / directional effect (A → B)\nDouble-headed: covariance/correlation (A ↔︎ B)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-full-representation",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-full-representation",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A full representation",
+    "text": "A full representation\n img credits to dr. Johnny Lin"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphical-representation",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#graphical-representation",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Graphical representation",
+    "text": "Graphical representation\nIf that all seemed difficult and boring, now comes the funny part: colors, figures, and arrows!\nGraphical representation is a key attribute of structural equation modeling:\n\nIt helps understanding the model\nIt helps thinking and reasoning about the model (a priori)\nIt helps writing and formalizing the model\nIt is easy, but few rules must be followed to have a readable model"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphical-representation-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#graphical-representation-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Graphical representation",
+    "text": "Graphical representation\n\nLatent variables are circles or ellipses\n\nManifest/observed variables are square or rectangular boxes\n\nErrors are represented by corresponding letters (or values) only\n\n\\[\n\\delta_1  /  \\epsilon_1  /  \\zeta_1\n\\]"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Graphic relationships",
+    "text": "Graphic relationships\n\nAll model relationships are represented by arrows;\n NO relationship NO arrow... \n\n ...and usually NO arrow NO relationship\nEach arrow is a model parameter and has two indices (e.g., \\(\\beta_{21}\\))\nAsymmetrical relationship are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.\nSymmetrical relationships are represented by double-headed arrows and two indices, one for each variable."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Graphic relationships",
+    "text": "Graphic relationships\nA summary"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#asymmetrical-relationships-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#asymmetrical-relationships-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Asymmetrical relationships",
+    "text": "Asymmetrical relationships"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#symmetrical-relationships-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#symmetrical-relationships-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Symmetrical relationships",
+    "text": "Symmetrical relationships"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphical-errors",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#graphical-errors",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Graphical errors",
+    "text": "Graphical errors\n\nAll errors have a single headed arrow pointing to a variable; all variables, except \\(\\xi\\), may have an error.\nDouble-headed arrows associated to errors indicate error variances."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-full-representation-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-full-representation-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A full representation",
+    "text": "A full representation\n img credits to dr. Johnny Lin"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-identification",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-identification",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "2) Model identification",
+    "text": "2) Model identification\nBasically, we want to know if there is enough information to identify a solution (aka estimate all the unknown parameters).\nA model can be:\n\nUnder-identified: there are MORE parameters to be estimated than elements in the covariance matrix (e.g., \\(X + Y = 10\\))\nJust-identified: the number of parameters to be estimated equals the number of elements in the covariance matrix (\\(df = 0\\))\nOver-identified: there are LESS parameters to be estimated than elements in the covariance matrix (\\(df &gt; 0\\))"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#univariate-regressions",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#univariate-regressions",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Univariate regressions",
+    "text": "Univariate regressions"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#multivariate-regressions",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#multivariate-regressions",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Multivariate regressions",
+    "text": "Multivariate regressions"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#path-analysis",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#path-analysis",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Path analysis",
+    "text": "Path analysis"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#confirmatory-factor-analysis-cfa",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#confirmatory-factor-analysis-cfa",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Confirmatory factor analysis (CFA)",
+    "text": "Confirmatory factor analysis (CFA)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-path-analysis",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-path-analysis",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM path analysis",
+    "text": "SEM path analysis"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#t-test-with-latent-variables",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#t-test-with-latent-variables",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "t test with latent variables",
+    "text": "t test with latent variables"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#cross-lagged-panel-models",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#cross-lagged-panel-models",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Cross-lagged panel models",
+    "text": "Cross-lagged panel models"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#growth-curve-models",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#growth-curve-models",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Growth curve models",
+    "text": "Growth curve models"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#and-much-more",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#and-much-more",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "And much more",
+    "text": "And much more\n…and much more\nTHERE IS EVEN A JOURNAL ON SEM\nStructural Equation Modeling: A Multidisciplinary Journal"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html",
+    "href": "labs/lab01_lavaan-basics.html",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "",
+    "text": "By the end of this lab, you can:\n\nFit observed-variable models in lavaan (no latent variables yet)\nExpress (multi)regression models using lavaan syntax (~, ~~)\nExtract and interpret key output (estimates, SE, standardized estimates)\nTest a simple equality constraint using nested model comparison"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#packages",
+    "href": "labs/lab01_lavaan-basics.html#packages",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Packages",
+    "text": "Packages\n\n\nShow code\nlibrary(lavaan)"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#data",
+    "href": "labs/lab01_lavaan-basics.html#data",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Data",
+    "text": "Data\nWe will use the built-in dataset mtcars (motor trends cars; a classic toy dataset).\n\n\nShow code\ndat &lt;- mtcars\n\n# Keep only variables we use (and make names explicit)\ndat &lt;- dat[, c(\"mpg\", \"qsec\", \"wt\", \"hp\")]\n\n# Quick look\nsummary(dat)\n\n\n      mpg             qsec             wt              hp       \n Min.   :10.40   Min.   :14.50   Min.   :1.513   Min.   : 52.0  \n 1st Qu.:15.43   1st Qu.:16.89   1st Qu.:2.581   1st Qu.: 96.5  \n Median :19.20   Median :17.71   Median :3.325   Median :123.0  \n Mean   :20.09   Mean   :17.85   Mean   :3.217   Mean   :146.7  \n 3rd Qu.:22.80   3rd Qu.:18.90   3rd Qu.:3.610   3rd Qu.:180.0  \n Max.   :33.90   Max.   :22.90   Max.   :5.424   Max.   :335.0  \n\n\n\n\n\n\n\n\nWhy this dataset? It’s small, clean, and lets us practice the SEM workflow with manifest variables only."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#extracting-parameters-programmatically",
+    "href": "labs/lab01_lavaan-basics.html#extracting-parameters-programmatically",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Extracting parameters programmatically",
+    "text": "Extracting parameters programmatically\n\n\nShow code\npe &lt;- parameterEstimates(fit_sem, standardized = TRUE)\nhead(pe, 10)\n\n\n  lhs op rhs      est    se      z pvalue ci.lower ci.upper   std.lv std.all\n1 mpg  ~  wt   -3.878 0.602 -6.438      0   -5.058   -2.697   -3.878  -0.630\n2 mpg  ~  hp   -0.032 0.009 -3.696      0   -0.049   -0.015   -0.032  -0.361\n3 mpg ~~ mpg    6.095 1.524  4.000      0    3.109    9.082    6.095   0.173\n4  wt ~~  wt    0.927 0.000     NA     NA    0.927    0.927    0.927   1.000\n5  wt ~~  hp   42.812 0.000     NA     NA   42.812   42.812   42.812   0.659\n6  hp ~~  hp 4553.965 0.000     NA     NA 4553.965 4553.965 4553.965   1.000\n7 mpg ~1       37.227 1.522 24.459      0   34.244   40.210   37.227   6.276\n8  wt ~1        3.217 0.000     NA     NA    3.217    3.217    3.217   3.341\n9  hp ~1      146.688 0.000     NA     NA  146.688  146.688  146.688   2.174\n   std.nox\n1   -0.654\n2   -0.005\n3    0.173\n4    0.927\n5   42.812\n6 4553.965\n7    6.276\n8    3.217\n9  146.688\n\n\n\nop tells you the operator (~ regression, ~~ variance/covariance, ~1 intercept)\nest is the estimate\nse is the standard error\nz and pvalue are the usual Wald test outputs\nstd.all is the fully standardized estimate\n\n\n\n\n\n\n\nAt this stage, treat p-values as descriptive while you learn the machinery. We’ll talk about modeling strategy and diagnostics later.\n\n\n\n\n\n\n\n\n\nCheck-in: You just used lavaan as a “regression engine”. SEM becomes interesting when we connect multiple equations and allow covariances explicitly."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#compare-to-two-separate-regressions",
+    "href": "labs/lab01_lavaan-basics.html#compare-to-two-separate-regressions",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Compare to two separate regressions",
+    "text": "Compare to two separate regressions\n\n\nShow code\nfit_lm_mpg  &lt;- lm(mpg  ~ wt + hp, data = dat)\nfit_lm_qsec &lt;- lm(qsec ~ wt + hp, data = dat)\n\nsummary(fit_lm_mpg)$coef\n\n\n               Estimate Std. Error   t value     Pr(&gt;|t|)\n(Intercept) 37.22727012 1.59878754 23.284689 2.565459e-20\nwt          -3.87783074 0.63273349 -6.128695 1.119647e-06\nhp          -0.03177295 0.00902971 -3.518712 1.451229e-03\n\n\nShow code\nsummary(fit_lm_qsec)$coef\n\n\n               Estimate  Std. Error   t value     Pr(&gt;|t|)\n(Intercept) 18.82558525 0.671867025 28.019808 1.493575e-22\nwt           0.94153237 0.265896975  3.540967 1.368578e-03\nhp          -0.02730962 0.003794603 -7.196964 6.362107e-08\n\n\n\n\n\n\n\n\nSeparate lm() fits ignore the joint structure (e.g., residual covariance). lavaan makes it explicit."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#a-unconstrained-model",
+    "href": "labs/lab01_lavaan-basics.html#a-unconstrained-model",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4a) Unconstrained model",
+    "text": "4a) Unconstrained model\n(You already fit it as fit_mv.)"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#b-constrained-model",
+    "href": "labs/lab01_lavaan-basics.html#b-constrained-model",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4b) Constrained model",
+    "text": "4b) Constrained model\nLabel the two wt slopes with the same name (e.g., b_wt):\n\n\nShow code\nmod_mv_equal &lt;- '\n  mpg  ~ b_wt*wt + hp\n  qsec ~ b_wt*wt + hp\n\n  wt ~~ hp\n  mpg ~~ qsec\n'\n\nfit_mv_equal &lt;- sem(mod_mv_equal, data = dat, meanstructure = TRUE)\nsummary(fit_mv_equal, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 64 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        14\n  Number of equality constraints                     1\n\n  Number of observations                            32\n\nModel Test User Model:\n                                                      \n  Test statistic                                35.243\n  Degrees of freedom                                 1\n  P-value (Chi-square)                           0.000\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nRegressions:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n  mpg ~                                                                  \n    wt      (b_wt)    0.524    0.248     2.114    0.035    0.524    0.082\n    hp               -0.073    0.011    -6.762    0.000   -0.073   -0.805\n  qsec ~                                                                 \n    wt      (b_wt)    0.524    0.248     2.114    0.035    0.524    0.298\n    hp               -0.023    0.004    -6.378    0.000   -0.023   -0.932\n\nCovariances:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n  wt ~~                                                                  \n    hp               42.812    8.643     4.953    0.000   42.812    0.659\n .mpg ~~                                                                 \n   .qsec             -0.416    0.774    -0.537    0.591   -0.416   -0.095\n\nIntercepts:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n   .mpg              29.136    1.766    16.502    0.000   29.136    4.751\n   .qsec             19.594    0.645    30.368    0.000   19.594   11.579\n    wt                3.217    0.170    18.898    0.000    3.217    3.341\n    hp              146.687   11.929    12.296    0.000  146.687    2.174\n\nVariances:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n   .mpg              16.266    4.066     4.000    0.000   16.266    0.432\n   .qsec              1.168    0.292     4.000    0.000    1.168    0.408\n    wt                0.927    0.209     4.440    0.000    0.927    1.000\n    hp             4553.971    0.081 56034.919    0.000 4553.971    1.000"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#c-compare-nested-models",
+    "href": "labs/lab01_lavaan-basics.html#c-compare-nested-models",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4c) Compare nested models",
+    "text": "4c) Compare nested models\n\n\nShow code\nanova(fit_mv, fit_mv_equal)\n\n\n\nChi-Squared Difference Test\n\n             Df    AIC    BIC  Chisq Chisq diff  RMSEA Df diff Pr(&gt;Chisq)    \nfit_mv        0 698.87 719.40  0.000                                         \nfit_mv_equal  1 732.12 751.17 35.243     35.243 1.0345       1  2.911e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nInterpretation questions\n\nIf the constrained model fits significantly worse, what does that imply?\nIf there is little/no difference, what does that imply?\nWhich model would you prefer and why (think theory + parsimony)?\n\n\n\n\n\n\n\nWe’ll later discuss when χ² difference tests are appropriate, and what changes under robust estimators."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#what-you-should-take-away",
+    "href": "labs/lab01_lavaan-basics.html#what-you-should-take-away",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "What you should take away",
+    "text": "What you should take away\n\nlavaan models are written with a small “grammar”: ~, ~~, ~1 (and later =~)\nEven with manifest variables only, SEM lets you model systems of equations and covariances\nEquality constraints are easy: reuse parameter labels"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#whats-next",
+    "href": "labs/lab01_lavaan-basics.html#whats-next",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "What’s next",
+    "text": "What’s next\n\nIn the next lecture we move from “multivariate regression” to path models and mediation\nYou will reuse the same syntax you practiced today (plus parameter labels for effects)"
+  },
+  {
+    "objectID": "templates/slides-template.html",
+    "href": "templates/slides-template.html",
+    "title": "Title of the lecture; Subtitle (optional)",
+    "section": "",
+    "text": "Point 1\nPoint 2\nPoint 3\n\n\n\n\n\n\n\nTip\n\n\n\nTeaching tip: keep one “workflow map” slide that reappears in every deck."
   }
 ]

@@ -33,7 +33,6 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 - Path analysis — an example
 - Power for model selection
 
----
 
 ## Power
 
@@ -51,8 +50,6 @@ It usually depends on:
 
 If we do not have the power, our results are inconclusive and estimates, in case we reject $H_0$, inflated.
 
----
-
 ## Calculating the power
 
 For power calculations we can:
@@ -63,8 +60,6 @@ For power calculations we can:
 - [...]
 
 ### **Simulate data!**
-
----
 
 ## Calculating power for SEM
 
@@ -84,8 +79,6 @@ In a SEM framework there are many ways to calculate power via simulation. We wil
 
 Or you can apply rules of thumb that recommend either absolute minimum sample sizes (e.g., $N = 100$ or $200$; Boomsma, 1982, 1985) or sample sizes based on model complexity (e.g., $n = 5$–$10$ per estimated parameter; Bentler & Chou, 1987; $n = 3$–$6$ per variable; Cattell, 1978) **BUT, NO, PLEASE!**
 
----
-
 ## `for` loops
 
 A fundamental skill that you should possess is doing `for` (or `while`) cycles in `R`. This is crucial for estimating power via simulation, but also for many other ordinary analyses.
@@ -93,8 +86,6 @@ A fundamental skill that you should possess is doing `for` (or `while`) cycles i
 ::: {.center}
 ![](../assets/images/power/for.png){width=80%}
 :::
-
----
 
 ## What you can do
 
@@ -135,8 +126,6 @@ for (i in iter) {
 :::
 :::
 
----
-
 ## ...more difficult
 
 ```{r}
@@ -154,6 +143,8 @@ for (i in 1:iter) {
 }
 ```
 
+## ...more difficult
+
 ```{r}
 #| eval: false
 #| echo: true
@@ -168,17 +159,17 @@ p <- ggplot(d, aes(x = X, y = M)) +
 panim <- p +
   gganimate::transition_reveal(X) +
   gganimate::shadow_wake(wake_length = 0.1, alpha = FALSE)
+```
 
+```{r}
+#| eval: false
+#| echo: false
 gganimate::anim_save("../assets/images/power/forimg.gif", panim)
 ```
 
 ::: {.center}
-![](../assets/images/power/forimg.gif){width=55%}
+![](../assets/images/forimg.gif){width=55%}
 :::
-
-<!-- original output file name in Rnw: imgs/forimg.gif -->
-
----
 
 ## `for` loops for power analysis
 
@@ -217,8 +208,6 @@ mean(p < .05) # calculate power
 
 You can do the same thing with any model (`lm`, `glm`, `m-clust`, meta-analysis...).
 
----
-
 ## The question
 
 Does adaptability predict academic achievement?
@@ -231,8 +220,6 @@ Does adaptability predict academic achievement?
 ![](../assets/images/model2.png){width=95%}
 :::
 :::
-
----
 
 ## A simple association
 
@@ -273,8 +260,6 @@ mean(p < .05)  # calculate power
 mean(b > .15)  # ...
 ```
 
----
-
 ## Things are not so easy in the real world
 
 There are too many things that are important for achievement to ignore them!
@@ -309,8 +294,6 @@ colMeans(p < .05)                       # power for each effect
 mean(rowSums(p[, 2:5] < .05) == 4)      # power for all effects together
 ```
 
----
-
 ## and finally a path
 
 However, we know that all these variables interact and we also have a hypothetical pattern of associations that suggests that adaptability has no direct link to achievement. Adaptability is associated with achievement only through the mediation of emotions, self-efficacy, and self-regulation.
@@ -334,8 +317,6 @@ ad_sr := ar*sr
 
 "
 ```
-
----
 
 ## ...and its power
 
@@ -369,16 +350,12 @@ mean(rowSums(ps[, c("se", "sr")] < .01) == 2)
 `QUESTIONS? COMMENTS?`
 :::
 
----
-
 ## Simulate from the process and not the correlation matrix
 
 We simulated the covariance matrix directly from a correlation matrix.
 
 - This might be useless (you could make a meta-sem)
 - You understand less what’s going on behind the data
-
----
 
 ## simulateData() function
 
@@ -397,8 +374,6 @@ simM <- "
 d <- simulateData(simM, sample.nobs = N)
 head(d)
 ```
-
----
 
 ## and put it in the loop
 
@@ -423,8 +398,6 @@ for (i in 1:iter) {
 ::: {.center}
 `QUESTIONS? COMMENTS?`
 :::
-
----
 
 ## Iterate with a `while` loop
 
@@ -453,8 +426,6 @@ while (power_at_n[k-1] < 0.80) { # Until power_at_n reaches 0.80, we continue
 }
 ```
 
----
-
 ## Results
 
 ```{r}
@@ -466,14 +437,10 @@ abline(h = 0.80, col = "red")
 <!-- In the original deck this was an animation (imgs/gif/p0001.png ... imgs/gif/p0100.png). -->
 <!-- You can replace this slide with a GIF stored in ../assets/images/power/ (e.g., power_curve.gif). -->
 
----
-
 ## Model comparison power?
 
 The same concepts of power for statistical significance can be applied to every analysis and statistics. It might be interesting for you to compare alternative models (e.g., hierarchical vs oblique model).  
 How to do it is pretty straightforward.
-
----
 
 ## The theoretical model
 
@@ -520,8 +487,6 @@ corrplot::corrplot(ct, tl.cex = .7)
 ```
 :::
 :::
-
----
 
 ## Simulate
 
@@ -598,8 +563,6 @@ for (i in 1:iter) {
 :::
 :::
 
----
-
 ## Results
 
 ```{r}
@@ -617,11 +580,7 @@ sum(is.na(fit[, 1]))
 `QUESTIONS? COMMENTS?`
 :::
 
----
-
 ## Part II — Miscellaneous topics
-
----
 
 ## Outline
 
@@ -629,8 +588,6 @@ sum(is.na(fit[, 1]))
 - Bayesian SEM
 - Fit indices
 - More
-
----
 
 ## Missing values in `lavaan`
 
@@ -656,8 +613,6 @@ You can also set standard errors with the `se` argument:
 #| eval: false
 fit <- sem(m, data = d, se = "robust")
 ```
-
----
 
 ## NA example
 
@@ -685,8 +640,6 @@ socialComparison ~ peerPressure + socialMedia
 "
 ```
 
----
-
 ## Results with missing data
 
 ```{r}
@@ -695,8 +648,6 @@ fit <- sem(m, d)
 summary(fit, std = TRUE)
 ```
 
----
-
 ## Results with fiml imputation
 
 ```{r}
@@ -704,8 +655,6 @@ summary(fit, std = TRUE)
 fitna <- sem(m, d, missing = "fiml")
 summary(fitna, std = TRUE)
 ```
-
----
 
 ## Estimates comparison
 
@@ -723,14 +672,10 @@ names(pt)[c(4, 6)] <- "||"
 knitr::kable(pt)
 ```
 
----
-
 ## Bayesian SEM
 
 If you are interested in using Bayesian analyses, this can also be applied to the SEM framework.  
 This is not the place where we will learn Bayesian analysis, but let's see how to code it using `blavaan`.
-
----
 
 ## `blavaan`
 
@@ -760,16 +705,12 @@ model <- '
 bfit <- bsem(model, data = PoliticalDemocracy)
 ```
 
----
-
 ## Results
 
 ```{r}
 #| eval: false
 summary(bfit)
 ```
-
----
 
 ## Priors
 
@@ -793,8 +734,6 @@ tau    = "normal(0,1.5)"    # threshold
 mydp <- dpriors(lambda = "normal(1,2)")
 ```
 
----
-
 ## Priors for individual parameters
 
 The priors we just saw are used to set the same prior to all the parameters of a kind (e.g., all loadings).  
@@ -812,8 +751,6 @@ HS.model <- '
 
 HSbfit <- bsem(HS.model, data = HolzingerSwineford1939)
 ```
-
----
 
 ## Full results
 
@@ -838,13 +775,9 @@ abline(v = median(sp[, "dem60~ind60"]))
 :::
 :::
 
----
-
 ## More about fit indices
 
 The story about fit indices does not finish where we said. There is much more and much more is still going on.
-
----
 
 ## Should we abandon predefined cut-offs?
 
@@ -855,9 +788,6 @@ The story about fit indices does not finish where we said. There is much more an
 Groskurth et al. (2023): <https://doi.org/10.3758/s13428-023-02193-3>  
 Fit indices do not only depend on model fit/misfit, but also on intrinsic characteristics of the models/analysis.
 
-<!-- original figure name in Rnw: imgs/abandon -->
-
----
 
 ## Dynamic fit indices
 
@@ -867,8 +797,6 @@ Fit indices do not only depend on model fit/misfit, but also on intrinsic charac
 
 Dynamic shiny app: <https://www.dynamicfit.app/connect/>
 
----
-
 ## Dynamic fit indices
 
 ::: {.center}
@@ -876,10 +804,6 @@ Dynamic shiny app: <https://www.dynamicfit.app/connect/>
 :::
 
 McNeish & Wolf (2023): <https://doi.org/10.1037/met0000425>
-
-<!-- original figure name in Rnw: imgs/dynamicresults -->
-
----
 
 ## Random materials
 

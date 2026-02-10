@@ -1,0 +1,277 @@
+---
+title: "Lab 01 — lavaan basics with observed variables"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+# Helper: set this to TRUE when you want the instructor version
+SHOW <- isTRUE(params$show_solutions)
+```
+
+# Goals
+
+By the end of this lab, you can:
+
+- Fit **observed-variable** models in **lavaan** (no latent variables yet)
+- Express (multi)regression models using lavaan syntax (`~`, `~~`)
+- Extract and interpret key output (estimates, SE, standardized estimates)
+- Test a simple **equality constraint** using nested model comparison
+
+# Setup
+
+## Packages
+
+```{r}
+library(lavaan)
+```
+
+## Data
+
+We will use the built-in dataset `mtcars` (motor trends cars; a classic toy dataset).
+
+```{r}
+dat <- mtcars
+
+# Keep only variables we use (and make names explicit)
+dat <- dat[, c("mpg", "qsec", "wt", "hp")]
+
+# Quick look
+summary(dat)
+```
+
+::: {.callout-note appearance="minimal"}
+Why this dataset? It’s small, clean, and lets us practice the SEM workflow with **manifest variables only**.
+:::
+
+# Exercise 1 — A regression in `lm()`
+
+Fit a standard multiple regression predicting **miles per gallon** (`mpg`) from:
+
+- car weight (`wt`)
+- horsepower (`hp`)
+
+```{r}
+fit_lm <- lm(mpg ~ wt + hp, data = dat)
+summary(fit_lm)
+```
+
+**Questions**
+
+1. What is the direction of the effect of `wt` on `mpg`?
+2. What is the direction of the effect of `hp` on `mpg`?
+3. Roughly, how much variance is explained?
+
+::: {.callout-tip appearance="minimal"}
+Keep this as your “reference”: we’ll reproduce the same model in lavaan.
+:::
+
+# Exercise 2 — The same regression in lavaan
+
+In lavaan, you write a model as a *string*.
+
+```{r}
+mod_sem <- '
+  mpg ~ wt + hp
+'
+
+fit_sem <- sem(mod_sem, data = dat, meanstructure = TRUE)
+
+summary(fit_sem, standardized = TRUE)
+```
+
+**Tasks**
+
+1. Find the regression coefficients for `wt` and `hp`. Do they match `lm()`?
+2. Find the intercept for `mpg` (lavaan reports it explicitly when `meanstructure = TRUE`).
+3. Find the residual variance of `mpg`.
+
+## Extracting parameters programmatically
+
+```{r}
+pe <- parameterEstimates(fit_sem, standardized = TRUE)
+head(pe, 10)
+```
+
+- `op` tells you the operator (`~` regression, `~~` variance/covariance, `~1` intercept)
+- `est` is the estimate
+- `se` is the standard error
+- `z` and `pvalue` are the usual Wald test outputs
+- `std.all` is the fully standardized estimate
+
+::: {.callout-warning appearance="minimal"}
+At this stage, treat p-values as *descriptive* while you learn the machinery. We’ll talk about modeling strategy and diagnostics later.
+:::
+
+::: {.callout-note appearance="minimal"}
+**Check-in:** You just used lavaan as a “regression engine”. SEM becomes interesting when we connect multiple equations and allow covariances explicitly.
+:::
+
+# Exercise 3 — Multivariate regression (two outcomes)
+
+Now predict **two outcomes** from the same predictors:
+
+- `mpg ~ wt + hp`
+- `qsec ~ wt + hp`
+
+And allow:
+
+- the predictors to covary (`wt ~~ hp`)
+- the residuals of the two outcomes to covary (`mpg ~~ qsec`)
+
+```{r}
+mod_mv <- '
+  # regressions (two outcomes)
+  mpg  ~ wt + hp
+  qsec ~ wt + hp
+
+  # covariance among predictors (exogenous variables)
+  wt ~~ hp
+
+  # residual covariance among outcomes (endogenous disturbances)
+  mpg ~~ qsec
+'
+
+fit_mv <- sem(mod_mv, data = dat, meanstructure = TRUE)
+summary(fit_mv, standardized = TRUE)
+```
+
+**Questions**
+
+1. Why is `wt ~~ hp` a reasonable parameter here?
+2. What does `mpg ~~ qsec` represent *in this model* (hint: both have predictors)?
+3. Compare the regression estimates for `mpg` with Exercise 2. Do they change? Why/why not?
+
+## Compare to two separate regressions
+
+```{r}
+fit_lm_mpg  <- lm(mpg  ~ wt + hp, data = dat)
+fit_lm_qsec <- lm(qsec ~ wt + hp, data = dat)
+
+summary(fit_lm_mpg)$coef
+summary(fit_lm_qsec)$coef
+```
+
+::: {.callout-tip appearance="minimal"}
+Separate `lm()` fits ignore the *joint* structure (e.g., residual covariance). lavaan makes it explicit.
+:::
+
+# Exercise 4 — A simple equality constraint
+
+Test whether the effect of `wt` is *the same* for both outcomes (`mpg` and `qsec`).
+
+## 4a) Unconstrained model
+
+(You already fit it as `fit_mv`.)
+
+## 4b) Constrained model
+
+Label the two `wt` slopes with the same name (e.g., `b_wt`):
+
+```{r}
+mod_mv_equal <- '
+  mpg  ~ b_wt*wt + hp
+  qsec ~ b_wt*wt + hp
+
+  wt ~~ hp
+  mpg ~~ qsec
+'
+
+fit_mv_equal <- sem(mod_mv_equal, data = dat, meanstructure = TRUE)
+summary(fit_mv_equal, standardized = TRUE)
+```
+
+## 4c) Compare nested models
+
+```{r}
+anova(fit_mv, fit_mv_equal)
+```
+
+**Interpretation questions**
+
+1. If the constrained model fits significantly worse, what does that imply?
+2. If there is little/no difference, what does that imply?
+3. Which model would you prefer *and why* (think theory + parsimony)?
+
+::: {.callout-note appearance="minimal"}
+We’ll later discuss when χ² difference tests are appropriate, and what changes under robust estimators.
+:::
+
+# Exercise 5 — Reading model structure (sanity checks)
+
+Use `lavInspect()` to view the sample covariances and the model-implied covariances.
+
+```{r}
+S <- lavInspect(fit_mv, "sampstat")$cov
+Sigma_hat <- fitted(fit_mv)$cov
+
+S
+Sigma_hat
+```
+
+**Questions**
+
+1. Are the matrices the same? Should they be?
+2. Which parts of the model influence the off-diagonal elements of `Sigma_hat`?
+
+# Wrap-up
+
+## What you should take away
+
+- lavaan models are written with a small “grammar”: `~`, `~~`, `~1` (and later `=~`)
+- Even with manifest variables only, SEM lets you model **systems** of equations and covariances
+- Equality constraints are easy: **reuse parameter labels**
+
+## What’s next
+
+- In the next lecture we move from “multivariate regression” to **path models and mediation**
+- You will reuse the same syntax you practiced today (plus parameter labels for effects)
+
+---
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) {
+  cat("Instructor notes\n")
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  # Exercise 2: verify lm vs lavaan coefficients
+  b_lm <- coef(fit_lm)
+  pe2 <- subset(parameterEstimates(fit_sem), op == "~" & lhs == "mpg")
+  list(lm = b_lm, lavaan = pe2[, c("rhs","est","se","pvalue")])
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  # Exercise 4: show constrained slope estimate
+  subset(parameterEstimates(fit_mv_equal, standardized = TRUE),
+         op == "~" & rhs == "wt")[, c("lhs","rhs","est","se","pvalue","std.all")]
+}
+```

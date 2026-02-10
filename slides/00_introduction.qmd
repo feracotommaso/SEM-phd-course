@@ -3,23 +3,32 @@ title: "Introducing the introduction"
 subtitle: "Structural Equation Modeling"
 author: "Tommaso Feraco"
 date: "Doctoral School in Psychological Sciences • University of Padova"
-bibliography: ../refs/references.bib
-csl: ../refs/apa7.csl
 format:
   revealjs:
+    code-line-numbers: false
     slide-number: c/t
     self-contained: true
+
+    # Keep your colleague's defaults
     code-fold: false
+    code-summary: "Show code"
     code-overflow: wrap
     theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
-    include-in-header: ../assets/slidesheader.html
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
 execute:
   echo: true
+  output: true
   warning: false
   message: false
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ```{r}

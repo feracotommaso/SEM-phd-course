@@ -288,7 +288,8 @@ cat(c("[...]", temp[62:79], "[...]", "[...]"), sep = "\n")
 
 - We can assume that a discrete variable $x$ (expressed with $k$ ordered categories) represents an approximation of a continuous latent variable $\xi$, normally distributed with mean 0.
 - Therefore, when we observe $x = i$, it means that the true corresponding value $\xi$ is ranging between two values, i.e.
-  $$
+
+$$
 \alpha_{i-1} < \xi \leq \alpha_i
 $$
   where $\alpha_0 = - \infty, \alpha_1 < \alpha_2 < \dots < \alpha_{k-1}$ e $\alpha_k = +\infty$ are the thresholds
@@ -431,12 +432,3 @@ kbl(pt) %>%
 
 - Svetina et al. (doi:10.1080/10705511.2019.1602776) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data 
 - Enrico Perinelli held a `psicostat` meeting on the topic following Svetina et al.'s code
-
-
-## Contacts
-
-**tommaso.feraco@unipd.it**
-
-![](../assets/images/logoR.png){width="2.3cm"}
-![](../assets/images/knitr.png){width="2.3cm"}
-![](../assets/images/logolatex.png){width="2cm"}

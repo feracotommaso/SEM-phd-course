@@ -1,0 +1,213 @@
+---
+title: "Welcome & course map"
+subtitle: "Structural Equation Modeling (SEM) • PhD Doctoral School"
+author: "Tommaso Feraco"
+date: "University of Padova • Psychological Sciences"
+format:
+  revealjs:
+    slide-number: c/t
+    code-line-numbers: false
+    code-fold: false
+    code-summary: "Show code"
+    code-overflow: wrap
+
+    # Shared course look
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+options(digits = 2)
+```
+
+## Today in the workflow
+
+::: {.callout-note appearance="minimal"}
+**Welcome deck (today):** logistics + course map + how we’ll work  
+**Next deck (01):** workflow + lavaan foundations (from *Specify → Identify → Estimate → Evaluate → Revise/Report*)
+:::
+
+---
+
+## Who is this course for?
+
+- Psychology PhD students with **solid R skills**
+- You’ve run regressions/GLMs; you want to **model constructs + relations** with SEM
+- You’re willing to think in **models** (not just tests)
+
+---
+
+## Why am I here?
+
+I am convinced that SEM is a fundamental tool for research in psychology
+and most, if not all, researchers in this area should know it. Indeed,
+it is key for many aspects of your research:
+
+-   Measurement
+-   Multivariate analyses
+-   Complex regression models
+-   Longitudinal analyses
+-   ...
+
+--- 
+
+## What you’ll be able to do (by the end)
+
+- Translate a verbal theory into a **diagram** and a **lavaan model**
+- Evaluate **global fit** *and* **local misfit** (and respecify responsibly)
+- Fit and report:
+  - path models / mediation
+  - CFA and SEM (measurement + structure)
+  - invariance (MG-CFA), ordinal SEM, longitudinal and clustered strategies
+- Produce **reproducible reports** (Quarto + a reporting checklist)
+
+---
+
+## Course contents (big picture)
+
+We will (hopefully) cover:
+
+1. lavaan workflow + foundations  
+2. Path analysis & mediation (equivalence and interpretation)  
+3. Model fit & diagnostics (global vs local; disciplined respecification)  
+4. CFA (measurement first; reliability/validity)  
+5. Full SEM (measurement + structural part; capstone)  
+6. Measurement invariance (MG-CFA; partial invariance)  
+7. Ordinal SEM (thresholds; WLSMV/ULS; ordinal invariance)  
+8. Missing/robustness/reporting (FIML/MI; robust SE; write-up)  
+9. Longitudinal SEM (growth + invariance over time)  
+10. Clustered/multilevel strategies (robust SE; two-level CFA)
+
+---
+
+## What we will *not* focus on (in live sessions)
+
+- EFA (we’ll mention it, but we are **not** doing an EFA course)
+- Bayesian SEM (optional extra)
+- Advanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)
+
+::: {.callout-tip appearance="minimal"}
+If you need something specific for your project, park it as a “parking lot question”: we’ll map it to the right module (live vs extra).
+:::
+
+---
+
+## Format: 5 mornings × 4 hours
+
+Each morning is split into **two 2-hour blocks**:
+
+- **Block A:** concepts + live coding (short, focused)
+- **Block B:** guided exercises → lab handout (you work; we troubleshoot)
+
+---
+
+## The repository is the course
+
+**SEM-phd-course** is a Quarto website + source files:
+
+- `/slides/` revealjs decks (what you see in class)
+- `/labs/` hands-on labs (what you do)
+- `/extras/` self-study modules (what you can revisit)
+- `/R/` helper functions (fit, plots, reporting)
+
+::: {.callout-note appearance="minimal"}
+Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting.
+:::
+
+---
+
+## How to use materials during class
+
+1. Keep the **slides** open (concepts + code snippets)
+2. Work in the **lab** file in parallel (copy/adapt code)
+3. When stuck:
+   - identify *where* you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)
+   - bring the smallest reproducible example
+
+---
+
+## Software checklist (do this before we start)
+
+- R (recent), RStudio
+- Quarto
+- Packages (minimum):
+  - `lavaan`, `semTools`, `semPlot`, `tidyverse`, `quarto`
+- Optional but useful:
+  - `psych`, `MVN`, `performance`, `broom`, `parameters`
+
+```{r}
+#| label: pkg-check
+#| eval: false
+pkgs <- c("lavaan","semTools","semPlot","tidyverse")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if(length(to_install)) install.packages(to_install)
+```
+
+---
+
+## Ground rules (so this is actually useful)
+
+- **Measurement-first (“two-step mindset”)**: measure → then relate constructs  
+- **Fit ≠ truth**: use theory + diagnostics; respecify with discipline  
+- Prefer **transparent reporting** over “hunting for good fit”
+
+---
+
+## What I need from you
+
+- Bring a dataset and one research question (even if rough)
+- Be ready to:
+  - draw your model
+  - state *what would falsify it*
+  - accept that “good fit” can still be a bad model
+
+---
+
+## Parking lot questions
+
+If your question is:
+
+- **about your own project’s model** → keep it; we’ll connect it to a module  
+- **about R/lavaan syntax** → ask immediately  
+- **about advanced variants** (Bayesian, latent interactions, MIIVs, etc.) → likely an *extra*
+
+---
+
+## Take-home: 3 things
+
+1. This course is about a **workflow**, not a list of models  
+2. We will treat SEM as **measurement + structure**, in that order  
+3. The repo is your **long-term reference** (slides, labs, extras, helpers)
+
+---
+
+## Next
+
+**Next deck (01):** SEM foundations + workflow + lavaan basics  
+→ we start coding immediately.
+
+::: {.callout-note appearance="minimal"}
+Open the repo, run the package check, and make sure Quarto renders.
+:::
+
+---
+
+## References
+
+(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)
