@@ -2,7 +2,7 @@
 title: "Structural Equation Modelling in Psychological Sciences"
 ---
 
-![](assets/images/psicostatLogo.png){width=220px}
+![](assets/images/psicostatLogo.png){width=100px}
 
 Welcome! This repository contains **slides (Quarto revealjs)**, **hands-on labs**, and **extras** for self-study.
 

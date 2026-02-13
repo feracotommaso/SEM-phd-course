@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Tommaso Feraco">
-  <title>SEM-PhD – Welcome &amp; course map</title>
+  <title>SEM-PhD – Path analysis &amp; mediation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -195,8 +195,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="../assets/images/psicostatLogo.png" data-background-opacity="0.15" data-background-size="contain" class="quarto-title-block center">
-  <h1 class="title">Welcome &amp; course map</h1>
-  <p class="subtitle">Structural Equation Modeling (SEM) • PhD Doctoral School</p>
+  <h1 class="title">Path analysis &amp; mediation</h1>
+  <p class="subtitle">Observed-variable SEM (no latent variables yet)</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -209,187 +209,312 @@ Tommaso Feraco
 </section>
 <section id="today-in-the-workflow" class="slide level2">
 <h2>Today in the workflow</h2>
+<p><strong>Specify → Identify → Estimate → Evaluate → Revise/Report</strong></p>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p><strong>Welcome deck (today):</strong> logistics + course map + how we’ll work<br>
-<strong>Next deck (01):</strong> workflow + lavaan foundations (from <em>Specify → Identify → Estimate → Evaluate → Revise/Report</em>)</p>
+<p><strong>Today:</strong> observed-variable <strong>path models</strong> and <strong>mediation</strong> (direct, indirect, total effects) + equivalence/pitfalls.<br>
+<strong>Next (03):</strong> model fit &amp; diagnostics (global vs local, residuals, MI, disciplined respecification).</p>
 </div>
 </div>
 </div>
 </section>
-<section id="who-is-this-course-for" class="slide level2">
-<h2>Who is this course for?</h2>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<p>By the end of this session you should be able to:</p>
 <ul>
-<li>Psychology PhD students with <strong>solid R skills</strong></li>
-<li>You’ve run regressions/GLMs; you want to <strong>model constructs + relations</strong> with SEM</li>
-<li>You’re willing to think in <strong>models</strong> (not just tests)</li>
+<li>Write a path model as a <strong>system of regressions</strong></li>
+<li>Define <strong>direct</strong>, <strong>indirect</strong>, and <strong>total</strong> effects (and compute them in lavaan)</li>
+<li>Explain why indirect effects have <strong>non-normal sampling distributions</strong></li>
+<li>Recognize <strong>just-identified</strong> path models (why “fit” can be uninformative)</li>
+<li>Explain (and fear, a little) <strong>model equivalence</strong> and causal interpretation limits</li>
 </ul>
 </section>
-<section id="why-am-i-here" class="slide level2">
-<h2>Why am I here?</h2>
-<p>I am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:</p>
+<section id="path-analysis" class="slide level2">
+<h2>Path analysis</h2>
+<p>A <strong>path model</strong> is a set of linear regressions estimated <em>jointly</em>, with an explicit covariance structure and with at least one variable working as <strong>mediator</strong>.</p>
+<p><img data-src="../assets/images/path.jpg" style="height:8.2cm"></p>
+<p>As usual, depicting the models is always the best way to understand our models.</p>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Actually, this looks like a full SEM. Why? And why it isn’t, given the way latent variables should be represented?.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="from-effects-to-equations" class="slide level2">
+<h2>From “effects” to equations</h2>
+<p>A path diagram is shorthand for a system like:</p>
+<p><span class="math display">\[
+\begin{aligned}
+M &amp;= i_M + aX + \varepsilon_M\\
+Y &amp;= i_Y + c'X + bM + \varepsilon_Y
+\end{aligned}
+\]</span></p>
 <ul>
-<li>Measurement</li>
-<li>Multivariate analyses</li>
-<li>Complex regression models</li>
-<li>Longitudinal analyses</li>
-<li>…</li>
+<li>(X) exogenous (predictor)</li>
+<li>(M) mediator (endogenous)</li>
+<li>(Y) outcome (endogenous)</li>
 </ul>
 </section>
-<section id="what-youll-be-able-to-do-by-the-end" class="slide level2">
-<h2>What you’ll be able to do (by the end)</h2>
+<section id="mediation-three-effects" class="slide level2">
+<h2>Mediation: three effects</h2>
+<p><span class="math display">\[
+\text{Indirect} = ab \qquad
+\text{Direct} = c' \qquad
+\text{Total} = c = c' + ab
+\]</span></p>
+<p>Interpretation (linear, continuous case):</p>
 <ul>
-<li>Translate a verbal theory into a <strong>diagram</strong> and a <strong>lavaan model</strong></li>
-<li>Evaluate <strong>global fit</strong> <em>and</em> <strong>local misfit</strong> (and respecify responsibly)</li>
-<li>Fit and report:
+<li>(a): expected change in (M) per unit change in (X)</li>
+<li>(b): expected change in (Y) per unit change in (M) (holding (X) fixed)</li>
+<li>(c’): remaining effect of (X) on (Y) after (M)</li>
+</ul>
+</section>
+<section id="diagram-mediation-template" class="slide level2">
+<h2>Diagram: mediation template</h2>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>“Indirect effect” is <em>not</em> automatically “causal mediation”. Causal language requires assumptions!</p>
+</div>
+</div>
+</div>
+
+<img data-src="../assets/images/mediation.jpg" class="r-stretch"></section>
+<section id="why-sem-for-mediation" class="slide level2">
+<h2>Why SEM for mediation?</h2>
+<p>SEM makes it easy to:</p>
 <ul>
-<li>path models / mediation</li>
-<li>CFA and SEM (measurement + structure)</li>
-<li>invariance (MG-CFA), ordinal SEM, longitudinal and clustered strategies</li>
+<li>estimate the system <strong>jointly</strong> (including residual covariance if justified)</li>
+<li>compute <strong>functions of parameters</strong> (e.g., <span class="math inline">\((ab)\)</span>, totals, contrasts)</li>
+<li>add <strong>covariates</strong>, multiple mediators, constraints, and (later) measurement models</li>
+</ul>
+</section>
+<section id="indirect-effects-are-just-products" class="slide level2">
+<h2>Indirect effects are just products</h2>
+<p>The indirect effect is a product <span class="math inline">\((ab)\)</span>. Even if <span class="math inline">\((\hat a)\)</span> and <span class="math inline">\((\hat b)\)</span> are approximately normal, the product is not.</p>
+<p>A common large-sample approximation (delta method):</p>
+<p><span class="math display">\[
+\mathrm{Var}(\widehat{ab}) \approx
+b^2\mathrm{Var}(\hat a) + a^2\mathrm{Var}(\hat b) + 2ab\,\mathrm{Cov}(\hat a,\hat b)
+\]</span></p>
+<p>Sobel test (same idea, historically popular):</p>
+<p><span class="math display">\[
+z = \frac{\widehat{ab}}{\sqrt{\widehat{\mathrm{Var}}(\widehat{ab})}}
+\]</span></p>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>In practice, <strong>bootstrap</strong> is often preferred for indirect effects (especially with small–moderate <span class="math inline">\(N\)</span>).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="lavaan-mediation-as-a-model-defined-parameters" class="slide level2">
+<h2>lavaan: mediation as a model + defined parameters</h2>
+<p>You already know <code>~</code> and <code>~~</code>. The new piece is:</p>
+<ul>
+<li><strong>labels</strong> (<code>a*X</code>) and <strong>defined parameters</strong> (<code>ind := a*b</code>)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>mod_med <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # structural regressions</span></span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  M ~ a*X</span></span>
+<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  Y ~ cprime*X + b*M</span></span>
+<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # (optional) exogenous variance</span></span>
+<span id="cb1-9"><a aria-hidden="true" tabindex="-1"></a><span class="st">  X ~~ X</span></span>
+<span id="cb1-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # defined effects</span></span>
+<span id="cb1-12"><a aria-hidden="true" tabindex="-1"></a><span class="st">  ind := a*b</span></span>
+<span id="cb1-13"><a aria-hidden="true" tabindex="-1"></a><span class="st">  tot := cprime + (a*b)</span></span>
+<span id="cb1-14"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb1-15"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod_med, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-17"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bootstrap-the-indirect-effect" class="slide level2">
+<h2>Bootstrap the indirect effect</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>fit_b <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>  mod_med, <span class="at">data =</span> dat,</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">"bootstrap"</span>, <span class="at">bootstrap =</span> <span class="dv">2000</span>,</span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">meanstructure =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit_b, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">level =</span> .<span class="dv">95</span>,</span>
+<span id="cb2-8"><a aria-hidden="true" tabindex="-1"></a>                   <span class="at">standardized =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~"</span>, <span class="st">":="</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Interpretation:</p>
+<ul>
+<li>focus on <span class="math inline">\((ab)\)</span> estimate <strong>and its CI</strong></li>
+<li>bootstrap CI is not magic; it’s still conditional on model assumptions</li>
+</ul>
+</section>
+<section id="a-richer-example-multiple-indirect-paths" class="slide level2">
+<h2>A richer example: multiple indirect paths</h2>
+<p>Sometimes the theory implies <em>more than one</em> mediated route.</p>
+<p>(Example structure; your variables will differ.)</p>
+<p><img data-src="../assets/images/pathE2.png" style="height:5.6cm"></p>
+<p><strong>Notation</strong>. If there are two indirect paths:</p>
+<p><span class="math display">\[
+\text{ind}_1 = a_1 b_1,
+\qquad
+\text{ind}_2 = a_2 b_2,
+\qquad
+\text{total indirect} = \text{ind}_1 + \text{ind}_2
+\]</span></p>
+<p>You can define each and test/CI them separately.</p>
+</section>
+<section id="lavaan-multiple-indirect-effects-template" class="slide level2">
+<h2>lavaan: multiple indirect effects (template)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>mod_multi <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # example: two mediators in parallel</span></span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">  M1 ~ a1*X</span></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  M2 ~ a2*X</span></span>
+<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  Y  ~ cprime*X + b1*M1 + b2*M2</span></span>
+<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # optional: allow mediators to covary</span></span>
+<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a><span class="st">  M1 ~~ M2</span></span>
+<span id="cb3-9"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a aria-hidden="true" tabindex="-1"></a><span class="st">  ind1 := a1*b1</span></span>
+<span id="cb3-11"><a aria-hidden="true" tabindex="-1"></a><span class="st">  ind2 := a2*b2</span></span>
+<span id="cb3-12"><a aria-hidden="true" tabindex="-1"></a><span class="st">  indT := ind1 + ind2</span></span>
+<span id="cb3-13"><a aria-hidden="true" tabindex="-1"></a><span class="st">  tot  := cprime + indT</span></span>
+<span id="cb3-14"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb3-15"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod_multi, <span class="at">data =</span> dat, <span class="at">se =</span> <span class="st">"bootstrap"</span>, <span class="at">bootstrap =</span> <span class="dv">2000</span>)</span>
+<span id="cb3-17"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Parallel mediators are easy to write; the hard part is <strong>interpretation</strong> (confounding, causal ordering, measurement).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="standardized-vs-unstandardized-effects" class="slide level2">
+<h2>Standardized vs unstandardized effects</h2>
+<ul>
+<li><strong>Unstandardized</strong> (<span class="math inline">\(\hat a\)</span>, <span class="math inline">\(\hat b\)</span>, <span class="math inline">\(\widehat{ab}\)</span>) are in original units → best for substantive interpretation if units matter.</li>
+<li><strong>Standardized</strong> effects help compare across variables/scales.</li>
+</ul>
+<p>For a simple mediation (continuous variables), a fully standardized indirect effect is:</p>
+<p><span class="math display">\[
+(ab)_{\text{std}} = ab \cdot \frac{\sigma_X}{\sigma_Y}
+\]</span></p>
+<p>(because the (<span class="math inline">\(\sigma_M\)</span>) cancels).</p>
+</section>
+<section id="identification-fit-can-be-perfect" class="slide level2">
+<h2>Identification + “fit can be perfect”</h2>
+<p>Many basic path/mediation models are <strong>just-identified</strong>:</p>
+<ul>
+<li>no degrees of freedom <span class="math inline">\((df = 0)\)</span></li>
+<li>the model reproduces the sample covariance matrix exactly</li>
+<li>fit indices will look “perfect” even if the causal story is wrong</li>
+</ul>
+<p>A useful counting rule:</p>
+<p><span class="math display">\[
+df = \frac{p(p+1)}{2} - t
+\]</span></p>
+<p>where <span class="math inline">\((p)\)</span> = observed variables, <span class="math inline">\((t)\)</span> = free parameters.</p>
+</section>
+<section id="when-can-mediation-be-interpreted-causally" class="slide level2">
+<h2>When can mediation be interpreted causally?</h2>
+<p><strong>At minimum</strong>, you need assumptions such as:</p>
+<ul>
+<li>temporal ordering (X precedes M precedes Y)</li>
+<li>no unmeasured confounding for:
+<ul>
+<li><span class="math inline">\((X \rightarrow M)\)</span></li>
+<li><span class="math inline">\((M \rightarrow Y)\)</span></li>
+<li><span class="math inline">\((X \rightarrow Y)\)</span></li>
 </ul></li>
-<li>Produce <strong>reproducible reports</strong> (Quarto + a reporting checklist)</li>
+<li>correct model form (linearity, additivity, no omitted interactions unless modeled)</li>
 </ul>
+<p>We will revisit causal interpretation when we discuss: - longitudinal designs (deck 09) - measurement error (decks 04–05)</p>
 </section>
-<section id="course-contents-big-picture" class="slide level2">
-<h2>Course contents (big picture)</h2>
-<p>We will (hopefully) cover:</p>
-<ol type="1">
-<li>lavaan workflow + foundations<br>
-</li>
-<li>Path analysis &amp; mediation (equivalence and interpretation)<br>
-</li>
-<li>Model fit &amp; diagnostics (global vs local; disciplined respecification)<br>
-</li>
-<li>CFA (measurement first; reliability/validity)<br>
-</li>
-<li>Full SEM (measurement + structural part; capstone)<br>
-</li>
-<li>Measurement invariance (MG-CFA; partial invariance)<br>
-</li>
-<li>Ordinal SEM (thresholds; WLSMV/ULS; ordinal invariance)<br>
-</li>
-<li>Missing/robustness/reporting (FIML/MI; robust SE; write-up)<br>
-</li>
-<li>Longitudinal SEM (growth + invariance over time)<br>
-</li>
-<li>Clustered/multilevel strategies (robust SE; two-level CFA)</li>
-</ol>
-</section>
-<section id="what-we-will-not-focus-on-in-live-sessions" class="slide level2">
-<h2>What we will <em>not</em> focus on (in live sessions)</h2>
+<section id="diagnostics-what-to-check-now" class="slide level2">
+<h2>Diagnostics (what to check <em>now</em>)</h2>
+<p>Even before learning “fit”, you should check:</p>
 <ul>
-<li>EFA (we’ll mention it, but we are <strong>not</strong> doing an EFA course)</li>
-<li>Bayesian SEM (optional extra)</li>
-<li>Advanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)</li>
+<li><strong>sign</strong> and <strong>magnitude</strong> of parameters (are they plausible?)</li>
+<li><strong>standard errors / CIs</strong> (especially for <span class="math inline">\(ab\)</span>)</li>
+<li><strong>residual variances</strong> (negative? huge? suspiciously tiny?)</li>
+<li><strong>collinearity</strong> among predictors/mediators (unstable estimates)</li>
 </ul>
 <div class="callout callout-tip no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>If you need something specific for your project, let me know: I’ll try to fit it into the right module.</p>
+<p>For mediation, your first diagnostic is often conceptual: <em>is this ordering defensible?</em> then statistical: <em>is <span class="math inline">\((ab)\)</span> estimated precisely?</em></p>
 </div>
 </div>
 </div>
-</section>
-<section id="format-5-mornings-4-hours" class="slide level2">
-<h2>Format: 5 mornings × 4 hours</h2>
-<p>Each morning is split into <strong>two 2-hour blocks</strong> including:</p>
-<ul>
-<li>theoretical and practical concepts</li>
-<li>live coding</li>
-<li>lab and excercises</li>
-<li>optional extra topics</li>
-<li>discussion</li>
-</ul>
-</section>
-<section id="the-repository-is-the-course" class="slide level2">
-<h2>The repository is the course</h2>
-<p><strong>SEM-phd-course</strong> is a Quarto website + source files:</p>
-<ul>
-<li><code>/slides/</code> revealjs decks (what you see in class)</li>
-<li><code>/labs/</code> hands-on labs (what you do)</li>
-<li><code>/extras/</code> self-study (or extra) modules</li>
-<li><code>/R/</code> helper functions (fit, plots, reporting)</li>
-</ul>
-<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available.</p>
+<p>Can ‘sex’ be a mediator?!</p>
 </div>
 </div>
 </div>
 </section>
-<section id="how-to-use-materials-during-class" class="slide level2">
-<h2>How to use materials during class</h2>
-<ol type="1">
-<li>Keep the <strong>slides</strong> open (concepts + code snippets)</li>
-<li>Work in the <strong>lab</strong> file in parallel (copy/adapt code)</li>
-<li>When stuck:
+<section id="exercises-lab-02" class="slide level2">
+<h2>Exercises (Lab 02)</h2>
+<p>Go to:</p>
 <ul>
-<li>identify <em>where</em> you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)</li>
-<li>bring the smallest reproducible example</li>
-<li>talk</li>
-</ul></li>
+<li><strong><code>labs/lab02_path-mediation.qmd</code></strong></li>
+</ul>
+<p>You will practice:</p>
+<ol type="1">
+<li>Fit a simple mediation with bootstrap CI for <span class="math inline">\((ab)\)</span></li>
+<li>Add covariates (and observe what happens to <span class="math inline">\((a)\)</span>, <span class="math inline">\((b)\)</span>, and <span class="math inline">\((c')\)</span>)</li>
+<li>Compare partial vs “full” mediation (constraint <span class="math inline">\((c'=0)\)</span>)</li>
+<li>Fit a parallel-mediator model and interpret <span class="math inline">\((ind_1)\)</span>, <span class="math inline">\((ind_2)\)</span>, <span class="math inline">\((ind_T)\)</span></li>
 </ol>
 </section>
-<section id="software-checklist-do-this-before-we-start" class="slide level2">
-<h2>Software checklist (do this before we start)</h2>
+<section id="pitfall-callout-full-mediation-is-rarely-a-good-goal" class="slide level2">
+<h2>Pitfall callout: “full mediation” is rarely a good goal</h2>
+<p>Even if <span class="math inline">\((c')\)</span> is small/non-significant:</p>
 <ul>
-<li>R (recent), RStudio</li>
-<li>Quarto</li>
-<li>Packages (minimum):
-<ul>
-<li><code>lavaan</code>, <code>semTools</code>, <code>semPlot</code>, <code>tidyverse</code>, <code>quarto</code></li>
-</ul></li>
-<li>Optional but useful:
-<ul>
-<li><code>psych</code>, <code>MVN</code>, <code>performance</code>, <code>broom</code>, <code>parameters</code></li>
-</ul></li>
+<li>it does <strong>not</strong> prove the direct path is zero</li>
+<li>power and measurement error can make <span class="math inline">\((c')\)</span> hard to detect</li>
+<li>the direct effect can be suppressed or masked by omitted paths</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lavaan"</span>,<span class="st">"semTools"</span>,<span class="st">"semPlot"</span>,<span class="st">"tidyverse"</span>)</span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">length</span>(to_install)) <span class="fu">install.packages</span>(to_install)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="parking-lot-questions" class="slide level2">
-<h2>Parking lot questions</h2>
-<p>If your question is:</p>
+<p>Better framing:</p>
 <ul>
-<li><strong>about your own project’s model</strong> → keep it; we’ll connect it to a module<br>
-</li>
-<li><strong>about R/lavaan syntax</strong> → ask immediately<br>
-</li>
-<li><strong>about advanced variants</strong> (Bayesian, latent interactions, MIIVs, etc.) → likely an <em>extra</em>. We can cover it if we have time.</li>
+<li>focus on effect sizes + uncertainty</li>
+<li>test theoretically motivated constraints (and report them transparently)</li>
 </ul>
 </section>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
 <ol type="1">
-<li>SEM is not just a model, but also a <strong>mindset</strong></li>
-<li>SEM is both <strong>theory</strong> and <strong>stat</strong><br>
+<li>Mediation effects are <strong>functions of parameters</strong> (<span class="math inline">\((ab)\)</span>, <span class="math inline">\((c'+ab)\)</span>) → compute them explicitly<br>
 </li>
-<li>SEM is both <strong>measurement</strong> and <strong>structure</strong>, tests</li>
+<li>The indirect effect’s sampling distribution is <strong>non-normal</strong> → bootstrap is often sensible<br>
+</li>
+<li>Path models are vulnerable to <strong>equivalence</strong> → fit alone cannot justify causal stories</li>
 </ol>
-<ul>
-<li>The repo is your <strong>long-term reference</strong> (slides, labs, extras, helpers)</li>
-</ul>
 </section>
-<section id="next" class="slide level2">
-<h2>Next</h2>
-<p><strong>Next deck (01):</strong> SEM foundations + workflow + lavaan basics<br>
-→ we start coding immediately.</p>
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Open the repo, run the package check, and make sure Quarto renders.</p>
-</div>
-</div>
-</div>
+<section id="further-reading-self-study" class="slide level2">
+<h2>Further reading / self-study</h2>
+<ul>
+<li><strong>ex01_power_montecarlo_sem.qmd</strong> — power and precision for indirect effects via simulation<br>
+</li>
+<li>(Optional) causal inference perspective: add a short reading list in the course site resources</li>
+</ul>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
-<p>(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)</p>
+<p>(Add citations/keys once the course bibliography is finalized for the website.)</p>
 
 
 </section>

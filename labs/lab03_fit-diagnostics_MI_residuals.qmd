@@ -1,0 +1,308 @@
+---
+title: "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+SHOW <- isTRUE(params$show_solutions)
+set.seed(2026)
+options(digits = 3)
+```
+
+# Goals
+
+In this lab you will learn to:
+
+- Extract and report **core global fit indices** (χ², CFI/TLI, RMSEA+CI, SRMR)
+- Inspect **local misfit** using residual matrices (raw + standardized)
+- Use **modification indices (MI)** together with **EPC / SEPC** (not MI alone)
+- Apply a **disciplined respecification protocol**: one change at a time, theory filter, document
+
+**Important constraint for this lab:**  
+You are *not* allowed to add paths “because MI says so”. Each change needs a short substantive rationale.
+
+---
+
+# Setup
+
+```{r}
+library(lavaan)
+library(semPlot)
+```
+
+---
+
+# Part A — Generate a dataset with known structure
+
+We simulate data from a “true” model and then fit a **misspecified** model to create diagnostic signals.
+
+True DGP:
+
+- `lifeSatisfaction` depends on `attachment`, `selfEsteem`, `parentalSupport`, `salary`
+- `selfEsteem` depends on `parentalSupport` and `attachment`
+- `attachment` covaries with `parentalSupport`
+
+```{r}
+N <- 483
+
+m_true <- "
+  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary
+  selfEsteem       ~ .40*parentalSupport + .20*attachment
+  attachment ~~ .30*parentalSupport
+"
+
+dat <- simulateData(m_true, sample.nobs = N, seed = 2026)
+summary(dat)
+```
+
+---
+
+# Part B — Fit an intentionally misspecified model
+
+We omit:
+
+- some predictors of `lifeSatisfaction`
+- the covariance `attachment ~~ parentalSupport`
+
+```{r}
+m0 <- "
+  lifeSatisfaction ~ selfEsteem + salary
+  selfEsteem       ~ parentalSupport + attachment
+"
+fit0 <- sem(m0, data = dat, meanstructure = TRUE)
+```
+
+---
+
+# Exercise 1 — Global fit (extract + interpret)
+
+## 1a) Extract key indices
+
+```{r}
+fitMeasures(
+  fit0,
+  c("npar","chisq","df","pvalue","cfi","tli",
+    "rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr")
+)
+```
+
+## 1b) Interpret
+
+Answer in 3–5 sentences:
+
+1. Does the model seem globally plausible?
+2. Which indices are most informative here and why?
+3. If χ² is significant, what are two non-mutually-exclusive reasons?
+
+---
+
+# Exercise 2 — Visual sanity check (diagram)
+
+```{r}
+#| eval: false
+semPaths(fit0, what = "std", layout = "tree", residuals = TRUE,
+         nCharNodes = 0, sizeMan = 10)
+```
+
+**Question**
+
+- Which substantive relations are missing *relative to your theoretical DGP description*?
+
+---
+
+# Exercise 3 — Local misfit via residuals
+
+## 3a) Residual covariances
+
+```{r}
+# Play with the different 'type of residuals'
+# 'cor', 'cor.bollen', 'cor.bentler', 'raw'
+res_cov <- lavResiduals(fit0)
+# res_cov$resid is S - Sigma_hat
+res_cov$cov
+```
+
+**Tasks**
+
+1. Identify the **top 3** largest absolute standardized residual covariances.
+2. For each, propose a *candidate explanation* (omitted path? omitted covariance? shared cause?).
+
+---
+
+# Exercise 4 — Modification indices + EPC/SEPC
+
+Compute MI and inspect the top candidates.
+
+```{r}
+mi <- modificationIndices(fit0, sort. = TRUE)
+head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 12)
+```
+
+**Tasks**
+
+1. Compare your residual-based guesses from Exercise 3 with the MI list. Do they agree?
+2. Pick **one** candidate modification that is:
+   - theoretically plausible, and
+   - supported by both residual patterns **and** MI/EPC.
+
+Write a one-sentence justification.
+
+---
+
+# Exercise 5 — Respecify (one change), refit, and re-check
+
+## 5a) Create model m1 by adding exactly one theoretically justified parameter
+
+Common modifications include:
+
+- adding a covariance among exogenous variables (`~~`)
+- adding a missing regression (`~`)
+
+Create `m1` below and refit.
+
+```{r}
+m1 <- "
+  lifeSatisfaction ~ selfEsteem + salary
+  selfEsteem       ~ parentalSupport + attachment
+
+  # ADD ONE PARAMETER HERE (exactly one line)
+  # attachment ~~ parentalSupport
+  # OR: lifeSatisfaction ~ parentalSupport
+  # OR: lifeSatisfaction ~ attachment
+"
+fit1 <- sem(m1, data = dat, meanstructure = TRUE)
+```
+
+## 5b) Compare global fit
+
+```{r}
+fitMeasures(fit0, c("chisq","df","cfi","tli","rmsea","srmr"))
+fitMeasures(fit1, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+## 5c) χ² difference test (nested models)
+
+```{r}
+anova(fit0, fit1)
+```
+
+## 5d) Re-check local misfit
+
+```{r}
+res1_std <- residuals(fit1)$cov
+res1_std
+```
+
+**Interpretation questions**
+
+1. Did the single change reduce the largest residuals you identified?
+2. Did it improve the global indices meaningfully?
+3. Is the change defensible theoretically, or did you “chase fit”?
+
+---
+
+# Exercise 6 — Iterate once (optional, but recommended)
+
+Repeat Exercise 5 **one more time**:
+
+- create `m2` by adding **one additional parameter** (only one) to `m1`
+- refit and compare `fit1` vs `fit2`
+
+```{r}
+m2 <- "
+  # paste m1 and add one more line
+"
+# fit2 <- sem(m2, data = dat, meanstructure = TRUE)
+```
+
+**Task**
+
+Document your respecification path:
+
+- m0 → m1: what changed and why
+- m1 → m2: what changed and why
+- what diagnostics supported each change (residuals? MI+EPC?)
+
+---
+
+# Part C — A “truth check”: fit the generating model
+
+Fit the model that generated the data. This is not something you can do in real life, but it calibrates your intuition.
+
+```{r}
+fit_true <- sem(m_true, data = dat, meanstructure = TRUE)
+fitMeasures(fit_true, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+**Questions**
+
+1. Does the true model always have “perfect fit”? Why or why not?
+2. What does this tell you about interpreting fit indices?
+
+---
+
+# Wrap-up
+
+## What you should take away
+
+- **Global fit** summarizes mismatch; it doesn’t locate problems.
+- **Local diagnostics** (residuals + MI/EPC) tell you *where* mismatch lives.
+- Respecification must be **theory-filtered**, done **one step at a time**, and **reported transparently**.
+
+## What’s next
+
+- Next we shift to measurement models (CFA), where local diagnostics include:
+  - cross-loadings (often fixed to 0)
+  - correlated errors
+  - weak items / low loadings
+
+---
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) {
+  cat("Instructor solutions are enabled.\n")
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  # Typical “first best” modification: restore omitted exogenous covariance
+  m1_sol <- "
+    lifeSatisfaction ~ selfEsteem + salary
+    selfEsteem       ~ parentalSupport + attachment
+    attachment ~~ parentalSupport
+  "
+  fit1_sol <- sem(m1_sol, data = dat, meanstructure = TRUE)
+
+  list(
+    fit0 = fitMeasures(fit0, c("chisq","df","cfi","tli","rmsea","srmr")),
+    fit1 = fitMeasures(fit1_sol, c("chisq","df","cfi","tli","rmsea","srmr")),
+    lrt  = anova(fit0, fit1_sol),
+    topMI = head(modificationIndices(fit0, sort. = TRUE)[, c("lhs","op","rhs","mi","epc","sepc.all")], 8)
+  )
+}
+```

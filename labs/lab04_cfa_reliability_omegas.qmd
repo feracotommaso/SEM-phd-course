@@ -1,0 +1,362 @@
+---
+title: "Lab 04 — CFA: measurement, local misfit, and ω reliability"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+SHOW <- isTRUE(params$show_solutions)
+set.seed(2026)
+options(digits = 3)
+```
+
+# Goals
+
+In this lab you will:
+
+- Fit and compare CFA models (1-factor vs correlated factors)
+- Inspect **local misfit** for CFA (residual correlations, MI + EPC/SEPC)
+- Make **theory-filtered** respecification choices (and document them)
+- Compute and report **reliability from CFA** (ω family via `semTools`)
+- (Optional) Fit a **bifactor** model and evaluate interpretability (not just fit)
+
+---
+
+# Setup
+
+```{r}
+library(lavaan)
+library(semTools)
+library(semPlot)
+```
+
+We’ll use the built-in dataset `HolzingerSwineford1939` (9 tests; classic CFA example).
+
+```{r}
+dat <- HolzingerSwineford1939
+vars <- paste0("x", 1:9)
+dat <- dat[, vars]
+summary(dat)
+```
+
+---
+
+# Part A — Competing measurement hypotheses
+
+## Model 1: One general factor
+
+```{r}
+m1 <- '
+  g =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9
+'
+fit1 <- cfa(m1, data = dat, std.lv = TRUE)
+summary(fit1, fit.measures = TRUE, standardized = TRUE)
+```
+
+## Model 2: Three correlated factors (the classic HS structure)
+
+```{r}
+m3 <- '
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+'
+fit3 <- cfa(m3, data = dat, std.lv = TRUE)
+summary(fit3, fit.measures = TRUE, standardized = TRUE)
+```
+
+---
+
+# Exercise 1 — Compare the two models
+
+## 1a) Compare global fit
+
+Extract a minimal set of indices:
+
+```{r}
+get_fit <- function(f) {
+  fitMeasures(f, c("chisq","df","pvalue","cfi","tli","rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr"))
+}
+
+rbind(one_factor = get_fit(fit1),
+      three_factor = get_fit(fit3))
+```
+
+**Questions**
+
+1. Which model fits better globally? Which indices support that conclusion?
+2. Do you expect the 3-factor model to always fit better? Why/why not?
+
+## 1b) Compare with a χ² difference test (nested?)
+
+```{r}
+anova(fit1, fit3)
+```
+
+**Question**
+
+- Is this comparison a valid nested χ² test here? Why (think: is the 1-factor model nested in the 3-factor model)?
+
+::: {.callout-note appearance="minimal"}
+Even when `anova()` runs, you must reason about *nesting*. Not every model comparison is a proper LRT.
+:::
+
+---
+
+# Part B — Interpret key parameters (measurement-level thinking)
+
+# Exercise 2 — Loadings, residual variances, and factor correlations
+
+## 2a) Standardized loadings
+
+```{r}
+pe3 <- parameterEstimates(fit3, standardized = TRUE)
+load3 <- subset(pe3, op == "=~")[, c("lhs","rhs","est","se","pvalue","std.all")]
+load3
+```
+
+**Tasks**
+
+1. Identify the weakest indicator(s) by `std.all`.
+2. Identify any signs that look strange (e.g., negative loadings, extremely low/high).
+
+## 2b) Residual variances
+
+```{r}
+resvar3 <- subset(pe3, op == "~~" & lhs %in% vars & rhs %in% vars)[, c("lhs","est","std.all")]
+resvar3
+```
+
+**Question**
+
+- Do any residual variances look “too small” or “too large”? What might that mean substantively?
+
+## 2c) Factor correlations
+
+```{r}
+phi3 <- subset(pe3, op == "~~" & lhs %in% c("visual","textual","speed") &
+                 rhs %in% c("visual","textual","speed") & lhs != rhs)[, c("lhs","rhs","est","std.all")]
+phi3
+```
+
+**Questions**
+
+1. Are factor correlations high? What would make you worry about discriminant validity?
+2. In your area, what theory would justify correlated factors?
+
+---
+
+# Part C — Local misfit: residual correlations and MI (CFA-specific)
+
+Global fit is a summary. Now locate misfit.
+
+# Exercise 3 — Residual correlations (where does the model fail?)
+
+```{r}
+res_std <- residuals(fit3, type = "standardized")$cov
+res_std
+```
+
+**Tasks**
+
+1. Find the **largest absolute** standardized residual correlations (top 3–5).  
+   (Tip: scan the matrix or use code below.)
+
+```{r}
+# helper: get top absolute residuals (excluding diagonal)
+R <- res_std
+diag(R) <- NA
+top <- as.data.frame(as.table(R))
+top <- top[order(abs(top$Freq), decreasing = TRUE), ]
+head(top, 10)
+```
+
+2. For each large residual pair, write a *measurement-level hypothesis*:
+   - shared wording/content?
+   - method effect?
+   - plausible cross-loading?
+   - local dependence (same stimulus format, similar items)?
+
+---
+
+# Exercise 4 — MI + EPC/SEPC (use with a theory filter)
+
+```{r}
+mi <- modificationIndices(fit3, sort. = TRUE)
+head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 15)
+```
+
+**Tasks**
+
+1. Compare MI results with your largest residual pairs. Do they point to the same area?
+2. Pick **one** candidate modification, but only if you can justify it conceptually.
+3. Decide: is it more plausible as:
+   - correlated residual (`x_i ~~ x_j`) OR
+   - cross-loading (`factor =~ x_j`)?
+
+::: {.callout-warning appearance="minimal"}
+Correlated residuals are not “free fit”: they change the measurement story (local dependence). Cross-loadings threaten simple structure and interpretation.
+:::
+
+---
+
+# Exercise 5 — Respecify (one change), refit, document
+
+Create `m3b` by copying `m3` and adding exactly **one** modification you justified.
+
+Examples:
+
+- correlated residual: `x1 ~~ x2`
+- cross-loading: `visual =~ x4` (be careful: interpretability!)
+
+```{r}
+m3b <- '
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+
+  # ADD ONE THEORY-JUSTIFIED PARAMETER HERE
+  # x1 ~~ x2
+'
+fit3b <- cfa(m3b, data = dat, std.lv = TRUE)
+```
+
+Compare fit:
+
+```{r}
+rbind(original = get_fit(fit3),
+      modified = get_fit(fit3b))
+```
+
+Compare nested models (if nested):
+
+```{r}
+anova(fit3, fit3b)
+```
+
+**Documentation (write 3 bullet points)**
+
+- What did you add and why?
+- What diagnostic evidence supported it (residuals? MI+EPC?)?
+- Does the modification change the *interpretation* of the factor(s)?
+
+---
+
+# Part D — Reliability from CFA (ω family)
+
+# Exercise 6 — Compute ω reliability
+
+```{r}
+reliability(fit3)
+```
+
+**Questions**
+
+1. Which ω coefficients are reported? What do they mean conceptually?
+2. Compare ω across the three factors. Which factor seems most reliable and why?
+
+---
+
+# Optional Part E — Bifactor model (advanced)
+
+This is not required, but if you want to keep the bifactor material “real”, do it once.
+
+A **bifactor** model: a general factor `g` loads on all items, plus domain-specific factors. Domain factors are often set orthogonal to `g` (and sometimes mutually orthogonal).
+
+```{r}
+mbi <- '
+  # group factors
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+
+  # general factor
+  g =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9
+'
+fit_bi <- cfa(mbi, data = dat, std.lv = TRUE, orthogonal = TRUE)
+get_fit(fit_bi)
+```
+
+**Tasks**
+
+1. Does bifactor fit “better”? (It often does.)
+2. Are all factors interpretable? Inspect standardized loadings.
+
+```{r}
+pe_bi <- parameterEstimates(fit_bi, standardized = TRUE)
+subset(pe_bi, op == "=~")[, c("lhs","rhs","std.all")]
+```
+
+3. Compute reliability indices.
+
+```{r}
+reliability(fit_bi)
+```
+
+::: {.callout-note appearance="minimal"}
+Interpret bifactor with diagnostics (e.g., ωH/ECV/H). Fit alone is not enough. If you want more, see the extras module on bifactor/ESEM/method factors.
+:::
+
+---
+
+# Wrap-up
+
+## Take-home
+
+- CFA is a *measurement hypothesis*: zeros and constraints are theory.
+- Pair **global fit** with CFA-specific **local diagnostics** (residual correlations + MI/EPC).
+- Respecify with discipline: one change at a time, theory filter, transparent reporting.
+- Reliability should match your measurement model: ω from CFA is usually a better default than α.
+
+---
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) {
+  cat("Instructor solutions are enabled.\n")
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  # Typical modification: correlate residuals within a domain (often x1 ~~ x2 in HS)
+  m3b_sol <- '
+    visual  =~ x1 + x2 + x3
+    textual =~ x4 + x5 + x6
+    speed   =~ x7 + x8 + x9
+    x1 ~~ x2
+  '
+  fit3b_sol <- cfa(m3b_sol, data = dat, std.lv = TRUE)
+
+  list(
+    fit1 = get_fit(fit1),
+    fit3 = get_fit(fit3),
+    top_residuals = head(top, 10),
+    top_mi = head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 10),
+    fit3b = get_fit(fit3b_sol),
+    lrt = anova(fit3, fit3b_sol),
+    omega3 = reliability(fit3)
+  )
+}

@@ -115,3 +115,15 @@ $callout-border-width: 0.20rem;
   font-size: 0.55em;
   opacity: 0.65;
 }
+
+/* code font */
+
+/* code + output font */
+.code-smaller pre,
+.code-smaller pre code { font-size: 0.70em; }
+
+.code-tiny pre,
+.code-tiny pre code { font-size: 0.60em; }
+
+.code-bigger pre,
+.code-bigger pre code { font-size: 2.90em; }

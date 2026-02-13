@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tommaso Feraco">
+
+<title>Lab 05 — SEM capstone with the EAT dataset – SEM-PhD</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-69548dc370d8aa5186370da619938e85.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">SEM-PhD</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../setup.html"> 
+<span class="menu-text">Setup</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../slides/slides_index.html"> 
+<span class="menu-text">Slides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../labs/labs_index.html"> 
+<span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../glossary.html"> 
+<span class="menu-text">Glossary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reporting-checklist.html"> 
+<span class="menu-text">Reporting checklist</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../extras/extras_index.html"> 
+<span class="menu-text">Extras</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/feracotommaso/SEM-phd-course"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#data-the-eat-dataset" id="toc-data-the-eat-dataset" class="nav-link" data-scroll-target="#data-the-eat-dataset">Data: the EAT dataset</a></li>
+  <li><a href="#theoretical-model-concept" id="toc-theoretical-model-concept" class="nav-link" data-scroll-target="#theoretical-model-concept">Theoretical model (concept)</a></li>
+  <li><a href="#exercise-1-step-1-two-step-rule-fit-the-cfa-model" id="toc-exercise-1-step-1-two-step-rule-fit-the-cfa-model" class="nav-link" data-scroll-target="#exercise-1-step-1-two-step-rule-fit-the-cfa-model">Exercise 1 — STEP 1 (Two-Step rule): fit the CFA model</a>
+  <ul class="collapse">
+  <li><a href="#a-specify-the-measurement-model" id="toc-a-specify-the-measurement-model" class="nav-link" data-scroll-target="#a-specify-the-measurement-model">1a) Specify the measurement model</a></li>
+  <li><a href="#b-fit-and-check-convergence" id="toc-b-fit-and-check-convergence" class="nav-link" data-scroll-target="#b-fit-and-check-convergence">1b) Fit and check convergence</a></li>
+  <li><a href="#c-inspect-measurement-results" id="toc-c-inspect-measurement-results" class="nav-link" data-scroll-target="#c-inspect-measurement-results">1c) Inspect measurement results</a></li>
+  </ul></li>
+  <li><a href="#exercise-2-step-2-two-step-rule-fit-the-structural-model" id="toc-exercise-2-step-2-two-step-rule-fit-the-structural-model" class="nav-link" data-scroll-target="#exercise-2-step-2-two-step-rule-fit-the-structural-model">Exercise 2 — STEP 2 (Two-Step rule): fit the structural model</a>
+  <ul class="collapse">
+  <li><a href="#a-add-structural-regressions-among-the-latent-variables" id="toc-a-add-structural-regressions-among-the-latent-variables" class="nav-link" data-scroll-target="#a-add-structural-regressions-among-the-latent-variables">2a) Add structural regressions among the latent variables</a></li>
+  <li><a href="#b-fit-and-inspect" id="toc-b-fit-and-inspect" class="nav-link" data-scroll-target="#b-fit-and-inspect">2b) Fit and inspect</a></li>
+  </ul></li>
+  <li><a href="#exercise-3-diagnostics-residuals-mi-epcsepc" id="toc-exercise-3-diagnostics-residuals-mi-epcsepc" class="nav-link" data-scroll-target="#exercise-3-diagnostics-residuals-mi-epcsepc">Exercise 3 — Diagnostics: residuals, MI, EPC/SEPC</a>
+  <ul class="collapse">
+  <li><a href="#a-standardized-residual-covariances-local-misfit" id="toc-a-standardized-residual-covariances-local-misfit" class="nav-link" data-scroll-target="#a-standardized-residual-covariances-local-misfit">3a) Standardized residual covariances (local misfit)</a></li>
+  <li><a href="#b-modification-indices-mi-effect-size-epcsepc" id="toc-b-modification-indices-mi-effect-size-epcsepc" class="nav-link" data-scroll-target="#b-modification-indices-mi-effect-size-epcsepc">3b) Modification indices (MI) + effect size (EPC/SEPC)</a></li>
+  </ul></li>
+  <li><a href="#exercise-4-model-modification-one-change-refit-and-re-check" id="toc-exercise-4-model-modification-one-change-refit-and-re-check" class="nav-link" data-scroll-target="#exercise-4-model-modification-one-change-refit-and-re-check">Exercise 4 — Model modification (one change), refit, and re-check</a>
+  <ul class="collapse">
+  <li><a href="#a-add-one-residual-correlation-and-refit" id="toc-a-add-one-residual-correlation-and-refit" class="nav-link" data-scroll-target="#a-add-one-residual-correlation-and-refit">4a) Add <em>one</em> residual correlation and refit</a></li>
+  <li><a href="#b-compare-fit-nested-test" id="toc-b-compare-fit-nested-test" class="nav-link" data-scroll-target="#b-compare-fit-nested-test">4b) Compare fit + nested test</a></li>
+  <li><a href="#c-re-check-diagnostics" id="toc-c-re-check-diagnostics" class="nav-link" data-scroll-target="#c-re-check-diagnostics">4c) Re-check diagnostics</a></li>
+  </ul></li>
+  <li><a href="#exercise-5-draw-the-final-model" id="toc-exercise-5-draw-the-final-model" class="nav-link" data-scroll-target="#exercise-5-draw-the-final-model">Exercise 5 — Draw the final model</a></li>
+  <li><a href="#exercise-6-sum-score-path-model-manifest-approximation" id="toc-exercise-6-sum-score-path-model-manifest-approximation" class="nav-link" data-scroll-target="#exercise-6-sum-score-path-model-manifest-approximation">Exercise 6 — Sum-score path model (manifest approximation)</a></li>
+  <li><a href="#exercise-7-compare-latent-sem-vs-sum-score-path-results" id="toc-exercise-7-compare-latent-sem-vs-sum-score-path-results" class="nav-link" data-scroll-target="#exercise-7-compare-latent-sem-vs-sum-score-path-results">Exercise 7 — Compare latent SEM vs sum-score path results</a>
+  <ul class="collapse">
+  <li><a href="#a-compare-key-standardized-structural-coefficients" id="toc-a-compare-key-standardized-structural-coefficients" class="nav-link" data-scroll-target="#a-compare-key-standardized-structural-coefficients">7a) Compare key standardized structural coefficients</a></li>
+  <li><a href="#b-discussion-write-a-short-paragraph" id="toc-b-discussion-write-a-short-paragraph" class="nav-link" data-scroll-target="#b-discussion-write-a-short-paragraph">7b) Discussion (write a short paragraph)</a></li>
+  </ul></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap-up</a>
+  <ul class="collapse">
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables</a></li>
+  </ul></li>
+  <li><a href="#solutions-instructor-version" id="toc-solutions-instructor-version" class="nav-link" data-scroll-target="#solutions-instructor-version">Solutions (instructor version)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 05 — SEM capstone with the EAT dataset</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tommaso Feraco </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="goals" class="level1">
+<h1>Goals</h1>
+<p>This lab is a <strong>full SEM workflow</strong> exercise (measurement + structure):</p>
+<ol type="1">
+<li>Apply the <strong>Two-Step rule</strong> (identify/fit measurement first, then structure)</li>
+<li>Evaluate the model using <strong>fit indices + diagnostics</strong> (global + local)</li>
+<li>Use <strong>MI + EPC/SEPC</strong> to propose a <em>theory-justified</em> modification</li>
+<li>Compare a <strong>latent SEM</strong> vs a <strong>sum-score path model</strong></li>
+</ol>
+<p>You will produce: - a short “model checking log” (what you checked, what you changed, why) - a figure of your final model (R / PowerPoint / hand-drawn)</p>
+<hr>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<hr>
+</section>
+<section id="data-the-eat-dataset" class="level1">
+<h1>Data: the EAT dataset</h1>
+<p>The dataset includes 13 items measuring:</p>
+<ul>
+<li><strong>peer pressure</strong> (PP1–PP4)</li>
+<li><strong>social media use</strong> (SM1–SM4)</li>
+<li><strong>social comparison</strong> (SC1–SC3)</li>
+<li><strong>eating disorder</strong> (ED1–ED2)</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The object in the .Rdata file is dE4_1 (as in the original slides)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/Exercise4_1.Rdata"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dE4_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   1423 obs. of  13 variables:
+ $ PP1: num  0.228 -0.647 0.259 -0.685 -0.064 ...
+ $ PP2: num  1.909 -3.185 -1.463 -0.289 0.889 ...
+ $ PP3: num  0.5869 -0.8423 -0.4295 -0.076 0.0449 ...
+ $ PP4: num  -0.7008 -0.4283 -0.0468 -2.2361 -0.4145 ...
+ $ SM1: num  2.312 0.686 -0.21 -0.642 0.171 ...
+ $ SM2: num  1.062 0.105 -0.459 0.468 1.024 ...
+ $ SM3: num  1.4272 1.2365 -0.0203 -0.7571 0.1755 ...
+ $ SM4: num  -0.771 0.509 1.258 0.584 0.609 ...
+ $ SC1: num  1.18 -1.87 1.39 1.22 3.74 ...
+ $ SC2: num  2.2 -1.174 1.03 0.967 1.382 ...
+ $ SC3: num  0.177 -1.233 0.901 2.734 1.852 ...
+ $ ED1: num  -0.385 -1.739 1.074 0.707 1.253 ...
+ $ ED2: num  1.606 -1.734 2.041 0.32 0.664 ...</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">head</span>(dE4_1), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PP1   PP2   PP3   PP4   SM1   SM2   SM3   SM4   SC1   SC2   SC3   ED1   ED2
+1  0.23  1.91  0.59 -0.70  2.31  1.06  1.43 -0.77  1.18  2.20  0.18 -0.38  1.61
+2 -0.65 -3.18 -0.84 -0.43  0.69  0.10  1.24  0.51 -1.87 -1.17 -1.23 -1.74 -1.73
+3  0.26 -1.46 -0.43 -0.05 -0.21 -0.46 -0.02  1.26  1.39  1.03  0.90  1.07  2.04
+4 -0.68 -0.29 -0.08 -2.24 -0.64  0.47 -0.76  0.58  1.22  0.97  2.73  0.71  0.32
+5 -0.06  0.89  0.04 -0.41  0.17  1.02  0.18  0.61  3.74  1.38  1.85  1.25  0.66
+6 -0.29 -2.74 -0.52  2.58  0.15 -1.08  1.08  0.99  1.32 -0.24  0.93 -0.97 -0.68</code></pre>
+</div>
+</div>
+<p><img src="../assets/images/social.jpeg" class="img-fluid"></p>
+<hr>
+</section>
+<section id="theoretical-model-concept" class="level1">
+<h1>Theoretical model (concept)</h1>
+<ul>
+<li>peer pressure + social media → social comparison → eating disorder</li>
+</ul>
+<p>You will test this model as a <strong>latent SEM</strong> (CFA + structure), then as a <strong>sum-score path model</strong>.</p>
+<hr>
+</section>
+<section id="exercise-1-step-1-two-step-rule-fit-the-cfa-model" class="level1">
+<h1>Exercise 1 — STEP 1 (Two-Step rule): fit the CFA model</h1>
+<section id="a-specify-the-measurement-model" class="level2">
+<h2 class="anchored" data-anchor-id="a-specify-the-measurement-model">1a) Specify the measurement model</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_cfa <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st">  peerPressure =~ PP1 + PP2 + PP3 + PP4</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">  socialMedia  =~ SM1 + SM2 + SM3 + SM4</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison =~ SC1 + SC2 + SC3</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder =~ ED1 + ED2</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="b-fit-and-check-convergence" class="level2">
+<h2 class="anchored" data-anchor-id="b-fit-and-check-convergence">1b) Fit and check convergence</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit_cfa <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_cfa, <span class="at">data =</span> dE4_1, <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavInspect</span>(fit_cfa, <span class="st">"converged"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="c-inspect-measurement-results" class="level2">
+<h2 class="anchored" data-anchor-id="c-inspect-measurement-results">1c) Inspect measurement results</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cfa, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 30 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        32
+
+  Number of observations                          1423
+
+Model Test User Model:
+                                                      
+  Test statistic                               421.825
+  Degrees of freedom                                59
+  P-value (Chi-square)                           0.000
+
+Model Test Baseline Model:
+
+  Test statistic                              3150.947
+  Degrees of freedom                                78
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.882
+  Tucker-Lewis Index (TLI)                       0.844
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)             -28616.602
+  Loglikelihood unrestricted model (H1)     -28405.690
+                                                      
+  Akaike (AIC)                               57297.204
+  Bayesian (BIC)                             57465.541
+  Sample-size adjusted Bayesian (SABIC)      57363.888
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.066
+  90 Percent confidence interval - lower         0.060
+  90 Percent confidence interval - upper         0.072
+  P-value H_0: RMSEA &lt;= 0.050                    0.000
+  P-value H_0: RMSEA &gt;= 0.080                    0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.042
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  peerPressure =~                                                          
+    PP1                  1.016    0.036   27.977    0.000    1.016    0.821
+    PP2                  0.998    0.037   26.980    0.000    0.998    0.786
+    PP3                  0.424    0.033   12.944    0.000    0.424    0.370
+    PP4                  0.468    0.034   13.945    0.000    0.468    0.397
+  socialMedia =~                                                           
+    SM1                  0.592    0.039   15.294    0.000    0.592    0.517
+    SM2                  0.575    0.040   14.449    0.000    0.575    0.486
+    SM3                  0.554    0.039   14.234    0.000    0.554    0.479
+    SM4                  0.645    0.041   15.928    0.000    0.645    0.541
+  socialComparison =~                                                      
+    SC1                  0.881    0.038   23.042    0.000    0.881    0.662
+    SC2                  0.940    0.038   24.865    0.000    0.940    0.718
+    SC3                  0.856    0.039   22.167    0.000    0.856    0.637
+  eatingDisorder =~                                                        
+    ED1                  0.720    0.067   10.709    0.000    0.720    0.596
+    ED2                  0.671    0.064   10.491    0.000    0.671    0.547
+
+Covariances:
+                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  peerPressure ~~                                                          
+    socialMedia         -0.013    0.039   -0.345    0.730   -0.013   -0.013
+    socialComparsn       0.126    0.035    3.636    0.000    0.126    0.126
+    eatingDisorder      -0.035    0.042   -0.822    0.411   -0.035   -0.035
+  socialMedia ~~                                                           
+    socialComparsn       0.422    0.037   11.347    0.000    0.422    0.422
+    eatingDisorder       0.052    0.049    1.056    0.291    0.052    0.052
+  socialComparison ~~                                                      
+    eatingDisorder       0.368    0.042    8.679    0.000    0.368    0.368
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .PP1               0.500    0.053    9.365    0.000    0.500    0.326
+   .PP2               0.615    0.054   11.489    0.000    0.615    0.382
+   .PP3               1.133    0.044   25.604    0.000    1.133    0.863
+   .PP4               1.175    0.046   25.410    0.000    1.175    0.843
+   .SM1               0.958    0.048   20.116    0.000    0.958    0.733
+   .SM2               1.068    0.051   21.126    0.000    1.068    0.763
+   .SM3               1.033    0.048   21.355    0.000    1.033    0.771
+   .SM4               1.005    0.052   19.225    0.000    1.005    0.707
+   .SC1               0.993    0.054   18.400    0.000    0.993    0.561
+   .SC2               0.831    0.053   15.544    0.000    0.831    0.485
+   .SC3               1.075    0.055   19.543    0.000    1.075    0.595
+   .ED1               0.942    0.094    9.995    0.000    0.942    0.645
+   .ED2               1.052    0.085   12.310    0.000    1.052    0.700
+    peerPressure      1.000                               1.000    1.000
+    socialMedia       1.000                               1.000    1.000
+    socialComparsn    1.000                               1.000    1.000
+    eatingDisorder    1.000                               1.000    1.000</code></pre>
+</div>
+</div>
+<p><strong>Tasks</strong></p>
+<ol type="1">
+<li>Report the <strong>standardized loadings</strong> and identify any weak items.</li>
+<li>Check residual variances (Heywood cases? negative variances?).</li>
+<li>Extract the core fit indices: CFI, TLI, RMSEA, SRMR.</li>
+</ol>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_cfa, <span class="fu">c</span>(<span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"rmsea"</span>, <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi   tli rmsea  srmr 
+0.882 0.844 0.066 0.042 </code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2-step-2-two-step-rule-fit-the-structural-model" class="level1">
+<h1>Exercise 2 — STEP 2 (Two-Step rule): fit the structural model</h1>
+<section id="a-add-structural-regressions-among-the-latent-variables" class="level2">
+<h2 class="anchored" data-anchor-id="a-add-structural-regressions-among-the-latent-variables">2a) Add structural regressions among the latent variables</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>m_sem <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # CFA model</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">  peerPressure =~ PP1 + PP2 + PP3 + PP4</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">  socialMedia  =~ SM1 + SM2 + SM3 + SM4</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison =~ SC1 + SC2 + SC3</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder =~ ED1 + ED2</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # Structural model</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder ~ socialComparison</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison ~ peerPressure + socialMedia</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="b-fit-and-inspect" class="level2">
+<h2 class="anchored" data-anchor-id="b-fit-and-inspect">2b) Fit and inspect</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit_sem <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_sem, <span class="at">data =</span> dE4_1, <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sem, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 30 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                        30
+
+  Number of observations                          1423
+
+Model Test User Model:
+                                                      
+  Test statistic                               430.575
+  Degrees of freedom                                61
+  P-value (Chi-square)                           0.000
+
+Model Test Baseline Model:
+
+  Test statistic                              3150.947
+  Degrees of freedom                                78
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.880
+  Tucker-Lewis Index (TLI)                       0.846
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)             -28620.977
+  Loglikelihood unrestricted model (H1)     -28405.690
+                                                      
+  Akaike (AIC)                               57301.954
+  Bayesian (BIC)                             57459.770
+  Sample-size adjusted Bayesian (SABIC)      57364.470
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.065
+  90 Percent confidence interval - lower         0.060
+  90 Percent confidence interval - upper         0.071
+  P-value H_0: RMSEA &lt;= 0.050                    0.000
+  P-value H_0: RMSEA &gt;= 0.080                    0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.044
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Latent Variables:
+                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  peerPressure =~                                                          
+    PP1                  1.019    0.036   27.954    0.000    1.019    0.823
+    PP2                  0.996    0.037   26.873    0.000    0.996    0.785
+    PP3                  0.423    0.033   12.909    0.000    0.423    0.369
+    PP4                  0.468    0.034   13.932    0.000    0.468    0.396
+  socialMedia =~                                                           
+    SM1                  0.582    0.039   15.049    0.000    0.582    0.509
+    SM2                  0.576    0.040   14.452    0.000    0.576    0.487
+    SM3                  0.557    0.039   14.279    0.000    0.557    0.481
+    SM4                  0.653    0.041   16.062    0.000    0.653    0.548
+  socialComparison =~                                                      
+    SC1                  0.799    0.037   21.609    0.000    0.885    0.665
+    SC2                  0.847    0.037   22.797    0.000    0.937    0.716
+    SC3                  0.777    0.037   20.925    0.000    0.860    0.640
+  eatingDisorder =~                                                        
+    ED1                  0.654    0.066    9.920    0.000    0.700    0.579
+    ED2                  0.645    0.065    9.945    0.000    0.690    0.563
+
+Regressions:
+                     Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  eatingDisorder ~                                                        
+    socialComparsn      0.344    0.047    7.322    0.000    0.356    0.356
+  socialComparison ~                                                      
+    peerPressure        0.139    0.038    3.636    0.000    0.125    0.125
+    socialMedia         0.455    0.049    9.221    0.000    0.411    0.411
+
+Covariances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  peerPressure ~~                                                       
+    socialMedia      -0.014    0.039   -0.354    0.723   -0.014   -0.014
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .PP1               0.495    0.054    9.205    0.000    0.495    0.323
+   .PP2               0.619    0.054   11.521    0.000    0.619    0.384
+   .PP3               1.134    0.044   25.612    0.000    1.134    0.864
+   .PP4               1.175    0.046   25.414    0.000    1.175    0.843
+   .SM1               0.969    0.048   20.363    0.000    0.969    0.741
+   .SM2               1.067    0.051   21.069    0.000    1.067    0.762
+   .SM3               1.030    0.048   21.257    0.000    1.030    0.768
+   .SM4               0.995    0.053   18.929    0.000    0.995    0.700
+   .SC1               0.986    0.054   18.198    0.000    0.986    0.558
+   .SC2               0.836    0.054   15.566    0.000    0.836    0.488
+   .SC3               1.068    0.055   19.361    0.000    1.068    0.591
+   .ED1               0.971    0.094   10.279    0.000    0.971    0.665
+   .ED2               1.026    0.093   11.017    0.000    1.026    0.683
+    peerPressure      1.000                               1.000    1.000
+    socialMedia       1.000                               1.000    1.000
+   .socialComparsn    1.000                               0.816    0.816
+   .eatingDisorder    1.000                               0.873    0.873</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_sem, <span class="fu">c</span>(<span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"rmsea"</span>, <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi   tli rmsea  srmr 
+0.880 0.846 0.065 0.044 </code></pre>
+</div>
+</div>
+<p><strong>Questions</strong></p>
+<ol type="1">
+<li>Are the key hypotheses supported (sign + magnitude + uncertainty)?</li>
+<li>How does fit compare to the CFA-only model? (Interpret carefully.)</li>
+</ol>
+<p>(Optional)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_cfa, fit_sem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Chi-Squared Difference Test
+
+        Df   AIC   BIC Chisq Chisq diff  RMSEA Df diff Pr(&gt;Chisq)  
+fit_cfa 59 57297 57466   422                                       
+fit_sem 61 57302 57460   431       8.75 0.0487       2      0.013 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-3-diagnostics-residuals-mi-epcsepc" class="level1">
+<h1>Exercise 3 — Diagnostics: residuals, MI, EPC/SEPC</h1>
+<section id="a-standardized-residual-covariances-local-misfit" class="level2">
+<h2 class="anchored" data-anchor-id="a-standardized-residual-covariances-local-misfit">3a) Standardized residual covariances (local misfit)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res_std <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_sem, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>res_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       PP1    PP2    PP3    PP4    SM1    SM2    SM3    SM4    SC1    SC2
+PP1  0.000                                                               
+PP2  4.114  0.000                                                        
+PP3 -0.956 -1.461  0.000                                                 
+PP4 -1.782 -0.714  3.843  0.000                                          
+SM1 -0.025  0.866  0.527 -1.447  0.000                                   
+SM2 -0.201  0.135  1.297 -0.472 -0.979  0.000                            
+SM3  0.527  0.490  0.127 -0.211 -3.014  1.973  0.000                     
+SM4 -1.102 -0.389  1.354 -0.710 -2.151  1.660  2.005  0.000              
+SC1 -0.195 -0.601  0.677  0.508 -0.370 -2.178 -0.679 -0.570  0.000       
+SC2  0.298 -0.359  1.676  0.657 14.915 -1.812 -0.951 -1.042 -3.833  0.000
+SC3  0.244  0.045  1.346  1.211 -3.254 -3.230 -1.506 -2.873  4.203 -1.867
+ED1 -0.693 -0.951 -2.649 -0.337 -2.138 -2.846 -1.096 -1.179  1.416 -1.514
+ED2 -1.299 -2.440 -0.893 -1.020 -0.471 -0.566 -1.018  0.947  0.108 -1.475
+       SC3    ED1    ED2
+PP1                     
+PP2                     
+PP3                     
+PP4                     
+SM1                     
+SM2                     
+SM3                     
+SM4                     
+SC1                     
+SC2                     
+SC3  0.000              
+ED1  1.659  0.000       
+ED2  1.978  0.000  0.000</code></pre>
+</div>
+</div>
+<p>Find the largest absolute residual covariances:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> res_std</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(R) <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>top_res <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(R))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>top_res <span class="ot">&lt;-</span> top_res[<span class="fu">order</span>(<span class="fu">abs</span>(top_res<span class="sc">$</span>Freq), <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_res, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Var1 Var2  Freq
+122  SM1  SC2 14.92
+62   SC2  SM1 14.92
+115  SC3  SC1  4.20
+139  SC1  SC3  4.20
+2    PP2  PP1  4.11
+14   PP1  PP2  4.11
+30   PP4  PP3  3.84
+42   PP3  PP4  3.84
+114  SC2  SC1 -3.83
+126  SC1  SC2 -3.83</code></pre>
+</div>
+</div>
+</section>
+<section id="b-modification-indices-mi-effect-size-epcsepc" class="level2">
+<h2 class="anchored" data-anchor-id="b-modification-indices-mi-effect-size-epcsepc">3b) Modification indices (MI) + effect size (EPC/SEPC)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit_sem, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 lhs op rhs     mi    epc sepc.all
+120              SM1 ~~ SC2 328.97  0.565    0.628
+49       socialMedia =~ SC2  56.91  0.378    0.289
+57  socialComparison =~ SM1  54.67  0.292    0.283
+121              SM1 ~~ SC3  51.71 -0.235   -0.231
+50       socialMedia =~ SC3  30.54 -0.277   -0.206
+119              SM1 ~~ SC1  22.07 -0.151   -0.154
+143              SC1 ~~ SC3  19.17  0.293    0.285
+74               PP1 ~~ PP2  18.34  0.665    1.201
+97               PP3 ~~ PP4  15.33  0.126    0.109
+58  socialComparison =~ SM2  13.08 -0.146   -0.137
+142              SC1 ~~ SC2  12.91 -0.277   -0.304
+138              SM4 ~~ SC2   9.69 -0.101   -0.110
+117              SM1 ~~ SM3   8.09 -0.112   -0.112
+51       socialMedia =~ ED1   8.02 -0.130   -0.108
+105              PP3 ~~ ED1   7.86 -0.091   -0.087</code></pre>
+</div>
+</div>
+<p><strong>Tasks</strong></p>
+<ol type="1">
+<li>Do the top residual pairs match the top MI suggestions?</li>
+<li>Pick <strong>one</strong> candidate modification that you can justify substantively.</li>
+<li>Write a 1–2 sentence justification (content overlap? method effect? plausible local dependence?).</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exercise-4-model-modification-one-change-refit-and-re-check" class="level1">
+<h1>Exercise 4 — Model modification (one change), refit, and re-check</h1>
+<p>In the original materials, a key misspecification is a residual correlation:</p>
+<ul>
+<li><code>SM1 ~~ SC2</code></li>
+</ul>
+<section id="a-add-one-residual-correlation-and-refit" class="level2">
+<h2 class="anchored" data-anchor-id="a-add-one-residual-correlation-and-refit">4a) Add <em>one</em> residual correlation and refit</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>m_sem_mod <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # CFA model</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">  peerPressure =~ PP1 + PP2 + PP3 + PP4</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">  socialMedia  =~ SM1 + SM2 + SM3 + SM4</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison =~ SC1 + SC2 + SC3</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder =~ ED1 + ED2</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # Structural model</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder ~ socialComparison</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison ~ peerPressure + socialMedia</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # Residual correlation (one modification)</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="st">  SM1 ~~ SC2</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>fit_sem_mod <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_sem_mod, <span class="at">data =</span> dE4_1, <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="b-compare-fit-nested-test" class="level2">
+<h2 class="anchored" data-anchor-id="b-compare-fit-nested-test">4b) Compare fit + nested test</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">original =</span> <span class="fu">fitMeasures</span>(fit_sem, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">modified =</span> <span class="fu">fitMeasures</span>(fit_sem_mod, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           cfi   tli  rmsea   srmr
+original 0.880 0.846 0.0653 0.0440
+modified 0.995 0.994 0.0130 0.0233</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit_sem, fit_sem_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Chi-Squared Difference Test
+
+            Df   AIC   BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)    
+fit_sem_mod 60 56948 57111  74.4                                        
+fit_sem     61 57302 57460 430.6        356   0.5       1     &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="c-re-check-diagnostics" class="level2">
+<h2 class="anchored" data-anchor-id="c-re-check-diagnostics">4c) Re-check diagnostics</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mi_mod <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit_sem_mod, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi_mod[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               lhs op            rhs    mi    epc sepc.all
+75             PP1 ~~            PP2 19.27  0.679    1.226
+98             PP3 ~~            PP4 15.29  0.126    0.109
+106            PP3 ~~            ED1  8.04 -0.092   -0.089
+51     socialMedia =~            SC3  7.89 -0.127   -0.094
+120            SM1 ~~            SC1  5.37  0.075    0.074
+52     socialMedia =~            ED1  4.89 -0.092   -0.076
+129            SM2 ~~            ED1  4.21 -0.068   -0.068
+160   peerPressure  ~ eatingDisorder  3.99 -0.090   -0.097
+153   peerPressure ~~ eatingDisorder  3.99 -0.090   -0.090
+69  eatingDisorder =~            SM2  3.93 -0.077   -0.070</code></pre>
+</div>
+</div>
+<p><strong>Documentation (write these down in your log)</strong></p>
+<ul>
+<li>What did you change and why?</li>
+<li>What evidence supported it (residuals? MI+EPC?)?</li>
+<li>Does the modification change interpretation of the constructs or paths?</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="exercise-5-draw-the-final-model" class="level1">
+<h1>Exercise 5 — Draw the final model</h1>
+<p>Use one of the following:</p>
+<ul>
+<li><strong>R</strong> (semPlot)</li>
+<li>PowerPoint / Keynote</li>
+<li>Hand-drawn</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  fit_sem_mod,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">style =</span> <span class="st">"lisrel"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"tree2"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="dv">2</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCharNodes =</span> <span class="dv">0</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<hr>
+</section>
+<section id="exercise-6-sum-score-path-model-manifest-approximation" class="level1">
+<h1>Exercise 6 — Sum-score path model (manifest approximation)</h1>
+<p>Now reproduce the structural model using <strong>sum scores</strong> (no latent variables).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>d_sum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">peerPressure =</span> dE4_1<span class="sc">$</span>PP1 <span class="sc">+</span> dE4_1<span class="sc">$</span>PP2 <span class="sc">+</span> dE4_1<span class="sc">$</span>PP3 <span class="sc">+</span> dE4_1<span class="sc">$</span>PP4,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">socialMedia  =</span> dE4_1<span class="sc">$</span>SM1 <span class="sc">+</span> dE4_1<span class="sc">$</span>SM2 <span class="sc">+</span> dE4_1<span class="sc">$</span>SM3 <span class="sc">+</span> dE4_1<span class="sc">$</span>SM4,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">socialComparison =</span> dE4_1<span class="sc">$</span>SC1 <span class="sc">+</span> dE4_1<span class="sc">$</span>SC2 <span class="sc">+</span> dE4_1<span class="sc">$</span>SC3,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">eatingDisorder =</span> dE4_1<span class="sc">$</span>ED1 <span class="sc">+</span> dE4_1<span class="sc">$</span>ED2</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>m_path <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="st">  eatingDisorder ~ socialComparison</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="st">  socialComparison ~ peerPressure + socialMedia</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>fit_path <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_path, <span class="at">data =</span> d_sum)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_path, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 1 iteration
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         5
+
+  Number of observations                          1423
+
+Model Test User Model:
+                                                      
+  Test statistic                                 5.993
+  Degrees of freedom                                 2
+  P-value (Chi-square)                           0.050
+
+Model Test Baseline Model:
+
+  Test statistic                               189.127
+  Degrees of freedom                                 5
+  P-value                                        0.000
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.978
+  Tucker-Lewis Index (TLI)                       0.946
+
+Loglikelihood and Information Criteria:
+
+  Loglikelihood user model (H0)              -6565.599
+  Loglikelihood unrestricted model (H1)      -6562.602
+                                                      
+  Akaike (AIC)                               13141.197
+  Bayesian (BIC)                             13167.500
+  Sample-size adjusted Bayesian (SABIC)      13151.616
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.037
+  90 Percent confidence interval - lower         0.000
+  90 Percent confidence interval - upper         0.074
+  P-value H_0: RMSEA &lt;= 0.050                    0.663
+  P-value H_0: RMSEA &gt;= 0.080                    0.024
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.019
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+Regressions:
+                     Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  eatingDisorder ~                                                        
+    socialComparsn      0.139    0.016    8.623    0.000    0.139    0.223
+  socialComparison ~                                                      
+    peerPressure        0.097    0.023    4.151    0.000    0.097    0.106
+    socialMedia         0.258    0.026    9.917    0.000    0.258    0.253
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   .eatingDisorder    3.736    0.140   26.674    0.000    3.736    0.950
+   .socialComparsn    9.339    0.350   26.674    0.000    9.339    0.925</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_path, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi   tli rmsea  srmr 
+0.978 0.946 0.037 0.019 </code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-7-compare-latent-sem-vs-sum-score-path-results" class="level1">
+<h1>Exercise 7 — Compare latent SEM vs sum-score path results</h1>
+<section id="a-compare-key-standardized-structural-coefficients" class="level2">
+<h2 class="anchored" data-anchor-id="a-compare-key-standardized-structural-coefficients">7a) Compare key standardized structural coefficients</h2>
+<p>Extract standardized regressions from both models:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pe_lat <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_sem_mod, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>lat_paths <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_lat, op <span class="sc">==</span> <span class="st">"~"</span> <span class="sc">&amp;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                      lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"eatingDisorder"</span>,<span class="st">"socialComparison"</span>))[, </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"se"</span>,<span class="st">"pvalue"</span>,<span class="st">"std.all"</span>)]</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>lat_paths</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                lhs              rhs   est    se pvalue std.all
+14   eatingDisorder socialComparison 0.377 0.049      0   0.371
+15 socialComparison     peerPressure 0.133 0.036      0   0.126
+16 socialComparison      socialMedia 0.324 0.045      0   0.306</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pe_sum <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_path, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>sum_paths <span class="ot">&lt;-</span> <span class="fu">subset</span>(pe_sum, op <span class="sc">==</span> <span class="st">"~"</span>)[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"se"</span>,<span class="st">"pvalue"</span>,<span class="st">"std.all"</span>)]</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>sum_paths</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>               lhs              rhs   est    se pvalue std.all
+1   eatingDisorder socialComparison 0.139 0.016      0   0.223
+2 socialComparison     peerPressure 0.097 0.023      0   0.106
+3 socialComparison      socialMedia 0.258 0.026      0   0.253</code></pre>
+</div>
+</div>
+</section>
+<section id="b-discussion-write-a-short-paragraph" class="level2">
+<h2 class="anchored" data-anchor-id="b-discussion-write-a-short-paragraph">7b) Discussion (write a short paragraph)</h2>
+<ul>
+<li>Which paths change the most (magnitude / uncertainty)?</li>
+<li>Does the <em>pattern</em> of support for hypotheses change?</li>
+<li>Offer at least <strong>two</strong> measurement-driven explanations for differences:
+<ul>
+<li>unequal loadings / reliability differences</li>
+<li>correlated residuals / local dependence</li>
+<li>attenuation / error-in-variables logic</li>
+<li>factor correlation vs sum-score correlation differences</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="wrap-up" class="level1">
+<h1>Wrap-up</h1>
+<section id="deliverables" class="level2">
+<h2 class="anchored" data-anchor-id="deliverables">Deliverables</h2>
+<ol type="1">
+<li>A 1-page model-checking log:
+<ul>
+<li>CFA fit + key issues</li>
+<li>SEM fit + key issues</li>
+<li>diagnostics used (residuals, MI/EPC)</li>
+<li>what you modified and why</li>
+</ul></li>
+<li>A diagram of the final SEM</li>
+<li>A short comparison of latent vs sum-score conclusions</li>
+</ol>
+</section>
+</section>
+<section id="solutions-instructor-version" class="level1">
+<h1>Solutions (instructor version)</h1>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

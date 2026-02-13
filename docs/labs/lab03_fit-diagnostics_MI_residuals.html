@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tommaso Feraco">
+
+<title>Lab 03 — Fit &amp; diagnostics: residuals, MI, and disciplined respecification – SEM-PhD</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-69548dc370d8aa5186370da619938e85.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">SEM-PhD</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../setup.html"> 
+<span class="menu-text">Setup</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../slides/slides_index.html"> 
+<span class="menu-text">Slides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../labs/labs_index.html"> 
+<span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../glossary.html"> 
+<span class="menu-text">Glossary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../reporting-checklist.html"> 
+<span class="menu-text">Reporting checklist</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../extras/extras_index.html"> 
+<span class="menu-text">Extras</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/feracotommaso/SEM-phd-course"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#part-a-generate-a-dataset-with-known-structure" id="toc-part-a-generate-a-dataset-with-known-structure" class="nav-link" data-scroll-target="#part-a-generate-a-dataset-with-known-structure">Part A — Generate a dataset with known structure</a></li>
+  <li><a href="#part-b-fit-an-intentionally-misspecified-model" id="toc-part-b-fit-an-intentionally-misspecified-model" class="nav-link" data-scroll-target="#part-b-fit-an-intentionally-misspecified-model">Part B — Fit an intentionally misspecified model</a></li>
+  <li><a href="#exercise-1-global-fit-extract-interpret" id="toc-exercise-1-global-fit-extract-interpret" class="nav-link" data-scroll-target="#exercise-1-global-fit-extract-interpret">Exercise 1 — Global fit (extract + interpret)</a>
+  <ul class="collapse">
+  <li><a href="#a-extract-key-indices" id="toc-a-extract-key-indices" class="nav-link" data-scroll-target="#a-extract-key-indices">1a) Extract key indices</a></li>
+  <li><a href="#b-interpret" id="toc-b-interpret" class="nav-link" data-scroll-target="#b-interpret">1b) Interpret</a></li>
+  </ul></li>
+  <li><a href="#exercise-2-visual-sanity-check-diagram" id="toc-exercise-2-visual-sanity-check-diagram" class="nav-link" data-scroll-target="#exercise-2-visual-sanity-check-diagram">Exercise 2 — Visual sanity check (diagram)</a></li>
+  <li><a href="#exercise-3-local-misfit-via-residuals" id="toc-exercise-3-local-misfit-via-residuals" class="nav-link" data-scroll-target="#exercise-3-local-misfit-via-residuals">Exercise 3 — Local misfit via residuals</a>
+  <ul class="collapse">
+  <li><a href="#a-residual-covariances" id="toc-a-residual-covariances" class="nav-link" data-scroll-target="#a-residual-covariances">3a) Residual covariances</a></li>
+  </ul></li>
+  <li><a href="#exercise-4-modification-indices-epcsepc" id="toc-exercise-4-modification-indices-epcsepc" class="nav-link" data-scroll-target="#exercise-4-modification-indices-epcsepc">Exercise 4 — Modification indices + EPC/SEPC</a></li>
+  <li><a href="#exercise-5-respecify-one-change-refit-and-re-check" id="toc-exercise-5-respecify-one-change-refit-and-re-check" class="nav-link" data-scroll-target="#exercise-5-respecify-one-change-refit-and-re-check">Exercise 5 — Respecify (one change), refit, and re-check</a>
+  <ul class="collapse">
+  <li><a href="#a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter" id="toc-a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter" class="nav-link" data-scroll-target="#a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter">5a) Create model m1 by adding exactly one theoretically justified parameter</a></li>
+  <li><a href="#b-compare-global-fit" id="toc-b-compare-global-fit" class="nav-link" data-scroll-target="#b-compare-global-fit">5b) Compare global fit</a></li>
+  <li><a href="#c-χ²-difference-test-nested-models" id="toc-c-χ²-difference-test-nested-models" class="nav-link" data-scroll-target="#c-χ²-difference-test-nested-models">5c) χ² difference test (nested models)</a></li>
+  <li><a href="#d-re-check-local-misfit" id="toc-d-re-check-local-misfit" class="nav-link" data-scroll-target="#d-re-check-local-misfit">5d) Re-check local misfit</a></li>
+  </ul></li>
+  <li><a href="#exercise-6-iterate-once-optional-but-recommended" id="toc-exercise-6-iterate-once-optional-but-recommended" class="nav-link" data-scroll-target="#exercise-6-iterate-once-optional-but-recommended">Exercise 6 — Iterate once (optional, but recommended)</a></li>
+  <li><a href="#part-c-a-truth-check-fit-the-generating-model" id="toc-part-c-a-truth-check-fit-the-generating-model" class="nav-link" data-scroll-target="#part-c-a-truth-check-fit-the-generating-model">Part C — A “truth check”: fit the generating model</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">Wrap-up</a>
+  <ul class="collapse">
+  <li><a href="#what-you-should-take-away" id="toc-what-you-should-take-away" class="nav-link" data-scroll-target="#what-you-should-take-away">What you should take away</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next</a></li>
+  </ul></li>
+  <li><a href="#solutions-instructor-version" id="toc-solutions-instructor-version" class="nav-link" data-scroll-target="#solutions-instructor-version">Solutions (instructor version)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 03 — Fit &amp; diagnostics: residuals, MI, and disciplined respecification</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tommaso Feraco </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="goals" class="level1">
+<h1>Goals</h1>
+<p>In this lab you will learn to:</p>
+<ul>
+<li>Extract and report <strong>core global fit indices</strong> (χ², CFI/TLI, RMSEA+CI, SRMR)</li>
+<li>Inspect <strong>local misfit</strong> using residual matrices (raw + standardized)</li>
+<li>Use <strong>modification indices (MI)</strong> together with <strong>EPC / SEPC</strong> (not MI alone)</li>
+<li>Apply a <strong>disciplined respecification protocol</strong>: one change at a time, theory filter, document</li>
+</ul>
+<p><strong>Important constraint for this lab:</strong><br>
+You are <em>not</em> allowed to add paths “because MI says so”. Each change needs a short substantive rationale.</p>
+<hr>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<hr>
+</section>
+<section id="part-a-generate-a-dataset-with-known-structure" class="level1">
+<h1>Part A — Generate a dataset with known structure</h1>
+<p>We simulate data from a “true” model and then fit a <strong>misspecified</strong> model to create diagnostic signals.</p>
+<p>True DGP:</p>
+<ul>
+<li><code>lifeSatisfaction</code> depends on <code>attachment</code>, <code>selfEsteem</code>, <code>parentalSupport</code>, <code>salary</code></li>
+<li><code>selfEsteem</code> depends on <code>parentalSupport</code> and <code>attachment</code></li>
+<li><code>attachment</code> covaries with <code>parentalSupport</code></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">483</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>m_true <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ .40*parentalSupport + .20*attachment</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">  attachment ~~ .30*parentalSupport</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(m_true, <span class="at">sample.nobs =</span> N, <span class="at">seed =</span> <span class="dv">2026</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> lifeSatisfaction    selfEsteem        attachment       parentalSupport  
+ Min.   :-3.7002   Min.   :-3.1965   Min.   :-2.66785   Min.   :-2.9075  
+ 1st Qu.:-0.8613   1st Qu.:-0.7769   1st Qu.:-0.72205   1st Qu.:-0.7266  
+ Median :-0.0683   Median : 0.0113   Median : 0.00539   Median :-0.0732  
+ Mean   :-0.0308   Mean   :-0.0184   Mean   :-0.03731   Mean   :-0.0314  
+ 3rd Qu.: 0.7516   3rd Qu.: 0.7091   3rd Qu.: 0.64163   3rd Qu.: 0.6940  
+ Max.   : 3.4794   Max.   : 3.0854   Max.   : 2.80907   Max.   : 3.1298  
+     salary       
+ Min.   :-2.9048  
+ 1st Qu.:-0.6525  
+ Median :-0.0525  
+ Mean   :-0.0287  
+ 3rd Qu.: 0.6024  
+ Max.   : 2.4550  </code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="part-b-fit-an-intentionally-misspecified-model" class="level1">
+<h1>Part B — Fit an intentionally misspecified model</h1>
+<p>We omit:</p>
+<ul>
+<li>some predictors of <code>lifeSatisfaction</code></li>
+<li>the covariance <code>attachment ~~ parentalSupport</code></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~ selfEsteem + salary</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ parentalSupport + attachment</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">sem</span>(m0, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<hr>
+</section>
+<section id="exercise-1-global-fit-extract-interpret" class="level1">
+<h1>Exercise 1 — Global fit (extract + interpret)</h1>
+<section id="a-extract-key-indices" class="level2">
+<h2 class="anchored" data-anchor-id="a-extract-key-indices">1a) Extract key indices</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  fit0,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"npar"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"pvalue"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rmsea"</span>,<span class="st">"rmsea.ci.lower"</span>,<span class="st">"rmsea.ci.upper"</span>,<span class="st">"srmr"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>          npar          chisq             df         pvalue            cfi 
+         8.000         72.623          3.000          0.000          0.788 
+           tli          rmsea rmsea.ci.lower rmsea.ci.upper           srmr 
+         0.505          0.219          0.177          0.264          0.067 </code></pre>
+</div>
+</div>
+</section>
+<section id="b-interpret" class="level2">
+<h2 class="anchored" data-anchor-id="b-interpret">1b) Interpret</h2>
+<p>Answer in 3–5 sentences:</p>
+<ol type="1">
+<li>Does the model seem globally plausible?</li>
+<li>Which indices are most informative here and why?</li>
+<li>If χ² is significant, what are two non-mutually-exclusive reasons?</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exercise-2-visual-sanity-check-diagram" class="level1">
+<h1>Exercise 2 — Visual sanity check (diagram)</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths</span>(fit0, <span class="at">what =</span> <span class="st">"std"</span>, <span class="at">layout =</span> <span class="st">"tree"</span>, <span class="at">residuals =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">nCharNodes =</span> <span class="dv">0</span>, <span class="at">sizeMan =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Question</strong></p>
+<ul>
+<li>Which substantive relations are missing <em>relative to your theoretical DGP description</em>?</li>
+</ul>
+<hr>
+</section>
+<section id="exercise-3-local-misfit-via-residuals" class="level1">
+<h1>Exercise 3 — Local misfit via residuals</h1>
+<section id="a-residual-covariances" class="level2">
+<h2 class="anchored" data-anchor-id="a-residual-covariances">3a) Residual covariances</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Play with the different 'type of residuals'</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 'cor', 'cor.bollen', 'cor.bentler', 'raw'</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>res_cov <span class="ot">&lt;-</span> <span class="fu">lavResiduals</span>(fit0)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># res_cov$resid is S - Sigma_hat</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>res_cov<span class="sc">$</span>cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 lfStsf slfEst salary prntlS attchm
+lifeSatisfaction -0.005                            
+selfEsteem       -0.005  0.000                     
+salary           -0.008 -0.018  0.000              
+parentalSupport   0.288  0.000  0.000  0.000       
+attachment        0.076  0.000  0.000  0.000  0.000</code></pre>
+</div>
+</div>
+<p><strong>Tasks</strong></p>
+<ol type="1">
+<li>Identify the <strong>top 3</strong> largest absolute standardized residual covariances.</li>
+<li>For each, propose a <em>candidate explanation</em> (omitted path? omitted covariance? shared cause?).</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exercise-4-modification-indices-epcsepc" class="level1">
+<h1>Exercise 4 — Modification indices + EPC/SEPC</h1>
+<p>Compute MI and inspect the top candidates.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit0, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                lhs op              rhs     mi    epc sepc.all
+19 lifeSatisfaction  ~  parentalSupport 67.193  0.428    0.351
+18 lifeSatisfaction ~~       selfEsteem 58.870 -0.764   -0.773
+27  parentalSupport  ~ lifeSatisfaction 45.447  0.263    0.321
+21       selfEsteem  ~ lifeSatisfaction 41.326 -0.469   -0.545
+20 lifeSatisfaction  ~       attachment  4.161  0.099    0.082
+23           salary  ~ lifeSatisfaction  0.407 -0.045   -0.059
+22       selfEsteem  ~           salary  0.204 -0.021   -0.018
+31       attachment  ~ lifeSatisfaction  0.142 -0.014   -0.017
+28  parentalSupport  ~       selfEsteem  0.126  0.610    0.640
+24           salary  ~       selfEsteem  0.126 -0.013   -0.014
+32       attachment  ~       selfEsteem  0.005 -0.895   -0.925
+11  parentalSupport ~~       attachment  0.000  0.000       NA</code></pre>
+</div>
+</div>
+<p><strong>Tasks</strong></p>
+<ol type="1">
+<li>Compare your residual-based guesses from Exercise 3 with the MI list. Do they agree?</li>
+<li>Pick <strong>one</strong> candidate modification that is:
+<ul>
+<li>theoretically plausible, and</li>
+<li>supported by both residual patterns <strong>and</strong> MI/EPC.</li>
+</ul></li>
+</ol>
+<p>Write a one-sentence justification.</p>
+<hr>
+</section>
+<section id="exercise-5-respecify-one-change-refit-and-re-check" class="level1">
+<h1>Exercise 5 — Respecify (one change), refit, and re-check</h1>
+<section id="a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter">5a) Create model m1 by adding exactly one theoretically justified parameter</h2>
+<p>Common modifications include:</p>
+<ul>
+<li>adding a covariance among exogenous variables (<code>~~</code>)</li>
+<li>adding a missing regression (<code>~</code>)</li>
+</ul>
+<p>Create <code>m1</code> below and refit.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~ selfEsteem + salary</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ parentalSupport + attachment</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">  # ADD ONE PARAMETER HERE (exactly one line)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # attachment ~~ parentalSupport</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # OR: lifeSatisfaction ~ parentalSupport</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # OR: lifeSatisfaction ~ attachment</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">sem</span>(m1, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="b-compare-global-fit" class="level2">
+<h2 class="anchored" data-anchor-id="b-compare-global-fit">5b) Compare global fit</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit0, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> chisq     df    cfi    tli  rmsea   srmr 
+72.623  3.000  0.788  0.505  0.219  0.067 </code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit1, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> chisq     df    cfi    tli  rmsea   srmr 
+72.623  3.000  0.788  0.505  0.219  0.067 </code></pre>
+</div>
+</div>
+</section>
+<section id="c-χ²-difference-test-nested-models" class="level2">
+<h2 class="anchored" data-anchor-id="c-χ²-difference-test-nested-models">5c) χ² difference test (nested models)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit0, fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Chi-Squared Difference Test
+
+     Df  AIC  BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
+fit0  3 2746 2779  72.6                                    
+fit1  3 2746 2779  72.6          0     0       0           </code></pre>
+</div>
+</div>
+</section>
+<section id="d-re-check-local-misfit" class="level2">
+<h2 class="anchored" data-anchor-id="d-re-check-local-misfit">5d) Re-check local misfit</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>res1_std <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit1)<span class="sc">$</span>cov</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>res1_std</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 lfStsf slfEst salary prntlS attchm
+lifeSatisfaction -0.007                            
+selfEsteem       -0.007  0.000                     
+salary           -0.009 -0.018  0.000              
+parentalSupport   0.356  0.000  0.000  0.000       
+attachment        0.095  0.000  0.000  0.000  0.000</code></pre>
+</div>
+</div>
+<p><strong>Interpretation questions</strong></p>
+<ol type="1">
+<li>Did the single change reduce the largest residuals you identified?</li>
+<li>Did it improve the global indices meaningfully?</li>
+<li>Is the change defensible theoretically, or did you “chase fit”?</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exercise-6-iterate-once-optional-but-recommended" class="level1">
+<h1>Exercise 6 — Iterate once (optional, but recommended)</h1>
+<p>Repeat Exercise 5 <strong>one more time</strong>:</p>
+<ul>
+<li>create <code>m2</code> by adding <strong>one additional parameter</strong> (only one) to <code>m1</code></li>
+<li>refit and compare <code>fit1</code> vs <code>fit2</code></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="st">  # paste m1 and add one more line</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># fit2 &lt;- sem(m2, data = dat, meanstructure = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><strong>Task</strong></p>
+<p>Document your respecification path:</p>
+<ul>
+<li>m0 → m1: what changed and why</li>
+<li>m1 → m2: what changed and why</li>
+<li>what diagnostics supported each change (residuals? MI+EPC?)</li>
+</ul>
+<hr>
+</section>
+<section id="part-c-a-truth-check-fit-the-generating-model" class="level1">
+<h1>Part C — A “truth check”: fit the generating model</h1>
+<p>Fit the model that generated the data. This is not something you can do in real life, but it calibrates your intuition.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit_true <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_true, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_true, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>chisq    df   cfi   tli rmsea  srmr 
+ 7.76 10.00  1.00  1.01  0.00  0.03 </code></pre>
+</div>
+</div>
+<p><strong>Questions</strong></p>
+<ol type="1">
+<li>Does the true model always have “perfect fit”? Why or why not?</li>
+<li>What does this tell you about interpreting fit indices?</li>
+</ol>
+<hr>
+</section>
+<section id="wrap-up" class="level1">
+<h1>Wrap-up</h1>
+<section id="what-you-should-take-away" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-should-take-away">What you should take away</h2>
+<ul>
+<li><strong>Global fit</strong> summarizes mismatch; it doesn’t locate problems.</li>
+<li><strong>Local diagnostics</strong> (residuals + MI/EPC) tell you <em>where</em> mismatch lives.</li>
+<li>Respecification must be <strong>theory-filtered</strong>, done <strong>one step at a time</strong>, and <strong>reported transparently</strong>.</li>
+</ul>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next</h2>
+<ul>
+<li>Next we shift to measurement models (CFA), where local diagnostics include:
+<ul>
+<li>cross-loadings (often fixed to 0)</li>
+<li>correlated errors</li>
+<li>weak items / low loadings</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="solutions-instructor-version" class="level1">
+<h1>Solutions (instructor version)</h1>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

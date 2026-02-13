@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Tommaso Feraco">
-  <title>SEM-PhD – Welcome &amp; course map</title>
+  <title>SEM-PhD – Model fit &amp; diagnostics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -195,8 +195,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="../assets/images/psicostatLogo.png" data-background-opacity="0.15" data-background-size="contain" class="quarto-title-block center">
-  <h1 class="title">Welcome &amp; course map</h1>
-  <p class="subtitle">Structural Equation Modeling (SEM) • PhD Doctoral School</p>
+  <h1 class="title">Model fit &amp; diagnostics</h1>
+  <p class="subtitle">Global fit, local misfit, and disciplined respecification</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -206,190 +206,358 @@ Tommaso Feraco
 </div>
 </div>
 
+  <p class="date">Invalid Date</p>
 </section>
 <section id="today-in-the-workflow" class="slide level2">
 <h2>Today in the workflow</h2>
+<p><strong>Specify → Identify → Estimate → <em>Evaluate</em> → Revise/Report</strong></p>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p><strong>Welcome deck (today):</strong> logistics + course map + how we’ll work<br>
-<strong>Next deck (01):</strong> workflow + lavaan foundations (from <em>Specify → Identify → Estimate → Evaluate → Revise/Report</em>)</p>
+<p><strong>Today:</strong> how we evaluate models: <strong>global fit</strong> + <strong>local diagnostics</strong> → disciplined respecification.<br>
+We keep the focus on observed-variable models; CFA-specific diagnostics come in deck 04.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="who-is-this-course-for" class="slide level2">
-<h2>Who is this course for?</h2>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<p>By the end of this session you should be able to:</p>
 <ul>
-<li>Psychology PhD students with <strong>solid R skills</strong></li>
-<li>You’ve run regressions/GLMs; you want to <strong>model constructs + relations</strong> with SEM</li>
-<li>You’re willing to think in <strong>models</strong> (not just tests)</li>
+<li>State what “model fit” means: <strong>S</strong> vs <strong>Σ̂(θ)</strong> (exact vs approximate fit)</li>
+<li>Distinguish <strong>global fit</strong> from <strong>local misfit</strong></li>
+<li>Compute and report core indices (<strong>χ²</strong>, <strong>CFI/TLI</strong>, <strong>RMSEA + CI</strong>, <strong>SRMR</strong>) in lavaan</li>
+<li>Use <strong>residuals</strong> and <strong>modification indices (MI + EPC/SEPC)</strong> responsibly</li>
+<li>Follow a <strong>respecification protocol</strong> that avoids “fit hacking”</li>
 </ul>
 </section>
-<section id="why-am-i-here" class="slide level2">
-<h2>Why am I here?</h2>
-<p>I am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:</p>
+<section id="the-object-of-interest" class="slide level2">
+<h2>The object of interest</h2>
+<p>Model fit is about reproducing the observed covariance matrix.</p>
+<p><span class="math display">\[
+H_0:\ \hat{\Sigma}(\theta) = \Sigma
+\]</span></p>
+<p><img data-src="../assets/images/modelfit.png" style="height:5cm"></p>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Fit indices summarize “how close” the model-implied covariance structure is to the data.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="fit-is-a-property-of-a-model-data-estimator" class="slide level2">
+<h2>Fit is a property of a <em>model + data + estimator</em></h2>
+<p>Fit indices are not “truth meters”.</p>
+<p>They depend on:</p>
 <ul>
-<li>Measurement</li>
-<li>Multivariate analyses</li>
-<li>Complex regression models</li>
-<li>Longitudinal analyses</li>
-<li>…</li>
+<li>sample size (N)</li>
+<li>model degrees of freedom (df)</li>
+<li>estimator and distributional assumptions (ML, robust ML, WLSMV, …)</li>
+<li>model complexity (how constrained the model is)</li>
 </ul>
 </section>
-<section id="what-youll-be-able-to-do-by-the-end" class="slide level2">
-<h2>What you’ll be able to do (by the end)</h2>
-<ul>
-<li>Translate a verbal theory into a <strong>diagram</strong> and a <strong>lavaan model</strong></li>
-<li>Evaluate <strong>global fit</strong> <em>and</em> <strong>local misfit</strong> (and respecify responsibly)</li>
-<li>Fit and report:
-<ul>
-<li>path models / mediation</li>
-<li>CFA and SEM (measurement + structure)</li>
-<li>invariance (MG-CFA), ordinal SEM, longitudinal and clustered strategies</li>
-</ul></li>
-<li>Produce <strong>reproducible reports</strong> (Quarto + a reporting checklist)</li>
-</ul>
+<section id="quick-example-dataset-same-structure-as-your-exercise-2" class="slide level2">
+<h2>Quick example dataset (same structure as your Exercise 2)</h2>
+<p>We simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">483</span></span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>m_true <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary</span></span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ .40*parentalSupport + .20*attachment</span></span>
+<span id="cb1-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  attachment ~~ .30*parentalSupport</span></span>
+<span id="cb1-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a aria-hidden="true" tabindex="-1"></a>m_fit <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb1-10"><a aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~ selfEsteem + salary     # omits some true predictors</span></span>
+<span id="cb1-11"><a aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ parentalSupport + attachment</span></span>
+<span id="cb1-12"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # attachment ~~ parentalSupport            # (omitted on purpose)</span></span>
+<span id="cb1-13"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb1-14"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a aria-hidden="true" tabindex="-1"></a>E2 <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(m_true, <span class="at">sample.nobs =</span> N, <span class="at">seed =</span> <span class="dv">12</span>)</span>
+<span id="cb1-16"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_fit, <span class="at">data =</span> E2, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="course-contents-big-picture" class="slide level2">
-<h2>Course contents (big picture)</h2>
-<p>We will (hopefully) cover:</p>
-<ol type="1">
-<li>lavaan workflow + foundations<br>
-</li>
-<li>Path analysis &amp; mediation (equivalence and interpretation)<br>
-</li>
-<li>Model fit &amp; diagnostics (global vs local; disciplined respecification)<br>
-</li>
-<li>CFA (measurement first; reliability/validity)<br>
-</li>
-<li>Full SEM (measurement + structural part; capstone)<br>
-</li>
-<li>Measurement invariance (MG-CFA; partial invariance)<br>
-</li>
-<li>Ordinal SEM (thresholds; WLSMV/ULS; ordinal invariance)<br>
-</li>
-<li>Missing/robustness/reporting (FIML/MI; robust SE; write-up)<br>
-</li>
-<li>Longitudinal SEM (growth + invariance over time)<br>
-</li>
-<li>Clustered/multilevel strategies (robust SE; two-level CFA)</li>
-</ol>
-</section>
-<section id="what-we-will-not-focus-on-in-live-sessions" class="slide level2">
-<h2>What we will <em>not</em> focus on (in live sessions)</h2>
+<section id="families-of-fit-indices" class="slide level2">
+<h2>Families of fit indices</h2>
 <ul>
-<li>EFA (we’ll mention it, but we are <strong>not</strong> doing an EFA course)</li>
-<li>Bayesian SEM (optional extra)</li>
-<li>Advanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)</li>
+<li><strong>χ²-based</strong> (exact-fit test)</li>
+<li><strong>Comparative / incremental</strong> (CFI, TLI, NFI)</li>
+<li><strong>Parsimony</strong> (RMSEA + CI; AIC/BIC)</li>
+<li><strong>Residual-based / absolute</strong> (SRMR, RMR; and other “standalone” indices)</li>
 </ul>
 <div class="callout callout-tip no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>If you need something specific for your project, let me know: I’ll try to fit it into the right module.</p>
+<p>You need <em>at least</em> one index from each of: comparative + approximate + residual-based.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="format-5-mornings-4-hours" class="slide level2">
-<h2>Format: 5 mornings × 4 hours</h2>
-<p>Each morning is split into <strong>two 2-hour blocks</strong> including:</p>
+<section id="χ²-test-what-it-is-and-why-it-annoys-people" class="slide level2">
+<h2>χ² test: what it is (and why it annoys people)</h2>
+<p>Under ML, the likelihood ratio test yields:</p>
+<p><span class="math display">\[
+\chi^2 = (N-1)\,F_{\mathrm{ML}}
+\]</span></p>
+<p>with (df = - t) (non-redundant moments minus free parameters).</p>
+<p><strong>Why it rejects so often:</strong></p>
 <ul>
-<li>theoretical and practical concepts</li>
-<li>live coding</li>
-<li>lab and excercises</li>
-<li>optional extra topics</li>
-<li>discussion</li>
+<li>with large (N), tiny misspecifications become detectable</li>
+<li>real data rarely satisfy “exact fit” assumptions</li>
 </ul>
 </section>
-<section id="the-repository-is-the-course" class="slide level2">
-<h2>The repository is the course</h2>
-<p><strong>SEM-phd-course</strong> is a Quarto website + source files:</p>
+<section id="χ²-assumptions-classical-ml" class="slide level2">
+<h2>χ² assumptions (classical ML)</h2>
+<p>The textbook χ² calibration relies on:</p>
 <ul>
-<li><code>/slides/</code> revealjs decks (what you see in class)</li>
-<li><code>/labs/</code> hands-on labs (what you do)</li>
-<li><code>/extras/</code> self-study (or extra) modules</li>
-<li><code>/R/</code> helper functions (fit, plots, reporting)</li>
+<li>independent observations</li>
+<li>correct model form</li>
+<li>multivariate normality for endogenous observed variables (in ML)</li>
+<li>sufficiently large (N)</li>
 </ul>
+<p>…and it is sensitive to:</p>
+<ul>
+<li>non-normality</li>
+<li>missing data handling</li>
+<li>clustering (design effects)</li>
+</ul>
+<p><em>(Robust corrections and missing-data strategies come in deck 06.)</em></p>
+</section>
+<section id="lavaan-core-fit-measures" class="slide level2">
+<h2>lavaan: core fit measures</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"npar"</span>, <span class="st">"chisq"</span>, <span class="st">"df"</span>, <span class="st">"pvalue"</span>,</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"cfi"</span>, <span class="st">"tli"</span>,</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>,</span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available.</p>
+<p>We will later discuss robust variants (scaled χ², robust CFI/RMSEA) and when they matter.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="how-to-use-materials-during-class" class="slide level2">
-<h2>How to use materials during class</h2>
-<ol type="1">
-<li>Keep the <strong>slides</strong> open (concepts + code snippets)</li>
-<li>Work in the <strong>lab</strong> file in parallel (copy/adapt code)</li>
-<li>When stuck:
-<ul>
-<li>identify <em>where</em> you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)</li>
-<li>bring the smallest reproducible example</li>
-<li>talk</li>
-</ul></li>
-</ol>
+<section id="comparative-indices-cfitli-baseline-model-logic" class="slide level2">
+<h2>Comparative indices (CFI/TLI): baseline model logic</h2>
+<p>Comparative indices evaluate improvement over a <strong>baseline (independence) model</strong>.</p>
+<p>Baseline idea: each variable has its own variance; covariances are fixed to 0.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~~ lifeSatisfaction</span></span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem ~~ selfEsteem</span></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  salary ~~ salary</span></span>
+<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  parentalSupport ~~ parentalSupport</span></span>
+<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  attachment ~~ attachment</span></span>
+<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a>fit_bm <span class="ot">&lt;-</span> <span class="fu">sem</span>(bm, <span class="at">data =</span> E2, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="software-checklist-do-this-before-we-start" class="slide level2">
-<h2>Software checklist (do this before we start)</h2>
+<section id="visual-intuition-baseline-vs-user-model" class="slide level2">
+<h2>Visual intuition: baseline vs user model</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Baseline model</strong> (no covariances)</p>
+</div><div class="column" style="width:45%;">
+<p><strong>User model</strong> is evaluated <em>relative to</em> baseline.</p>
+<p>CFI uses the improvement in <span class="math display">\[
+\delta = \chi^2 - df
+\]</span> compared to baseline (and saturated).</p>
+</div></div>
+</section>
+<section id="cfi-formula-and-why-df-matters" class="slide level2">
+<h2>CFI formula (and why df matters)</h2>
+<p><span class="math display">\[
+\mathrm{CFI}=\frac{\delta(\text{Baseline})-\delta(\text{User})}{\delta(\text{Baseline})-\delta(\text{Saturated})}
+\qquad
+\text{with}\ \delta=\chi^2-df,\ \delta(\text{Saturated})=0
+\]</span></p>
+<p><strong>Implication:</strong> CFI/TLI are functions of both misfit <strong>and</strong> (df).<br>
+Two models can have the same χ² but different CFI if their df differ.</p>
+</section>
+<section id="parsimony-approximate-fit-rmsea" class="slide level2">
+<h2>Parsimony &amp; approximate fit: RMSEA</h2>
+<p>RMSEA targets <em>approximate</em> (not exact) fit.</p>
+<p>A common ML form:</p>
+<p><span class="math display">\[
+\mathrm{RMSEA}=\sqrt{\max\left(\frac{\chi^2-df}{df(N-1)},0\right)}
+\]</span></p>
 <ul>
-<li>R (recent), RStudio</li>
-<li>Quarto</li>
-<li>Packages (minimum):
-<ul>
-<li><code>lavaan</code>, <code>semTools</code>, <code>semPlot</code>, <code>tidyverse</code>, <code>quarto</code></li>
-</ul></li>
-<li>Optional but useful:
-<ul>
-<li><code>psych</code>, <code>MVN</code>, <code>performance</code>, <code>broom</code>, <code>parameters</code></li>
-</ul></li>
+<li>prefers parsimony: penalizes low (df) models less forgivingly</li>
+<li>always report the <strong>confidence interval</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lavaan"</span>,<span class="st">"semTools"</span>,<span class="st">"semPlot"</span>,<span class="st">"tidyverse"</span>)</span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">length</span>(to_install)) <span class="fu">install.packages</span>(to_install)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="parking-lot-questions" class="slide level2">
-<h2>Parking lot questions</h2>
-<p>If your question is:</p>
+<section id="residual-based-fit-srmr" class="slide level2">
+<h2>Residual-based fit: SRMR</h2>
+<p>SRMR summarizes the average standardized residual:</p>
 <ul>
-<li><strong>about your own project’s model</strong> → keep it; we’ll connect it to a module<br>
-</li>
-<li><strong>about R/lavaan syntax</strong> → ask immediately<br>
-</li>
-<li><strong>about advanced variants</strong> (Bayesian, latent interactions, MIIVs, etc.) → likely an <em>extra</em>. We can cover it if we have time.</li>
+<li>compare observed correlations vs model-implied correlations</li>
+<li>less sensitive to (N) than χ², but sensitive to model structure</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"srmr"</span>, <span class="st">"rmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>SRMR is often most informative when paired with <strong>residual inspection</strong> (next slides).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-to-report-minimum-set" class="slide level2">
+<h2>What to report (minimum set)</h2>
+<p>In manuscripts, prefer a <em>consistent</em> minimal bundle:</p>
+<ul>
+<li>estimator + missing data strategy</li>
+<li>χ², df, p</li>
+<li>CFI and TLI</li>
+<li>RMSEA with 90% CI (and SRMR)</li>
+<li><strong>local diagnostics summary</strong> (what you checked, what you changed, and why)</li>
+</ul>
+<p>(We formalize reporting in deck 06 + the course reporting checklist.)</p>
+</section>
+<section id="global-vs-local-fit" class="slide level2">
+<h2>Global vs local fit</h2>
+<ul>
+<li><strong>Global fit:</strong> one-number summaries of overall mismatch (χ², CFI/TLI, RMSEA, SRMR)</li>
+<li><strong>Local fit:</strong> where the mismatch lives
+<ul>
+<li>residual covariance/correlation matrices</li>
+<li>standardized residuals</li>
+<li>MI + EPC/SEPC</li>
+</ul></li>
+</ul>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Global fit can look “ok” while a few parameters are seriously wrong (and vice versa).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="residuals-where-does-the-model-fail" class="slide level2">
+<h2>Residuals: “where does the model fail?”</h2>
+<p>lavaan can return observed, implied, and residual covariances.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lavResiduals</span>(fit, <span class="at">type =</span> <span class="st">"cov"</span>)</span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(res)</span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res$cov     # observed and implied covariance matrices</span></span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res$resid   # residual covariance matrix (S - Sigma_hat)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In practice you inspect:</p>
+<ul>
+<li>largest residual covariances/correlations</li>
+<li>patterns (blocks, specific pairs, method effects)</li>
+</ul>
+</section>
+<section id="standardized-residuals-local-z-scores" class="slide level2">
+<h2>Standardized residuals (local z-scores)</h2>
+<p>Standardized residuals scale residuals by their sampling variability.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>res_std <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"standardized"</span>)</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res_std$cov  # standardized residual covariances</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Heuristic: large absolute standardized residuals flag local misfit.<br>
+(We avoid “magic cutoffs”; interpret in context + patterns.)</p>
+</section>
+<section id="step-5-model-modification-the-dangerous-step" class="slide level2">
+<h2>Step 5: model modification (the <em>dangerous</em> step)</h2>
+<p>The goal is not “better numbers”.</p>
+<p>The goal is:</p>
+<ul>
+<li>a model that is <strong>more plausible</strong> given theory and diagnostics</li>
+<li>changes that are <strong>transparent</strong> and ideally <strong>replicable</strong></li>
+</ul>
+</section>
+<section id="modification-indices-the-lagrange-multiplier-idea" class="slide level2">
+<h2>Modification indices: the Lagrange Multiplier idea</h2>
+<p>MI approximates how much χ² would decrease if a fixed parameter were freed.</p>
+<ul>
+<li>MI is a <em>score test</em> (local improvement)</li>
+<li>it does <strong>not</strong> tell you the direction/magnitude of the new parameter</li>
+</ul>
+<p>So you inspect MI <strong>together with</strong> EPC (expected parameter change).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="epc-vs-sepc-why-you-want-both" class="slide level2">
+<h2>EPC vs SEPC (why you want both)</h2>
+<ul>
+<li><strong>EPC</strong>: expected <em>unstandardized</em> change (units matter)</li>
+<li><strong>SEPC</strong>: expected standardized change (comparability)</li>
+</ul>
+<p>If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large (N)).</p>
+</section>
+<section id="a-disciplined-respecification-protocol" class="slide level2">
+<h2>A disciplined respecification protocol</h2>
+<ol type="1">
+<li><strong>Check admissibility</strong><br>
+convergence, Heywood cases (negative variances), huge SE, non-identified warnings</li>
+<li><strong>Inspect local misfit</strong><br>
+residuals → standardized residuals → MI/EPC</li>
+<li><strong>Apply theory filter</strong><br>
+is the modification plausible and consistent with your construct/design?</li>
+<li><strong>Change one thing at a time</strong><br>
+refit, re-check, document</li>
+<li><strong>Validate</strong><br>
+holdout sample / replication / preregistration (when feasible)</li>
+</ol>
+</section>
+<section id="pitfall-callout-models-that-fit-are-not-necessarily-true" class="slide level2">
+<h2>Pitfall callout: “models that fit” are not necessarily true</h2>
+<ul>
+<li>opposite arrows can imply the same covariance structure (equivalence)</li>
+<li>post-hoc modifications capitalize on chance</li>
+<li>measurement error in observed variables contaminates estimates</li>
+</ul>
+<p><img data-src="../assets/images/memefit.png" style="height:5.6cm"></p>
+</section>
+<section id="exercises-lab-03" class="slide level2">
+<h2>Exercises (Lab 03)</h2>
+<p>Go to:</p>
+<ul>
+<li><strong><code>labs/lab03_fit-diagnostics_MI_residuals.qmd</code></strong></li>
+</ul>
+<p>You’ll practice:</p>
+<ol type="1">
+<li>Extracting and reporting fit indices</li>
+<li>Inspecting residual matrices (raw + standardized)</li>
+<li>Using MI + EPC/SEPC to propose <strong>theory-justified</strong> modifications</li>
+<li>Documenting a respecification path transparently</li>
+</ol>
 </section>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
 <ol type="1">
-<li>SEM is not just a model, but also a <strong>mindset</strong></li>
-<li>SEM is both <strong>theory</strong> and <strong>stat</strong><br>
+<li>Fit indices quantify mismatch between <strong>S</strong> and <strong>Σ̂(θ)</strong>—they are not “truth”<br>
 </li>
-<li>SEM is both <strong>measurement</strong> and <strong>structure</strong>, tests</li>
+<li>Always pair <strong>global fit</strong> with <strong>local diagnostics</strong> (residuals + MI/EPC)<br>
+</li>
+<li>Respecification is a scientific decision: <strong>theory + transparency + validation</strong></li>
 </ol>
-<ul>
-<li>The repo is your <strong>long-term reference</strong> (slides, labs, extras, helpers)</li>
-</ul>
 </section>
-<section id="next" class="slide level2">
-<h2>Next</h2>
-<p><strong>Next deck (01):</strong> SEM foundations + workflow + lavaan basics<br>
-→ we start coding immediately.</p>
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Open the repo, run the package check, and make sure Quarto renders.</p>
-</div>
-</div>
-</div>
+<section id="optional-beyond-fixed-cutoffs" class="slide level2">
+<h2>Optional: beyond fixed cutoffs</h2>
+<p>Rules like “CFI &gt; .95” or “RMSEA &lt; .06” can be misleading because fit indices depend on:</p>
+<ul>
+<li>model structure (df, factor loadings, cross-loadings, residual correlations)</li>
+<li>distributional features (non-normality, ordinal data)</li>
+<li>estimation method and sample size</li>
+</ul>
+<p><strong>Extra (later / self-study):</strong> dynamic fit indices &amp; simulation-informed expectations - Groskurth et al.&nbsp;(2023) — fit cutoffs depend on analysis characteristics - McNeish &amp; Wolf (2023) — pushing against universal cutoffs - Dynamic fit index app (for exploring scenario-dependent thresholds)</p>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
-<p>(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)</p>
+<p>(We’ll finalize citations/keys in <code>refs/references.bib</code> when polishing the course website.)</p>
 
 
 </section>

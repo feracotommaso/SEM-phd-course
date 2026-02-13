@@ -30,7 +30,7 @@
   </url>
   <url>
     <loc>/index.html</loc>
-    <lastmod>2026-02-06T14:25:06.310Z</lastmod>
+    <lastmod>2026-02-13T17:17:43.210Z</lastmod>
   </url>
   <url>
     <loc>/reporting-checklist.html</loc>
@@ -74,14 +74,46 @@
   </url>
   <url>
     <loc>/slides/00_welcome_course-map.html</loc>
-    <lastmod>2026-02-09T16:23:04.901Z</lastmod>
+    <lastmod>2026-02-13T16:02:16.992Z</lastmod>
   </url>
   <url>
     <loc>/slides/01_sem-foundations_workflow_lavaan.html</loc>
-    <lastmod>2026-02-10T09:12:54.303Z</lastmod>
+    <lastmod>2026-02-13T17:04:22.375Z</lastmod>
   </url>
   <url>
     <loc>/labs/lab01_lavaan-basics.html</loc>
-    <lastmod>2026-02-10T09:28:10.966Z</lastmod>
+    <lastmod>2026-02-13T17:17:15.501Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/02_path-analysis_mediation_equivalence.html</loc>
+    <lastmod>2026-02-13T17:36:06.897Z</lastmod>
+  </url>
+  <url>
+    <loc>/labs/lab02_path-mediation.html</loc>
+    <lastmod>2026-02-13T17:45:48.006Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/03_model-fit_diagnostics_respecification.html</loc>
+    <lastmod>2026-02-11T14:36:37.319Z</lastmod>
+  </url>
+  <url>
+    <loc>/labs/lab03_fit-diagnostics_MI_residuals.html</loc>
+    <lastmod>2026-02-11T19:22:35.758Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/04_cfa_measurement_reliability.html</loc>
+    <lastmod>2026-02-11T21:06:18.419Z</lastmod>
+  </url>
+  <url>
+    <loc>/labs/lab04_cfa_reliability_omegas.html</loc>
+    <lastmod>2026-02-11T21:14:32.278Z</lastmod>
+  </url>
+  <url>
+    <loc>/labs/lab05_sem_capstone_eat.html</loc>
+    <lastmod>2026-02-13T15:45:20.054Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/05_sem_measurement-plus-structure_capstone.html</loc>
+    <lastmod>2026-02-13T15:44:27.886Z</lastmod>
   </url>
 </urlset>

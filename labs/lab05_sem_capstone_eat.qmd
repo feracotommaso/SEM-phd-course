@@ -1,0 +1,362 @@
+---
+title: "Lab 05 — SEM capstone with the EAT dataset"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+SHOW <- isTRUE(params$show_solutions)
+options(digits = 3)
+set.seed(12)
+```
+
+# Goals
+
+This lab is a **full SEM workflow** exercise (measurement + structure):
+
+1. Apply the **Two-Step rule** (identify/fit measurement first, then structure)
+2. Evaluate the model using **fit indices + diagnostics** (global + local)
+3. Use **MI + EPC/SEPC** to propose a *theory-justified* modification
+4. Compare a **latent SEM** vs a **sum-score path model**
+
+You will produce:
+- a short “model checking log” (what you checked, what you changed, why)
+- a figure of your final model (R / PowerPoint / hand-drawn)
+
+---
+
+# Setup
+
+```{r}
+library(lavaan)
+library(semPlot)
+library(semTools)
+```
+
+---
+
+# Data: the EAT dataset
+
+The dataset includes 13 items measuring:
+
+- **peer pressure** (PP1–PP4)
+- **social media use** (SM1–SM4)
+- **social comparison** (SC1–SC3)
+- **eating disorder** (ED1–ED2)
+
+```{r}
+# The object in the .Rdata file is dE4_1 (as in the original slides)
+load("../data/Exercise4_1.Rdata")
+
+# Inspect
+str(dE4_1)
+round(head(dE4_1), 2)
+```
+
+![](../assets/images/social.jpeg)
+
+---
+
+# Theoretical model (concept)
+
+- peer pressure + social media → social comparison → eating disorder
+
+You will test this model as a **latent SEM** (CFA + structure), then as a **sum-score path model**.
+
+---
+
+# Exercise 1 — STEP 1 (Two-Step rule): fit the CFA model
+
+## 1a) Specify the measurement model
+
+```{r}
+m_cfa <- "
+  peerPressure =~ PP1 + PP2 + PP3 + PP4
+  socialMedia  =~ SM1 + SM2 + SM3 + SM4
+  socialComparison =~ SC1 + SC2 + SC3
+  eatingDisorder =~ ED1 + ED2
+"
+```
+
+## 1b) Fit and check convergence
+
+```{r}
+fit_cfa <- sem(m_cfa, data = dE4_1, std.lv = TRUE)
+lavInspect(fit_cfa, "converged")
+```
+
+## 1c) Inspect measurement results
+
+```{r}
+summary(fit_cfa, standardized = TRUE, fit.measures = TRUE)
+```
+
+**Tasks**
+
+1. Report the **standardized loadings** and identify any weak items.
+2. Check residual variances (Heywood cases? negative variances?).
+3. Extract the core fit indices: CFI, TLI, RMSEA, SRMR.
+
+```{r}
+fitMeasures(fit_cfa, c("cfi", "tli", "rmsea", "srmr"))
+```
+
+---
+
+# Exercise 2 — STEP 2 (Two-Step rule): fit the structural model
+
+## 2a) Add structural regressions among the latent variables
+
+```{r}
+m_sem <- "
+  # CFA model
+  peerPressure =~ PP1 + PP2 + PP3 + PP4
+  socialMedia  =~ SM1 + SM2 + SM3 + SM4
+  socialComparison =~ SC1 + SC2 + SC3
+  eatingDisorder =~ ED1 + ED2
+
+  # Structural model
+  eatingDisorder ~ socialComparison
+  socialComparison ~ peerPressure + socialMedia
+"
+```
+
+## 2b) Fit and inspect
+
+```{r}
+fit_sem <- sem(m_sem, data = dE4_1, std.lv = TRUE)
+summary(fit_sem, standardized = TRUE, fit.measures = TRUE)
+fitMeasures(fit_sem, c("cfi", "tli", "rmsea", "srmr"))
+```
+
+**Questions**
+
+1. Are the key hypotheses supported (sign + magnitude + uncertainty)?
+2. How does fit compare to the CFA-only model? (Interpret carefully.)
+
+(Optional)
+
+```{r}
+anova(fit_cfa, fit_sem)
+```
+
+---
+
+# Exercise 3 — Diagnostics: residuals, MI, EPC/SEPC
+
+## 3a) Standardized residual covariances (local misfit)
+
+```{r}
+res_std <- residuals(fit_sem, type = "standardized")$cov
+res_std
+```
+
+Find the largest absolute residual covariances:
+
+```{r}
+R <- res_std
+diag(R) <- NA
+top_res <- as.data.frame(as.table(R))
+top_res <- top_res[order(abs(top_res$Freq), decreasing = TRUE), ]
+head(top_res, 10)
+```
+
+## 3b) Modification indices (MI) + effect size (EPC/SEPC)
+
+```{r}
+mi <- modificationIndices(fit_sem, sort. = TRUE)
+head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 15)
+```
+
+**Tasks**
+
+1. Do the top residual pairs match the top MI suggestions?
+2. Pick **one** candidate modification that you can justify substantively.
+3. Write a 1–2 sentence justification (content overlap? method effect? plausible local dependence?).
+
+---
+
+# Exercise 4 — Model modification (one change), refit, and re-check
+
+In the original materials, a key misspecification is a residual correlation:
+
+- `SM1 ~~ SC2`
+
+## 4a) Add *one* residual correlation and refit
+
+```{r}
+m_sem_mod <- "
+  # CFA model
+  peerPressure =~ PP1 + PP2 + PP3 + PP4
+  socialMedia  =~ SM1 + SM2 + SM3 + SM4
+  socialComparison =~ SC1 + SC2 + SC3
+  eatingDisorder =~ ED1 + ED2
+
+  # Structural model
+  eatingDisorder ~ socialComparison
+  socialComparison ~ peerPressure + socialMedia
+
+  # Residual correlation (one modification)
+  SM1 ~~ SC2
+"
+fit_sem_mod <- sem(m_sem_mod, data = dE4_1, std.lv = TRUE)
+```
+
+## 4b) Compare fit + nested test
+
+```{r}
+rbind(
+  original = fitMeasures(fit_sem, c("cfi","tli","rmsea","srmr")),
+  modified = fitMeasures(fit_sem_mod, c("cfi","tli","rmsea","srmr"))
+)
+
+anova(fit_sem, fit_sem_mod)
+```
+
+## 4c) Re-check diagnostics
+
+```{r}
+mi_mod <- modificationIndices(fit_sem_mod, sort. = TRUE)
+head(mi_mod[, c("lhs","op","rhs","mi","epc","sepc.all")], 10)
+```
+
+**Documentation (write these down in your log)**
+
+- What did you change and why?
+- What evidence supported it (residuals? MI+EPC?)?
+- Does the modification change interpretation of the constructs or paths?
+
+---
+
+# Exercise 5 — Draw the final model
+
+Use one of the following:
+
+- **R** (semPlot)
+- PowerPoint / Keynote
+- Hand-drawn
+
+```{r}
+#| eval: false
+semPaths(
+  fit_sem_mod,
+  style = "lisrel",
+  layout = "tree2",
+  rotation = 2,
+  residuals = FALSE,
+  nCharNodes = 0
+)
+```
+
+---
+
+# Exercise 6 — Sum-score path model (manifest approximation)
+
+Now reproduce the structural model using **sum scores** (no latent variables).
+
+```{r}
+d_sum <- data.frame(
+  peerPressure = dE4_1$PP1 + dE4_1$PP2 + dE4_1$PP3 + dE4_1$PP4,
+  socialMedia  = dE4_1$SM1 + dE4_1$SM2 + dE4_1$SM3 + dE4_1$SM4,
+  socialComparison = dE4_1$SC1 + dE4_1$SC2 + dE4_1$SC3,
+  eatingDisorder = dE4_1$ED1 + dE4_1$ED2
+)
+
+m_path <- "
+  eatingDisorder ~ socialComparison
+  socialComparison ~ peerPressure + socialMedia
+"
+
+fit_path <- sem(m_path, data = d_sum)
+summary(fit_path, standardized = TRUE, fit.measures = TRUE)
+fitMeasures(fit_path, c("cfi","tli","rmsea","srmr"))
+```
+
+---
+
+# Exercise 7 — Compare latent SEM vs sum-score path results
+
+## 7a) Compare key standardized structural coefficients
+
+Extract standardized regressions from both models:
+
+```{r}
+pe_lat <- parameterEstimates(fit_sem_mod, standardized = TRUE)
+lat_paths <- subset(pe_lat, op == "~" &
+                      lhs %in% c("eatingDisorder","socialComparison"))[, 
+                    c("lhs","rhs","est","se","pvalue","std.all")]
+lat_paths
+```
+
+```{r}
+pe_sum <- parameterEstimates(fit_path, standardized = TRUE)
+sum_paths <- subset(pe_sum, op == "~")[, c("lhs","rhs","est","se","pvalue","std.all")]
+sum_paths
+```
+
+## 7b) Discussion (write a short paragraph)
+
+- Which paths change the most (magnitude / uncertainty)?
+- Does the *pattern* of support for hypotheses change?
+- Offer at least **two** measurement-driven explanations for differences:
+  - unequal loadings / reliability differences
+  - correlated residuals / local dependence
+  - attenuation / error-in-variables logic
+  - factor correlation vs sum-score correlation differences
+
+
+# Wrap-up
+
+## Deliverables
+
+1. A 1-page model-checking log:
+   - CFA fit + key issues
+   - SEM fit + key issues
+   - diagnostics used (residuals, MI/EPC)
+   - what you modified and why
+2. A diagram of the final SEM
+3. A short comparison of latent vs sum-score conclusions
+
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) cat("Instructor solutions are enabled.\n")
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  # Fit models quickly (already fit above) and return a compact summary
+  list(
+    fit_cfa = fitMeasures(fit_cfa, c("cfi","tli","rmsea","srmr")),
+    fit_sem = fitMeasures(fit_sem, c("cfi","tli","rmsea","srmr")),
+    top_mi_sem = head(modificationIndices(fit_sem, sort. = TRUE)[, c("lhs","op","rhs","mi","epc","sepc.all")], 8),
+    fit_sem_mod = fitMeasures(fit_sem_mod, c("cfi","tli","rmsea","srmr")),
+    top_mi_sem_mod = head(modificationIndices(fit_sem_mod, sort. = TRUE)[, c("lhs","op","rhs","mi","epc","sepc.all")], 8),
+    fit_path = fitMeasures(fit_path, c("cfi","tli","rmsea","srmr")),
+    latent_paths = lat_paths,
+    sum_paths = sum_paths
+  )
+}
+```

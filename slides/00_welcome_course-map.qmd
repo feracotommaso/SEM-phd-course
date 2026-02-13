@@ -2,7 +2,6 @@
 title: "Welcome & course map"
 subtitle: "Structural Equation Modeling (SEM) • PhD Doctoral School"
 author: "Tommaso Feraco"
-date: "University of Padova • Psychological Sciences"
 format:
   revealjs:
     slide-number: c/t
@@ -103,17 +102,20 @@ We will (hopefully) cover:
 - Advanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)
 
 ::: {.callout-tip appearance="minimal"}
-If you need something specific for your project, park it as a “parking lot question”: we’ll map it to the right module (live vs extra).
+If you need something specific for your project, let me know: I’ll try to fit it into the right module.
 :::
 
 ---
 
 ## Format: 5 mornings × 4 hours
 
-Each morning is split into **two 2-hour blocks**:
+Each morning is split into **two 2-hour blocks** including:
 
-- **Block A:** concepts + live coding (short, focused)
-- **Block B:** guided exercises → lab handout (you work; we troubleshoot)
+- theoretical and practical concepts 
+- live coding 
+- lab and excercises
+- optional extra topics
+- discussion
 
 ---
 
@@ -123,11 +125,11 @@ Each morning is split into **two 2-hour blocks**:
 
 - `/slides/` revealjs decks (what you see in class)
 - `/labs/` hands-on labs (what you do)
-- `/extras/` self-study modules (what you can revisit)
+- `/extras/` self-study (or extra) modules
 - `/R/` helper functions (fit, plots, reporting)
 
 ::: {.callout-note appearance="minimal"}
-Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting.
+Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available.
 :::
 
 ---
@@ -139,6 +141,7 @@ Goal: everything is “book-ready”: coherent headings, reproducible code, and 
 3. When stuck:
    - identify *where* you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)
    - bring the smallest reproducible example
+   - talk
 
 ---
 
@@ -161,39 +164,23 @@ if(length(to_install)) install.packages(to_install)
 
 ---
 
-## Ground rules (so this is actually useful)
-
-- **Measurement-first (“two-step mindset”)**: measure → then relate constructs  
-- **Fit ≠ truth**: use theory + diagnostics; respecify with discipline  
-- Prefer **transparent reporting** over “hunting for good fit”
-
----
-
-## What I need from you
-
-- Bring a dataset and one research question (even if rough)
-- Be ready to:
-  - draw your model
-  - state *what would falsify it*
-  - accept that “good fit” can still be a bad model
-
----
-
 ## Parking lot questions
 
 If your question is:
 
 - **about your own project’s model** → keep it; we’ll connect it to a module  
 - **about R/lavaan syntax** → ask immediately  
-- **about advanced variants** (Bayesian, latent interactions, MIIVs, etc.) → likely an *extra*
+- **about advanced variants** (Bayesian, latent interactions, MIIVs, etc.) → likely an *extra*. We can cover it if we have time.
 
 ---
 
 ## Take-home: 3 things
 
-1. This course is about a **workflow**, not a list of models  
-2. We will treat SEM as **measurement + structure**, in that order  
-3. The repo is your **long-term reference** (slides, labs, extras, helpers)
+1. SEM is not just a model, but also a **mindset**
+2. SEM is both **theory** and **stat**  
+3. SEM is both **measurement** and **structure**, tests  
+
+- The repo is your **long-term reference** (slides, labs, extras, helpers)
 
 ---
 

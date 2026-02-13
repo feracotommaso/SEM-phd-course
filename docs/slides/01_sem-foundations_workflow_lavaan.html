@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-714fb07374abbd55f0324a5f5730b940.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -206,7 +206,6 @@ Tommaso Feraco
 </div>
 </div>
 
-  <p class="date">Invalid Date</p>
 </section>
 <section id="today-in-the-workflow" class="slide level2">
 <h2>Today in the workflow</h2>
@@ -250,28 +249,32 @@ Tommaso Feraco
 <p>A family of models that lets you:</p>
 <ul>
 <li><p>represent hypotheses as a <strong>system of relations</strong></p>
-<ul>
-<li>we postulate a data-generating model</li>
-<li>we evaluate whether this model fits the data or not</li>
-</ul></li>
+<ol type="1">
+<li>postulate a data-generating model</li>
+<li>evaluate whether this model fits the data or not</li>
+</ol></li>
 <li><p>work with <strong>measurement error</strong> (explicitly)</p></li>
 <li><p>model <strong>means and covariances</strong> implied by your theory</p></li>
 </ul>
 <div class="callout callout-tip no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>it includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM. Most things you already do (t-tests, regressions, ANOVA) are special cases of SEM.</p>
+<p>it includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even regressions, ANOVAs, t-tests could be considered particular cases of SEM.</p>
 </div>
 </div>
 </div>
 <ul>
-<li><p>What is so special about SEM?</p>
-<ul>
-<li>we can model latent variables (e.g., ‘invisible constructs’)</li>
-<li>we can test indirect and reciprocal effects and more</li>
-<li>we can make diagrams (or PAINTINGS if theory is weak!)</li>
-</ul></li>
+<li>model latent variables (e.g., ‘invisible constructs’)</li>
+<li>test indirect, moderated, and reciprocal effects</li>
+<li>make diagrams (or PAINTINGS if theory is weak!)</li>
 </ul>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>network models are better if you want good paintings with no theory.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="variancecovariance-matrices-the-currency" class="slide level2">
 <h2>Variance–covariance matrices (the “currency”)</h2>
@@ -306,7 +309,6 @@ y7 5.8  7.5  7.0  7.5 5.8  6.7 10.8</code></pre>
 <h2>Variance–covariance matrices (the “currency”)</h2>
 <p>SEM compares what you observe (<strong>S</strong>) with what your model implies (<strong>Σ(θ)</strong>).</p>
 <p><img data-src="../assets/images/covmat.jpg" style="height:3.5cm"></p>
-<p>(We’ll keep the math light today; we’ll return to fit evaluation later.)</p>
 </section>
 <section id="classification-of-variables" class="slide level2">
 <h2>Classification of variables</h2>
@@ -314,20 +316,19 @@ y7 5.8  7.5  7.0  7.5 5.8  6.7 10.8</code></pre>
 <ul>
 <li><p><strong>Latent variables</strong></p>
 <ul>
-<li><p>hypothetical variables that correspond to more or less abstract concepts</p></li>
-<li><p>formative or reflective</p></li>
-<li><p>examples are intelligence, anxiety, executive functions, personality traits…</p></li>
+<li><p>hypothetical variables that correspond to more or less abstract concepts (e.g., <em>intelligence, anxiety, executive functions, personality traits…</em>)</p></li>
+<li><p>could be formative or reflective</p></li>
 </ul></li>
 <li><p><strong>Observed variables</strong></p>
 <ul>
 <li><p>variables that can be directly observed and measured</p></li>
-<li><p>examples can be weight, height, gender, income…</p></li>
+<li><p>examples can be weight, height, gender, income, items, HRV…</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="classification-of-variables-1" class="slide level2">
 <h2>Classification of variables</h2>
-<p>In SEM we also have an additional type of classification:</p>
+<p>In SEM we also have an additional classification:</p>
 <ul>
 <li><p><strong>Exogenous variables</strong></p>
 <ul>
@@ -344,16 +345,22 @@ y7 5.8  7.5  7.0  7.5 5.8  6.7 10.8</code></pre>
 <section id="relationships-between-variables" class="slide level2">
 <h2>Relationships between variables</h2>
 <ul>
-<li><p>The general aim of statistical analysis is to study relationship among variables</p></li>
-<li><p>On the basis of the relationship among the variables, we distinguish two kind of models: symmetrical and asymmetrical.</p></li>
+<li><p>The general aim of statistical analysis is to study relationships among variables</p></li>
+<li><p>On the basis of the relationship among the variables, we distinguish two kind of models:</p>
+<ul>
+<li>symmetrical</li>
+<li>asymmetrical</li>
+</ul></li>
 </ul>
 </section>
 <section id="asymmetrical-relationships" class="slide level2">
 <h2>Asymmetrical relationships</h2>
-<p>X -&gt; Y</p>
+<p><span class="math display">\[
+X \rightarrow Y
+\]</span></p>
 <ul>
 <li><p>Variables are divided into two sets: dependent or response variables and predictors or explanatory variables</p></li>
-<li><p><em>X</em> is the set of explanatory variables, <span class="math inline">\(Y\)</span> is the set of response variables, arrows represents the direction of the hypothesized relationship.</p></li>
+<li><p><span class="math inline">\(X\)</span> is the set of explanatory variables, <span class="math inline">\(Y\)</span> is the set of response variables, arrows represents the direction of the hypothesized relationship.</p></li>
 <li><p>These models imply cause-and-effect relationships.</p></li>
 </ul>
 <p><strong>Example</strong></p>
@@ -456,8 +463,7 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 <ul>
 <li>The model is <strong>confirmatory</strong>: you propose it <em>before</em> looking for “fixes”</li>
 <li>The model must be <strong>identified</strong> (estimable)</li>
-<li>Estimation relies on distributional assumptions (we’ll talk robustness later)</li>
-<li>Missing data and non-normality are not afterthoughts (deck 06)</li>
+<li>Estimation relies on distributional assumptions</li>
 </ul>
 </section>
 <section id="graphical-representation" class="slide level2">
@@ -487,10 +493,23 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 <section id="graphic-relationships" class="slide level2">
 <h2>Graphic relationships</h2>
 <ul>
-<li><p>All model relationships are represented by arrows;</p>
-<pre><code> NO relationship NO arrow... 
-
- ...and usually NO arrow NO relationship</code></pre></li>
+<li>All model relationships are represented by arrows;</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>NO relationship NO arrow…</p>
+<p>…and usually NO arrow NO relationship</p>
+</div>
+</div>
+</div>
+<ul>
 <li><p>Each arrow is a model parameter and has two indices (e.g., <span class="math inline">\(\beta_{21}\)</span>)</p></li>
 <li><p><strong>Asymmetrical relationship</strong> are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.</p></li>
 <li><p><strong>Symmetrical relationships</strong> are represented by double-headed arrows and two indices, one for each variable.</p></li>
@@ -514,19 +533,24 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 <img data-src="../assets/images/errors.jpg" class="r-stretch"></section>
 <section id="a-full-representation" class="slide level2">
 <h2>A full representation</h2>
-<p><img data-src="../assets/images/full.png" style="width:99.0%"> img credits to dr. Johnny Lin</p>
+<p><img data-src="../assets/images/full.png" style="width:99.0%"> img credits to dr. <a href="https://www.youtube.com/watch?v=sKVFkVoYfbs">Johnny Lin</a></p>
 </section>
 <section id="graphic-relationships-1" class="slide level2">
 <h2>Graphic relationships</h2>
 <p><strong>A summary</strong></p>
 
 <img data-src="../assets/images/symbols.png" class="r-stretch"></section>
+<section>
+<section id="sem-workflow" class="title-slide slide level1 center">
+<h1>SEM workflow</h1>
+
+</section>
 <section id="sem-steps-the-workflow" class="slide level2">
 <h2>SEM steps (the workflow)</h2>
 <ol type="1">
 <li><strong>Model specification</strong> (theory → diagram → equations)</li>
 <li><strong>Model identification</strong> (can we estimate the parameters?)</li>
-<li><strong>Parameter estimation</strong> (choose estimator, get ())</li>
+<li><strong>Parameter estimation</strong> (choose estimator, get estimated matrices)</li>
 <li><strong>Model evaluation</strong> (global + local diagnostics)</li>
 <li><strong>Model modification / reporting</strong> (disciplined, transparent)</li>
 </ol>
@@ -557,7 +581,9 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 </section>
 <section id="model-identification-intuition" class="slide level2">
 <h2>2) Model identification (intuition)</h2>
-<p>To ensure that the number of unknown parameters (<span class="math inline">\(t\)</span>) is not greater than the number of nonredundant elements in the covariance matrix of <span class="math inline">\(q\)</span> observed variables. We can use the following formula:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>To ensure that the number of unknown parameters (<span class="math inline">\(t\)</span>) is not greater than the number of nonredundant elements in the covariance matrix of <span class="math inline">\(q\)</span> observed variables.</p>
 <p><span class="math display">\[
 t \leq \frac{q(q+1)}{2}
 \]</span></p>
@@ -568,16 +594,14 @@ t \leq \frac{q(q+1)}{2}
 </div>
 </div>
 </div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Just-identified</strong><br>
-<img data-src="../assets/images/just.png" style="width:65.0%"></p>
 </div><div class="column" style="width:50%;">
+<p><strong>Just-identified</strong><br>
+<img data-src="../assets/images/just.png" style="width:45.0%"></p>
 <p><strong>Under-identified</strong><br>
-<img data-src="../assets/images/under.png" style="width:65.0%"></p>
-</div></div>
+<img data-src="../assets/images/under.png" style="width:45.0%"></p>
 <p><strong>Over-identified</strong><br>
 <img data-src="../assets/images/over.png" style="width:65.0%"></p>
+</div></div>
 </section>
 <section id="parameter-estimation-what-software-does" class="slide level2">
 <h2>3) Parameter estimation (what software does)</h2>
@@ -587,13 +611,13 @@ t \leq \frac{q(q+1)}{2}
 <li><p>Maximum Likelihood (ML), default in lavaan</p></li>
 <li><p>Unweighted Least Squares (ULS)</p></li>
 <li><p>Generalized Least Squares (GLS)</p></li>
-<li><p>Diagonally Weighted Least Squares (DWLS), default for ordinal variables in lavaan</p></li>
+<li><p>Weighted Least Squares, Mean- and Variance-adjusted (WLSMV), default for ordinal variables in lavaan</p></li>
+<li><p>Diagonally Weighted Least Squares (DWLS)</p></li>
 </ul>
 </section>
-<section id="model-evaluation-preview" class="slide level2">
-<h2>4) Model evaluation (preview)</h2>
-<p>Is the model adequate? Are our parameter able to construct a theoretical matrix (<span class="math inline">\(\boldsymbol{\Sigma}\)</span>) which is close to the original empirical covariance matrix <span class="math inline">\(\boldsymbol{S}\)</span>?</p>
-<p>This is the goal of a good model: reproduce, from a set of theoretical associations/effects (aka covariance matrix), the original covariance matrix.</p>
+<section id="model-evaluation" class="slide level2">
+<h2>4) Model evaluation</h2>
+<p>Is the model adequate? Do our parameter generate a theoretical matrix (<span class="math inline">\(\boldsymbol{\Sigma}\)</span>) which is close to the empirical covariance matrix <span class="math inline">\(\boldsymbol{S}\)</span>?</p>
 <ul>
 <li><strong>Global fit:</strong> is the overall model plausible?</li>
 <li><strong>Local fit:</strong> where does the model misfit?</li>
@@ -613,7 +637,7 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 </section>
 <section id="model-modification-disciplined-respecification" class="slide level2">
 <h2>5) Model modification (disciplined respecification)</h2>
-<p>At this point you are ’‘’free’’’ to modify the model based on the results obtained…<strong>AND THE THEORY!</strong></p>
+<p>At this point you are ‘<em>free</em>’ to modify the model based on the results obtained…<strong>AND THE THEORY!</strong></p>
 <ul>
 <li>modifications are <em>hypotheses</em></li>
 <li>modifications must be explicitly reported: both what you changed and why</li>
@@ -622,7 +646,7 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 </section>
 <section class="slide level2">
 
-</section>
+</section></section>
 <section>
 <section id="sem-world" class="title-slide slide level1 center">
 <h1>SEM world</h1>
@@ -672,7 +696,14 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 <section>
 <section id="lavaan" class="title-slide slide level1 center">
 <h1><code>lavaan</code></h1>
-
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>lavaan (<strong>la</strong>tent <strong>va</strong>riable <strong>an</strong>alysis) is actually <strong>THE</strong> package for SEM. You can use it to estimate a wide family of latent variable models, including: factor analysis, structural equation, longitudinal, multilevel, latent class, item respons, and missing data models… <br></p>
+<p>..But also simple regressions</p>
+</div>
+</div>
+</div>
 </section>
 <section id="bridge-from-diagrams-to-lavaan" class="slide level2">
 <h2>Bridge: from diagrams to lavaan</h2>
@@ -690,91 +721,390 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 </div>
 </div>
 </section>
+<section id="regression-models" class="slide level2">
+<h2>Regression models</h2>
+<p>What you did since the beginning of the year (with link functions or not) was something like this <span class="math display">\[
+y = X\beta + \epsilon
+\]</span> Where <span class="math inline">\(y\)</span> is the response variable, <span class="math inline">\(X\)</span> the set of predictors and <span class="math inline">\(\epsilon\)</span> the error term. <br></p>
+<p>These models,</p>
+<ul>
+<li>assume that all variables are directly observed/manifest</li>
+<li>allow measurement errors only in endogenous variables</li>
+<li>are just particular cases of SEM</li>
+</ul>
+</section>
+<section id="sem-formula" class="slide level2">
+<h2>SEM formula</h2>
+<p>In fact, the structural model of a SEM (i.e., excluding latent variables) is:</p>
+<p><span class="math display">\[
+Y = X^\ast B' + \zeta
+\]</span></p>
+<p>Where</p>
+<ul>
+<li><span class="math inline">\(Y\)</span> is the (<em>n</em> x <em>p</em>) matrix of endogenous variables</li>
+<li><span class="math inline">\(X^\ast\)</span> is the <em>n</em> x (<em>p</em> + <em>q</em>) matrix of endogenous and exogenous variables</li>
+<li><span class="math inline">\(B\)</span> is the (<em>p</em> + <em>q</em>) x (<em>p</em> + <em>q</em>) coefficient matrices</li>
+<li><span class="math inline">\(\zeta\)</span> is the (<em>p</em> x <em>q</em>) matrix of errors in the equations</li>
+</ul>
+<p>This looks pretty similar to the regression formula, but with some matrices! Univariate regression models are just a special case of this formula where the parameter matrix is full of 0</p>
+</section>
+<section id="regressions-in-matrices" class="slide level2">
+<h2>Regressions in matrices</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01_sem-foundations_workflow_lavaan_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre class="code-bigger"><code>   y x1 x2 x3
+y  0  1  2  3
+x1 0  0  0  0
+x2 0  0  0  0
+x3 0  0  0  0</code></pre>
+</div>
+</div>
+</div></div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01_sem-foundations_workflow_lavaan_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   y x3 x2 x1
+y  0  3  2  1
+x3 0  0  5  4
+x2 0  0  0  6
+x1 0  0  0  0</code></pre>
+</div>
+</div>
+</div></div>
+</section>
 <section id="from-lm-to-lavaansem" class="slide level2">
 <h2>From <code>lm()</code> to <code>lavaan::sem()</code></h2>
-<p>A regression in R:</p>
+<p>A regression in base R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>fit_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat)</span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>fit_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat)</span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The same idea in lavaan (SEM engine):</p>
+<p>The same idea in lavaan :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
-<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ x1 + x2</span></span>
-<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod, <span class="at">data =</span> dat)</span>
-<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ x1 + x2</span></span>
+<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod, <span class="at">data =</span> dat)</span>
+<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="key-lavaan-syntax-operators" class="slide level2">
-<h2>Key lavaan syntax operators</h2>
-<ul>
-<li><code>~</code> regression (single-headed arrow)</li>
-<li><code>~~</code> (co)variance (double-headed arrow)</li>
-<li><code>=~</code> measurement model (factor loading)</li>
-</ul>
+<section id="a-first-example-with-simulated-data" class="slide level2">
+<h2>A first example with simulated data</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Imagine you want to predict scores in the test we will do at the end of this corse (<span class="math inline">\(y\)</span>), based on your prior statistical knowledge (<span class="math inline">\(x_1\)</span>) and interest (<span class="math inline">\(x_2\)</span>):</p>
+<p><strong>First</strong> define the model</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # regression</span></span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">  y ~ x1 + x2</span></span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # (co)variances</span></span>
-<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  x1 ~~ x2</span></span>
-<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">  y  ~~ y</span></span>
-<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a><span class="st">  # measurement (example)</span></span>
-<span id="cb6-10"><a aria-hidden="true" tabindex="-1"></a><span class="st">  F =~ y1 + y2 + y3</span></span>
-<span id="cb6-11"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="01_sem-foundations_workflow_lavaan_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<p><strong>Second</strong> simulate the data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate knowledge and interest as predictors of Y</span></span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> .<span class="dv">35</span><span class="sc">*</span>x1 <span class="sc">+</span> .<span class="dv">20</span><span class="sc">*</span>x2 <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x1,x2,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      x1    x2    y
+x1 1.000 0.016 0.39
+x2 0.016 1.000 0.12
+y  0.386 0.118 1.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      x1    x2    y
+x1 0.748 0.014 0.36
+x2 0.014 0.998 0.13
+y  0.364 0.129 1.19</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="lm-regression" class="slide level2">
+<h2>lm regression</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># fit a regression model</span></span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> d)</span>
+<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x1 + x2, data = d)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8022 -0.6244 -0.0259  0.7150  1.8090 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -0.0251     0.1009   -0.25     0.80    
+x1            0.4846     0.1172    4.14  7.5e-05 ***
+x2            0.1226     0.1015    1.21     0.23    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1 on 97 degrees of freedom
+Multiple R-squared:  0.162, Adjusted R-squared:  0.145 
+F-statistic: 9.36 on 2 and 97 DF,  p-value: 0.000191</code></pre>
+</div>
 </div>
 </section>
-<section id="a-minimal-runnable-example-built-in-data" class="slide level2">
-<h2>A minimal, runnable example (built-in data)</h2>
+<section id="model-fit-and-info" class="slide level2">
+<h2>Model fit and info</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> HolzingerSwineford1939</span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>mod_cfa <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  visual  =~ x1 + x2 + x3</span></span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  textual =~ x4 + x5 + x6</span></span>
-<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">  speed   =~ x7 + x8 + x9</span></span>
-<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>fit_cfa <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_cfa, <span class="at">data =</span> dat)</span>
-<span id="cb7-11"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cfa, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="st">"y ~ 1 + x1 + x2"</span> <span class="co">#1 + gives the intercept</span></span>
+<span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(ml, <span class="at">data =</span> d)</span>
+<span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># summary(fit, rsquare=T)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Don’t worry about fit indices yet—this is just to see the pipeline end-to-end.</p>
-</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>lavaan 0.6-19 ended normally after 1 iteration
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                         4
+
+  Number of observations                           100
+
+Model Test User Model:
+                                                      
+  Test statistic                                 0.000
+  Degrees of freedom                                 0
+
+Parameter Estimates:
+
+  Standard errors                             Standard
+  Information                                 Expected
+  Information saturated (h1) model          Structured
+
+[...]</code></pre>
 </div>
 </div>
 </section>
-<section id="visual-check-plot-the-model" class="slide level2">
-<h2>Visual check: plot the model</h2>
+<section id="model-parameters" class="slide level2">
+<h2>Model parameters</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths</span>(fit_cfa, <span class="at">what =</span> <span class="st">"std"</span>, <span class="at">layout =</span> <span class="st">"tree"</span>, <span class="at">residuals =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[...]
+Regressions:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)
+  y ~                                                 
+    x1                0.485    0.115    4.199    0.000
+    x2                0.123    0.100    1.227    0.220
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)
+   .y                -0.025    0.099   -0.253    0.800
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)
+   .y                 0.987    0.140    7.071    0.000
+
+R-Square:
+                   Estimate
+    y                 0.162
+
+[...]</code></pre>
 </div>
-<p><em>(Plotting is optional—but very helpful for teaching your brain the diagram grammar.)</em></p>
+</div>
+<p><code>QUESTIONS? COMMENTS? What about lm?</code></p>
 </section>
-<section id="common-early-mistakes-and-how-to-debug" class="slide level2">
-<h2>Common early mistakes (and how to debug)</h2>
-<ul>
-<li>“lavaan ERROR: model is not identified” → go back to <strong>Identify</strong></li>
-<li>“nothing converges” → simplify; check scaling; check data (missing, outliers)</li>
-<li>“why are SE huge?” → identification / multicollinearity / small N</li>
-</ul>
-<div class="callout callout-tip no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>In this course, debugging starts by asking: <strong>Which workflow step am I in?</strong></p>
+<section id="model-plot" class="slide level2">
+<h2>Model plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># And we can plot it</span></span>
+<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">semPaths</span>(fit, <span class="at">whatLabels =</span> <span class="st">"parameters"</span>,</span>
+<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">edge.label.cex =</span> <span class="fl">1.5</span>, <span class="at">rotation =</span> <span class="dv">2</span>,</span>
+<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">residuals =</span> F, <span class="at">sizeMan =</span> <span class="dv">10</span>, <span class="at">curve =</span> <span class="fl">1.9</span>,</span>
+<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>         <span class="at">edge.color=</span><span class="st">"black"</span>, <span class="at">edge.label.color=</span><span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="01_sem-foundations_workflow_lavaan_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<section id="model-matrices" class="slide level2">
+<h2>Model matrices</h2>
+<p>We can also look at the matrices to enter in the SEM mindset</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">#The parameters matrix</span></span>
+<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit)<span class="sc">$</span>beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   y x1 x2
+y  0  2  3
+x1 0  0  0
+x2 0  0  0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="st">"estimates"</span>)<span class="sc">$</span>beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   y   x1   x2
+y  0 0.48 0.12
+x1 0 0.00 0.00
+x2 0 0.00 0.00</code></pre>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">#The residual var-covar matrix</span></span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit)<span class="sc">$</span>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   y x1 x2
+y  4      
+x1 0  0   
+x2 0  0  0</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(fit, <span class="st">"estimates"</span>)<span class="sc">$</span>psi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       y    x1    x2
+y  0.987            
+x1 0.000 0.741      
+x2 0.000 0.014 0.988</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="basic-lavaan-syntax" class="slide level2">
+<h2>Basic lavaan syntax</h2>
+<p>As you can see, the regression syntax of lavaan is actually the same as lm, but there is much more in lavaan. <br></p>
+<p>Model specification sintax:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Syntax</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>~</code></td>
+<td>Regress onto</td>
+<td>Regress B onto A: <code>B ~ A</code></td>
+</tr>
+<tr class="even">
+<td><code>~~</code></td>
+<td>Residual (co)variance</td>
+<td>Variance of A: <code>A ~~ A</code> <br> Variance of A and B: <code>A ~~ B</code></td>
+</tr>
+<tr class="odd">
+<td><code>=~</code></td>
+<td>Define a reflective LV</td>
+<td>F1 is defined by items 1-4: <code>F1 =~ i1 + i2 + i3 + i4</code></td>
+</tr>
+<tr class="even">
+<td><code>&lt;~</code></td>
+<td>Define a formative LV</td>
+<td>F1 is defined by items 1-4: <code>F1 &lt;~ i1 + i2 + i3 + i4</code></td>
+</tr>
+<tr class="odd">
+<td><code>:=</code></td>
+<td>Define non-model parameters</td>
+<td><code>u2 := x + y</code></td>
+</tr>
+<tr class="even">
+<td><code>*</code></td>
+<td>Label or fix parameter</td>
+<td><code>Z ~ b*X</code> labels the regression as <code>b</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="basic-lavaan-functions" class="slide level2">
+<h2>Basic lavaan functions</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sem()</code> / <code>cfa()</code></td>
+<td>Fit the SEM model (<code>cfa</code> is nested in <code>sem</code>…which is nested in <code>lavaan</code>)</td>
+</tr>
+<tr class="even">
+<td><code>fitMeasures()</code></td>
+<td>Return fit indices of the SEM model</td>
+</tr>
+<tr class="odd">
+<td><code>inspect()</code></td>
+<td>Inspect/extract information that is stored in a fitted model</td>
+</tr>
+<tr class="even">
+<td><code>lavPredict()</code></td>
+<td>Compute estimated latent scores</td>
+</tr>
+<tr class="odd">
+<td><code>lavTestLRT()</code></td>
+<td>Compare (nested) <code>lavaan</code> models</td>
+</tr>
+<tr class="even">
+<td><code>modificationIndices()</code></td>
+<td>Compute the modification indices of a model</td>
+</tr>
+<tr class="odd">
+<td><code>parameterEstimates()</code></td>
+<td>Parameter estimates of a latent variable model</td>
+</tr>
+<tr class="even">
+<td><code>parameterTable()</code></td>
+<td>Show the table of the parameters of a fitted model</td>
+</tr>
+<tr class="odd">
+<td><code>simulateData()</code></td>
+<td>Simulate data starting from a <code>lavaan</code> model syntax</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="exercises-lab-01" class="slide level2">
 <h2>Exercises (Lab 01)</h2>
@@ -803,16 +1133,8 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 <h2>Further reading / self-study</h2>
 <ul>
 <li>Revisit the <strong>glossary</strong> in the repo as new terms appear</li>
-<li>Optional extras later in the course:
-<ul>
-<li>power/simulation (ex01)</li>
-<li>SAM / MIIVs / factor-score regression (ex04–ex05)</li>
-</ul></li>
 </ul>
-</section>
-<section id="references" class="slide level2">
-<h2>References</h2>
-<p>(Add citations as we stabilize the final reading list for the course website.)</p>
+<p>(Add materials list.)</p>
 
 
 </section></section>

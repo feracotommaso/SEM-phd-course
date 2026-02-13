@@ -42,6 +42,7 @@ By the end of this lab, you can:
 ## Packages
 
 ```{r}
+#| code-fold: FALSE
 library(lavaan)
 ```
 
@@ -87,7 +88,7 @@ Keep this as your “reference”: we’ll reproduce the same model in lavaan.
 
 # Exercise 2 — The same regression in lavaan
 
-In lavaan, you write a model as a *string*.
+In lavaan, you should write the model as a *string*, preferably in an object and not within the formula.
 
 ```{r}
 mod_sem <- '
@@ -107,6 +108,8 @@ summary(fit_sem, standardized = TRUE)
 
 ## Extracting parameters programmatically
 
+Use the function `parameterEstimates()` to obtain the estimates. How do you extract *standardized* estimate?
+
 ```{r}
 pe <- parameterEstimates(fit_sem, standardized = TRUE)
 head(pe, 10)
@@ -119,7 +122,7 @@ head(pe, 10)
 - `std.all` is the fully standardized estimate
 
 ::: {.callout-warning appearance="minimal"}
-At this stage, treat p-values as *descriptive* while you learn the machinery. We’ll talk about modeling strategy and diagnostics later.
+At this stage, focus on estimates only. We’ll talk about modeling strategy and diagnostics later.
 :::
 
 ::: {.callout-note appearance="minimal"}
@@ -137,6 +140,8 @@ And allow:
 
 - the predictors to covary (`wt ~~ hp`)
 - the residuals of the two outcomes to covary (`mpg ~~ qsec`)
+
+Adding covariances requires additional degrees of freedom!
 
 ```{r}
 mod_mv <- '

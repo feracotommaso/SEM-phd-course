@@ -249,10 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="packages" class="level2">
 <h2 class="anchored" data-anchor-id="packages">Packages</h2>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="data" class="level2">
@@ -345,7 +342,7 @@ F-statistic: 69.21 on 2 and 29 DF,  p-value: 9.109e-12</code></pre>
 </section>
 <section id="exercise-2-the-same-regression-in-lavaan" class="level1">
 <h1>Exercise 2 — The same regression in lavaan</h1>
-<p>In lavaan, you write a model as a <em>string</em>.</p>
+<p>In lavaan, you should write the model as a <em>string</em>, preferably in an object and not within the formula.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -400,6 +397,7 @@ Variances:
 </ol>
 <section id="extracting-parameters-programmatically" class="level2">
 <h2 class="anchored" data-anchor-id="extracting-parameters-programmatically">Extracting parameters programmatically</h2>
+<p>Use the function <code>parameterEstimates()</code> to obtain the estimates. How do you extract <em>standardized</em> estimate?</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -442,7 +440,7 @@ Variances:
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>At this stage, treat p-values as <em>descriptive</em> while you learn the machinery. We’ll talk about modeling strategy and diagnostics later.</p>
+<p>At this stage, focus on estimates only. We’ll talk about modeling strategy and diagnostics later.</p>
 </div>
 </div>
 </div>
@@ -470,6 +468,7 @@ Variances:
 <li>the predictors to covary (<code>wt ~~ hp</code>)</li>
 <li>the residuals of the two outcomes to covary (<code>mpg ~~ qsec</code>)</li>
 </ul>
+<p>Adding covariances requires additional degrees of freedom!</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>

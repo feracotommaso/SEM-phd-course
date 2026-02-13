@@ -1,0 +1,388 @@
+---
+title: "Lab 02 — Path analysis & mediation (observed variables)"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+SHOW <- isTRUE(params$show_solutions)
+set.seed(1234)
+options(digits = 3)
+```
+
+# Goals
+
+In this lab you will:
+
+- Fit a **simple mediation model** as a system of regressions in **lavaan**
+- Compute **direct**, **indirect**, and **total** effects via *defined parameters*
+- Compare **delta-method** vs **bootstrap** inference for the indirect effect
+- Test a theoretically motivated constraint (**full mediation**: \(c' = 0\))
+- Extend to **covariates** and **parallel mediators**
+- (Optional, advanced) See a concrete example of **equivalent just-identified models**
+
+---
+
+# Setup
+
+```{r}
+#| code-fold: false
+library(lavaan)
+```
+
+---
+
+# Part A — Simulate a mediation dataset (so we know the “truth”)
+
+We start with a controlled world:
+
+$$
+\begin{aligned}
+M &= aX + \varepsilon_M \\
+Y &= c'X + bM + \varepsilon_Y
+\end{aligned}
+\qquad
+\text{Indirect}=ab,\ \text{Total}=c'+ab
+$$
+
+We generate data with:
+
+- $(a = 0.50)$, $(b = 0.60)$, $(c' = 0.10)$
+- $(\varepsilon_M, \varepsilon_Y)$ independent, mean 0
+
+```{r}
+N <- 400
+
+a <- 0.50
+b <- 0.60
+cprime <- 0.10
+
+X <- rnorm(N, 0, 1)
+eM <- rnorm(N, 0, 1)
+eY <- rnorm(N, 0, 1)
+
+M <- a*X + eM
+Y <- cprime*X + b*M + eY
+
+dat <- data.frame(X, M, Y)
+summary(dat)
+```
+
+::: {.callout-note appearance="minimal"}
+Using simulated data is not “making it easier”: it lets you verify whether estimation and inference behave as theory predicts.
+:::
+
+---
+
+# Exercise 1 — Fit mediation in lavaan (delta method)
+
+## 1a) Write the model
+
+- Label the paths $(a)$, $(b)$, $(c')$
+- Define `ind := a*b` and `tot := cprime + a*b`
+
+```{r}
+mod_med <- '
+  M ~ a*X
+  Y ~ cprime*X + b*M
+
+  ind := a*b
+  tot := cprime + (a*b)
+'
+```
+
+## 1b) Fit + inspect
+
+```{r}
+fit_med <- sem(mod_med, data = dat, meanstructure = TRUE)
+summary(fit_med, standardized = TRUE)
+```
+
+## 1c) Extract only the pieces you need
+
+```{r}
+pe <- parameterEstimates(fit_med, standardized = TRUE)
+pe[pe$op %in% c("~",":="), c("lhs","op","rhs","label","est","se","z","pvalue","std.all")]
+```
+
+**Questions (answer in words)**
+
+1. Are the estimates close to the generating values $(a=0.50)$, $(b=0.60)$, $(c'=0.10)$?
+2. What is your estimate of the indirect effect $(ab)$? Is it close to $(0.30)$?
+3. What does lavaan use (by default) to get the SE for `ind := a*b`?
+
+---
+
+# Exercise 2 — Bootstrap inference for the indirect effect
+
+Indirect effects are products; their sampling distribution is often skewed. Let’s bootstrap.
+
+```{r}
+fit_med_boot <- sem(
+  mod_med, data = dat,
+  se = "bootstrap", bootstrap = 2000,
+  meanstructure = TRUE
+)
+
+peb <- parameterEstimates(fit_med_boot, ci = TRUE, level = .95,
+                          standardized = TRUE)
+peb[peb$op %in% c("~",":="), c("lhs","op","rhs","label","est","se","ci.lower","ci.upper","std.all")]
+```
+
+**Questions**
+
+1. Compare the SE for `ind` under delta method (Exercise 1) vs bootstrap (Exercise 2). Are they similar?
+2. Is the bootstrap CI symmetric around the estimate? Should you expect symmetry?
+3. In real datasets, when would you *strongly* prefer bootstrap for indirect effects?
+
+---
+
+# Exercise 3 — Test “full mediation” $(c' = 0)$
+
+Here we compare:
+
+- **Partial mediation:** $(c')$ free (your current model)
+- **Full mediation:** constrain $(c' = 0)$
+
+```{r}
+mod_full <- '
+  M ~ a*X
+  Y ~ 0*X + b*M   # cprime fixed to 0
+
+  ind := a*b
+  tot := (a*b)
+'
+fit_full <- sem(mod_full, data = dat, meanstructure = TRUE)
+```
+
+## Compare nested models (LRT)
+
+```{r}
+anova(fit_med, fit_full)
+```
+
+**Interpretation questions**
+
+1. What does a significant χ² difference imply here?
+2. In this simulated world (true $(c'=0.10)$), should you expect full mediation to be rejected as $(N)$ grows? Why?
+3. In your substantive area, what *theoretical* arguments would justify fixing $(c'=0)$ (if any)?
+
+---
+
+# Part B — Add a covariate (confounding intuition)
+
+Now we simulate a covariate $(Z)$ that affects *both* $(M)$ and $(Y)$. Think of $(Z)$ as a plausible confounder.
+
+$$
+\begin{aligned}
+M &= aX + dZ + \varepsilon_M\\
+Y &= c'X + bM + eZ + \varepsilon_Y
+\end{aligned}
+$$
+
+```{r}
+set.seed(1235)
+
+Z <- rnorm(N, 0, 1)
+d <- 0.60
+e <- 0.50
+
+M2 <- a*X + d*Z + rnorm(N, 0, 1)
+Y2 <- cprime*X + b*M2 + e*Z + rnorm(N, 0, 1)
+
+dat2 <- data.frame(X, Z, M = M2, Y = Y2)
+```
+
+---
+
+# Exercise 4 — Mediation with covariates
+
+## 4a) Fit without Z (misspecified on purpose)
+
+```{r}
+fit_noZ <- sem(mod_med, data = dat2, meanstructure = TRUE)
+parameterEstimates(fit_noZ)[parameterEstimates(fit_noZ)$op %in% c("~",":="),
+                            c("lhs","op","rhs","label","est","se","pvalue")]
+```
+
+## 4b) Fit with Z included
+
+```{r}
+mod_withZ <- '
+  M ~ a*X + d*Z
+  Y ~ cprime*X + b*M + e*Z
+
+  ind := a*b
+  tot := cprime + (a*b)
+'
+fit_withZ <- sem(mod_withZ, data = dat2, meanstructure = TRUE)
+parameterEstimates(fit_withZ)[parameterEstimates(fit_withZ)$op %in% c("~",":="),
+                              c("lhs","op","rhs","label","est","se","pvalue")]
+```
+
+**Questions**
+
+1. Compare $(b)$ and $(c')$ from `fit_noZ` vs `fit_withZ`. Which one looks more biased and why?
+2. In real research, why is “include covariates” *not* a magic causal fix?
+3. How would you argue for including a covariate in a preregistered SEM?
+
+---
+
+# Part C — Parallel mediators (still observed variables)
+
+Now simulate two mediators $(M_1)$ and $(M_2)$ in parallel:
+
+$$
+\begin{aligned}
+M_1 &= a_1X + \varepsilon_1\\
+M_2 &= a_2X + \varepsilon_2\\
+Y &= c'X + b_1M_1 + b_2M_2 + \varepsilon_Y
+\end{aligned}
+$$
+
+```{r}
+set.seed(1236)
+
+a1 <- 0.50; b1 <- 0.60
+a2 <- 0.30; b2 <- 0.40
+cprime <- 0.10
+
+X <- rnorm(N)
+M1 <- a1*X + rnorm(N)
+M2 <- a2*X + rnorm(N)
+Y  <- cprime*X + b1*M1 + b2*M2 + rnorm(N)
+
+dat3 <- data.frame(X, M1, M2, Y)
+```
+
+---
+
+# Exercise 5 — Fit parallel mediation + compare indirect paths
+
+```{r}
+mod_par <- '
+  M1 ~ a1*X
+  M2 ~ a2*X
+  Y  ~ cprime*X + b1*M1 + b2*M2
+
+  M1 ~~ M2   # allow mediator covariance (often realistic)
+
+  ind1 := a1*b1
+  ind2 := a2*b2
+  indT := ind1 + ind2
+  tot  := cprime + indT
+'
+
+fit_par <- sem(mod_par, data = dat3, se = "bootstrap", bootstrap = 2000,
+               meanstructure = TRUE)
+pe3 <- parameterEstimates(fit_par, ci = TRUE, standardized = TRUE)
+pe3[pe3$op %in% c("~",":="), c("lhs","op","rhs","label","est","ci.lower","ci.upper","std.all")]
+```
+
+**Questions**
+
+1. Which indirect effect is larger, `ind1` or `ind2`? Does that match the generating values?
+2. Does allowing `M1 ~~ M2` change $(b_1)$ and $(b_2)$ much? Why might it in real data?
+3. What would you need (design/assumptions) to interpret the two mediators causally?
+
+---
+
+# Optional advanced exercise — Equivalent just-identified models
+
+With only $(X,M,Y)$ and a mediation structure, the model is often **just-identified** $(df=0)$.
+
+That means *global fit cannot distinguish* among different directional stories.
+
+Fit an alternative model where **Y predicts M** (reversing the middle relation), still allowing a direct X → Y path:
+
+$$
+\begin{aligned}
+Y &= i_Y + \alpha X + \varepsilon_Y\\
+M &= i_M + \gamma X + \beta Y + \varepsilon_M
+\end{aligned}
+$$
+
+```{r}
+mod_alt <- '
+  Y ~ alpha*X
+  M ~ gamma*X + beta*Y
+
+  ind_alt := alpha*beta
+'
+fit_alt <- sem(mod_alt, data = dat, meanstructure = TRUE)
+
+c(
+  df_med = fitMeasures(fit_med, "df"),
+  df_alt = fitMeasures(fit_alt, "df"),
+  chisq_med = fitMeasures(fit_med, "chisq"),
+  chisq_alt = fitMeasures(fit_alt, "chisq")
+)
+```
+
+**Questions**
+
+1. Are both models $(df=0)$? What does that imply about χ² and other global fit indices?
+2. If both fit “perfectly”, how would you choose between them scientifically?
+3. What kinds of data/design would help (time, experiments, instruments, measurement)?
+
+::: {.callout-warning appearance="minimal"}
+If reversing a path makes it significant, the model is not better or more true
+:::
+
+---
+
+# Wrap-up
+
+## Take-home (lab)
+
+- Mediation is a **system of equations**; the indirect effect is a **defined parameter** $(ab)$
+- For $(ab)$, **bootstrap CIs** are often more trustworthy than normal-theory tests
+- Testing “full mediation” is a **constraint test**—not a goal by itself
+- Covariates help, but causal claims still require assumptions and design
+
+---
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) {
+  cat("Instructor solutions are enabled.\n")
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  truth <- data.frame(param = c("a","b","cprime","ind","tot"),
+                      value = c(a, b, cprime, a*b, cprime + a*b))
+  est <- subset(parameterEstimates(fit_med), op %in% c("~",":="))[, c("lhs","op","rhs","label","est","se")]
+  list(truth = truth, estimates = est)
+}
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  anova(fit_med, fit_full)
+}
+```

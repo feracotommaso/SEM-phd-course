@@ -2902,28 +2902,28 @@
     "href": "slides/00_welcome_course-map.html#what-we-will-not-focus-on-in-live-sessions",
     "title": "Welcome & course map",
     "section": "What we will not focus on (in live sessions)",
-    "text": "What we will not focus on (in live sessions)\n\nEFA (we’ll mention it, but we are not doing an EFA course)\nBayesian SEM (optional extra)\nAdvanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)\n\n\n\n\nIf you need something specific for your project, park it as a “parking lot question”: we’ll map it to the right module (live vs extra)."
+    "text": "What we will not focus on (in live sessions)\n\nEFA (we’ll mention it, but we are not doing an EFA course)\nBayesian SEM (optional extra)\nAdvanced/rare models (optional extras: latent interactions, SAM/MIIVs, etc.)\n\n\n\n\nIf you need something specific for your project, let me know: I’ll try to fit it into the right module."
   },
   {
     "objectID": "slides/00_welcome_course-map.html#format-5-mornings-4-hours",
     "href": "slides/00_welcome_course-map.html#format-5-mornings-4-hours",
     "title": "Welcome & course map",
     "section": "Format: 5 mornings × 4 hours",
-    "text": "Format: 5 mornings × 4 hours\nEach morning is split into two 2-hour blocks:\n\nBlock A: concepts + live coding (short, focused)\nBlock B: guided exercises → lab handout (you work; we troubleshoot)"
+    "text": "Format: 5 mornings × 4 hours\nEach morning is split into two 2-hour blocks including:\n\ntheoretical and practical concepts\nlive coding\nlab and excercises\noptional extra topics\ndiscussion"
   },
   {
     "objectID": "slides/00_welcome_course-map.html#the-repository-is-the-course",
     "href": "slides/00_welcome_course-map.html#the-repository-is-the-course",
     "title": "Welcome & course map",
     "section": "The repository is the course",
-    "text": "The repository is the course\nSEM-phd-course is a Quarto website + source files:\n\n/slides/ revealjs decks (what you see in class)\n/labs/ hands-on labs (what you do)\n/extras/ self-study modules (what you can revisit)\n/R/ helper functions (fit, plots, reporting)\n\n\n\n\nGoal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting."
+    "text": "The repository is the course\nSEM-phd-course is a Quarto website + source files:\n\n/slides/ revealjs decks (what you see in class)\n/labs/ hands-on labs (what you do)\n/extras/ self-study (or extra) modules\n/R/ helper functions (fit, plots, reporting)\n\n\n\n\nGoal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available."
   },
   {
     "objectID": "slides/00_welcome_course-map.html#how-to-use-materials-during-class",
     "href": "slides/00_welcome_course-map.html#how-to-use-materials-during-class",
     "title": "Welcome & course map",
     "section": "How to use materials during class",
-    "text": "How to use materials during class\n\nKeep the slides open (concepts + code snippets)\nWork in the lab file in parallel (copy/adapt code)\nWhen stuck:\n\nidentify where you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)\nbring the smallest reproducible example"
+    "text": "How to use materials during class\n\nKeep the slides open (concepts + code snippets)\nWork in the lab file in parallel (copy/adapt code)\nWhen stuck:\n\nidentify where you are in the workflow (Specify / Identify / Estimate / Evaluate / Revise-Report)\nbring the smallest reproducible example\ntalk"
   },
   {
     "objectID": "slides/00_welcome_course-map.html#software-checklist-do-this-before-we-start",
@@ -2951,14 +2951,14 @@
     "href": "slides/00_welcome_course-map.html#parking-lot-questions",
     "title": "Welcome & course map",
     "section": "Parking lot questions",
-    "text": "Parking lot questions\nIf your question is:\n\nabout your own project’s model → keep it; we’ll connect it to a module\n\nabout R/lavaan syntax → ask immediately\n\nabout advanced variants (Bayesian, latent interactions, MIIVs, etc.) → likely an extra"
+    "text": "Parking lot questions\nIf your question is:\n\nabout your own project’s model → keep it; we’ll connect it to a module\n\nabout R/lavaan syntax → ask immediately\n\nabout advanced variants (Bayesian, latent interactions, MIIVs, etc.) → likely an extra. We can cover it if we have time."
   },
   {
     "objectID": "slides/00_welcome_course-map.html#take-home-3-things",
     "href": "slides/00_welcome_course-map.html#take-home-3-things",
     "title": "Welcome & course map",
     "section": "Take-home: 3 things",
-    "text": "Take-home: 3 things\n\nThis course is about a workflow, not a list of models\n\nWe will treat SEM as measurement + structure, in that order\n\nThe repo is your long-term reference (slides, labs, extras, helpers)"
+    "text": "Take-home: 3 things\n\nSEM is not just a model, but also a mindset\nSEM is both theory and stat\n\nSEM is both measurement and structure, tests\n\n\nThe repo is your long-term reference (slides, labs, extras, helpers)"
   },
   {
     "objectID": "slides/00_welcome_course-map.html#next",
@@ -3007,7 +3007,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-structural-equation-modeling",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "SEM = Structural Equation Modeling",
-    "text": "SEM = Structural Equation Modeling\nA family of models that lets you:\n\nrepresent hypotheses as a system of relations\n\nwe postulate a data-generating model\nwe evaluate whether this model fits the data or not\n\nwork with measurement error (explicitly)\nmodel means and covariances implied by your theory\n\n\n\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM. Most things you already do (t-tests, regressions, ANOVA) are special cases of SEM.\n\n\n\n\nWhat is so special about SEM?\n\nwe can model latent variables (e.g., ‘invisible constructs’)\nwe can test indirect and reciprocal effects and more\nwe can make diagrams (or PAINTINGS if theory is weak!)"
+    "text": "SEM = Structural Equation Modeling\nA family of models that lets you:\n\nrepresent hypotheses as a system of relations\n\npostulate a data-generating model\nevaluate whether this model fits the data or not\n\nwork with measurement error (explicitly)\nmodel means and covariances implied by your theory\n\n\n\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even regressions, ANOVAs, t-tests could be considered particular cases of SEM.\n\n\n\n\nmodel latent variables (e.g., ‘invisible constructs’)\ntest indirect, moderated, and reciprocal effects\nmake diagrams (or PAINTINGS if theory is weak!)\n\n\n\n\nnetwork models are better if you want good paintings with no theory."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency",
@@ -3021,14 +3021,14 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Classification of variables",
-    "text": "Classification of variables\nVariables are the way those attributes that vary across individuals are operationalized and represented for further data processing. These can be categorized according to many criteria (e.g, dependent/independent…), but in SEM we classify them firstly as:\n\nLatent variables\n\nhypothetical variables that correspond to more or less abstract concepts\nformative or reflective\nexamples are intelligence, anxiety, executive functions, personality traits…\n\nObserved variables\n\nvariables that can be directly observed and measured\nexamples can be weight, height, gender, income…"
+    "text": "Classification of variables\nVariables are the way those attributes that vary across individuals are operationalized and represented for further data processing. These can be categorized according to many criteria (e.g, dependent/independent…), but in SEM we classify them firstly as:\n\nLatent variables\n\nhypothetical variables that correspond to more or less abstract concepts (e.g., intelligence, anxiety, executive functions, personality traits…)\ncould be formative or reflective\n\nObserved variables\n\nvariables that can be directly observed and measured\nexamples can be weight, height, gender, income, items, HRV…"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables",
     "href": "slides/01_sem-foundations_workflow_lavaan.html#relationships-between-variables",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Relationships between variables",
-    "text": "Relationships between variables\n\nThe general aim of statistical analysis is to study relationship among variables\nOn the basis of the relationship among the variables, we distinguish two kind of models: symmetrical and asymmetrical."
+    "text": "Relationships between variables\n\nThe general aim of statistical analysis is to study relationships among variables\nOn the basis of the relationship among the variables, we distinguish two kind of models:\n\nsymmetrical\nasymmetrical"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#regression-model-as-an-sem-special-case",
@@ -3063,14 +3063,14 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-assumptions-conceptual-version",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "SEM assumptions (conceptual version)",
-    "text": "SEM assumptions (conceptual version)\n\nThe model is confirmatory: you propose it before looking for “fixes”\nThe model must be identified (estimable)\nEstimation relies on distributional assumptions (we’ll talk robustness later)\nMissing data and non-normality are not afterthoughts (deck 06)"
+    "text": "SEM assumptions (conceptual version)\n\nThe model is confirmatory: you propose it before looking for “fixes”\nThe model must be identified (estimable)\nEstimation relies on distributional assumptions"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-steps-the-workflow",
     "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-steps-the-workflow",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "SEM steps (the workflow)",
-    "text": "SEM steps (the workflow)\n\nModel specification (theory → diagram → equations)\nModel identification (can we estimate the parameters?)\nParameter estimation (choose estimator, get ())\nModel evaluation (global + local diagnostics)\nModel modification / reporting (disciplined, transparent)"
+    "text": "SEM steps (the workflow)\n\nModel specification (theory → diagram → equations)\nModel identification (can we estimate the parameters?)\nParameter estimation (choose estimator, get estimated matrices)\nModel evaluation (global + local diagnostics)\nModel modification / reporting (disciplined, transparent)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-specification",
@@ -3084,7 +3084,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#model-identification-intuition",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "2) Model identification (intuition)",
-    "text": "2) Model identification (intuition)\nTo ensure that the number of unknown parameters (\\(t\\)) is not greater than the number of nonredundant elements in the covariance matrix of \\(q\\) observed variables. We can use the following formula:\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\n\n\n\nIf the model is not identified, nothing else matters (no fit, no estimates).\n\n\n\n\n\nJust-identified\n\n\nUnder-identified\n\n\nOver-identified"
+    "text": "2) Model identification (intuition)\n\n\nTo ensure that the number of unknown parameters (\\(t\\)) is not greater than the number of nonredundant elements in the covariance matrix of \\(q\\) observed variables.\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\n\n\n\nIf the model is not identified, nothing else matters (no fit, no estimates).\n\n\n\n\nJust-identified\n\nUnder-identified\n\nOver-identified"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#identification-examples-visual",
@@ -3098,7 +3098,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#parameter-estimation-what-software-does",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "3) Parameter estimation (what software does)",
-    "text": "3) Parameter estimation (what software does)\nTo estimate the model parameters we can use different estimation methods. These aim to estimate the model implied (theoretical) correlation matrix \\(\\boldsymbol{\\Sigma}\\), which is a function of the model parameters, and should hopefully be similar to the observed correlation matrix \\(\\boldsymbol{S}\\).\nSome of the many estimation methods are:\n\nMaximum Likelihood (ML), default in lavaan\nUnweighted Least Squares (ULS)\nGeneralized Least Squares (GLS)\nDiagonally Weighted Least Squares (DWLS), default for ordinal variables in lavaan"
+    "text": "3) Parameter estimation (what software does)\nTo estimate the model parameters we can use different estimation methods. These aim to estimate the model implied (theoretical) correlation matrix \\(\\boldsymbol{\\Sigma}\\), which is a function of the model parameters, and should hopefully be similar to the observed correlation matrix \\(\\boldsymbol{S}\\).\nSome of the many estimation methods are:\n\nMaximum Likelihood (ML), default in lavaan\nUnweighted Least Squares (ULS)\nGeneralized Least Squares (GLS)\nWeighted Least Squares, Mean- and Variance-adjusted (WLSMV), default for ordinal variables in lavaan\nDiagonally Weighted Least Squares (DWLS)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation-preview",
@@ -3112,7 +3112,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#model-modification-disciplined-respecification",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "5) Model modification (disciplined respecification)",
-    "text": "5) Model modification (disciplined respecification)\nAt this point you are ’‘’free’’’ to modify the model based on the results obtained…AND THE THEORY!\n\nmodifications are hypotheses\nmodifications must be explicitly reported: both what you changed and why\navoid overfitting (change only what is strictly needed/justified)"
+    "text": "5) Model modification (disciplined respecification)\nAt this point you are ‘free’ to modify the model based on the results obtained…AND THE THEORY!\n\nmodifications are hypotheses\nmodifications must be explicitly reported: both what you changed and why\navoid overfitting (change only what is strictly needed/justified)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#diagram-grammar-legend",
@@ -3147,7 +3147,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#from-lm-to-lavaansem",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "From lm() to lavaan::sem()",
-    "text": "From lm() to lavaan::sem()\nA regression in R:\n\nfit_lm &lt;- lm(y ~ x1 + x2, data = dat)\nsummary(fit_lm)\n\nThe same idea in lavaan (SEM engine):\n\nlibrary(lavaan)\n\nmod &lt;- '\n  y ~ x1 + x2\n'\n\nfit &lt;- sem(mod, data = dat)\nsummary(fit, standardized = TRUE)"
+    "text": "From lm() to lavaan::sem()\nA regression in base R:\n\nfit_lm &lt;- lm(y ~ x1 + x2, data = dat)\nsummary(fit_lm)\n\nThe same idea in lavaan :\n\nlibrary(lavaan)\n\nmod &lt;- '\n  y ~ x1 + x2\n'\n\nfit &lt;- sem(mod, data = dat)\nsummary(fit, standardized = TRUE)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#key-lavaan-syntax-operators",
@@ -3196,7 +3196,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#further-reading-self-study",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Further reading / self-study",
-    "text": "Further reading / self-study\n\nRevisit the glossary in the repo as new terms appear\nOptional extras later in the course:\n\npower/simulation (ex01)\nSAM / MIIVs / factor-score regression (ex04–ex05)"
+    "text": "Further reading / self-study\n\nRevisit the glossary in the repo as new terms appear\n\n(Add materials list.)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#references",
@@ -3210,14 +3210,14 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency-1",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Variance–covariance matrices (the “currency”)",
-    "text": "Variance–covariance matrices (the “currency”)\nSEM compares what you observe (S) with what your model implies (Σ(θ)).\n\n(We’ll keep the math light today; we’ll return to fit evaluation later.)"
+    "text": "Variance–covariance matrices (the “currency”)\nSEM compares what you observe (S) with what your model implies (Σ(θ))."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-1",
     "href": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-1",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Classification of variables",
-    "text": "Classification of variables\nIn SEM we also have an additional type of classification:\n\nExogenous variables\n\nVariables whose causes lie outside the model; they will be used only as predictors in the model. They do not receive arrows.\nThey are indicated with \\(x\\), if observed, or with \\(\\xi\\), if latent.\n\nEndogenous variables\n\nVariables that are determined by variables within the model (they receive arrows); can be used as predictors or dependent variables in the model.\nThey are indicated with \\(y\\), if observed, or with \\(\\eta\\), if latent."
+    "text": "Classification of variables\nIn SEM we also have an additional classification:\n\nExogenous variables\n\nVariables whose causes lie outside the model; they will be used only as predictors in the model. They do not receive arrows.\nThey are indicated with \\(x\\), if observed, or with \\(\\xi\\), if latent.\n\nEndogenous variables\n\nVariables that are determined by variables within the model (they receive arrows); can be used as predictors or dependent variables in the model.\nThey are indicated with \\(y\\), if observed, or with \\(\\eta\\), if latent."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#classification-of-variables-2",
@@ -3238,7 +3238,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#asymmetrical-relationships",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Asymmetrical relationships",
-    "text": "Asymmetrical relationships\nX -&gt; Y\n\nVariables are divided into two sets: dependent or response variables and predictors or explanatory variables\nX is the set of explanatory variables, \\(Y\\) is the set of response variables, arrows represents the direction of the hypothesized relationship.\nThese models imply cause-and-effect relationships.\n\nExample\nPeople who study more obtain higher grades."
+    "text": "Asymmetrical relationships\n\\[\nX \\rightarrow Y\n\\]\n\nVariables are divided into two sets: dependent or response variables and predictors or explanatory variables\n\\(X\\) is the set of explanatory variables, \\(Y\\) is the set of response variables, arrows represents the direction of the hypothesized relationship.\nThese models imply cause-and-effect relationships.\n\nExample\nPeople who study more obtain higher grades."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#symmetrical-relationships",
@@ -3336,7 +3336,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Graphic relationships",
-    "text": "Graphic relationships\n\nAll model relationships are represented by arrows;\n NO relationship NO arrow... \n\n ...and usually NO arrow NO relationship\nEach arrow is a model parameter and has two indices (e.g., \\(\\beta_{21}\\))\nAsymmetrical relationship are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.\nSymmetrical relationships are represented by double-headed arrows and two indices, one for each variable."
+    "text": "Graphic relationships\n\nAll model relationships are represented by arrows;\n\n\n\n\n\n\n\nImportant\n\n\nNO relationship NO arrow…\n…and usually NO arrow NO relationship\n\n\n\n\nEach arrow is a model parameter and has two indices (e.g., \\(\\beta_{21}\\))\nAsymmetrical relationship are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.\nSymmetrical relationships are represented by double-headed arrows and two indices, one for each variable."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphic-relationships-1",
@@ -3455,7 +3455,7 @@
     "href": "labs/lab01_lavaan-basics.html#packages",
     "title": "Lab 01 — lavaan basics with observed variables",
     "section": "Packages",
-    "text": "Packages\n\n\nShow code\nlibrary(lavaan)"
+    "text": "Packages\n\nlibrary(lavaan)"
   },
   {
     "objectID": "labs/lab01_lavaan-basics.html#data",
@@ -3469,7 +3469,7 @@
     "href": "labs/lab01_lavaan-basics.html#extracting-parameters-programmatically",
     "title": "Lab 01 — lavaan basics with observed variables",
     "section": "Extracting parameters programmatically",
-    "text": "Extracting parameters programmatically\n\n\nShow code\npe &lt;- parameterEstimates(fit_sem, standardized = TRUE)\nhead(pe, 10)\n\n\n  lhs op rhs      est    se      z pvalue ci.lower ci.upper   std.lv std.all\n1 mpg  ~  wt   -3.878 0.602 -6.438      0   -5.058   -2.697   -3.878  -0.630\n2 mpg  ~  hp   -0.032 0.009 -3.696      0   -0.049   -0.015   -0.032  -0.361\n3 mpg ~~ mpg    6.095 1.524  4.000      0    3.109    9.082    6.095   0.173\n4  wt ~~  wt    0.927 0.000     NA     NA    0.927    0.927    0.927   1.000\n5  wt ~~  hp   42.812 0.000     NA     NA   42.812   42.812   42.812   0.659\n6  hp ~~  hp 4553.965 0.000     NA     NA 4553.965 4553.965 4553.965   1.000\n7 mpg ~1       37.227 1.522 24.459      0   34.244   40.210   37.227   6.276\n8  wt ~1        3.217 0.000     NA     NA    3.217    3.217    3.217   3.341\n9  hp ~1      146.688 0.000     NA     NA  146.688  146.688  146.688   2.174\n   std.nox\n1   -0.654\n2   -0.005\n3    0.173\n4    0.927\n5   42.812\n6 4553.965\n7    6.276\n8    3.217\n9  146.688\n\n\n\nop tells you the operator (~ regression, ~~ variance/covariance, ~1 intercept)\nest is the estimate\nse is the standard error\nz and pvalue are the usual Wald test outputs\nstd.all is the fully standardized estimate\n\n\n\n\n\n\n\nAt this stage, treat p-values as descriptive while you learn the machinery. We’ll talk about modeling strategy and diagnostics later.\n\n\n\n\n\n\n\n\n\nCheck-in: You just used lavaan as a “regression engine”. SEM becomes interesting when we connect multiple equations and allow covariances explicitly."
+    "text": "Extracting parameters programmatically\nUse the function parameterEstimates() to obtain the estimates. How do you extract standardized estimate?\n\n\nShow code\npe &lt;- parameterEstimates(fit_sem, standardized = TRUE)\nhead(pe, 10)\n\n\n  lhs op rhs      est    se      z pvalue ci.lower ci.upper   std.lv std.all\n1 mpg  ~  wt   -3.878 0.602 -6.438      0   -5.058   -2.697   -3.878  -0.630\n2 mpg  ~  hp   -0.032 0.009 -3.696      0   -0.049   -0.015   -0.032  -0.361\n3 mpg ~~ mpg    6.095 1.524  4.000      0    3.109    9.082    6.095   0.173\n4  wt ~~  wt    0.927 0.000     NA     NA    0.927    0.927    0.927   1.000\n5  wt ~~  hp   42.812 0.000     NA     NA   42.812   42.812   42.812   0.659\n6  hp ~~  hp 4553.965 0.000     NA     NA 4553.965 4553.965 4553.965   1.000\n7 mpg ~1       37.227 1.522 24.459      0   34.244   40.210   37.227   6.276\n8  wt ~1        3.217 0.000     NA     NA    3.217    3.217    3.217   3.341\n9  hp ~1      146.688 0.000     NA     NA  146.688  146.688  146.688   2.174\n   std.nox\n1   -0.654\n2   -0.005\n3    0.173\n4    0.927\n5   42.812\n6 4553.965\n7    6.276\n8    3.217\n9  146.688\n\n\n\nop tells you the operator (~ regression, ~~ variance/covariance, ~1 intercept)\nest is the estimate\nse is the standard error\nz and pvalue are the usual Wald test outputs\nstd.all is the fully standardized estimate\n\n\n\n\n\n\n\nAt this stage, focus on estimates only. We’ll talk about modeling strategy and diagnostics later.\n\n\n\n\n\n\n\n\n\nCheck-in: You just used lavaan as a “regression engine”. SEM becomes interesting when we connect multiple equations and allow covariances explicitly."
   },
   {
     "objectID": "labs/lab01_lavaan-basics.html#compare-to-two-separate-regressions",
@@ -3519,5 +3519,1328 @@
     "title": "Title of the lecture; Subtitle (optional)",
     "section": "",
     "text": "Point 1\nPoint 2\nPoint 3\n\n\n\n\n\n\n\nTip\n\n\n\nTeaching tip: keep one “workflow map” slide that reappears in every deck."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#regression-models",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#regression-models",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Regression models",
+    "text": "Regression models\nWhat you did since the beginning of the year (with link functions or not) was something like this \\[\ny = X\\beta + \\epsilon\n\\] Where \\(y\\) is the response variable, \\(X\\) the set of predictors and \\(\\epsilon\\) the error term. \nThese models,\n\nassume that all variables are directly observed/manifest\nallow measurement errors only in endogenous variables\nare just particular cases of SEM"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#sem-formula",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-formula",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "SEM formula",
+    "text": "SEM formula\nIn fact, the structural model of a SEM (i.e., excluding latent variables) is:\n\\[\nY = X^\\ast B' + \\zeta\n\\]\nWhere\n\n\\(Y\\) is the (n x p) matrix of endogenous variables\n\\(X^\\ast\\) is the n x (p + q) matrix of endogenous and exogenous variables\n\\(B\\) is the (p + q) x (p + q) coefficient matrices\n\\(\\zeta\\) is the (p x q) matrix of errors in the equations\n\nThis looks pretty similar to the regression formula, but with some matrices! Univariate regression models are just a special case of this formula where the parameter matrix is full of 0"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#regressions-in-matrices",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#regressions-in-matrices",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Regressions in matrices",
+    "text": "Regressions in matrices\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x1 x2 x3\ny  0  1  2  3\nx1 0  0  0  0\nx2 0  0  0  0\nx3 0  0  0  0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x3 x2 x1\ny  0  3  2  1\nx3 0  0  5  4\nx2 0  0  0  6\nx1 0  0  0  0"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A first example with simulated data",
+    "text": "A first example with simulated data\n\n\nImagine you want to predict scores in the test we will do at the end of this corse (\\(y\\)), based on your prior statistical knowledge (\\(x_1\\)) and interest (\\(x_2\\)):\nFirst define the model\n\n\n\n\n\n\n\n\n\n\nSecond simulate the data\n\n# Simulate knowledge and interest as predictors of Y\nset.seed(12)\nN = 100\nx1 = rnorm(N)\nx2 = rnorm(N)\ny = .35*x1 + .20*x2 + rnorm(N)\nd &lt;- data.frame(x1,x2,y)\n\n\ncor(d)\n\n      x1    x2    y\nx1 1.000 0.016 0.39\nx2 0.016 1.000 0.12\ny  0.386 0.118 1.00\n\ncov(d)\n\n      x1    x2    y\nx1 0.748 0.014 0.36\nx2 0.014 0.998 0.13\ny  0.364 0.129 1.19"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "A first example with simulated data",
+    "text": "A first example with simulated data\n\n# Simulate knowledge and interest as predictors of Y\nset.seed(12)\nN = 100\nx1 = rnorm(N)\nx2 = rnorm(N)\ny = .35*x1 + .20*x2 + rnorm(N)\nd &lt;- data.frame(x1,x2,y)\n\n\ncor(d)\n\n      x1    x2    y\nx1 1.000 0.016 0.39\nx2 0.016 1.000 0.12\ny  0.386 0.118 1.00\n\n#\ncov(d)\n\n      x1    x2    y\nx1 0.748 0.014 0.36\nx2 0.014 0.998 0.13\ny  0.364 0.129 1.19"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#lm-regression",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#lm-regression",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "lm regression",
+    "text": "lm regression\n\n# fit a regression model\nm &lt;- lm(y ~ x1 + x2, data = d)\nsummary(m)\n\n\nCall:\nlm(formula = y ~ x1 + x2, data = d)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-2.8022 -0.6244 -0.0259  0.7150  1.8090 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  -0.0251     0.1009   -0.25     0.80    \nx1            0.4846     0.1172    4.14  7.5e-05 ***\nx2            0.1226     0.1015    1.21     0.23    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1 on 97 degrees of freedom\nMultiple R-squared:  0.162, Adjusted R-squared:  0.145 \nF-statistic: 9.36 on 2 and 97 DF,  p-value: 0.000191"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#introducing-lavaan",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#introducing-lavaan",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Introducing lavaan",
+    "text": "Introducing lavaan\nlavaan (latent variable analysis) is actually THE package for SEM. You can use it to estimate a wide family of latent variable models, including: factor analysis, structural equation, longitudinal, multilevel, latent class, item respons, and missing data models… \n..But also simple regressions"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-fit-and-info",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-fit-and-info",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Model fit and info",
+    "text": "Model fit and info\n\nlibrary(lavaan)\nml &lt;- \"y ~ 1 + x1 + x2\" #1 + gives the intercept\nfit &lt;- sem(ml, data = d)\n# summary(fit, rsquare=T)\n\n\n\nlavaan 0.6-19 ended normally after 1 iteration\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                         4\n\n  Number of observations                           100\n\nModel Test User Model:\n                                                      \n  Test statistic                                 0.000\n  Degrees of freedom                                 0\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\n[...]"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-parameters",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-parameters",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Model parameters",
+    "text": "Model parameters\n\n\n[...]\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n  y ~                                                 \n    x1                0.485    0.115    4.199    0.000\n    x2                0.123    0.100    1.227    0.220\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .y                -0.025    0.099   -0.253    0.800\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .y                 0.987    0.140    7.071    0.000\n\nR-Square:\n                   Estimate\n    y                 0.162\n\n[...]\n\n\nQUESTIONS? COMMENTS? What about lm?"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-plot",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-plot",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Model plot",
+    "text": "Model plot\n\n# And we can plot it\nlibrary(semPlot)\nsemPaths(fit, whatLabels = \"parameters\",\n         edge.label.cex = 1.5, rotation = 2,\n         residuals = F, sizeMan = 10, curve = 1.9,\n         edge.color=\"black\", edge.label.color=\"black\")"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-matrices",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-matrices",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Model matrices",
+    "text": "Model matrices\nWe can also look at the matrices to enter in the SEM mindset\n\n\n\n#The parameters matrix\ninspect(fit)$beta\n\n   y x1 x2\ny  0  2  3\nx1 0  0  0\nx2 0  0  0\n\ninspect(fit, \"estimates\")$beta\n\n   y   x1   x2\ny  0 0.48 0.12\nx1 0 0.00 0.00\nx2 0 0.00 0.00\n\n\n\n\n#The residual var-covar matrix\ninspect(fit)$psi\n\n   y x1 x2\ny  4      \nx1 0  0   \nx2 0  0  0\n\ninspect(fit, \"estimates\")$psi\n\n       y    x1    x2\ny  0.987            \nx1 0.000 0.741      \nx2 0.000 0.014 0.988"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#basic-lavaan-syntax",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#basic-lavaan-syntax",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Basic lavaan syntax",
+    "text": "Basic lavaan syntax\nAs you can see, the regression syntax of lavaan is actually the same as lm, but there is much more in lavaan. \nModel specification sintax:\n\n\n\n\n\n\n\n\nSyntax\nFunction\nExample\n\n\n\n\n~\nRegress onto\nRegress B onto A: B ~ A\n\n\n~~\nResidual (co)variance\nVariance of A: A ~~ A  Variance of A and B: A ~~ B\n\n\n=~\nDefine a reflective LV\nF1 is defined by items 1-4: F1 =~ i1 + i2 + i3 + i4\n\n\n&lt;~\nDefine a formative LV\nF1 is defined by items 1-4: F1 &lt;~ i1 + i2 + i3 + i4\n\n\n:=\nDefine non-model parameters\nu2 := x + y\n\n\n*\nLabel or fix parameter\nZ ~ b*X labels the regression as b"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#basic-lavaan-functions",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#basic-lavaan-functions",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Basic lavaan functions",
+    "text": "Basic lavaan functions\n\n\n\n\n\n\n\nFunction\nCommand\n\n\n\n\nsem() / cfa()\nFit the SEM model (cfa is nested in sem…which is nested in lavaan)\n\n\nfitMeasures()\nReturn fit indices of the SEM model\n\n\ninspect()\nInspect/extract information that is stored in a fitted model\n\n\nlavPredict()\nCompute estimated latent scores\n\n\nlavTestLRT()\nCompare (nested) lavaan models\n\n\nmodificationIndices()\nCompute the modification indices of a model\n\n\nparameterEstimates()\nParameter estimates of a latent variable model\n\n\nparameterTable()\nShow the table of the parameters of a fitted model\n\n\nsimulateData()\nSimulate data starting from a lavaan model syntax"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-matrices-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-matrices-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Model matrices",
+    "text": "Model matrices\n\n#The residual var-covar matrix\ninspect(fit)$psi\n\n   y x1 x2\ny  4      \nx1 0  0   \nx2 0  0  0\n\ninspect(fit, \"estimates\")$psi\n\n       y    x1    x2\ny  0.987            \nx1 0.000 0.741      \nx2 0.000 0.014 0.988"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#today-in-the-workflow",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#today-in-the-workflow",
+    "title": "Path analysis & mediation",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: observed-variable path models and mediation (direct, indirect, total effects) + equivalence/pitfalls.\nNext (03): model fit & diagnostics (global vs local, residuals, MI, disciplined respecification)."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#learning-objectives",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#learning-objectives",
+    "title": "Path analysis & mediation",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nWrite a path model as a system of regressions\nDefine direct, indirect, and total effects (and compute them in lavaan)\nExplain why indirect effects have non-normal sampling distributions\nRecognize just-identified path models (why “fit” can be uninformative)\nExplain (and fear, a little) model equivalence and causal interpretation limits"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#path-analysis-one-sentence",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#path-analysis-one-sentence",
+    "title": "Path analysis & mediation",
+    "section": "Path analysis (one sentence)",
+    "text": "Path analysis (one sentence)\nA path model is a set of linear regressions estimated jointly, with an explicit covariance structure and with at least one variable working as mediator.\n\nAs usual, depicting the models is always the best way to understand our models."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#from-effects-to-equations",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#from-effects-to-equations",
+    "title": "Path analysis & mediation",
+    "section": "From “effects” to equations",
+    "text": "From “effects” to equations\nA path diagram is shorthand for a system like:\n\\[\n\\begin{aligned}\nM &= i_M + aX + \\varepsilon_M\\\\\nY &= i_Y + c'X + bM + \\varepsilon_Y\n\\end{aligned}\n\\]\n\n(X) exogenous (predictor)\n(M) mediator (endogenous)\n(Y) outcome (endogenous)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#mediation-three-effects",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#mediation-three-effects",
+    "title": "Path analysis & mediation",
+    "section": "Mediation: three effects",
+    "text": "Mediation: three effects\n\\[\n\\text{Indirect} = ab \\qquad\n\\text{Direct} = c' \\qquad\n\\text{Total} = c = c' + ab\n\\]\nInterpretation (linear, continuous case):\n\n(a): expected change in (M) per unit change in (X)\n(b): expected change in (Y) per unit change in (M) (holding (X) fixed)\n(c’): remaining effect of (X) on (Y) after (M)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#diagram-mediation-template",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#diagram-mediation-template",
+    "title": "Path analysis & mediation",
+    "section": "Diagram: mediation template",
+    "text": "Diagram: mediation template\n\n\n\n“Indirect effect” is not automatically “causal mediation”. Causal language requires assumptions!"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#why-sem-for-mediation",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#why-sem-for-mediation",
+    "title": "Path analysis & mediation",
+    "section": "Why SEM for mediation?",
+    "text": "Why SEM for mediation?\nSEM makes it easy to:\n\nestimate the system jointly (including residual covariance if justified)\ncompute functions of parameters (e.g., \\((ab)\\), totals, contrasts)\nadd covariates, multiple mediators, constraints, and (later) measurement models"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#indirect-effects-are-products",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#indirect-effects-are-products",
+    "title": "Path analysis & mediation",
+    "section": "Indirect effects are products",
+    "text": "Indirect effects are products\nThe indirect effect is a product (ab). Even if (a) and (b) are approximately normal, the product is not.\nA common large-sample approximation (delta method):\n\\[\n\\mathrm{Var}(\\widehat{ab}) \\approx\nb^2\\mathrm{Var}(\\hat a) + a^2\\mathrm{Var}(\\hat b) + 2ab\\,\\mathrm{Cov}(\\hat a,\\hat b)\n\\]\nSobel test (same idea, historically popular):\n\\[\nz = \\frac{\\widehat{ab}}{\\sqrt{\\widehat{\\mathrm{Var}}(\\widehat{ab})}}\n\\]\n\n\n\nIn practice, bootstrap is often preferred for indirect effects (especially with small–moderate (N))."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#lavaan-mediation-as-a-model-defined-parameters",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#lavaan-mediation-as-a-model-defined-parameters",
+    "title": "Path analysis & mediation",
+    "section": "lavaan: mediation as a model + defined parameters",
+    "text": "lavaan: mediation as a model + defined parameters\nYou already know ~ and ~~. The new piece is:\n\nlabels (a*X) and defined parameters (ind := a*b)\n\n\nlibrary(lavaan)\n\nmod_med &lt;- '\n  # structural regressions\n  M ~ a*X\n  Y ~ cprime*X + b*M\n\n  # (optional) exogenous variance\n  X ~~ X\n\n  # defined effects\n  ind := a*b\n  tot := cprime + (a*b)\n'\n\nfit &lt;- sem(mod_med, data = dat, meanstructure = TRUE)\nsummary(fit, standardized = TRUE)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#bootstrap-the-indirect-effect",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#bootstrap-the-indirect-effect",
+    "title": "Path analysis & mediation",
+    "section": "Bootstrap the indirect effect",
+    "text": "Bootstrap the indirect effect\n\nfit_b &lt;- sem(\n  mod_med, data = dat,\n  se = \"bootstrap\", bootstrap = 2000,\n  meanstructure = TRUE\n)\n\nparameterEstimates(fit_b, ci = TRUE, level = .95,\n                   standardized = TRUE) |&gt;\n  subset(op %in% c(\"~\", \":=\"))\n\nInterpretation:\n\nfocus on \\((ab)\\) estimate and its CI\nbootstrap CI is not magic; it’s still conditional on model assumptions"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#a-richer-example-multiple-indirect-paths",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#a-richer-example-multiple-indirect-paths",
+    "title": "Path analysis & mediation",
+    "section": "A richer example: multiple indirect paths",
+    "text": "A richer example: multiple indirect paths\nSometimes the theory implies more than one mediated route.\n(Example structure; your variables will differ.)\n\nNotation. If there are two indirect paths:\n\\[\n\\text{ind}_1 = a_1 b_1,\n\\qquad\n\\text{ind}_2 = a_2 b_2,\n\\qquad\n\\text{total indirect} = \\text{ind}_1 + \\text{ind}_2\n\\]\nYou can define each and test/CI them separately."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#multiple-indirect-effects-notation",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#multiple-indirect-effects-notation",
+    "title": "Path analysis & mediation",
+    "section": "Multiple indirect effects: notation",
+    "text": "Multiple indirect effects: notation\nIf there are two indirect paths:\n\\[\n\\text{ind}_1 = a_1 b_1,\n\\qquad\n\\text{ind}_2 = a_2 b_2,\n\\qquad\n\\text{total indirect} = \\text{ind}_1 + \\text{ind}_2\n\\]\nYou can define each and test/CI them separately."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#lavaan-multiple-indirect-effects-template",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#lavaan-multiple-indirect-effects-template",
+    "title": "Path analysis & mediation",
+    "section": "lavaan: multiple indirect effects (template)",
+    "text": "lavaan: multiple indirect effects (template)\n\nmod_multi &lt;- '\n  # example: two mediators in parallel\n  M1 ~ a1*X\n  M2 ~ a2*X\n  Y  ~ cprime*X + b1*M1 + b2*M2\n\n  # optional: allow mediators to covary\n  M1 ~~ M2\n\n  ind1 := a1*b1\n  ind2 := a2*b2\n  indT := ind1 + ind2\n  tot  := cprime + indT\n'\n\nfit &lt;- sem(mod_multi, data = dat, se = \"bootstrap\", bootstrap = 2000)\nsummary(fit, standardized = TRUE)\n\n\n\n\nParallel mediators are easy to write; the hard part is interpretation (confounding, causal ordering, measurement)."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#standardized-vs-unstandardized-effects",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#standardized-vs-unstandardized-effects",
+    "title": "Path analysis & mediation",
+    "section": "Standardized vs unstandardized effects",
+    "text": "Standardized vs unstandardized effects\n\nUnstandardized (\\(\\hat a\\), \\(\\hat b\\), \\(\\widehat{ab}\\)) are in original units → best for substantive interpretation if units matter.\nStandardized effects help compare across variables/scales.\n\nFor a simple mediation (continuous variables), a fully standardized indirect effect is:\n\\[\n(ab)_{\\text{std}} = ab \\cdot \\frac{\\sigma_X}{\\sigma_Y}\n\\]\n(because the (\\(\\sigma_M\\)) cancels)."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#identification-fit-can-be-perfect",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#identification-fit-can-be-perfect",
+    "title": "Path analysis & mediation",
+    "section": "Identification + “fit can be perfect”",
+    "text": "Identification + “fit can be perfect”\nMany basic path/mediation models are just-identified:\n\nno degrees of freedom \\((df = 0)\\)\nthe model reproduces the sample covariance matrix exactly\nfit indices will look “perfect” even if the causal story is wrong\n\nA useful counting rule:\n\\[\ndf = \\frac{p(p+1)}{2} - t\n\\]\nwhere \\((p)\\) = observed variables, \\((t)\\) = free parameters."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#model-fit-what-is-being-tested-preview",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#model-fit-what-is-being-tested-preview",
+    "title": "Path analysis & mediation",
+    "section": "Model fit: what is being tested (preview)",
+    "text": "Model fit: what is being tested (preview)\nThe global test compares the model-implied covariance to the sample covariance:\n\\[\nH_0:\\ \\Sigma(\\theta) = \\Sigma\n\\]\nIn ML estimation:\n\\[\n\\chi^2 = (N-1)\\,F_{ML}\n\\]\nwhere \\((F_{ML})\\) is the ML discrepancy function.\n\n\n\n\nDeck 03 is where we learn to use this information (global + local diagnostics) without worshipping cutoffs."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#a-meme-but-also-a-warning",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#a-meme-but-also-a-warning",
+    "title": "Path analysis & mediation",
+    "section": "A meme, but also a warning",
+    "text": "A meme, but also a warning\n\n\n\n\nGood fit ≠ true model. In path analysis, equivalence is a real problem."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#model-equivalence-the-uncomfortable-truth",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#model-equivalence-the-uncomfortable-truth",
+    "title": "Path analysis & mediation",
+    "section": "Model equivalence: the uncomfortable truth",
+    "text": "Model equivalence: the uncomfortable truth\nDifferent path diagrams can imply the same covariance matrix.\nSo:\n\nyou often cannot “prove” directionality from cross-sectional covariances alone\nmediation in SEM can be statistically identified and still be causally ambiguous\n\nPractical implication:\n\nTreat a path model as a quantitative claim under a set of assumptions, not as a discovery engine."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#when-can-mediation-be-interpreted-causally",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#when-can-mediation-be-interpreted-causally",
+    "title": "Path analysis & mediation",
+    "section": "When can mediation be interpreted causally?",
+    "text": "When can mediation be interpreted causally?\nAt minimum, you need assumptions such as:\n\ntemporal ordering (X precedes M precedes Y)\nno unmeasured confounding for:\n\n\\((X \\rightarrow M)\\)\n\\((M \\rightarrow Y)\\)\n\\((X \\rightarrow Y)\\)\n\ncorrect model form (linearity, additivity, no omitted interactions unless modeled)\n\nWe will revisit causal interpretation when we discuss: - longitudinal designs (deck 09) - measurement error (decks 04–05)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#diagnostics-what-to-check-now",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#diagnostics-what-to-check-now",
+    "title": "Path analysis & mediation",
+    "section": "Diagnostics (what to check now)",
+    "text": "Diagnostics (what to check now)\nEven before learning “fit”, you should check:\n\nsign and magnitude of parameters (are they plausible?)\nstandard errors / CIs (especially for \\(ab\\))\nresidual variances (negative? huge? suspiciously tiny?)\ncollinearity among predictors/mediators (unstable estimates)\n\n\n\n\nFor mediation, your first diagnostic is often conceptual: is this ordering defensible? then statistical: is \\((ab)\\) estimated precisely?\n\n\n\n\n\n\nCan ‘sex’ be a mediator?!"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#exercises-lab-02",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#exercises-lab-02",
+    "title": "Path analysis & mediation",
+    "section": "Exercises (Lab 02)",
+    "text": "Exercises (Lab 02)\nGo to:\n\nlabs/lab02_path-mediation.qmd\n\nYou will practice:\n\nFit a simple mediation with bootstrap CI for \\((ab)\\)\nAdd covariates (and observe what happens to \\((a)\\), \\((b)\\), and \\((c')\\))\nCompare partial vs “full” mediation (constraint \\((c'=0)\\))\nFit a parallel-mediator model and interpret \\((ind_1)\\), \\((ind_2)\\), \\((ind_T)\\)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#pitfall-callout-full-mediation-is-rarely-a-good-goal",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#pitfall-callout-full-mediation-is-rarely-a-good-goal",
+    "title": "Path analysis & mediation",
+    "section": "Pitfall callout: “full mediation” is rarely a good goal",
+    "text": "Pitfall callout: “full mediation” is rarely a good goal\nEven if \\((c')\\) is small/non-significant:\n\nit does not prove the direct path is zero\npower and measurement error can make \\((c')\\) hard to detect\nthe direct effect can be suppressed or masked by omitted paths\n\nBetter framing:\n\nfocus on effect sizes + uncertainty\ntest theoretically motivated constraints (and report them transparently)"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#take-home-3-things",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#take-home-3-things",
+    "title": "Path analysis & mediation",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nMediation effects are functions of parameters (\\((ab)\\), \\((c'+ab)\\)) → compute them explicitly\n\nThe indirect effect’s sampling distribution is non-normal → bootstrap is often sensible\n\nPath models are vulnerable to equivalence → fit alone cannot justify causal stories"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#further-reading-self-study",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#further-reading-self-study",
+    "title": "Path analysis & mediation",
+    "section": "Further reading / self-study",
+    "text": "Further reading / self-study\n\nex01_power_montecarlo_sem.qmd — power and precision for indirect effects via simulation\n\n(Optional) causal inference perspective: add a short reading list in the course site resources"
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#references",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#references",
+    "title": "Path analysis & mediation",
+    "section": "References",
+    "text": "References\n(Add citations/keys once the course bibliography is finalized for the website.)"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html",
+    "href": "labs/lab02_path-mediation.html",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "",
+    "text": "In this lab you will:\n\nFit a simple mediation model as a system of regressions in lavaan\nCompute direct, indirect, and total effects via defined parameters\nCompare delta-method vs bootstrap inference for the indirect effect\nTest a theoretically motivated constraint (full mediation: (c’ = 0))\nExtend to covariates and parallel mediators\n(Optional, advanced) See a concrete example of equivalent just-identified models"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#a-write-the-model",
+    "href": "labs/lab02_path-mediation.html#a-write-the-model",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "1a) Write the model",
+    "text": "1a) Write the model\n\nLabel the paths \\((a)\\), \\((b)\\), \\((c')\\)\nDefine ind := a*b and tot := cprime + a*b\n\n\n\nShow code\nmod_med &lt;- '\n  M ~ a*X\n  Y ~ cprime*X + b*M\n\n  ind := a*b\n  tot := cprime + (a*b)\n'"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#b-fit-inspect",
+    "href": "labs/lab02_path-mediation.html#b-fit-inspect",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "1b) Fit + inspect",
+    "text": "1b) Fit + inspect\n\n\nShow code\nfit_med &lt;- sem(mod_med, data = dat, meanstructure = TRUE)\nsummary(fit_med, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 1 iteration\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                         7\n\n  Number of observations                           400\n\nModel Test User Model:\n                                                      \n  Test statistic                                 0.000\n  Degrees of freedom                                 0\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  M ~                                                                   \n    X          (a)    0.463    0.049    9.521    0.000    0.463    0.430\n  Y ~                                                                   \n    X       (cprm)   -0.010    0.052   -0.185    0.853   -0.010   -0.008\n    M          (b)    0.659    0.048   13.604    0.000    0.659    0.603\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .M                -0.062    0.049   -1.248    0.212   -0.062   -0.056\n   .Y                -0.031    0.048   -0.648    0.517   -0.031   -0.026\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .M                 0.973    0.069   14.142    0.000    0.973    0.815\n   .Y                 0.914    0.065   14.142    0.000    0.914    0.641\n\nDefined Parameters:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n    ind               0.305    0.039    7.800    0.000    0.305    0.259\n    tot               0.296    0.057    5.185    0.000    0.296    0.251"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#c-extract-only-the-pieces-you-need",
+    "href": "labs/lab02_path-mediation.html#c-extract-only-the-pieces-you-need",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "1c) Extract only the pieces you need",
+    "text": "1c) Extract only the pieces you need\n\n\nShow code\npe &lt;- parameterEstimates(fit_med, standardized = TRUE)\npe[pe$op %in% c(\"~\",\":=\"), c(\"lhs\",\"op\",\"rhs\",\"label\",\"est\",\"se\",\"z\",\"pvalue\",\"std.all\")]\n\n\n   lhs op          rhs  label    est    se      z pvalue std.all\n1    M  ~            X      a  0.463 0.049  9.521  0.000   0.430\n2    Y  ~            X cprime -0.010 0.052 -0.185  0.853  -0.008\n3    Y  ~            M      b  0.659 0.048 13.604  0.000   0.603\n10 ind :=          a*b    ind  0.305 0.039  7.800  0.000   0.259\n11 tot := cprime+(a*b)    tot  0.296 0.057  5.185  0.000   0.251\n\n\nQuestions (answer in words)\n\nAre the estimates close to the generating values \\((a=0.50)\\), \\((b=0.60)\\), \\((c'=0.10)\\)?\nWhat is your estimate of the indirect effect \\((ab)\\)? Is it close to \\((0.30)\\)?\nWhat does lavaan use (by default) to get the SE for ind := a*b?"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#compare-nested-models-lrt",
+    "href": "labs/lab02_path-mediation.html#compare-nested-models-lrt",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "Compare nested models (LRT)",
+    "text": "Compare nested models (LRT)\n\n\nShow code\nanova(fit_med, fit_full)\n\n\n\nChi-Squared Difference Test\n\n         Df  AIC  BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nfit_med   0 2237 2265  0.00                                    \nfit_full  1 2235 2259  0.03     0.0343     0       1       0.85\n\n\nInterpretation questions\n\nWhat does a significant χ² difference imply here?\nIn this simulated world (true \\((c'=0.10)\\)), should you expect full mediation to be rejected as \\((N)\\) grows? Why?\nIn your substantive area, what theoretical arguments would justify fixing \\((c'=0)\\) (if any)?"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#a-fit-without-z-misspecified-on-purpose",
+    "href": "labs/lab02_path-mediation.html#a-fit-without-z-misspecified-on-purpose",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "4a) Fit without Z (misspecified on purpose)",
+    "text": "4a) Fit without Z (misspecified on purpose)\n\n\nShow code\nfit_noZ &lt;- sem(mod_med, data = dat2, meanstructure = TRUE)\nparameterEstimates(fit_noZ)[parameterEstimates(fit_noZ)$op %in% c(\"~\",\":=\"),\n                            c(\"lhs\",\"op\",\"rhs\",\"label\",\"est\",\"se\",\"pvalue\")]\n\n\n   lhs op          rhs  label    est    se pvalue\n1    M  ~            X      a  0.513 0.057  0.000\n2    Y  ~            X cprime -0.020 0.063  0.758\n3    Y  ~            M      b  0.846 0.050  0.000\n10 ind :=          a*b    ind  0.434 0.055  0.000\n11 tot := cprime+(a*b)    tot  0.415 0.075  0.000"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#b-fit-with-z-included",
+    "href": "labs/lab02_path-mediation.html#b-fit-with-z-included",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "4b) Fit with Z included",
+    "text": "4b) Fit with Z included\n\n\nShow code\nmod_withZ &lt;- '\n  M ~ a*X + d*Z\n  Y ~ cprime*X + b*M + e*Z\n\n  ind := a*b\n  tot := cprime + (a*b)\n'\nfit_withZ &lt;- sem(mod_withZ, data = dat2, meanstructure = TRUE)\nparameterEstimates(fit_withZ)[parameterEstimates(fit_withZ)$op %in% c(\"~\",\":=\"),\n                              c(\"lhs\",\"op\",\"rhs\",\"label\",\"est\",\"se\",\"pvalue\")]\n\n\n   lhs op          rhs  label   est    se pvalue\n1    M  ~            X      a 0.500 0.049    0.0\n2    M  ~            Z      d 0.578 0.049    0.0\n3    Y  ~            X cprime 0.097 0.059    0.1\n4    Y  ~            M      b 0.594 0.053    0.0\n5    Y  ~            Z      e 0.558 0.060    0.0\n15 ind :=          a*b    ind 0.297 0.040    0.0\n16 tot := cprime+(a*b)    tot 0.394 0.060    0.0\n\n\nQuestions\n\nCompare \\((b)\\) and \\((c')\\) from fit_noZ vs fit_withZ. Which one looks more biased and why?\nIn real research, why is “include covariates” not a magic causal fix?\nHow would you argue for including a covariate in a preregistered SEM?"
+  },
+  {
+    "objectID": "labs/lab02_path-mediation.html#take-home-lab",
+    "href": "labs/lab02_path-mediation.html#take-home-lab",
+    "title": "Lab 02 — Path analysis & mediation (observed variables)",
+    "section": "Take-home (lab)",
+    "text": "Take-home (lab)\n\nMediation is a system of equations; the indirect effect is a defined parameter \\((ab)\\)\nFor \\((ab)\\), bootstrap CIs are often more trustworthy than normal-theory tests\nTesting “full mediation” is a constraint test—not a goal by itself\nCovariates help, but causal claims still require assumptions and design"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#today-in-the-workflow",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#today-in-the-workflow",
+    "title": "Model fit & diagnostics",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: how we evaluate models: global fit + local diagnostics → disciplined respecification.\nWe keep the focus on observed-variable models; CFA-specific diagnostics come in deck 04."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#learning-objectives",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#learning-objectives",
+    "title": "Model fit & diagnostics",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nState what “model fit” means: S vs Σ̂(θ) (exact vs approximate fit)\nDistinguish global fit from local misfit\nCompute and report core indices (χ², CFI/TLI, RMSEA + CI, SRMR) in lavaan\nUse residuals and modification indices (MI + EPC/SEPC) responsibly\nFollow a respecification protocol that avoids “fit hacking”"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#the-object-of-interest",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#the-object-of-interest",
+    "title": "Model fit & diagnostics",
+    "section": "The object of interest",
+    "text": "The object of interest\nModel fit is about reproducing the observed covariance matrix.\n\\[\nH_0:\\ \\hat{\\Sigma}(\\theta) = \\Sigma\n\\]\n\n\n\n\nFit indices summarize “how close” the model-implied covariance structure is to the data."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#fit-is-a-property-of-a-model-data-estimator",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#fit-is-a-property-of-a-model-data-estimator",
+    "title": "Model fit & diagnostics",
+    "section": "Fit is a property of a model + data + estimator",
+    "text": "Fit is a property of a model + data + estimator\nFit indices are not “truth meters”.\nThey depend on:\n\nsample size (N)\nmodel degrees of freedom (df)\nestimator and distributional assumptions (ML, robust ML, WLSMV, …)\nmodel complexity (how constrained the model is)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#quick-example-dataset-same-structure-as-your-exercise-2",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#quick-example-dataset-same-structure-as-your-exercise-2",
+    "title": "Model fit & diagnostics",
+    "section": "Quick example dataset (same structure as your Exercise 2)",
+    "text": "Quick example dataset (same structure as your Exercise 2)\nWe simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.\n\nN &lt;- 483\n\nm_true &lt;- \"\n  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary\n  selfEsteem       ~ .40*parentalSupport + .20*attachment\n  attachment ~~ .30*parentalSupport\n\"\n\nm_fit &lt;- \"\n  lifeSatisfaction ~ selfEsteem + salary     # omits some true predictors\n  selfEsteem       ~ parentalSupport + attachment\n  # attachment ~~ parentalSupport            # (omitted on purpose)\n\"\n\nE2 &lt;- simulateData(m_true, sample.nobs = N, seed = 12)\nfit &lt;- sem(m_fit, data = E2, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#families-of-fit-indices",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#families-of-fit-indices",
+    "title": "Model fit & diagnostics",
+    "section": "Families of fit indices",
+    "text": "Families of fit indices\n\nχ²-based (exact-fit test)\nComparative / incremental (CFI, TLI, NFI)\nParsimony (RMSEA + CI; AIC/BIC)\nResidual-based / absolute (SRMR, RMR; and other “standalone” indices)\n\n\n\n\nYou need at least one index from each of: comparative + approximate + residual-based."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#χ²-test-what-it-is-and-why-it-annoys-people",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#χ²-test-what-it-is-and-why-it-annoys-people",
+    "title": "Model fit & diagnostics",
+    "section": "χ² test: what it is (and why it annoys people)",
+    "text": "χ² test: what it is (and why it annoys people)\nUnder ML, the likelihood ratio test yields:\n\\[\n\\chi^2 = (N-1)\\,F_{\\mathrm{ML}}\n\\]\nwith (df = - t) (non-redundant moments minus free parameters).\nWhy it rejects so often:\n\nwith large (N), tiny misspecifications become detectable\nreal data rarely satisfy “exact fit” assumptions"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#χ²-assumptions-classical-ml",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#χ²-assumptions-classical-ml",
+    "title": "Model fit & diagnostics",
+    "section": "χ² assumptions (classical ML)",
+    "text": "χ² assumptions (classical ML)\nThe textbook χ² calibration relies on:\n\nindependent observations\ncorrect model form\nmultivariate normality for endogenous observed variables (in ML)\nsufficiently large (N)\n\n…and it is sensitive to:\n\nnon-normality\nmissing data handling\nclustering (design effects)\n\n(Robust corrections and missing-data strategies come in deck 06.)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#lavaan-core-fit-measures",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#lavaan-core-fit-measures",
+    "title": "Model fit & diagnostics",
+    "section": "lavaan: core fit measures",
+    "text": "lavaan: core fit measures\n\nfitMeasures(fit, c(\"npar\", \"chisq\", \"df\", \"pvalue\",\n                   \"cfi\", \"tli\",\n                   \"rmsea\", \"rmsea.ci.lower\", \"rmsea.ci.upper\",\n                   \"srmr\"))\n\n\n\n\nWe will later discuss robust variants (scaled χ², robust CFI/RMSEA) and when they matter."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#comparative-indices-cfitli-baseline-model-logic",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#comparative-indices-cfitli-baseline-model-logic",
+    "title": "Model fit & diagnostics",
+    "section": "Comparative indices (CFI/TLI): baseline model logic",
+    "text": "Comparative indices (CFI/TLI): baseline model logic\nComparative indices evaluate improvement over a baseline (independence) model.\nBaseline idea: each variable has its own variance; covariances are fixed to 0.\n\nbm &lt;- \"\n  lifeSatisfaction ~~ lifeSatisfaction\n  selfEsteem ~~ selfEsteem\n  salary ~~ salary\n  parentalSupport ~~ parentalSupport\n  attachment ~~ attachment\n\"\nfit_bm &lt;- sem(bm, data = E2, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#visual-intuition-baseline-vs-user-model",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#visual-intuition-baseline-vs-user-model",
+    "title": "Model fit & diagnostics",
+    "section": "Visual intuition: baseline vs user model",
+    "text": "Visual intuition: baseline vs user model\n\n\nBaseline model (no covariances)\n\nUser model is evaluated relative to baseline.\nCFI uses the improvement in \\[\n\\delta = \\chi^2 - df\n\\] compared to baseline (and saturated)."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#cfi-formula-and-why-df-matters",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#cfi-formula-and-why-df-matters",
+    "title": "Model fit & diagnostics",
+    "section": "CFI formula (and why df matters)",
+    "text": "CFI formula (and why df matters)\n\\[\n\\mathrm{CFI}=\\frac{\\delta(\\text{Baseline})-\\delta(\\text{User})}{\\delta(\\text{Baseline})-\\delta(\\text{Saturated})}\n\\qquad\n\\text{with}\\ \\delta=\\chi^2-df,\\ \\delta(\\text{Saturated})=0\n\\]\nImplication: CFI/TLI are functions of both misfit and (df).\nTwo models can have the same χ² but different CFI if their df differ."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#parsimony-approximate-fit-rmsea",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#parsimony-approximate-fit-rmsea",
+    "title": "Model fit & diagnostics",
+    "section": "Parsimony & approximate fit: RMSEA",
+    "text": "Parsimony & approximate fit: RMSEA\nRMSEA targets approximate (not exact) fit.\nA common ML form:\n\\[\n\\mathrm{RMSEA}=\\sqrt{\\max\\left(\\frac{\\chi^2-df}{df(N-1)},0\\right)}\n\\]\n\nprefers parsimony: penalizes low (df) models less forgivingly\nalways report the confidence interval\n\n\nfitMeasures(fit, c(\"rmsea\", \"rmsea.ci.lower\", \"rmsea.ci.upper\"))"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#residual-based-fit-srmr",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#residual-based-fit-srmr",
+    "title": "Model fit & diagnostics",
+    "section": "Residual-based fit: SRMR",
+    "text": "Residual-based fit: SRMR\nSRMR summarizes the average standardized residual:\n\ncompare observed correlations vs model-implied correlations\nless sensitive to (N) than χ², but sensitive to model structure\n\n\nfitMeasures(fit, c(\"srmr\", \"rmr\"))\n\n\n\n\nSRMR is often most informative when paired with residual inspection (next slides)."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#what-to-report-minimum-set",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#what-to-report-minimum-set",
+    "title": "Model fit & diagnostics",
+    "section": "What to report (minimum set)",
+    "text": "What to report (minimum set)\nIn manuscripts, prefer a consistent minimal bundle:\n\nestimator + missing data strategy\nχ², df, p\nCFI and TLI\nRMSEA with 90% CI (and SRMR)\nlocal diagnostics summary (what you checked, what you changed, and why)\n\n(We formalize reporting in deck 06 + the course reporting checklist.)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#global-vs-local-fit",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#global-vs-local-fit",
+    "title": "Model fit & diagnostics",
+    "section": "Global vs local fit",
+    "text": "Global vs local fit\n\nGlobal fit: one-number summaries of overall mismatch (χ², CFI/TLI, RMSEA, SRMR)\nLocal fit: where the mismatch lives\n\nresidual covariance/correlation matrices\nstandardized residuals\nMI + EPC/SEPC\n\n\n\n\n\nGlobal fit can look “ok” while a few parameters are seriously wrong (and vice versa)."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#residuals-where-does-the-model-fail",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#residuals-where-does-the-model-fail",
+    "title": "Model fit & diagnostics",
+    "section": "Residuals: “where does the model fail?”",
+    "text": "Residuals: “where does the model fail?”\nlavaan can return observed, implied, and residual covariances.\n\nres &lt;- lavResiduals(fit, type = \"cov\")\nnames(res)\n# res$cov     # observed and implied covariance matrices\n# res$resid   # residual covariance matrix (S - Sigma_hat)\n\nIn practice you inspect:\n\nlargest residual covariances/correlations\npatterns (blocks, specific pairs, method effects)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#standardized-residuals-local-z-scores",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#standardized-residuals-local-z-scores",
+    "title": "Model fit & diagnostics",
+    "section": "Standardized residuals (local z-scores)",
+    "text": "Standardized residuals (local z-scores)\nStandardized residuals scale residuals by their sampling variability.\n\nres_std &lt;- residuals(fit, type = \"standardized\")\n# res_std$cov  # standardized residual covariances\n\nHeuristic: large absolute standardized residuals flag local misfit.\n(We avoid “magic cutoffs”; interpret in context + patterns.)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#step-5-model-modification-the-dangerous-step",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#step-5-model-modification-the-dangerous-step",
+    "title": "Model fit & diagnostics",
+    "section": "Step 5: model modification (the dangerous step)",
+    "text": "Step 5: model modification (the dangerous step)\nThe goal is not “better numbers”.\nThe goal is:\n\na model that is more plausible given theory and diagnostics\nchanges that are transparent and ideally replicable"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#modification-indices-the-lagrange-multiplier-idea",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#modification-indices-the-lagrange-multiplier-idea",
+    "title": "Model fit & diagnostics",
+    "section": "Modification indices: the Lagrange Multiplier idea",
+    "text": "Modification indices: the Lagrange Multiplier idea\nMI approximates how much χ² would decrease if a fixed parameter were freed.\n\nMI is a score test (local improvement)\nit does not tell you the direction/magnitude of the new parameter\n\nSo you inspect MI together with EPC (expected parameter change).\n\nmi &lt;- modificationIndices(fit, sort. = TRUE)\nhead(mi[, c(\"lhs\",\"op\",\"rhs\",\"mi\",\"epc\",\"sepc.all\")], 10)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#epc-vs-sepc-why-you-want-both",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#epc-vs-sepc-why-you-want-both",
+    "title": "Model fit & diagnostics",
+    "section": "EPC vs SEPC (why you want both)",
+    "text": "EPC vs SEPC (why you want both)\n\nEPC: expected unstandardized change (units matter)\nSEPC: expected standardized change (comparability)\n\nIf an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large (N))."
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#a-disciplined-respecification-protocol",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#a-disciplined-respecification-protocol",
+    "title": "Model fit & diagnostics",
+    "section": "A disciplined respecification protocol",
+    "text": "A disciplined respecification protocol\n\nCheck admissibility\nconvergence, Heywood cases (negative variances), huge SE, non-identified warnings\nInspect local misfit\nresiduals → standardized residuals → MI/EPC\nApply theory filter\nis the modification plausible and consistent with your construct/design?\nChange one thing at a time\nrefit, re-check, document\nValidate\nholdout sample / replication / preregistration (when feasible)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#pitfall-callout-models-that-fit-are-not-necessarily-true",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#pitfall-callout-models-that-fit-are-not-necessarily-true",
+    "title": "Model fit & diagnostics",
+    "section": "Pitfall callout: “models that fit” are not necessarily true",
+    "text": "Pitfall callout: “models that fit” are not necessarily true\n\nopposite arrows can imply the same covariance structure (equivalence)\npost-hoc modifications capitalize on chance\nmeasurement error in observed variables contaminates estimates"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#exercises-lab-03",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#exercises-lab-03",
+    "title": "Model fit & diagnostics",
+    "section": "Exercises (Lab 03)",
+    "text": "Exercises (Lab 03)\nGo to:\n\nlabs/lab03_fit-diagnostics_MI_residuals.qmd\n\nYou’ll practice:\n\nExtracting and reporting fit indices\nInspecting residual matrices (raw + standardized)\nUsing MI + EPC/SEPC to propose theory-justified modifications\nDocumenting a respecification path transparently"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#take-home-3-things",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#take-home-3-things",
+    "title": "Model fit & diagnostics",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nFit indices quantify mismatch between S and Σ̂(θ)—they are not “truth”\n\nAlways pair global fit with local diagnostics (residuals + MI/EPC)\n\nRespecification is a scientific decision: theory + transparency + validation"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#optional-beyond-fixed-cutoffs",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#optional-beyond-fixed-cutoffs",
+    "title": "Model fit & diagnostics",
+    "section": "Optional: beyond fixed cutoffs",
+    "text": "Optional: beyond fixed cutoffs\nRules like “CFI &gt; .95” or “RMSEA &lt; .06” can be misleading because fit indices depend on:\n\nmodel structure (df, factor loadings, cross-loadings, residual correlations)\ndistributional features (non-normality, ordinal data)\nestimation method and sample size\n\nExtra (later / self-study): dynamic fit indices & simulation-informed expectations - Groskurth et al. (2023) — fit cutoffs depend on analysis characteristics - McNeish & Wolf (2023) — pushing against universal cutoffs - Dynamic fit index app (for exploring scenario-dependent thresholds)"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#references",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#references",
+    "title": "Model fit & diagnostics",
+    "section": "References",
+    "text": "References\n(We’ll finalize citations/keys in refs/references.bib when polishing the course website.)"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "",
+    "text": "In this lab you will learn to:\n\nExtract and report core global fit indices (χ², CFI/TLI, RMSEA+CI, SRMR)\nInspect local misfit using residual matrices (raw + standardized)\nUse modification indices (MI) together with EPC / SEPC (not MI alone)\nApply a disciplined respecification protocol: one change at a time, theory filter, document\n\nImportant constraint for this lab:\nYou are not allowed to add paths “because MI says so”. Each change needs a short substantive rationale."
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#a-extract-key-indices",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#a-extract-key-indices",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "1a) Extract key indices",
+    "text": "1a) Extract key indices\n\n\nShow code\nfitMeasures(\n  fit0,\n  c(\"npar\",\"chisq\",\"df\",\"pvalue\",\"cfi\",\"tli\",\n    \"rmsea\",\"rmsea.ci.lower\",\"rmsea.ci.upper\",\"srmr\")\n)\n\n\n          npar          chisq             df         pvalue            cfi \n         8.000         72.623          3.000          0.000          0.788 \n           tli          rmsea rmsea.ci.lower rmsea.ci.upper           srmr \n         0.505          0.219          0.177          0.264          0.067"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#b-interpret",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#b-interpret",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "1b) Interpret",
+    "text": "1b) Interpret\nAnswer in 3–5 sentences:\n\nDoes the model seem globally plausible?\nWhich indices are most informative here and why?\nIf χ² is significant, what are two non-mutually-exclusive reasons?"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#a-residual-covariances",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#a-residual-covariances",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "3a) Residual covariances",
+    "text": "3a) Residual covariances\n\n\nShow code\n# Play with the different 'type of residuals'\n# 'cor', 'cor.bollen', 'cor.bentler', 'raw'\nres_cov &lt;- lavResiduals(fit0)\n# res_cov$resid is S - Sigma_hat\nres_cov$cov\n\n\n                 lfStsf slfEst salary prntlS attchm\nlifeSatisfaction -0.005                            \nselfEsteem       -0.005  0.000                     \nsalary           -0.008 -0.018  0.000              \nparentalSupport   0.288  0.000  0.000  0.000       \nattachment        0.076  0.000  0.000  0.000  0.000\n\n\nTasks\n\nIdentify the top 3 largest absolute standardized residual covariances.\nFor each, propose a candidate explanation (omitted path? omitted covariance? shared cause?)."
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#a-create-model-m1-by-adding-exactly-one-theoretically-justified-parameter",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "5a) Create model m1 by adding exactly one theoretically justified parameter",
+    "text": "5a) Create model m1 by adding exactly one theoretically justified parameter\nCommon modifications include:\n\nadding a covariance among exogenous variables (~~)\nadding a missing regression (~)\n\nCreate m1 below and refit.\n\n\nShow code\nm1 &lt;- \"\n  lifeSatisfaction ~ selfEsteem + salary\n  selfEsteem       ~ parentalSupport + attachment\n\n  # ADD ONE PARAMETER HERE (exactly one line)\n  # attachment ~~ parentalSupport\n  # OR: lifeSatisfaction ~ parentalSupport\n  # OR: lifeSatisfaction ~ attachment\n\"\nfit1 &lt;- sem(m1, data = dat, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#b-compare-global-fit",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#b-compare-global-fit",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "5b) Compare global fit",
+    "text": "5b) Compare global fit\n\n\nShow code\nfitMeasures(fit0, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n chisq     df    cfi    tli  rmsea   srmr \n72.623  3.000  0.788  0.505  0.219  0.067 \n\n\nShow code\nfitMeasures(fit1, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n chisq     df    cfi    tli  rmsea   srmr \n72.623  3.000  0.788  0.505  0.219  0.067"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#c-χ²-difference-test-nested-models",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#c-χ²-difference-test-nested-models",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "5c) χ² difference test (nested models)",
+    "text": "5c) χ² difference test (nested models)\n\n\nShow code\nanova(fit0, fit1)\n\n\n\nChi-Squared Difference Test\n\n     Df  AIC  BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nfit0  3 2746 2779  72.6                                    \nfit1  3 2746 2779  72.6          0     0       0"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#d-re-check-local-misfit",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#d-re-check-local-misfit",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "5d) Re-check local misfit",
+    "text": "5d) Re-check local misfit\n\n\nShow code\nres1_std &lt;- residuals(fit1)$cov\nres1_std\n\n\n                 lfStsf slfEst salary prntlS attchm\nlifeSatisfaction -0.007                            \nselfEsteem       -0.007  0.000                     \nsalary           -0.009 -0.018  0.000              \nparentalSupport   0.356  0.000  0.000  0.000       \nattachment        0.095  0.000  0.000  0.000  0.000\n\n\nInterpretation questions\n\nDid the single change reduce the largest residuals you identified?\nDid it improve the global indices meaningfully?\nIs the change defensible theoretically, or did you “chase fit”?"
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#what-you-should-take-away",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#what-you-should-take-away",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "What you should take away",
+    "text": "What you should take away\n\nGlobal fit summarizes mismatch; it doesn’t locate problems.\nLocal diagnostics (residuals + MI/EPC) tell you where mismatch lives.\nRespecification must be theory-filtered, done one step at a time, and reported transparently."
+  },
+  {
+    "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html#whats-next",
+    "href": "labs/lab03_fit-diagnostics_MI_residuals.html#whats-next",
+    "title": "Lab 03 — Fit & diagnostics: residuals, MI, and disciplined respecification",
+    "section": "What’s next",
+    "text": "What’s next\n\nNext we shift to measurement models (CFA), where local diagnostics include:\n\ncross-loadings (often fixed to 0)\ncorrelated errors\nweak items / low loadings"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
+    "href": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#learning-objectives",
+    "href": "slides/04_cfa_measurement_reliability.html#learning-objectives",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nExplain the difference between EFA and CFA (and why CFA is confirmatory)\nWrite the CFA measurement model in equations and matrices\nUnderstand identification & scaling (marker vs std.lv)\nFit CFA models in lavaan and interpret loadings, factor correlations, and residual variances\nUse local diagnostics in CFA (residuals, MI/EPC) without “fit hacking”\nCompute and report reliability from CFA (ω-family; and (briefly) bifactor implications)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#outline",
+    "href": "slides/04_cfa_measurement_reliability.html#outline",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Outline",
+    "text": "Outline\n\nFactor analysis: what problem are we solving?\nEFA vs CFA (confirmatory stance)\nCFA model: equations, matrices, implied covariance\nIdentification and constraints (scaling + rules)\nCFA in R (lavaan) + interpretation\nReliability from CFA\nBifactor model (keep your guard up)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#factor-analysis",
+    "href": "slides/04_cfa_measurement_reliability.html#factor-analysis",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Factor analysis",
+    "text": "Factor analysis\nFactor analysis models the idea that a small number of latent dimensions explain systematic covariance among many observed variables."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#exploratory-factor-analysis-efa",
+    "href": "slides/04_cfa_measurement_reliability.html#exploratory-factor-analysis-efa",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Exploratory Factor Analysis (EFA)",
+    "text": "Exploratory Factor Analysis (EFA)\nEFA: discover a plausible loading pattern.\n\nloadings are “free” (rotation chooses a representation)\nuseful for exploration and item development\nweak theory → strong exploration"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
+    "href": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Confirmatory Factor Analysis (CFA)",
+    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#general-formula-your-original",
+    "href": "slides/04_cfa_measurement_reliability.html#general-formula-your-original",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "General formula (your original)",
+    "text": "General formula (your original)\nThe general CFA model can be written as:\n\\[\n\\begin{aligned}\n\\mathbf{x} &= \\mathbf{\\Lambda}_x\\,\\mathbf{\\xi} + \\mathbf{\\delta} \\\\\n\\mathbf{y} &= \\mathbf{\\Lambda}_y\\,\\mathbf{\\eta} + \\mathbf{\\epsilon}\n\\end{aligned}\n\\]\nwhere () and () are observed variables, () and () are latent factors, and () and () are errors of measurement."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#the-general-formula-explained-scalar-form",
+    "href": "slides/04_cfa_measurement_reliability.html#the-general-formula-explained-scalar-form",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "The general formula explained (scalar form)",
+    "text": "The general formula explained (scalar form)\n\\[\n\\begin{aligned}\ny &= b_0 + b_1 x + \\epsilon \\\\\ny_1 &= \\tau_1 + \\lambda_1\\eta + \\epsilon_1\n\\end{aligned}\n\\]\n\\[\n\\begin{bmatrix}\n  y_1 \\\\\n  y_2 \\\\\n  y_3\n\\end{bmatrix}\n=\n\\begin{bmatrix}\n  \\tau_1 \\\\\n  \\tau_2 \\\\\n  \\tau_3\n\\end{bmatrix}\n+\n\\begin{bmatrix}\n  \\lambda_1 \\\\\n  \\lambda_2 \\\\\n  \\lambda_3\n\\end{bmatrix}\n(\\eta_1)\n+\n\\begin{bmatrix}\n  \\epsilon_1 \\\\\n  \\epsilon_2 \\\\\n  \\epsilon_3\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#measurement-first-implications-reflective-realism",
+    "href": "slides/04_cfa_measurement_reliability.html#measurement-first-implications-reflective-realism",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Measurement-first implications (reflective realism)",
+    "text": "Measurement-first implications (reflective realism)\nWhen we draw () (()) from latent to observed, we assume reflective latent variables:\n\nARROWS are ARROWS: the construct affects responses\n“realist” interpretation: the latent variable is something that exists (at least as a stable attribute)\nobserved scores = construct signal + measurement error\n\nPragmatic “just a summary” interpretations are not neutral: they imply different measurement models (PCA/EGA/…)."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#the-implied-covariance-the-single-most-important-equation",
+    "href": "slides/04_cfa_measurement_reliability.html#the-implied-covariance-the-single-most-important-equation",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "The implied covariance (the single most important equation)",
+    "text": "The implied covariance (the single most important equation)\nFor a standard CFA with latent covariance () and residual covariance ():\n\\[\n\\Sigma = \\Lambda \\Phi \\Lambda' + \\Theta\n\\]\nThis is why:\n\nloadings (()) and factor correlations (()) jointly shape observed covariances\ncorrelated residuals (off-diagonal ()) are extra covariance not explained by factors"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#matrices-your-original-visual-slide",
+    "href": "slides/04_cfa_measurement_reliability.html#matrices-your-original-visual-slide",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Matrices (your original visual slide)",
+    "text": "Matrices (your original visual slide)\n\n\nLambda: matrix of loadings\n\n\nPhi: latent variance-covariance matrix\n\n\nTheta: residual variance-covariance matrix"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#cfa-model-families-you-will-see-a-lot",
+    "href": "slides/04_cfa_measurement_reliability.html#cfa-model-families-you-will-see-a-lot",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "CFA “model families” you will see a lot",
+    "text": "CFA “model families” you will see a lot\nKey design choices:\n\none factor vs multiple factors\nare factors correlated?\northogonal vs oblique\nhierarchical / second-order?\nbifactor structure?\n\nAll have statistical and theoretical consequences."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-quick-visual-tour-common-cfa-structures",
+    "href": "slides/04_cfa_measurement_reliability.html#a-quick-visual-tour-common-cfa-structures",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A quick visual tour: common CFA structures",
+    "text": "A quick visual tour: common CFA structures"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#one-factor-model",
+    "href": "slides/04_cfa_measurement_reliability.html#one-factor-model",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "One-factor model",
+    "text": "One-factor model"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#two-factor-model-correlated-factors",
+    "href": "slides/04_cfa_measurement_reliability.html#two-factor-model-correlated-factors",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Two-factor model (correlated factors)",
+    "text": "Two-factor model (correlated factors)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#two-factor-model-orthogonal-factors",
+    "href": "slides/04_cfa_measurement_reliability.html#two-factor-model-orthogonal-factors",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Two-factor model (orthogonal factors)",
+    "text": "Two-factor model (orthogonal factors)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#hierarchical-model-second-order-factor",
+    "href": "slides/04_cfa_measurement_reliability.html#hierarchical-model-second-order-factor",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Hierarchical model (second-order factor)",
+    "text": "Hierarchical model (second-order factor)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#in-r-lavaan-grammar-for-cfa",
+    "href": "slides/04_cfa_measurement_reliability.html#in-r-lavaan-grammar-for-cfa",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "In R (lavaan grammar for CFA)",
+    "text": "In R (lavaan grammar for CFA)\nCore operator:\n\n=~ defines a factor from its indicators\n\n\nm &lt;- '\n  F1 =~ y1 + y2 + y3\n  F2 =~ y4 + y5 + y6\n  F1 ~~ F2          # factor covariance (oblique)\n'\n\nfit &lt;- cfa(m, data = dat)  # or sem(m, data = dat)\nsummary(fit, standardized = TRUE, fit.measures = TRUE)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#constraints-scaling-your-original-slide",
+    "href": "slides/04_cfa_measurement_reliability.html#constraints-scaling-your-original-slide",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Constraints (scaling) — your original slide",
+    "text": "Constraints (scaling) — your original slide\nTo estimate latent-variable models, you must scale each factor. Two common strategies:\n\nStandardize latent variables: fix factor means to 0 and factor variances to 1 (std.lv = TRUE).\nMarker method: set one loading (()) per factor to 1 (lavaan default).\n\n\nfit &lt;- cfa(m, data = dat, std.lv = TRUE)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#constraints-explained-marker-vs-standardization",
+    "href": "slides/04_cfa_measurement_reliability.html#constraints-explained-marker-vs-standardization",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Constraints explained (marker vs standardization)",
+    "text": "Constraints explained (marker vs standardization)\n\n\n\\[\n\\Sigma = \\Lambda\\Phi\\Lambda' + \\Theta\n\\]\nMarker method (fix one loading to 1)\nStandardization (fix factor variance to 1)\n(Scaling changes the metric of unstandardized loadings, not the implied covariance model.)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#identification-rules-your-original-framing",
+    "href": "slides/04_cfa_measurement_reliability.html#identification-rules-your-original-framing",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Identification rules (your original framing)",
+    "text": "Identification rules (your original framing)\nFor CFA, common identification rules include:\n\nthe t-rule\nthe Three-Indicator Rule\nthe Two-Indicator Rule"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#the-t-rule",
+    "href": "slides/04_cfa_measurement_reliability.html#the-t-rule",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "The t-rule",
+    "text": "The t-rule\nNecessary but not sufficient:\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\nwhere (t) is the number of free parameters and (q) the number of observed variables.\nIntuition: the number of nonredundant elements in (S) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#the-three-indicator-rule",
+    "href": "slides/04_cfa_measurement_reliability.html#the-three-indicator-rule",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "The Three-Indicator Rule",
+    "text": "The Three-Indicator Rule\nA sufficient (not necessary) condition (with diagonal ()):\n\nOne-factor model: at least three indicators with nonzero loadings.\nMultifactor model is identified if:\n\n≥ 3 indicators per factor\neach row of () has one and only one nonzero element (simple structure)\n() is diagonal"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#the-two-indicator-rule",
+    "href": "slides/04_cfa_measurement_reliability.html#the-two-indicator-rule",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "The Two-Indicator Rule",
+    "text": "The Two-Indicator Rule\nA sufficient (not necessary) condition for models with &gt;1 factor:\n\n() diagonal\neach factor scaled (one () fixed to 1, or std.lv=TRUE)\nplus:\n\n≥ 2 indicators per factor\neach row of (): one nonzero element\n() diagonal\neach row of () has at least one nonzero off-diagonal element"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-where-deck-03-plugs-in",
+    "href": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-where-deck-03-plugs-in",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "CFA evaluation (where deck 03 plugs in)",
+    "text": "CFA evaluation (where deck 03 plugs in)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-disciplined-cfa-respecification-mindset",
+    "href": "slides/04_cfa_measurement_reliability.html#a-disciplined-cfa-respecification-mindset",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A disciplined CFA respecification mindset",
+    "text": "A disciplined CFA respecification mindset\n\nFirst: check items (loadings, residual variances, signs)\nThen: check patterns (blocks of residual correlations)\nMI/EPC only after you have a hypothesis for the misfit\nPrefer fewer, theory-consistent modifications over many “small fixes”\nReport the respecification path transparently (what changed and why)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#live-example-lavaan-holzinger-swineford-1939",
+    "href": "slides/04_cfa_measurement_reliability.html#live-example-lavaan-holzinger-swineford-1939",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Live example (lavaan): Holzinger & Swineford (1939)",
+    "text": "Live example (lavaan): Holzinger & Swineford (1939)\n\ndat &lt;- HolzingerSwineford1939\n\nm_hs &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\nfit_hs &lt;- cfa(m_hs, data = dat, std.lv = TRUE)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#interpret-loadings-and-factor-correlations",
+    "href": "slides/04_cfa_measurement_reliability.html#interpret-loadings-and-factor-correlations",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Interpret loadings and factor correlations",
+    "text": "Interpret loadings and factor correlations\n\npe &lt;- parameterEstimates(fit_hs, standardized = TRUE)\npe[pe$op %in% c(\"=~\",\"~~\") & pe$lhs %in% c(\"visual\",\"textual\",\"speed\"),\n   c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"pvalue\",\"std.all\")]\n\n       lhs op     rhs   est    se pvalue std.all\n1   visual =~      x1 0.900 0.081      0   0.772\n2   visual =~      x2 0.498 0.077      0   0.424\n3   visual =~      x3 0.656 0.074      0   0.581\n4  textual =~      x4 0.990 0.057      0   0.852\n5  textual =~      x5 1.102 0.063      0   0.855\n6  textual =~      x6 0.917 0.054      0   0.838\n7    speed =~      x7 0.619 0.070      0   0.570\n8    speed =~      x8 0.731 0.066      0   0.723\n9    speed =~      x9 0.670 0.065      0   0.665\n19  visual ~~  visual 1.000 0.000     NA   1.000\n20 textual ~~ textual 1.000 0.000     NA   1.000\n21   speed ~~   speed 1.000 0.000     NA   1.000\n22  visual ~~ textual 0.459 0.064      0   0.459\n23  visual ~~   speed 0.471 0.073      0   0.471\n24 textual ~~   speed 0.283 0.069      0   0.283"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#reliability-from-cfa-ω-family",
+    "href": "slides/04_cfa_measurement_reliability.html#reliability-from-cfa-ω-family",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Reliability from CFA (ω family)",
+    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#graphical-representation",
+    "href": "slides/04_cfa_measurement_reliability.html#graphical-representation",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Graphical representation",
+    "text": "Graphical representation"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example-your-original-wisc-slide",
+    "href": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example-your-original-wisc-slide",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A hierarchical intelligence example (your original WISC slide)",
+    "text": "A hierarchical intelligence example (your original WISC slide)\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#second-order-cfa-syntax-template",
+    "href": "slides/04_cfa_measurement_reliability.html#second-order-cfa-syntax-template",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Second-order CFA (syntax template)",
+    "text": "Second-order CFA (syntax template)\n\nm2 &lt;- \"\nVCI =~ SI + VC + CO\nPRI =~ BD + PCn + MR\nWMI =~ DS + LN\nPSI =~ CD + SS\ng   =~ VCI + PRI + WMI + PSI\n\"\nfit2 &lt;- sem(m2, std.lv = TRUE, sample.cov = S, sample.nobs = N)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-second-theoretical-model-bifactor-your-original",
+    "href": "slides/04_cfa_measurement_reliability.html#a-second-theoretical-model-bifactor-your-original",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A second theoretical model: bifactor (your original)",
+    "text": "A second theoretical model: bifactor (your original)\nParallel theories: test scores are affected by a general factor ((g)) and by specific abilities that explain remaining variance.\nAll factors are set to be orthogonal."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#bifactor-model-in-r-your-original-structure",
+    "href": "slides/04_cfa_measurement_reliability.html#bifactor-model-in-r-your-original-structure",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Bifactor model in R (your original structure)",
+    "text": "Bifactor model in R (your original structure)\n\nmb &lt;- \"\nVCI =~ a*SI + a*VC + a*CO\nPRI =~ b*BD + b*PCn + b*MR\nWMI =~ c*DS + c*LN\nPSI =~ d*CD + d*SS\ng   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS\n\"\n\nfitb &lt;- sem(\n  mb,\n  orthogonal = TRUE,\n  std.lv = TRUE,\n  sample.cov = S,\n  sample.nobs = N\n)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#bifactor-interpretation-requires-diagnostics-not-just-fit",
+    "href": "slides/04_cfa_measurement_reliability.html#bifactor-interpretation-requires-diagnostics-not-just-fit",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Bifactor: interpretation requires diagnostics (not just fit)",
+    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
+    "href": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Exercises (Lab 04)",
+    "text": "Exercises (Lab 04)\nGo to:\n\nlabs/lab04_cfa_reliability_omegas.qmd\n\nYou will practice:\n\nFit and compare 1-factor vs correlated-factors CFA\nInspect local misfit (residual correlations + MI/EPC) with a theory filter\nCompute reliability (ω) from CFA and report it\n(Optional) Fit a bifactor model and evaluate interpretability (ωH / ECV)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#take-home-3-things",
+    "href": "slides/04_cfa_measurement_reliability.html#take-home-3-things",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nCFA is a confirmatory measurement claim: zeros and constraints are theory\n\nIdentification/scaling is not a nuisance—it’s the metric of your construct\n\nReliability and validity are model-based: fit helps, but fit ≠ validity"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#further-reading-self-study",
+    "href": "slides/04_cfa_measurement_reliability.html#further-reading-self-study",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Further reading / self-study",
+    "text": "Further reading / self-study\n\nextras/ex10_bifactor_esem_method-factors.qmd — bifactor/ESEM/method factors (advanced)\nextras/ex05_miivs_factor-score-regression.qmd — factor scores & regression (later)\nClassic SEM measurement chapters (CFA fundamentals; see course website reading list)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#references",
+    "href": "slides/04_cfa_measurement_reliability.html#references",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "References",
+    "text": "References\n(Add citations/keys once the course bibliography is finalized for the website.)"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html",
+    "href": "labs/lab04_cfa_reliability_omegas.html",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "",
+    "text": "In this lab you will:\n\nFit and compare CFA models (1-factor vs correlated factors)\nInspect local misfit for CFA (residual correlations, MI + EPC/SEPC)\nMake theory-filtered respecification choices (and document them)\nCompute and report reliability from CFA (ω family via semTools)\n(Optional) Fit a bifactor model and evaluate interpretability (not just fit)"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#model-1-one-general-factor",
+    "href": "labs/lab04_cfa_reliability_omegas.html#model-1-one-general-factor",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "Model 1: One general factor",
+    "text": "Model 1: One general factor\n\n\nShow code\nm1 &lt;- '\n  g =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9\n'\nfit1 &lt;- cfa(m1, data = dat, std.lv = TRUE)\nsummary(fit1, fit.measures = TRUE, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 18 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        18\n\n  Number of observations                           301\n\nModel Test User Model:\n                                                      \n  Test statistic                               312.264\n  Degrees of freedom                                27\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                               918.852\n  Degrees of freedom                                36\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.677\n  Tucker-Lewis Index (TLI)                       0.569\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)              -3851.224\n  Loglikelihood unrestricted model (H1)      -3695.092\n                                                      \n  Akaike (AIC)                                7738.448\n  Bayesian (BIC)                              7805.176\n  Sample-size adjusted Bayesian (SABIC)       7748.091\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.187\n  90 Percent confidence interval - lower         0.169\n  90 Percent confidence interval - upper         0.206\n  P-value H_0: RMSEA &lt;= 0.050                    0.000\n  P-value H_0: RMSEA &gt;= 0.080                    1.000\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.143\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  g =~                                                                  \n    x1                0.510    0.068    7.550    0.000    0.510    0.438\n    x2                0.259    0.071    3.649    0.000    0.259    0.220\n    x3                0.252    0.068    3.689    0.000    0.252    0.223\n    x4                0.985    0.057   17.375    0.000    0.985    0.848\n    x5                1.084    0.063   17.181    0.000    1.084    0.841\n    x6                0.917    0.054   17.092    0.000    0.917    0.838\n    x7                0.196    0.066    2.975    0.003    0.196    0.180\n    x8                0.203    0.061    3.323    0.001    0.203    0.201\n    x9                0.309    0.060    5.143    0.000    0.309    0.307\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.098    0.092   11.895    0.000    1.098    0.808\n   .x2                1.315    0.108   12.188    0.000    1.315    0.951\n   .x3                1.212    0.099   12.186    0.000    1.212    0.950\n   .x4                0.380    0.048    7.963    0.000    0.380    0.281\n   .x5                0.486    0.059    8.193    0.000    0.486    0.293\n   .x6                0.356    0.043    8.295    0.000    0.356    0.298\n   .x7                1.145    0.094   12.215    0.000    1.145    0.967\n   .x8                0.981    0.080   12.202    0.000    0.981    0.960\n   .x9                0.919    0.076   12.105    0.000    0.919    0.906\n    g                 1.000                               1.000    1.000"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#model-2-three-correlated-factors-the-classic-hs-structure",
+    "href": "labs/lab04_cfa_reliability_omegas.html#model-2-three-correlated-factors-the-classic-hs-structure",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "Model 2: Three correlated factors (the classic HS structure)",
+    "text": "Model 2: Three correlated factors (the classic HS structure)\n\n\nShow code\nm3 &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\nfit3 &lt;- cfa(m3, data = dat, std.lv = TRUE)\nsummary(fit3, fit.measures = TRUE, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 20 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        21\n\n  Number of observations                           301\n\nModel Test User Model:\n                                                      \n  Test statistic                                85.306\n  Degrees of freedom                                24\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                               918.852\n  Degrees of freedom                                36\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.931\n  Tucker-Lewis Index (TLI)                       0.896\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)              -3737.745\n  Loglikelihood unrestricted model (H1)      -3695.092\n                                                      \n  Akaike (AIC)                                7517.490\n  Bayesian (BIC)                              7595.339\n  Sample-size adjusted Bayesian (SABIC)       7528.739\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.092\n  90 Percent confidence interval - lower         0.071\n  90 Percent confidence interval - upper         0.114\n  P-value H_0: RMSEA &lt;= 0.050                    0.001\n  P-value H_0: RMSEA &gt;= 0.080                    0.840\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.065\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  visual =~                                                             \n    x1                0.900    0.081   11.128    0.000    0.900    0.772\n    x2                0.498    0.077    6.429    0.000    0.498    0.424\n    x3                0.656    0.074    8.817    0.000    0.656    0.581\n  textual =~                                                            \n    x4                0.990    0.057   17.474    0.000    0.990    0.852\n    x5                1.102    0.063   17.576    0.000    1.102    0.855\n    x6                0.917    0.054   17.082    0.000    0.917    0.838\n  speed =~                                                              \n    x7                0.619    0.070    8.903    0.000    0.619    0.570\n    x8                0.731    0.066   11.090    0.000    0.731    0.723\n    x9                0.670    0.065   10.305    0.000    0.670    0.665\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  visual ~~                                                             \n    textual           0.459    0.064    7.189    0.000    0.459    0.459\n    speed             0.471    0.073    6.461    0.000    0.471    0.471\n  textual ~~                                                            \n    speed             0.283    0.069    4.117    0.000    0.283    0.283\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                0.549    0.114    4.833    0.000    0.549    0.404\n   .x2                1.134    0.102   11.146    0.000    1.134    0.821\n   .x3                0.844    0.091    9.317    0.000    0.844    0.662\n   .x4                0.371    0.048    7.779    0.000    0.371    0.275\n   .x5                0.446    0.058    7.642    0.000    0.446    0.269\n   .x6                0.356    0.043    8.277    0.000    0.356    0.298\n   .x7                0.799    0.081    9.823    0.000    0.799    0.676\n   .x8                0.488    0.074    6.573    0.000    0.488    0.477\n   .x9                0.566    0.071    8.003    0.000    0.566    0.558\n    visual            1.000                               1.000    1.000\n    textual           1.000                               1.000    1.000\n    speed             1.000                               1.000    1.000"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#a-compare-global-fit",
+    "href": "labs/lab04_cfa_reliability_omegas.html#a-compare-global-fit",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "1a) Compare global fit",
+    "text": "1a) Compare global fit\nExtract a minimal set of indices:\n\n\nShow code\nget_fit &lt;- function(f) {\n  fitMeasures(f, c(\"chisq\",\"df\",\"pvalue\",\"cfi\",\"tli\",\"rmsea\",\"rmsea.ci.lower\",\"rmsea.ci.upper\",\"srmr\"))\n}\n\nrbind(one_factor = get_fit(fit1),\n      three_factor = get_fit(fit3))\n\n\n             chisq df  pvalue   cfi   tli  rmsea rmsea.ci.lower rmsea.ci.upper\none_factor   312.3 27 0.0e+00 0.677 0.569 0.1874         0.1690          0.206\nthree_factor  85.3 24 8.5e-09 0.931 0.896 0.0921         0.0714          0.114\n               srmr\none_factor   0.1431\nthree_factor 0.0652\n\n\nQuestions\n\nWhich model fits better globally? Which indices support that conclusion?\nDo you expect the 3-factor model to always fit better? Why/why not?"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#b-compare-with-a-χ²-difference-test-nested",
+    "href": "labs/lab04_cfa_reliability_omegas.html#b-compare-with-a-χ²-difference-test-nested",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "1b) Compare with a χ² difference test (nested?)",
+    "text": "1b) Compare with a χ² difference test (nested?)\n\n\nShow code\nanova(fit1, fit3)\n\n\n\nChi-Squared Difference Test\n\n     Df  AIC  BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)    \nfit3 24 7517 7595  85.3                                        \nfit1 27 7738 7805 312.3        227 0.498       3     &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nQuestion\n\nIs this comparison a valid nested χ² test here? Why (think: is the 1-factor model nested in the 3-factor model)?\n\n\n\n\n\n\n\nEven when anova() runs, you must reason about nesting. Not every model comparison is a proper LRT."
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#a-standardized-loadings",
+    "href": "labs/lab04_cfa_reliability_omegas.html#a-standardized-loadings",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "2a) Standardized loadings",
+    "text": "2a) Standardized loadings\n\n\nShow code\npe3 &lt;- parameterEstimates(fit3, standardized = TRUE)\nload3 &lt;- subset(pe3, op == \"=~\")[, c(\"lhs\",\"rhs\",\"est\",\"se\",\"pvalue\",\"std.all\")]\nload3\n\n\n      lhs rhs   est    se pvalue std.all\n1  visual  x1 0.900 0.081      0   0.772\n2  visual  x2 0.498 0.077      0   0.424\n3  visual  x3 0.656 0.074      0   0.581\n4 textual  x4 0.990 0.057      0   0.852\n5 textual  x5 1.102 0.063      0   0.855\n6 textual  x6 0.917 0.054      0   0.838\n7   speed  x7 0.619 0.070      0   0.570\n8   speed  x8 0.731 0.066      0   0.723\n9   speed  x9 0.670 0.065      0   0.665\n\n\nTasks\n\nIdentify the weakest indicator(s) by std.all.\nIdentify any signs that look strange (e.g., negative loadings, extremely low/high)."
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#b-residual-variances",
+    "href": "labs/lab04_cfa_reliability_omegas.html#b-residual-variances",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "2b) Residual variances",
+    "text": "2b) Residual variances\n\n\nShow code\nresvar3 &lt;- subset(pe3, op == \"~~\" & lhs %in% vars & rhs %in% vars)[, c(\"lhs\",\"est\",\"std.all\")]\nresvar3\n\n\n   lhs   est std.all\n10  x1 0.549   0.404\n11  x2 1.134   0.821\n12  x3 0.844   0.662\n13  x4 0.371   0.275\n14  x5 0.446   0.269\n15  x6 0.356   0.298\n16  x7 0.799   0.676\n17  x8 0.488   0.477\n18  x9 0.566   0.558\n\n\nQuestion\n\nDo any residual variances look “too small” or “too large”? What might that mean substantively?"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#c-factor-correlations",
+    "href": "labs/lab04_cfa_reliability_omegas.html#c-factor-correlations",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "2c) Factor correlations",
+    "text": "2c) Factor correlations\n\n\nShow code\nphi3 &lt;- subset(pe3, op == \"~~\" & lhs %in% c(\"visual\",\"textual\",\"speed\") &\n                 rhs %in% c(\"visual\",\"textual\",\"speed\") & lhs != rhs)[, c(\"lhs\",\"rhs\",\"est\",\"std.all\")]\nphi3\n\n\n       lhs     rhs   est std.all\n22  visual textual 0.459   0.459\n23  visual   speed 0.471   0.471\n24 textual   speed 0.283   0.283\n\n\nQuestions\n\nAre factor correlations high? What would make you worry about discriminant validity?\nIn your area, what theory would justify correlated factors?"
+  },
+  {
+    "objectID": "labs/lab04_cfa_reliability_omegas.html#take-home",
+    "href": "labs/lab04_cfa_reliability_omegas.html#take-home",
+    "title": "Lab 04 — CFA: measurement, local misfit, and ω reliability",
+    "section": "Take-home",
+    "text": "Take-home\n\nCFA is a measurement hypothesis: zeros and constraints are theory.\nPair global fit with CFA-specific local diagnostics (residual correlations + MI/EPC).\nRespecify with discipline: one change at a time, theory filter, transparent reporting.\nReliability should match your measurement model: ω from CFA is usually a better default than α."
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html",
+    "href": "labs/lab05_sem_capstone_eat.html",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "",
+    "text": "This lab is a full SEM workflow exercise (measurement + structure):\n\nApply the Two-Step rule (identify/fit measurement first, then structure)\nEvaluate the model using fit indices + diagnostics (global + local)\nUse MI + EPC/SEPC to propose a theory-justified modification\nCompare a latent SEM vs a sum-score path model\n\nYou will produce: - a short “model checking log” (what you checked, what you changed, why) - a figure of your final model (R / PowerPoint / hand-drawn)"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#a-specify-the-measurement-model",
+    "href": "labs/lab05_sem_capstone_eat.html#a-specify-the-measurement-model",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "1a) Specify the measurement model",
+    "text": "1a) Specify the measurement model\n\n\nShow code\nm_cfa &lt;- \"\n  peerPressure =~ PP1 + PP2 + PP3 + PP4\n  socialMedia  =~ SM1 + SM2 + SM3 + SM4\n  socialComparison =~ SC1 + SC2 + SC3\n  eatingDisorder =~ ED1 + ED2\n\""
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#b-fit-and-check-convergence",
+    "href": "labs/lab05_sem_capstone_eat.html#b-fit-and-check-convergence",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "1b) Fit and check convergence",
+    "text": "1b) Fit and check convergence\n\n\nShow code\nfit_cfa &lt;- sem(m_cfa, data = dE4_1, std.lv = TRUE)\nlavInspect(fit_cfa, \"converged\")\n\n\n[1] TRUE"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#c-inspect-measurement-results",
+    "href": "labs/lab05_sem_capstone_eat.html#c-inspect-measurement-results",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "1c) Inspect measurement results",
+    "text": "1c) Inspect measurement results\n\n\nShow code\nsummary(fit_cfa, standardized = TRUE, fit.measures = TRUE)\n\n\nlavaan 0.6-19 ended normally after 30 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        32\n\n  Number of observations                          1423\n\nModel Test User Model:\n                                                      \n  Test statistic                               421.825\n  Degrees of freedom                                59\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                              3150.947\n  Degrees of freedom                                78\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.882\n  Tucker-Lewis Index (TLI)                       0.844\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)             -28616.602\n  Loglikelihood unrestricted model (H1)     -28405.690\n                                                      \n  Akaike (AIC)                               57297.204\n  Bayesian (BIC)                             57465.541\n  Sample-size adjusted Bayesian (SABIC)      57363.888\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.066\n  90 Percent confidence interval - lower         0.060\n  90 Percent confidence interval - upper         0.072\n  P-value H_0: RMSEA &lt;= 0.050                    0.000\n  P-value H_0: RMSEA &gt;= 0.080                    0.000\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.042\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  peerPressure =~                                                          \n    PP1                  1.016    0.036   27.977    0.000    1.016    0.821\n    PP2                  0.998    0.037   26.980    0.000    0.998    0.786\n    PP3                  0.424    0.033   12.944    0.000    0.424    0.370\n    PP4                  0.468    0.034   13.945    0.000    0.468    0.397\n  socialMedia =~                                                           \n    SM1                  0.592    0.039   15.294    0.000    0.592    0.517\n    SM2                  0.575    0.040   14.449    0.000    0.575    0.486\n    SM3                  0.554    0.039   14.234    0.000    0.554    0.479\n    SM4                  0.645    0.041   15.928    0.000    0.645    0.541\n  socialComparison =~                                                      \n    SC1                  0.881    0.038   23.042    0.000    0.881    0.662\n    SC2                  0.940    0.038   24.865    0.000    0.940    0.718\n    SC3                  0.856    0.039   22.167    0.000    0.856    0.637\n  eatingDisorder =~                                                        \n    ED1                  0.720    0.067   10.709    0.000    0.720    0.596\n    ED2                  0.671    0.064   10.491    0.000    0.671    0.547\n\nCovariances:\n                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  peerPressure ~~                                                          \n    socialMedia         -0.013    0.039   -0.345    0.730   -0.013   -0.013\n    socialComparsn       0.126    0.035    3.636    0.000    0.126    0.126\n    eatingDisorder      -0.035    0.042   -0.822    0.411   -0.035   -0.035\n  socialMedia ~~                                                           \n    socialComparsn       0.422    0.037   11.347    0.000    0.422    0.422\n    eatingDisorder       0.052    0.049    1.056    0.291    0.052    0.052\n  socialComparison ~~                                                      \n    eatingDisorder       0.368    0.042    8.679    0.000    0.368    0.368\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .PP1               0.500    0.053    9.365    0.000    0.500    0.326\n   .PP2               0.615    0.054   11.489    0.000    0.615    0.382\n   .PP3               1.133    0.044   25.604    0.000    1.133    0.863\n   .PP4               1.175    0.046   25.410    0.000    1.175    0.843\n   .SM1               0.958    0.048   20.116    0.000    0.958    0.733\n   .SM2               1.068    0.051   21.126    0.000    1.068    0.763\n   .SM3               1.033    0.048   21.355    0.000    1.033    0.771\n   .SM4               1.005    0.052   19.225    0.000    1.005    0.707\n   .SC1               0.993    0.054   18.400    0.000    0.993    0.561\n   .SC2               0.831    0.053   15.544    0.000    0.831    0.485\n   .SC3               1.075    0.055   19.543    0.000    1.075    0.595\n   .ED1               0.942    0.094    9.995    0.000    0.942    0.645\n   .ED2               1.052    0.085   12.310    0.000    1.052    0.700\n    peerPressure      1.000                               1.000    1.000\n    socialMedia       1.000                               1.000    1.000\n    socialComparsn    1.000                               1.000    1.000\n    eatingDisorder    1.000                               1.000    1.000\n\n\nTasks\n\nReport the standardized loadings and identify any weak items.\nCheck residual variances (Heywood cases? negative variances?).\nExtract the core fit indices: CFI, TLI, RMSEA, SRMR.\n\n\n\nShow code\nfitMeasures(fit_cfa, c(\"cfi\", \"tli\", \"rmsea\", \"srmr\"))\n\n\n  cfi   tli rmsea  srmr \n0.882 0.844 0.066 0.042"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#a-add-structural-regressions-among-the-latent-variables",
+    "href": "labs/lab05_sem_capstone_eat.html#a-add-structural-regressions-among-the-latent-variables",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "2a) Add structural regressions among the latent variables",
+    "text": "2a) Add structural regressions among the latent variables\n\n\nShow code\nm_sem &lt;- \"\n  # CFA model\n  peerPressure =~ PP1 + PP2 + PP3 + PP4\n  socialMedia  =~ SM1 + SM2 + SM3 + SM4\n  socialComparison =~ SC1 + SC2 + SC3\n  eatingDisorder =~ ED1 + ED2\n\n  # Structural model\n  eatingDisorder ~ socialComparison\n  socialComparison ~ peerPressure + socialMedia\n\""
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#b-fit-and-inspect",
+    "href": "labs/lab05_sem_capstone_eat.html#b-fit-and-inspect",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "2b) Fit and inspect",
+    "text": "2b) Fit and inspect\n\n\nShow code\nfit_sem &lt;- sem(m_sem, data = dE4_1, std.lv = TRUE)\nsummary(fit_sem, standardized = TRUE, fit.measures = TRUE)\n\n\nlavaan 0.6-19 ended normally after 30 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        30\n\n  Number of observations                          1423\n\nModel Test User Model:\n                                                      \n  Test statistic                               430.575\n  Degrees of freedom                                61\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                              3150.947\n  Degrees of freedom                                78\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.880\n  Tucker-Lewis Index (TLI)                       0.846\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)             -28620.977\n  Loglikelihood unrestricted model (H1)     -28405.690\n                                                      \n  Akaike (AIC)                               57301.954\n  Bayesian (BIC)                             57459.770\n  Sample-size adjusted Bayesian (SABIC)      57364.470\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.065\n  90 Percent confidence interval - lower         0.060\n  90 Percent confidence interval - upper         0.071\n  P-value H_0: RMSEA &lt;= 0.050                    0.000\n  P-value H_0: RMSEA &gt;= 0.080                    0.000\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.044\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  peerPressure =~                                                          \n    PP1                  1.019    0.036   27.954    0.000    1.019    0.823\n    PP2                  0.996    0.037   26.873    0.000    0.996    0.785\n    PP3                  0.423    0.033   12.909    0.000    0.423    0.369\n    PP4                  0.468    0.034   13.932    0.000    0.468    0.396\n  socialMedia =~                                                           \n    SM1                  0.582    0.039   15.049    0.000    0.582    0.509\n    SM2                  0.576    0.040   14.452    0.000    0.576    0.487\n    SM3                  0.557    0.039   14.279    0.000    0.557    0.481\n    SM4                  0.653    0.041   16.062    0.000    0.653    0.548\n  socialComparison =~                                                      \n    SC1                  0.799    0.037   21.609    0.000    0.885    0.665\n    SC2                  0.847    0.037   22.797    0.000    0.937    0.716\n    SC3                  0.777    0.037   20.925    0.000    0.860    0.640\n  eatingDisorder =~                                                        \n    ED1                  0.654    0.066    9.920    0.000    0.700    0.579\n    ED2                  0.645    0.065    9.945    0.000    0.690    0.563\n\nRegressions:\n                     Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  eatingDisorder ~                                                        \n    socialComparsn      0.344    0.047    7.322    0.000    0.356    0.356\n  socialComparison ~                                                      \n    peerPressure        0.139    0.038    3.636    0.000    0.125    0.125\n    socialMedia         0.455    0.049    9.221    0.000    0.411    0.411\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  peerPressure ~~                                                       \n    socialMedia      -0.014    0.039   -0.354    0.723   -0.014   -0.014\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .PP1               0.495    0.054    9.205    0.000    0.495    0.323\n   .PP2               0.619    0.054   11.521    0.000    0.619    0.384\n   .PP3               1.134    0.044   25.612    0.000    1.134    0.864\n   .PP4               1.175    0.046   25.414    0.000    1.175    0.843\n   .SM1               0.969    0.048   20.363    0.000    0.969    0.741\n   .SM2               1.067    0.051   21.069    0.000    1.067    0.762\n   .SM3               1.030    0.048   21.257    0.000    1.030    0.768\n   .SM4               0.995    0.053   18.929    0.000    0.995    0.700\n   .SC1               0.986    0.054   18.198    0.000    0.986    0.558\n   .SC2               0.836    0.054   15.566    0.000    0.836    0.488\n   .SC3               1.068    0.055   19.361    0.000    1.068    0.591\n   .ED1               0.971    0.094   10.279    0.000    0.971    0.665\n   .ED2               1.026    0.093   11.017    0.000    1.026    0.683\n    peerPressure      1.000                               1.000    1.000\n    socialMedia       1.000                               1.000    1.000\n   .socialComparsn    1.000                               0.816    0.816\n   .eatingDisorder    1.000                               0.873    0.873\n\n\nShow code\nfitMeasures(fit_sem, c(\"cfi\", \"tli\", \"rmsea\", \"srmr\"))\n\n\n  cfi   tli rmsea  srmr \n0.880 0.846 0.065 0.044 \n\n\nQuestions\n\nAre the key hypotheses supported (sign + magnitude + uncertainty)?\nHow does fit compare to the CFA-only model? (Interpret carefully.)\n\n(Optional)\n\n\nShow code\nanova(fit_cfa, fit_sem)\n\n\n\nChi-Squared Difference Test\n\n        Df   AIC   BIC Chisq Chisq diff  RMSEA Df diff Pr(&gt;Chisq)  \nfit_cfa 59 57297 57466   422                                       \nfit_sem 61 57302 57460   431       8.75 0.0487       2      0.013 *\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#a-standardized-residual-covariances-local-misfit",
+    "href": "labs/lab05_sem_capstone_eat.html#a-standardized-residual-covariances-local-misfit",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "3a) Standardized residual covariances (local misfit)",
+    "text": "3a) Standardized residual covariances (local misfit)\n\n\nShow code\nres_std &lt;- residuals(fit_sem, type = \"standardized\")$cov\nres_std\n\n\n       PP1    PP2    PP3    PP4    SM1    SM2    SM3    SM4    SC1    SC2\nPP1  0.000                                                               \nPP2  4.114  0.000                                                        \nPP3 -0.956 -1.461  0.000                                                 \nPP4 -1.782 -0.714  3.843  0.000                                          \nSM1 -0.025  0.866  0.527 -1.447  0.000                                   \nSM2 -0.201  0.135  1.297 -0.472 -0.979  0.000                            \nSM3  0.527  0.490  0.127 -0.211 -3.014  1.973  0.000                     \nSM4 -1.102 -0.389  1.354 -0.710 -2.151  1.660  2.005  0.000              \nSC1 -0.195 -0.601  0.677  0.508 -0.370 -2.178 -0.679 -0.570  0.000       \nSC2  0.298 -0.359  1.676  0.657 14.915 -1.812 -0.951 -1.042 -3.833  0.000\nSC3  0.244  0.045  1.346  1.211 -3.254 -3.230 -1.506 -2.873  4.203 -1.867\nED1 -0.693 -0.951 -2.649 -0.337 -2.138 -2.846 -1.096 -1.179  1.416 -1.514\nED2 -1.299 -2.440 -0.893 -1.020 -0.471 -0.566 -1.018  0.947  0.108 -1.475\n       SC3    ED1    ED2\nPP1                     \nPP2                     \nPP3                     \nPP4                     \nSM1                     \nSM2                     \nSM3                     \nSM4                     \nSC1                     \nSC2                     \nSC3  0.000              \nED1  1.659  0.000       \nED2  1.978  0.000  0.000\n\n\nFind the largest absolute residual covariances:\n\n\nShow code\nR &lt;- res_std\ndiag(R) &lt;- NA\ntop_res &lt;- as.data.frame(as.table(R))\ntop_res &lt;- top_res[order(abs(top_res$Freq), decreasing = TRUE), ]\nhead(top_res, 10)\n\n\n    Var1 Var2  Freq\n122  SM1  SC2 14.92\n62   SC2  SM1 14.92\n115  SC3  SC1  4.20\n139  SC1  SC3  4.20\n2    PP2  PP1  4.11\n14   PP1  PP2  4.11\n30   PP4  PP3  3.84\n42   PP3  PP4  3.84\n114  SC2  SC1 -3.83\n126  SC1  SC2 -3.83"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#b-modification-indices-mi-effect-size-epcsepc",
+    "href": "labs/lab05_sem_capstone_eat.html#b-modification-indices-mi-effect-size-epcsepc",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "3b) Modification indices (MI) + effect size (EPC/SEPC)",
+    "text": "3b) Modification indices (MI) + effect size (EPC/SEPC)\n\n\nShow code\nmi &lt;- modificationIndices(fit_sem, sort. = TRUE)\nhead(mi[, c(\"lhs\",\"op\",\"rhs\",\"mi\",\"epc\",\"sepc.all\")], 15)\n\n\n                 lhs op rhs     mi    epc sepc.all\n120              SM1 ~~ SC2 328.97  0.565    0.628\n49       socialMedia =~ SC2  56.91  0.378    0.289\n57  socialComparison =~ SM1  54.67  0.292    0.283\n121              SM1 ~~ SC3  51.71 -0.235   -0.231\n50       socialMedia =~ SC3  30.54 -0.277   -0.206\n119              SM1 ~~ SC1  22.07 -0.151   -0.154\n143              SC1 ~~ SC3  19.17  0.293    0.285\n74               PP1 ~~ PP2  18.34  0.665    1.201\n97               PP3 ~~ PP4  15.33  0.126    0.109\n58  socialComparison =~ SM2  13.08 -0.146   -0.137\n142              SC1 ~~ SC2  12.91 -0.277   -0.304\n138              SM4 ~~ SC2   9.69 -0.101   -0.110\n117              SM1 ~~ SM3   8.09 -0.112   -0.112\n51       socialMedia =~ ED1   8.02 -0.130   -0.108\n105              PP3 ~~ ED1   7.86 -0.091   -0.087\n\n\nTasks\n\nDo the top residual pairs match the top MI suggestions?\nPick one candidate modification that you can justify substantively.\nWrite a 1–2 sentence justification (content overlap? method effect? plausible local dependence?)."
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#a-add-one-residual-correlation-and-refit",
+    "href": "labs/lab05_sem_capstone_eat.html#a-add-one-residual-correlation-and-refit",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "4a) Add one residual correlation and refit",
+    "text": "4a) Add one residual correlation and refit\n\n\nShow code\nm_sem_mod &lt;- \"\n  # CFA model\n  peerPressure =~ PP1 + PP2 + PP3 + PP4\n  socialMedia  =~ SM1 + SM2 + SM3 + SM4\n  socialComparison =~ SC1 + SC2 + SC3\n  eatingDisorder =~ ED1 + ED2\n\n  # Structural model\n  eatingDisorder ~ socialComparison\n  socialComparison ~ peerPressure + socialMedia\n\n  # Residual correlation (one modification)\n  SM1 ~~ SC2\n\"\nfit_sem_mod &lt;- sem(m_sem_mod, data = dE4_1, std.lv = TRUE)"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#b-compare-fit-nested-test",
+    "href": "labs/lab05_sem_capstone_eat.html#b-compare-fit-nested-test",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "4b) Compare fit + nested test",
+    "text": "4b) Compare fit + nested test\n\n\nShow code\nrbind(\n  original = fitMeasures(fit_sem, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\")),\n  modified = fitMeasures(fit_sem_mod, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n)\n\n\n           cfi   tli  rmsea   srmr\noriginal 0.880 0.846 0.0653 0.0440\nmodified 0.995 0.994 0.0130 0.0233\n\n\nShow code\nanova(fit_sem, fit_sem_mod)\n\n\n\nChi-Squared Difference Test\n\n            Df   AIC   BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)    \nfit_sem_mod 60 56948 57111  74.4                                        \nfit_sem     61 57302 57460 430.6        356   0.5       1     &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#c-re-check-diagnostics",
+    "href": "labs/lab05_sem_capstone_eat.html#c-re-check-diagnostics",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "4c) Re-check diagnostics",
+    "text": "4c) Re-check diagnostics\n\n\nShow code\nmi_mod &lt;- modificationIndices(fit_sem_mod, sort. = TRUE)\nhead(mi_mod[, c(\"lhs\",\"op\",\"rhs\",\"mi\",\"epc\",\"sepc.all\")], 10)\n\n\n               lhs op            rhs    mi    epc sepc.all\n75             PP1 ~~            PP2 19.27  0.679    1.226\n98             PP3 ~~            PP4 15.29  0.126    0.109\n106            PP3 ~~            ED1  8.04 -0.092   -0.089\n51     socialMedia =~            SC3  7.89 -0.127   -0.094\n120            SM1 ~~            SC1  5.37  0.075    0.074\n52     socialMedia =~            ED1  4.89 -0.092   -0.076\n129            SM2 ~~            ED1  4.21 -0.068   -0.068\n160   peerPressure  ~ eatingDisorder  3.99 -0.090   -0.097\n153   peerPressure ~~ eatingDisorder  3.99 -0.090   -0.090\n69  eatingDisorder =~            SM2  3.93 -0.077   -0.070\n\n\nDocumentation (write these down in your log)\n\nWhat did you change and why?\nWhat evidence supported it (residuals? MI+EPC?)?\nDoes the modification change interpretation of the constructs or paths?"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#a-compare-key-standardized-structural-coefficients",
+    "href": "labs/lab05_sem_capstone_eat.html#a-compare-key-standardized-structural-coefficients",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "7a) Compare key standardized structural coefficients",
+    "text": "7a) Compare key standardized structural coefficients\nExtract standardized regressions from both models:\n\n\nShow code\npe_lat &lt;- parameterEstimates(fit_sem_mod, standardized = TRUE)\nlat_paths &lt;- subset(pe_lat, op == \"~\" &\n                      lhs %in% c(\"eatingDisorder\",\"socialComparison\"))[, \n                    c(\"lhs\",\"rhs\",\"est\",\"se\",\"pvalue\",\"std.all\")]\nlat_paths\n\n\n                lhs              rhs   est    se pvalue std.all\n14   eatingDisorder socialComparison 0.377 0.049      0   0.371\n15 socialComparison     peerPressure 0.133 0.036      0   0.126\n16 socialComparison      socialMedia 0.324 0.045      0   0.306\n\n\n\n\nShow code\npe_sum &lt;- parameterEstimates(fit_path, standardized = TRUE)\nsum_paths &lt;- subset(pe_sum, op == \"~\")[, c(\"lhs\",\"rhs\",\"est\",\"se\",\"pvalue\",\"std.all\")]\nsum_paths\n\n\n               lhs              rhs   est    se pvalue std.all\n1   eatingDisorder socialComparison 0.139 0.016      0   0.223\n2 socialComparison     peerPressure 0.097 0.023      0   0.106\n3 socialComparison      socialMedia 0.258 0.026      0   0.253"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#b-discussion-write-a-short-paragraph",
+    "href": "labs/lab05_sem_capstone_eat.html#b-discussion-write-a-short-paragraph",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "7b) Discussion (write a short paragraph)",
+    "text": "7b) Discussion (write a short paragraph)\n\nWhich paths change the most (magnitude / uncertainty)?\nDoes the pattern of support for hypotheses change?\nOffer at least two measurement-driven explanations for differences:\n\nunequal loadings / reliability differences\ncorrelated residuals / local dependence\nattenuation / error-in-variables logic\nfactor correlation vs sum-score correlation differences"
+  },
+  {
+    "objectID": "labs/lab05_sem_capstone_eat.html#deliverables",
+    "href": "labs/lab05_sem_capstone_eat.html#deliverables",
+    "title": "Lab 05 — SEM capstone with the EAT dataset",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nA 1-page model-checking log:\n\nCFA fit + key issues\nSEM fit + key issues\ndiagnostics used (residuals, MI/EPC)\nwhat you modified and why\n\nA diagram of the final SEM\nA short comparison of latent vs sum-score conclusions"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#today-in-the-workflow",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#today-in-the-workflow",
+    "title": "Structural Equation Models",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: full SEM = measurement model (CFA) + structural model (paths among latent variables).\nWe will repeat fit/diagnostics on purpose: by now it should become a habit (global + local)."
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#learning-objectives",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#learning-objectives",
+    "title": "Structural Equation Models",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nConnect the CFA measurement model to the SEM structural model (two-step mindset)\nUnderstand how SEM is represented in matrices (Λ, B, Γ, Φ, Ψ, Θ)\nFit a full SEM in lavaan and interpret parameters + fit indices + diagnostics\nCompare plausible SEMs (nested comparisons) and justify modifications transparently"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#outline",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#outline",
+    "title": "Structural Equation Models",
+    "section": "Outline",
+    "text": "Outline\n\nIntroduction\nIdentification\nExample\nExercise\nResults"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#structural-equation-models",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#structural-equation-models",
+    "title": "Structural Equation Models",
+    "section": "Structural equation models",
+    "text": "Structural equation models\nUp to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.\nA complete SEM takes both of these things and put them together"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-two-parts-of-a-sem",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-two-parts-of-a-sem",
+    "title": "Structural Equation Models",
+    "section": "The two parts of a SEM",
+    "text": "The two parts of a SEM\n\nThe measurement model \\[\n\\begin{aligned}\nx = \\Lambda_x\\xi + \\delta\ny =\\Lambda_y\\eta + \\epsilon\n\\end{aligned}\n\\]\nThe structural model \\[\n\\begin{aligned}\n\\eta = B\\eta + \\Gamma\\xi + \\zeta\n\\end{aligned}\n\\]\n\nalready seen in the first slides"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#matrices",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#matrices",
+    "title": "Structural Equation Models",
+    "section": "Matrices",
+    "text": "Matrices\nThese models (can) have all the possible matrices: - Loadings and coefficients matrices \\[\n\\begin{aligned}\n\\Lambda^x &  - relation among  \\xi  and  x\n    \\Lambda^y &  - relation among  \\eta  and  y\n    B &  - relation among  \\eta  and  \\eta\n    \\Gamma &  - relation among  \\xi  and  \\eta\n\\end{aligned}\n\\] - Covariance matrices \\[\n\\begin{aligned}\n\\Theta^\\delta &  -  x  errors\n    \\Theta^\\epsilon &  -  y  errors\n    \\Psi &  -  \\eta  errors\n    \\Phi &  - relations among  \\eta\n\\end{aligned}\n\\] Different models are allowew based on the way we define relationships among variables"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices",
+    "title": "Structural Equation Models",
+    "section": "… lavaan matrices",
+    "text": "… lavaan matrices\nlavaan does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only: 1. \\(\\Lambda\\) factor loadings matrix \\([p x m]\\) 1. \\(\\Theta\\) measurement residual errors covariance matrix \\([p x p]\\) 1. \\(B\\) regression coefficients matrix \\([m x m]\\) 1. \\(\\Psi\\) residual structural errors covariance matrix \\([m x m]\\) With p being the number of manifest variables and m being the number of latent variables."
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-lavaan-matrices",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-lavaan-matrices",
+    "title": "Structural Equation Models",
+    "section": "The lavaan matrices",
+    "text": "The lavaan matrices\n{Lambda: matrix of loadings}\n\n{Beta: regression coefficients}\n\n{Psi: residual structural errors matrix}\n\n{Theta: observed variance-covariance matrix}"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---simulation",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---simulation",
+    "title": "Structural Equation Models",
+    "section": "A SEM example - simulation",
+    "text": "A SEM example - simulation\n\nlibrary(lavaan)\ndSEM &lt;- simulateData(\"xi =~ .74*x1 + .65*x2\n                      eta =~ .56*y1 + .75*y2\n                      eta ~ .30*xi\n                     \", sample.nobs = 1000)"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---specification-and-constraints",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---specification-and-constraints",
+    "title": "Structural Equation Models",
+    "section": "A SEM example - specification and constraints",
+    "text": "A SEM example - specification and constraints\n\nfit &lt;- sem(model = \"xi =~ x1 + x2\n                     eta =~ y1 + y2\n                     eta ~ xi\", data = dSEM)\n\nConstraints\nTo estimate the model we need to set constraints: - the sem or cfa functions default is setting to 1 one loading for each latent variable - an alternative is to standardized latent variables using the std.lv = TRUE option"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-default",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-default",
+    "title": "Structural Equation Models",
+    "section": "Constraints: default",
+    "text": "Constraints: default\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                1.000                               0.727    0.570\n    x2                1.004    0.304    3.297    0.001    0.730    0.602\n  eta =~                                                                \n    y1                1.000                               0.440    0.372\n    y2                2.324    1.063    2.186    0.029    1.021    0.799\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.102    0.168    6.570    0.000    1.102    0.676\n   .x2                0.937    0.167    5.613    0.000    0.937    0.637\n   .y1                1.204    0.103   11.701    0.000    1.204    0.862\n   .y2                0.592    0.474    1.249    0.212    0.592    0.362\n    xi                0.529    0.169    3.129    0.002    1.000    1.000\n   .eta               0.181    0.083    2.173    0.030    0.937    0.937\n\n[...]"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-std.lvt",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-std.lvt",
+    "title": "Structural Equation Models",
+    "section": "Constraints: std.lv=T",
+    "text": "Constraints: std.lv=T\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                0.727    0.116    6.258    0.000    0.727    0.570\n    x2                0.730    0.116    6.298    0.000    0.730    0.602\n  eta =~                                                                \n    y1                0.425    0.098    4.346    0.000    0.440    0.372\n    y2                0.988    0.239    4.127    0.000    1.021    0.799\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.102    0.168    6.570    0.000    1.102    0.676\n   .x2                0.937    0.167    5.613    0.000    0.937    0.637\n   .y1                1.204    0.103   11.701    0.000    1.204    0.862\n   .y2                0.592    0.474    1.249    0.212    0.592    0.362\n    xi                1.000                               1.000    1.000\n   .eta               1.000                               0.937    0.937\n\n[...]"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices-1",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices-1",
+    "title": "Structural Equation Models",
+    "section": "lavaan matrices",
+    "text": "lavaan matrices\n\ninspect(fit, \"std\") # OR \"est\"\n\n\n\n$lambda\n      xi   eta\nx1 0.570 0.000\nx2 0.602 0.000\ny1 0.000 0.372\ny2 0.000 0.799\n\n$theta\n      x1    x2    y1    y2\nx1 0.676                  \nx2 0.000 0.637            \ny1 0.000 0.000 0.862      \ny2 0.000 0.000 0.000 0.362\n\n\n\n\n$psi\n       xi   eta\nxi  1.000      \neta 0.000 0.937\n\n$beta\n       xi eta\nxi  0.000   0\neta 0.252   0"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sem-identification",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#sem-identification",
+    "title": "Structural Equation Models",
+    "section": "SEM identification",
+    "text": "SEM identification\nOnce again, remember that identification is a topic relevant to all structural equation models.\nIf an unknown parameter in \\(\\theta\\) can be written as a function of one or more elements of \\(\\Sigma\\), that parameter is identified.\nIf all unknown parameters in \\(\\theta\\) are identified, the model is identified. - the t-rule (again) - the Two-Steps rule"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#two-steps-rule",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#two-steps-rule",
+    "title": "Structural Equation Models",
+    "section": "Two-Steps rule",
+    "text": "Two-Steps rule\n\nStep 1. Treat the model as a confirmatory factor analysis: view the original \\(x\\) and \\(y\\) as \\(x\\) variables and the original \\(\\xi\\) and \\(\\eta\\) as \\(\\xi\\) variables. The only relationship between latent variables of interest are their variance and covariance \\(Phi\\). That is, ignore the \\(B\\), \\(\\Gamma\\), and \\(\\Psi\\) elements.\n\\(\\rightarrow\\) apply CFA identification rules\nStep 2. Examine the latent variable equation of the original model (\\(\\eta = B\\eta + \\Gamma\\xi + \\zeta\\)), assuming that each latent variable is an observed variable that is perfectly measured."
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#two-steps-rule-1",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#two-steps-rule-1",
+    "title": "Structural Equation Models",
+    "section": "Two-Steps rule",
+    "text": "Two-Steps rule\nSummary\nIf the first step shows that the measurement parameters are identified and the second step shows that the latent variable model parameters also are identified, then this is suficient to identify the whole model."
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#political-democracy-dataset",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#political-democracy-dataset",
+    "title": "Structural Equation Models",
+    "section": "Political democracy dataset",
+    "text": "Political democracy dataset\nBollen (1989) studied the relation between industrialization in 1960 and political democracy of developing countries in 1960 and 1965.\nWe have 11 variables\n\n\n    y1  y2    y3  y4   y5   y6    y7   y8   x1   x2   x3\n1 2.50 0.0  3.33 0.0 1.25 0.00  3.73 3.33 4.44 3.64 2.56\n2 1.25 0.0  3.33 0.0 6.25 1.10  6.67 0.74 5.38 5.06 3.57\n3 7.50 8.8 10.00 9.2 8.75 8.09 10.00 8.21 5.96 6.26 5.22\n\n\nA first latent variable, Industrialization (\\(I = x_1 + x_2 + x_3\\))\nA second latent variable, political democracy in 1960 (\\(D60 = y_1 + y_2 + y_3 + y_4\\))\nA third latent variable, political democracy in 1965 (\\(D65 = y_5 + y_6 + y_7 + y_8\\)).\nLET'S APLLY THE TWO-STEPS RULE"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#step-1---model-plot",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#step-1---model-plot",
+    "title": "Structural Equation Models",
+    "section": "Step 1 - model plot",
+    "text": "Step 1 - model plot\nThe CFA model"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#step-1---model-specification-and-results",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#step-1---model-specification-and-results",
+    "title": "Structural Equation Models",
+    "section": "Step 1 - model specification and results",
+    "text": "Step 1 - model specification and results\nThe CFA model\n\nm &lt;- \"I =~ x1 + x2 + x3\nD60 =~ y1 + y2 + y3 + y4\nD65 =~ y5 + y6 + y7 + y8\n\"\n\n\nfit1 &lt;- sem(m, data = PoliticalDemocracy)\nfit1@Fit@converged\n\n[1] TRUE\n\n\nPARAMETERS ARE ALL IDENTIFIED. LET'S GO TO STEP 2"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#step-2---model-plot",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#step-2---model-plot",
+    "title": "Structural Equation Models",
+    "section": "Step 2 - model plot",
+    "text": "Step 2 - model plot\nThe structural model"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#step-2---model-specification-and-results",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#step-2---model-specification-and-results",
+    "title": "Structural Equation Models",
+    "section": "Step 2 - model specification and results",
+    "text": "Step 2 - model specification and results\nThe structural model\n\nm2 &lt;- \"I =~ x1 + x2 + x3\nD60 =~ y1 + y2 + y3 + y4\nD65 =~ y5 + y6 + y7 + y8\nD65 ~ I + D60\nD60 ~ I\n\"\n\n\nfit2 &lt;- sem(m2, data = PoliticalDemocracy)\nfit2@Fit@converged\n\n[1] TRUE\n\n\nSTRUCTURAL PARAMETERS ARE ALSO IDENTIFIED.\nLET'S DEFINE THE MODEL CONSIDERING LONGITUDINAL MEASURES"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#final-model",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#final-model",
+    "title": "Structural Equation Models",
+    "section": "Final model",
+    "text": "Final model\nThe modified model"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#final-model-specification",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#final-model-specification",
+    "title": "Structural Equation Models",
+    "section": "Final model specification",
+    "text": "Final model specification\nThe modified model\n\nm3 &lt;- \"I =~ x1 + x2 + x3\nD60 =~ y1 + y2 + y3 + y4\nD65 =~ y5 + y6 + y7 + y8\nD65 ~ I + D60\nD60 ~ I\ny1 ~~ y5\ny2 ~~ y6\ny3 ~~ y7\ny4 ~~ y8\n\"\n\nSAME ITEMS AT DIFFERENT TIME POINTS HAVE CORRELATED RESIDUALS"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#final-model-results",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#final-model-results",
+    "title": "Structural Equation Models",
+    "section": "Final model results",
+    "text": "Final model results\nThe modified model\n\n(fit3 &lt;- sem(m3, data = PoliticalDemocracy))\n\nlavaan 0.6-19 ended normally after 58 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        29\n\n  Number of observations                            75\n\nModel Test User Model:\n                                                      \n  Test statistic                                50.835\n  Degrees of freedom                                37\n  P-value (Chi-square)                           0.064\n\ninspect(fit3, what = \"fitmeasures\")[\n  c(\"cfi\", \"srmr\", \"rmsea\")]\n\n       cfi       srmr      rmsea \n0.97952316 0.05011528 0.07060935 \n\n\nMODEL FIT IS GOOD!"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#model-comparisons",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#model-comparisons",
+    "title": "Structural Equation Models",
+    "section": "Model comparisons",
+    "text": "Model comparisons\n\nanova(fit1,fit2,fit3)\n\nWarning: lavaan-&gt;lavTestLRT():  \n   some models have the same degrees of freedom\n\n\n\nChi-Squared Difference Test\n\n     Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    \nfit3 37 3166.3 3233.5 50.835                                          \nfit1 41 3179.9 3237.9 72.462     21.626 0.24239       4  0.0002378 ***\nfit2 41 3179.9 3237.9 72.462      0.000 0.00000       0               \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#model-comparisons-1",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#model-comparisons-1",
+    "title": "Structural Equation Models",
+    "section": "Model comparisons",
+    "text": "Model comparisons\nWe can also compare the models using fit indices:\n\n\n\n\n\n\nchisq\ndf\ncfi\ntli\nsrmr\nrmsea\naic\nbic\n\n\n\n\nmodel1\n72.462\n41\n0.953\n0.938\n0.055\n0.101\n3179.918\n3237.855\n\n\nmodel2\n72.462\n41\n0.953\n0.938\n0.055\n0.101\n3179.918\n3237.855\n\n\nmodel3\n50.835\n37\n0.980\n0.970\n0.050\n0.071\n3166.292\n3233.499\n\n\n\n\n\nWHAT IS THE BEST MODEL? QUESTIONS? COMMENTS?"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-eat-dataset",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-eat-dataset",
+    "title": "Structural Equation Models",
+    "section": "The EAT dataset",
+    "text": "The EAT dataset\nThe dataset includes 13 items that measure ‘peer pressure’, ‘social media use’, ‘social comparison’, and ‘eating disorders’.\n\nload(\"../data/Exercise4_1.Rdata\")\nround(head(dE4_1),2)\n\n    PP1   PP2   PP3   PP4   SM1   SM2   SM3   SM4   SC1   SC2   SC3   ED1   ED2\n1  0.23  1.91  0.59 -0.70  2.31  1.06  1.43 -0.77  1.18  2.20  0.18 -0.38  1.61\n2 -0.65 -3.18 -0.84 -0.43  0.69  0.10  1.24  0.51 -1.87 -1.17 -1.23 -1.74 -1.73\n3  0.26 -1.46 -0.43 -0.05 -0.21 -0.46 -0.02  1.26  1.39  1.03  0.90  1.07  2.04\n4 -0.68 -0.29 -0.08 -2.24 -0.64  0.47 -0.76  0.58  1.22  0.97  2.73  0.71  0.32\n5 -0.06  0.89  0.04 -0.41  0.17  1.02  0.18  0.61  3.74  1.38  1.85  1.25  0.66\n6 -0.29 -2.74 -0.52  2.58  0.15 -1.08  1.08  0.99  1.32 -0.24  0.93 -0.97 -0.68"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-theoretical-model",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-theoretical-model",
+    "title": "Structural Equation Models",
+    "section": "The theoretical model",
+    "text": "The theoretical model"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-exercise",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-exercise",
+    "title": "Structural Equation Models",
+    "section": "The exercise",
+    "text": "The exercise\n\nApply the two-step rule:\n\nTest the CFA model\nTest the structural model\n\nInspect model results and fit indices\n\nAre the hypotheses confirmed?\nDoes the model fit the data well?\n\nIf the model is not satisfactory, understand why and change it\nDraw the model (in R, ppt, or with a pencil)\nTry to fit a simple path model using sum scores instead of latent scores"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#model-specification",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#model-specification",
+    "title": "Structural Equation Models",
+    "section": "Model specification",
+    "text": "Model specification\nSTEP 1 and 2\n\nm1 &lt;- \"\n # CFA model\n peerPressure =~ PP1 + PP2 + PP3 + PP4\n socialMedia =~ SM1 + SM2 + SM3 + SM4\n socialComparison =~ SC1 + SC2 + SC3\n eatingDisorder =~ ED1 + ED2\n\"\nfit1 &lt;- sem(m1, data = dE4_1, std.lv=T)\nfit1@Fit@converged\nm2 &lt;- \"\n [...]\n # Structural model\n eatingDisorder ~ socialComparison\n socialComparison ~ peerPressure + socialMedia\"\nfit2 &lt;- sem(m2, data = dE4_1, std.lv=T)\nfit2@Fit@converged\n\nOK?"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#results-and-fit",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#results-and-fit",
+    "title": "Structural Equation Models",
+    "section": "Results and fit",
+    "text": "Results and fit\n\nsummary(fitE4_1, std=T)\n\n\n\n[...]\nRegressions:\n                     Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  eatingDisorder ~                                                        \n    socialComparsn      0.344    0.047    7.322    0.000    0.356    0.356\n  socialComparison ~                                                      \n    peerPressure        0.139    0.038    3.636    0.000    0.125    0.125\n    socialMedia         0.455    0.049    9.221    0.000    0.411    0.411\n\n[...]\n\n\n\nfitmeasures(fitE4_1, \n            fit.measures = \n            c(\"cfi\", \"tli\", \"srmr\", \"rmsea\"))\n\n  cfi   tli  srmr rmsea \n0.880 0.846 0.044 0.065"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#model-modification",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#model-modification",
+    "title": "Structural Equation Models",
+    "section": "Model modification",
+    "text": "Model modification\n\nmodificationIndices(fitE4_1, sort. = T)[1:10,]\n\n                 lhs op rhs      mi    epc sepc.lv sepc.all sepc.nox\n120              SM1 ~~ SC2 328.967  0.565   0.565    0.628    0.628\n49       socialMedia =~ SC2  56.910  0.378   0.378    0.289    0.289\n57  socialComparison =~ SM1  54.668  0.292   0.323    0.283    0.283\n121              SM1 ~~ SC3  51.713 -0.235  -0.235   -0.231   -0.231\n50       socialMedia =~ SC3  30.539 -0.277  -0.277   -0.206   -0.206\n119              SM1 ~~ SC1  22.069 -0.151  -0.151   -0.154   -0.154\n143              SC1 ~~ SC3  19.170  0.293   0.293    0.285    0.285\n74               PP1 ~~ PP2  18.341  0.665   0.665    1.201    1.201\n97               PP3 ~~ PP4  15.333  0.126   0.126    0.109    0.109\n58  socialComparison =~ SM2  13.081 -0.146  -0.162   -0.137   -0.137\n\n\n\nm2.1 &lt;- \"\n[...]\n# Residual correlations\nSM1 ~~ SC2\n\"\nfitmeasures(fit2.1, ...)\n\n\n\n  cfi   tli  srmr rmsea \n0.995 0.994 0.023 0.013"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#why-sum-scores-can-mislead-measurement-error-attenuation",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#why-sum-scores-can-mislead-measurement-error-attenuation",
+    "title": "Structural Equation Models",
+    "section": "Why sum scores can mislead (measurement error → attenuation)",
+    "text": "Why sum scores can mislead (measurement error → attenuation)\nIf an observed score (X) is a noisy measure of a latent (X^*), measurement error tends to attenuate associations.\nA classic intuition (simple linear setting):\n\\[\n\\hat\\beta_{\\text{observed}} \\approx \\hat\\beta_{\\text{latent}} \\times \\rho_{xx}\n\\]\nwhere (_{xx}) is reliability of (X).\n\n\n\nThis is exactly why latent-variable SEM can change “structural” conclusions even when factor scores correlate highly with sum scores."
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores",
+    "title": "Structural Equation Models",
+    "section": "Sum scores",
+    "text": "Sum scores\n\nd2 &lt;- data.frame(\n  peerPressure = dE4_1$PP1 + dE4_1$PP2 + dE4_1$PP3 + dE4_1$PP4, \n  socialMedia = dE4_1$SM1 + dE4_1$SM2 + dE4_1$SM3 + dE4_1$SM4,\n  socialComparison = dE4_1$SC1 + dE4_1$SC2 + dE4_1$SC3,\n  eatingDisorder = dE4_1$ED1 + dE4_1$ED2)\npath &lt;- \"\neatingDisorder ~ socialComparison\nsocialComparison ~ peerPressure + socialMedia\"\nfitP &lt;- sem(path, d2)\nfitmeasures(fitP, fit.measures = \n              c(\"cfi\", \"tli\", \"srmr\", \"rmsea\"))\n\n  cfi   tli  srmr rmsea \n0.978 0.946 0.019 0.037"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores-vs-latent-scores",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores-vs-latent-scores",
+    "title": "Structural Equation Models",
+    "section": "Sum scores VS latent scores",
+    "text": "Sum scores VS latent scores\nHowever, the debate is still open:\n\nThinking twice about sum scores\n\nThinking thrice about sum scores, and then some more about measurement and analysis\n\nPsychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle\n\nOr some more Schimmack:\n\nSchimmack vs Gelman 1\nSchimmack vs Gelman 2"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-ground-truth",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-ground-truth",
+    "title": "Structural Equation Models",
+    "section": "The ground truth",
+    "text": "The ground truth\n\n# peer pressure AND social media -&gt; social comparison -&gt; eating disorder\nmE4_1 &lt;- \"\n # CFA model\n peerPressure =~ .75*PP1 + .72*PP2 + .59*PP3 + .65*PP4\n socialMedia =~ .45*SM1 + .55*SM2 + .59*SM3 + .65*SM4\n socialComparison =~ .81*SC1 + .75*SC2 + .86*SC3\n eatingDisorder =~ .70*ED1 + .65*ED2\n \n # Structural model\n eatingDisorder ~ .37*socialComparison\n socialComparison ~ .23*peerPressure + .41*socialMedia\n \n # Misspecifications\n # within construct\n PP1 ~~ .43*PP2\n # between construct\n SM1 ~~ .53*SC2\n\""
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores-vs-latent-scores-1",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores-vs-latent-scores-1",
+    "title": "Structural Equation Models",
+    "section": "Sum scores VS latent scores",
+    "text": "Sum scores VS latent scores\nHowever, the debate is still open:\n\nThinking twice about sum scores\n\nThinking thrice about sum scores, and then some more about measurement and analysis\n\nPsychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle\n\nOr some more Schimmack:\n\nSchimmack vs Gelman 1\nSchimmack vs Gelman 2"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-indifference-of-the-indicator",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-indifference-of-the-indicator",
+    "title": "Structural Equation Models",
+    "section": "The indifference of the indicator",
+    "text": "The indifference of the indicator\n\nHow many indicators do we need?\nHow should I select them?\n… LET'S SEE THE ADDITIONAL CODE"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#take-home-3-things",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#take-home-3-things",
+    "title": "Structural Equation Models",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nSEM is measurement + structure — structural paths do not rescue poor measurement\n\nTreat fit indices and diagnostics as routine checks (global + local), not as a one-time hurdle\n\nComparing models is scientific: theory → constraints → estimation → evaluation → transparent revision"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#references",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#references",
+    "title": "Structural Equation Models",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "4) Model evaluation",
+    "text": "4) Model evaluation\nIs the model adequate? Do our parameter generate a theoretical matrix (\\(\\boldsymbol{\\Sigma}\\)) which is close to the empirical covariance matrix \\(\\boldsymbol{S}\\)?\n\nGlobal fit: is the overall model plausible?\nLocal fit: where does the model misfit?\n\n\n\n\nWe’ll do this properly in deck 03. Today: just remember that fit ≠ truth.\n\n\n\nFormally:\n\\[\nH_0 : \\boldsymbol{\\hat{\\Sigma}}(\\theta) = \\boldsymbol{\\Sigma}\n\\]\nwhere \\(\\boldsymbol{\\Sigma}\\) is the true covariance matrix among model variables, \\(\\theta\\) the parameters vector, and \\(\\boldsymbol{\\hat{\\Sigma}}\\) the reproduced covariance matrix."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#path-analysis",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#path-analysis",
+    "title": "Path analysis & mediation",
+    "section": "Path analysis",
+    "text": "Path analysis\nA path model is a set of linear regressions estimated jointly, with an explicit covariance structure and with at least one variable working as mediator.\n\nAs usual, depicting the models is always the best way to understand our models.\n\n\n\nActually, this looks like a full SEM. Why? And why it isn’t, given the way latent variables should be represented?."
+  },
+  {
+    "objectID": "slides/02_path-analysis_mediation_equivalence.html#indirect-effects-are-just-products",
+    "href": "slides/02_path-analysis_mediation_equivalence.html#indirect-effects-are-just-products",
+    "title": "Path analysis & mediation",
+    "section": "Indirect effects are just products",
+    "text": "Indirect effects are just products\nThe indirect effect is a product \\((ab)\\). Even if \\((\\hat a)\\) and \\((\\hat b)\\) are approximately normal, the product is not.\nA common large-sample approximation (delta method):\n\\[\n\\mathrm{Var}(\\widehat{ab}) \\approx\nb^2\\mathrm{Var}(\\hat a) + a^2\\mathrm{Var}(\\hat b) + 2ab\\,\\mathrm{Cov}(\\hat a,\\hat b)\n\\]\nSobel test (same idea, historically popular):\n\\[\nz = \\frac{\\widehat{ab}}{\\sqrt{\\widehat{\\mathrm{Var}}(\\widehat{ab})}}\n\\]\n\n\n\nIn practice, bootstrap is often preferred for indirect effects (especially with small–moderate \\(N\\))."
   }
 ]

@@ -1,0 +1,648 @@
+---
+title: "CFA: measurement models, identification, reliability"
+subtitle: "From items to constructs (measurement-first)"
+author: "Tommaso Feraco"
+date: "Doctoral School in Psychological Sciences • University of Padova"
+format:
+  revealjs:
+    slide-number: c/t
+    code-line-numbers: false
+    code-fold: false
+    code-overflow: wrap
+
+    # Shared course look
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(semTools)
+options(digits = 3)
+set.seed(12)
+```
+
+## Today in the workflow
+
+**Specify → Identify → Estimate → Evaluate → Revise/Report**
+
+::: {.callout-note appearance="minimal"}
+**Today:** the *measurement* part — **CFA** (and reliability from CFA).  
+**Two-step mindset:** measure first, then relate constructs (SEM deck 05).
+:::
+
+---
+
+## Learning objectives
+
+By the end of this session you should be able to:
+
+- Explain the difference between **EFA** and **CFA** (and why CFA is confirmatory)
+- Write the CFA measurement model in **equations and matrices**
+- Understand **identification & scaling** (marker vs `std.lv`)
+- Fit CFA models in **lavaan** and interpret loadings, factor correlations, and residual variances
+- Use **local diagnostics** in CFA (residuals, MI/EPC) without “fit hacking”
+- Compute and report **reliability** from CFA (ω-family; and (briefly) bifactor implications)
+
+---
+
+## Outline
+
+- Factor analysis: what problem are we solving?
+- EFA vs CFA (confirmatory stance)
+- CFA model: equations, matrices, implied covariance
+- Identification and constraints (scaling + rules)
+- CFA in R (lavaan) + interpretation
+- Reliability from CFA
+- Bifactor model (keep your guard up)
+
+---
+
+## Factor analysis
+
+Factor analysis models the idea that *a small number of latent dimensions* explain systematic covariance among many observed variables.
+
+![](../assets/images/cfa.png){width="70%"}
+
+---
+
+## Exploratory Factor Analysis (EFA)
+
+EFA: discover a plausible loading pattern.
+
+- loadings are “free” (rotation chooses a representation)
+- useful for exploration and item development
+- weak theory → strong exploration
+
+![](../assets/images/efa.png){width="75%"}
+
+---
+
+## Confirmatory Factor Analysis (CFA)
+
+CFA: test a *specific* measurement hypothesis.
+
+- you specify which loadings are **zero** vs **free**
+- you can impose constraints (equal loadings, orthogonality, hierarchies)
+- fit and diagnostics evaluate a theoretically constrained model
+
+![](../assets/images/cfa.png){width="75%"}
+
+::: {.callout-warning appearance="minimal"}
+CFA is not “EFA with nicer output”: it is a **confirmatory** claim with theoretical commitments.
+:::
+
+---
+
+## General formula (your original)
+
+The general CFA model can be written as:
+
+$$
+\begin{aligned}
+\mathbf{x} &= \mathbf{\Lambda}_x\,\mathbf{\xi} + \mathbf{\delta} \\
+\mathbf{y} &= \mathbf{\Lambda}_y\,\mathbf{\eta} + \mathbf{\epsilon}
+\end{aligned}
+$$
+
+where \(\mathbf{x}\) and \(\mathbf{y}\) are observed variables, \(\mathbf{\xi}\) and \(\mathbf{\eta}\) are latent factors, and \(\mathbf{\delta}\) and \(\mathbf{\epsilon}\) are errors of measurement.
+
+---
+
+## The general formula explained (scalar form)
+
+$$
+\begin{aligned}
+y &= b_0 + b_1 x + \epsilon \\
+y_1 &= \tau_1 + \lambda_1\eta + \epsilon_1
+\end{aligned}
+$$
+
+$$
+\begin{bmatrix}
+  y_1 \\
+  y_2 \\
+  y_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \tau_1 \\
+  \tau_2 \\
+  \tau_3
+\end{bmatrix}
++
+\begin{bmatrix}
+  \lambda_1 \\
+  \lambda_2 \\
+  \lambda_3
+\end{bmatrix}
+(\eta_1)
++
+\begin{bmatrix}
+  \epsilon_1 \\
+  \epsilon_2 \\
+  \epsilon_3
+\end{bmatrix}
+$$
+
+---
+
+## Measurement-first implications (reflective realism)
+
+When we draw \(\mathbf{\Lambda}\) (\(\Rightarrow\)) from latent to observed, we assume reflective latent variables:
+
+- **ARROWS are ARROWS**: the construct affects responses
+- “realist” interpretation: the latent variable is something that *exists* (at least as a stable attribute)
+- observed scores = construct signal + measurement error
+
+Pragmatic “just a summary” interpretations are *not* neutral: they imply different measurement models (PCA/EGA/…).
+
+---
+
+## The implied covariance (the single most important equation)
+
+For a standard CFA with latent covariance \(\Phi\) and residual covariance \(\Theta\):
+
+$$
+\Sigma = \Lambda \Phi \Lambda' + \Theta
+$$
+
+This is why:
+
+- loadings (\(\Lambda\)) and factor correlations (\(\Phi\)) jointly shape observed covariances
+- correlated residuals (off-diagonal \(\Theta\)) are **extra** covariance not explained by factors
+
+---
+
+## Matrices (your original visual slide)
+
+::: {.columns}
+::: {.column width="31%"}
+Lambda: matrix of loadings
+
+![](../assets/images/lambda.png){width="90%"}
+:::
+
+::: {.column width="31%"}
+Phi: latent variance-covariance matrix
+
+![](../assets/images/phi.png){width="70%"}
+:::
+
+::: {.column width="31%"}
+Theta: residual variance-covariance matrix
+
+![](../assets/images/teta.png){width="100%"}
+:::
+:::
+
+---
+
+## CFA “model families” you will see a lot
+
+Key design choices:
+
+- one factor vs multiple factors
+- are factors correlated?
+- orthogonal vs oblique
+- hierarchical / second-order?
+- bifactor structure?
+
+All have statistical **and** theoretical consequences.
+
+![](../assets/images/models.png){width="70%"}
+
+---
+
+## A quick visual tour: common CFA structures
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+# Simulated data for clean diagrams
+d_sim <- simulateData(
+  model = "l1 =~ .75*x1 + .82*x2 + .77*x3
+           l2 =~ .75*x4 + .82*x5 + .77*x6
+           l1 ~~ .30*l2",
+  sample.nobs = 429,
+  seed = 12
+)
+```
+
+---
+
+## One-factor model
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit1 <- cfa("l1 =~ x1 + x2 + x3", data = d_sim)
+semPlot::semPaths(
+  fit1, edge.label.cex = 2,
+  sizeMan = 11, sizeLat = 11,
+  edge.color = "black", edge.label.color = "black"
+)
+```
+
+---
+
+## Two-factor model (correlated factors)
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit2 <- cfa("l1 =~ x1 + x2 + x3
+             l2 =~ x4 + x5 + x6
+             l1 ~~ l2", data = d_sim)
+semPlot::semPaths(
+  fit2, edge.label.cex = 2,
+  sizeMan = 11, sizeLat = 11,
+  edge.color = "black", edge.label.color = "black"
+)
+```
+
+---
+
+## Two-factor model (orthogonal factors)
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fit2o <- cfa("l1 =~ x1 + x2 + x3
+              l2 =~ x4 + x5 + x6
+              l1 ~~ 0*l2", data = d_sim)
+semPlot::semPaths(
+  fit2o, edge.label.cex = 2,
+  sizeMan = 11, sizeLat = 11,
+  edge.color = "black", edge.label.color = "black"
+)
+```
+
+---
+
+## Hierarchical model (second-order factor)
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+fitH <- sem("l1 =~ x1 + x2 + x3
+             l2 =~ x4 + x5 + x6
+             g  =~ l1 + l2", data = d_sim, std.lv = TRUE)
+semPlot::semPaths(
+  fitH, edge.label.cex = 1.7,
+  sizeMan = 10, sizeLat = 10,
+  edge.color = "black", edge.label.color = "black"
+)
+```
+
+---
+
+## In R (lavaan grammar for CFA)
+
+Core operator:
+
+- `=~` defines a factor from its indicators
+
+```{r}
+#| eval: false
+m <- '
+  F1 =~ y1 + y2 + y3
+  F2 =~ y4 + y5 + y6
+  F1 ~~ F2          # factor covariance (oblique)
+'
+
+fit <- cfa(m, data = dat)  # or sem(m, data = dat)
+summary(fit, standardized = TRUE, fit.measures = TRUE)
+```
+
+---
+
+## Constraints (scaling) — your original slide
+
+To estimate latent-variable models, you must scale each factor. Two common strategies:
+
+- Standardize latent variables: fix factor means to 0 and factor variances to 1 (`std.lv = TRUE`).
+- Marker method: set one loading (\(\lambda\)) per factor to 1 (lavaan default).
+
+```{r}
+#| eval: false
+fit <- cfa(m, data = dat, std.lv = TRUE)
+```
+
+---
+
+## Constraints explained (marker vs standardization)
+
+::: {.columns}
+::: {.column width="60%"}
+
+$$
+\Sigma = \Lambda\Phi\Lambda' + \Theta
+$$
+
+**Marker method** (fix one loading to 1)
+
+**Standardization** (fix factor variance to 1)
+
+*(Scaling changes the **metric** of unstandardized loadings, not the implied covariance model.)*
+
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| echo: false
+#| fig-height: 3
+#| fig-width: 5
+fit_m <- cfa("l1 =~ x1 + x2 + x3", data = d_sim)
+semPlot::semPaths(fit_m, edge.label.cex = 2, sizeMan = 11, sizeLat = 11,
+                  edge.color = "black", edge.label.color = "black")
+```
+
+```{r}
+#| echo: false
+#| fig-height: 3
+#| fig-width: 5
+fit_s <- cfa("l1 =~ x1 + x2 + x3", data = d_sim, std.lv = TRUE)
+semPlot::semPaths(fit_s, edge.label.cex = 2, sizeMan = 11, sizeLat = 11,
+                  edge.color = "black", edge.label.color = "black")
+```
+
+:::
+:::
+
+---
+
+## Identification rules (your original framing)
+
+For CFA, common identification rules include:
+
+- the *t*-rule
+- the Three-Indicator Rule
+- the Two-Indicator Rule
+
+---
+
+## The *t*-rule
+
+Necessary but not sufficient:
+
+$$
+t \leq \frac{q(q+1)}{2}
+$$
+
+where \(t\) is the number of free parameters and \(q\) the number of observed variables.
+
+Intuition: the number of nonredundant elements in \(S\) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible.
+
+---
+
+## The Three-Indicator Rule
+
+A sufficient (not necessary) condition (with diagonal \(\Theta\)):
+
+1. One-factor model: at least **three** indicators with nonzero loadings.
+2. Multifactor model is identified if:
+   1. ≥ 3 indicators per factor
+   2. each row of \(\Lambda\) has one and only one nonzero element (simple structure)
+   3. \(\Theta\) is diagonal
+
+---
+
+## The Two-Indicator Rule
+
+A sufficient (not necessary) condition for models with >1 factor:
+
+- \(\Theta\) diagonal
+- each factor scaled (one \(\lambda\) fixed to 1, or `std.lv=TRUE`)
+- plus:
+  1. ≥ 2 indicators per factor
+  2. each row of \(\Lambda\): one nonzero element
+  3. \(\Theta\) diagonal
+  4. each row of \(\Phi\) has at least one nonzero off-diagonal element
+
+---
+
+## CFA evaluation (where deck 03 plugs in)
+
+Global indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).  
+What becomes *CFA-specific* is local misfit interpretation:
+
+- big residual **correlations** → local dependence / method effects / cross-loadings
+- MI/EPC candidates typically propose:
+  - **cross-loadings** (theory-threatening)
+  - **correlated residuals** (requires a clear justification)
+  - factor covariances / (rarely) indicator-level regressions
+
+::: {.callout-warning appearance="minimal"}
+Fit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters.
+:::
+
+---
+
+## A disciplined CFA respecification mindset
+
+- First: check **items** (loadings, residual variances, signs)
+- Then: check **patterns** (blocks of residual correlations)
+- MI/EPC only after you have a *hypothesis* for the misfit
+- Prefer fewer, theory-consistent modifications over many “small fixes”
+- Report the respecification path transparently (what changed and why)
+
+---
+
+## Live example (lavaan): Holzinger & Swineford (1939)
+
+```{r}
+#| echo: true
+#| eval: true
+dat <- HolzingerSwineford1939
+
+m_hs <- '
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+'
+fit_hs <- cfa(m_hs, data = dat, std.lv = TRUE)
+```
+
+---
+
+## Interpret loadings and factor correlations
+
+```{r}
+#| echo: true
+#| eval: true
+pe <- parameterEstimates(fit_hs, standardized = TRUE)
+pe[pe$op %in% c("=~","~~") & pe$lhs %in% c("visual","textual","speed"),
+   c("lhs","op","rhs","est","se","pvalue","std.all")]
+```
+
+---
+
+## Reliability from CFA (ω family)
+
+```{r}
+#| echo: true
+#| eval: true
+reliability(fit_hs)
+```
+
+::: {.callout-note appearance="minimal"}
+We emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case.
+:::
+
+---
+
+## Graphical representation
+
+```{r}
+#| echo: false
+#| eval: true
+semPlot::semPaths(
+  fit_hs, what = "std", layout = "tree",
+  residuals = FALSE, nCharNodes = 0,
+  edge.label.cex = 0.9,
+  sizeMan = 7, sizeLat = 8,
+  edge.color = "black", edge.label.color = "black"
+)
+```
+
+---
+
+## A hierarchical intelligence example (your original WISC slide)
+
+Theory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor (\(g\)).
+
+![](../assets/images/wisc.png){width="100%"}
+
+::: {.callout-warning appearance="minimal"}
+In practice, you should validate first-order abilities before jumping to a second-order model.
+:::
+
+---
+
+## Second-order CFA (syntax template)
+
+```{r}
+#| eval: false
+m2 <- "
+VCI =~ SI + VC + CO
+PRI =~ BD + PCn + MR
+WMI =~ DS + LN
+PSI =~ CD + SS
+g   =~ VCI + PRI + WMI + PSI
+"
+fit2 <- sem(m2, std.lv = TRUE, sample.cov = S, sample.nobs = N)
+```
+
+---
+
+## A second theoretical model: bifactor (your original)
+
+Parallel theories: test scores are affected by a general factor (\(g\)) **and** by specific abilities that explain remaining variance.
+
+All factors are set to be orthogonal.
+
+![](../assets/images/bifactor.png){width="100%"}
+
+---
+
+## Bifactor model in R (your original structure)
+
+```{r}
+#| eval: false
+mb <- "
+VCI =~ a*SI + a*VC + a*CO
+PRI =~ b*BD + b*PCn + b*MR
+WMI =~ c*DS + c*LN
+PSI =~ d*CD + d*SS
+g   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS
+"
+
+fitb <- sem(
+  mb,
+  orthogonal = TRUE,
+  std.lv = TRUE,
+  sample.cov = S,
+  sample.nobs = N
+)
+```
+
+---
+
+## Bifactor: interpretation requires diagnostics (not just fit)
+
+Bifactor often improves fit by absorbing residual covariance. Before interpreting:
+
+- is the general factor strong enough? (ECV / ωH / H)
+- are specific factors meaningful or “junk factors”?
+- do constraints (orthogonality, equal loadings) make sense?
+
+```{r}
+#| eval: false
+# semTools helpers for bifactor diagnostics (when you fit a bifactor model)
+# bifactorIndices(fitb)
+# reliability(fitb)   # omega family; ωH is especially relevant
+```
+
+::: {.callout-warning appearance="minimal"}
+A bifactor model that “fits” can still be a *bad measurement story*.
+:::
+
+---
+
+## Exercises (Lab 04)
+
+Go to:
+
+- **`labs/lab04_cfa_reliability_omegas.qmd`**
+
+You will practice:
+
+1. Fit and compare 1-factor vs correlated-factors CFA
+2. Inspect local misfit (residual correlations + MI/EPC) with a theory filter
+3. Compute reliability (ω) from CFA and report it
+4. (Optional) Fit a bifactor model and evaluate interpretability (ωH / ECV)
+
+---
+
+## Take-home: 3 things
+
+1. CFA is a **confirmatory** measurement claim: zeros and constraints are theory  
+2. Identification/scaling is not a nuisance—it's the **metric** of your construct  
+3. Reliability and validity are *model-based*: fit helps, but **fit ≠ validity**
+
+---
+
+## Further reading / self-study
+
+- `extras/ex10_bifactor_esem_method-factors.qmd` — bifactor/ESEM/method factors (advanced)
+- `extras/ex05_miivs_factor-score-regression.qmd` — factor scores & regression (later)
+- Classic SEM measurement chapters (CFA fundamentals; see course website reading list)
+
+---
+
+## References
+
+(Add citations/keys once the course bibliography is finalized for the website.)
