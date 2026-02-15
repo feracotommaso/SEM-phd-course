@@ -206,7 +206,6 @@ Tommaso Feraco
 </div>
 </div>
 
-  <p class="date">Invalid Date</p>
 </section>
 <section id="today-in-the-workflow" class="slide level2">
 <h2>Today in the workflow</h2>
@@ -237,7 +236,9 @@ We keep the focus on observed-variable models; CFA-specific diagnostics come in 
 <p><span class="math display">\[
 H_0:\ \hat{\Sigma}(\theta) = \Sigma
 \]</span></p>
-<p><img data-src="../assets/images/modelfit.png" style="height:5cm"></p>
+<div class="center">
+<p><img data-src="../assets/images/modelfit.png" style="width:50.0%"></p>
+</div>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -251,14 +252,14 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <p>Fit indices are not “truth meters”.</p>
 <p>They depend on:</p>
 <ul>
-<li>sample size (N)</li>
-<li>model degrees of freedom (df)</li>
+<li>sample size <span class="math inline">\((N)\)</span></li>
+<li>model degrees of freedom <span class="math inline">\((df)\)</span></li>
 <li>estimator and distributional assumptions (ML, robust ML, WLSMV, …)</li>
 <li>model complexity (how constrained the model is)</li>
 </ul>
 </section>
-<section id="quick-example-dataset-same-structure-as-your-exercise-2" class="slide level2">
-<h2>Quick example dataset (same structure as your Exercise 2)</h2>
+<section id="quick-example-dataset" class="slide level2">
+<h2>Quick example dataset</h2>
 <p>We simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">483</span></span>
@@ -301,10 +302,10 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <p><span class="math display">\[
 \chi^2 = (N-1)\,F_{\mathrm{ML}}
 \]</span></p>
-<p>with (df = - t) (non-redundant moments minus free parameters).</p>
+<p>with <span class="math inline">\((df = \frac{p(p+1)}{2} - t)\)</span> (non-redundant moments minus free parameters).</p>
 <p><strong>Why it rejects so often:</strong></p>
 <ul>
-<li>with large (N), tiny misspecifications become detectable</li>
+<li>with large <span class="math inline">\((N)\)</span>, tiny misspecifications become detectable</li>
 <li>real data rarely satisfy “exact fit” assumptions</li>
 </ul>
 </section>
@@ -315,7 +316,7 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <li>independent observations</li>
 <li>correct model form</li>
 <li>multivariate normality for endogenous observed variables (in ML)</li>
-<li>sufficiently large (N)</li>
+<li>sufficiently large <span class="math inline">\((N)\)</span></li>
 </ul>
 <p>…and it is sensitive to:</p>
 <ul>
@@ -361,11 +362,30 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <div class="columns">
 <div class="column" style="width:55%;">
 <p><strong>Baseline model</strong> (no covariances)</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="03_model-fit_diagnostics_respecification_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>chisq    df   cfi 
+  277    10     0 </code></pre>
+</div>
+</div>
 </div><div class="column" style="width:45%;">
 <p><strong>User model</strong> is evaluated <em>relative to</em> baseline.</p>
 <p>CFI uses the improvement in <span class="math display">\[
 \delta = \chi^2 - df
 \]</span> compared to baseline (and saturated).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> chisq     df    cfi 
+62.984  3.000  0.725 </code></pre>
+</div>
+</div>
 </div></div>
 </section>
 <section id="cfi-formula-and-why-df-matters" class="slide level2">
@@ -375,8 +395,18 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 \qquad
 \text{with}\ \delta=\chi^2-df,\ \delta(\text{Saturated})=0
 \]</span></p>
-<p><strong>Implication:</strong> CFI/TLI are functions of both misfit <strong>and</strong> (df).<br>
-Two models can have the same χ² but different CFI if their df differ.</p>
+<p><strong>Implication:</strong> <span class="math inline">\(CFI\)</span>/<span class="math inline">\(TLI\)</span> are functions of both misfit <strong>and</strong> <span class="math inline">\(df\)</span>.<br>
+Two models can have the same χ² but different CFI if their <span class="math inline">\(df\)</span> differ.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"nnfi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>All bounded between 0.0 and 1.0, with values closer to 1 (ONE) indicating better fit.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="parsimony-approximate-fit-rmsea" class="slide level2">
 <h2>Parsimony &amp; approximate fit: RMSEA</h2>
@@ -386,11 +416,18 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 \mathrm{RMSEA}=\sqrt{\max\left(\frac{\chi^2-df}{df(N-1)},0\right)}
 \]</span></p>
 <ul>
-<li>prefers parsimony: penalizes low (df) models less forgivingly</li>
+<li>prefers parsimony: penalizes low <span class="math inline">\((df)\)</span> models less forgivingly</li>
 <li>always report the <strong>confidence interval</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.</p>
+</div>
+</div>
 </div>
 </section>
 <section id="residual-based-fit-srmr" class="slide level2">
@@ -398,15 +435,22 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <p>SRMR summarizes the average standardized residual:</p>
 <ul>
 <li>compare observed correlations vs model-implied correlations</li>
-<li>less sensitive to (N) than χ², but sensitive to model structure</li>
+<li>less sensitive to <span class="math inline">\((N)\)</span> than χ², but sensitive to model structure</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"srmr"</span>, <span class="st">"rmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"srmr"</span>, <span class="st">"rmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
 <p>SRMR is often most informative when paired with <strong>residual inspection</strong> (next slides).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.</p>
 </div>
 </div>
 </div>
@@ -416,12 +460,11 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <p>In manuscripts, prefer a <em>consistent</em> minimal bundle:</p>
 <ul>
 <li>estimator + missing data strategy</li>
-<li>χ², df, p</li>
-<li>CFI and TLI</li>
-<li>RMSEA with 90% CI (and SRMR)</li>
+<li>χ², <span class="math inline">\(df\)</span>, <span class="math inline">\(p\)</span></li>
+<li><span class="math inline">\(CFI\)</span> and <span class="math inline">\(TLI\)</span></li>
+<li><span class="math inline">\(RMSEA\)</span> with 90% <span class="math inline">\(CI\)</span> (and <span class="math inline">\(SRMR\)</span>)</li>
 <li><strong>local diagnostics summary</strong> (what you checked, what you changed, and why)</li>
 </ul>
-<p>(We formalize reporting in deck 06 + the course reporting checklist.)</p>
 </section>
 <section id="global-vs-local-fit" class="slide level2">
 <h2>Global vs local fit</h2>
@@ -446,10 +489,20 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <h2>Residuals: “where does the model fail?”</h2>
 <p>lavaan can return observed, implied, and residual covariances.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lavResiduals</span>(fit, <span class="at">type =</span> <span class="st">"cov"</span>)</span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(res)</span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res$cov     # observed and implied covariance matrices</span></span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res$resid   # residual covariance matrix (S - Sigma_hat)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lavResiduals</span>(fit, <span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "type"    "cov"     "mean"    "cov.z"   "mean.z"  "summary"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>cov     <span class="co"># residual covariance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 lfStsf slfEst salary prntlS attchm
+lifeSatisfaction  0.007                            
+selfEsteem        0.009  0.000                     
+salary            0.015  0.039  0.000              
+parentalSupport   0.322  0.000  0.000  0.000       
+attachment        0.110  0.000  0.000  0.000  0.000</code></pre>
+</div>
 </div>
 <p>In practice you inspect:</p>
 <ul>
@@ -461,14 +514,29 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <h2>Standardized residuals (local z-scores)</h2>
 <p>Standardized residuals scale residuals by their sampling variability.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>res_std <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"standardized"</span>)</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># res_std$cov  # standardized residual covariances</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>res_std <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit, <span class="at">type =</span> <span class="st">"cor"</span>)</span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>res_std<span class="sc">$</span>cov  <span class="co"># standardized residual covariances</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 lfStsf slfEst salary prntlS attchm
+lifeSatisfaction  0.000                            
+selfEsteem        0.006  0.000                     
+salary            0.012  0.037  0.000              
+parentalSupport   0.296  0.000  0.000  0.000       
+attachment        0.094  0.000  0.000  0.000  0.000</code></pre>
+</div>
 </div>
 <p>Heuristic: large absolute standardized residuals flag local misfit.<br>
-(We avoid “magic cutoffs”; interpret in context + patterns.)</p>
+(We avoid “magic cutoffs”; interpret in context + patterns, but remember, you expect each of them to be <span class="math inline">\(zero\)</span>.)</p>
 </section>
-<section id="step-5-model-modification-the-dangerous-step" class="slide level2">
-<h2>Step 5: model modification (the <em>dangerous</em> step)</h2>
+<section id="step-5-model-modification-the-dangerousmagic-step" class="slide level2">
+<h2>Step 5: model modification (the <em>dangerous/magic</em> step)</h2>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>WHERE QRPs HAPPEN</p>
+</div>
+</div>
+</div>
 <p>The goal is not “better numbers”.</p>
 <p>The goal is:</p>
 <ul>
@@ -476,8 +544,8 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <li>changes that are <strong>transparent</strong> and ideally <strong>replicable</strong></li>
 </ul>
 </section>
-<section id="modification-indices-the-lagrange-multiplier-idea" class="slide level2">
-<h2>Modification indices: the Lagrange Multiplier idea</h2>
+<section id="modification-indices" class="slide level2">
+<h2>Modification indices</h2>
 <p>MI approximates how much χ² would decrease if a fixed parameter were freed.</p>
 <ul>
 <li>MI is a <em>score test</em> (local improvement)</li>
@@ -485,8 +553,21 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 </ul>
 <p>So you inspect MI <strong>together with</strong> EPC (expected parameter change).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mi[, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>,<span class="st">"sepc.all"</span>)], <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                lhs op              rhs     mi    epc sepc.all
+19 lifeSatisfaction  ~  parentalSupport 58.234  0.416    0.339
+18 lifeSatisfaction ~~       selfEsteem 52.562 -0.941   -0.880
+27  parentalSupport  ~ lifeSatisfaction 45.077  0.256    0.314
+21       selfEsteem  ~ lifeSatisfaction 33.931 -0.587   -0.620
+20 lifeSatisfaction  ~       attachment  5.473  0.114    0.100
+22       selfEsteem  ~           salary  0.752  0.041    0.037
+32       attachment  ~       selfEsteem  0.556  2.784    3.020
+28  parentalSupport  ~       selfEsteem  0.555 -6.106   -7.100
+24           salary  ~       selfEsteem  0.552  0.028    0.031
+23           salary  ~ lifeSatisfaction  0.524  0.073    0.086</code></pre>
+</div>
 </div>
 </section>
 <section id="epc-vs-sepc-why-you-want-both" class="slide level2">
@@ -495,7 +576,7 @@ Two models can have the same χ² but different CFI if their df differ.</p>
 <li><strong>EPC</strong>: expected <em>unstandardized</em> change (units matter)</li>
 <li><strong>SEPC</strong>: expected standardized change (comparability)</li>
 </ul>
-<p>If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large (N)).</p>
+<p>If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large <span class="math inline">\(N\)</span>).</p>
 </section>
 <section id="a-disciplined-respecification-protocol" class="slide level2">
 <h2>A disciplined respecification protocol</h2>
@@ -505,7 +586,7 @@ convergence, Heywood cases (negative variances), huge SE, non-identified warning
 <li><strong>Inspect local misfit</strong><br>
 residuals → standardized residuals → MI/EPC</li>
 <li><strong>Apply theory filter</strong><br>
-is the modification plausible and consistent with your construct/design?</li>
+is the modification plausible and consistent with your construct/design? How can I justify it? What are the consequences on my theory/model?</li>
 <li><strong>Change one thing at a time</strong><br>
 refit, re-check, document</li>
 <li><strong>Validate</strong><br>
@@ -514,13 +595,18 @@ holdout sample / replication / preregistration (when feasible)</li>
 </section>
 <section id="pitfall-callout-models-that-fit-are-not-necessarily-true" class="slide level2">
 <h2>Pitfall callout: “models that fit” are not necessarily true</h2>
+<p>Remember that just because your model fits the data, you cannot conclude that your model is correct nor that the data generating process follows your hypothesized paths.</p>
 <ul>
 <li>opposite arrows can imply the same covariance structure (equivalence)</li>
 <li>post-hoc modifications capitalize on chance</li>
 <li>measurement error in observed variables contaminates estimates</li>
 </ul>
-<p><img data-src="../assets/images/memefit.png" style="height:5.6cm"></p>
+<p>As usual <em>all models are false, but some are useful</em>.</p>
 </section>
+<section id="oh-no-my-p-values" class="slide level2">
+<h2>Oh NO, my <em>p</em> values!</h2>
+
+<img data-src="../assets/images/memefit.png" class="r-stretch"></section>
 <section id="exercises-lab-03" class="slide level2">
 <h2>Exercises (Lab 03)</h2>
 <p>Go to:</p>
@@ -538,7 +624,7 @@ holdout sample / replication / preregistration (when feasible)</li>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
 <ol type="1">
-<li>Fit indices quantify mismatch between <strong>S</strong> and <strong>Σ̂(θ)</strong>—they are not “truth”<br>
+<li>Fit indices quantify mismatch between <strong>S</strong> and <strong>Σ̂(θ)</strong>; they are not “truth”<br>
 </li>
 <li>Always pair <strong>global fit</strong> with <strong>local diagnostics</strong> (residuals + MI/EPC)<br>
 </li>
@@ -553,7 +639,12 @@ holdout sample / replication / preregistration (when feasible)</li>
 <li>distributional features (non-normality, ordinal data)</li>
 <li>estimation method and sample size</li>
 </ul>
-<p><strong>Extra (later / self-study):</strong> dynamic fit indices &amp; simulation-informed expectations - Groskurth et al.&nbsp;(2023) — fit cutoffs depend on analysis characteristics - McNeish &amp; Wolf (2023) — pushing against universal cutoffs - Dynamic fit index app (for exploring scenario-dependent thresholds)</p>
+<p><strong>Extra (later / self-study):</strong> dynamic fit indices &amp; simulation-informed expectations</p>
+<ul>
+<li>Groskurth et al.&nbsp;(2023) — fit cutoffs depend on analysis characteristics</li>
+<li>McNeish &amp; Wolf (2023) — pushing against universal cutoffs</li>
+<li>Dynamic fit index app (for exploring scenario-dependent thresholds)</li>
+</ul>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>

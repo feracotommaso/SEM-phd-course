@@ -186,7 +186,7 @@ m1 <- "
   selfEsteem       ~ parentalSupport + attachment
 
   # ADD ONE PARAMETER HERE (exactly one line)
-  # attachment ~~ parentalSupport
+  attachment ~~ parentalSupport
   # OR: lifeSatisfaction ~ parentalSupport
   # OR: lifeSatisfaction ~ attachment
 "

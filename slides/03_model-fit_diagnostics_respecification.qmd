@@ -2,7 +2,6 @@
 title: "Model fit & diagnostics"
 subtitle: "Global fit, local misfit, and disciplined respecification"
 author: "Tommaso Feraco"
-date: "Doctoral School in Psychological Sciences • University of Padova"
 format:
   revealjs:
     slide-number: c/t
@@ -69,7 +68,10 @@ $$
 H_0:\ \hat{\Sigma}(\theta) = \Sigma
 $$
 
-![](../assets/images/modelfit.png){height="5.0cm"}
+::: {.center}
+![](../assets/images/modelfit.png){width="50%"}
+:::
+
 
 ::: {.callout-note appearance="minimal"}
 Fit indices summarize “how close” the model-implied covariance structure is to the data.
@@ -83,19 +85,19 @@ Fit indices are not “truth meters”.
 
 They depend on:
 
-- sample size \(N\)
-- model degrees of freedom \(df\)
+- sample size $(N)$
+- model degrees of freedom $(df)$
 - estimator and distributional assumptions (ML, robust ML, WLSMV, …)
 - model complexity (how constrained the model is)
 
 ---
 
-## Quick example dataset (same structure as your Exercise 2)
+## Quick example dataset
 
 We simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.
 
 ```{r}
-#| eval: false
+#| eval: true
 N <- 483
 
 m_true <- "
@@ -137,11 +139,11 @@ $$
 \chi^2 = (N-1)\,F_{\mathrm{ML}}
 $$
 
-with \(df = \frac{p(p+1)}{2} - t\) (non-redundant moments minus free parameters).
+with $(df = \frac{p(p+1)}{2} - t)$ (non-redundant moments minus free parameters).
 
 **Why it rejects so often:**
 
-- with large \(N\), tiny misspecifications become detectable
+- with large $(N)$, tiny misspecifications become detectable
 - real data rarely satisfy “exact fit” assumptions
 
 ---
@@ -153,7 +155,7 @@ The textbook χ² calibration relies on:
 - independent observations
 - correct model form
 - multivariate normality for endogenous observed variables (in ML)
-- sufficiently large \(N\)
+- sufficiently large $(N)$
 
 …and it is sensitive to:
 
@@ -188,7 +190,7 @@ Comparative indices evaluate improvement over a **baseline (independence) model*
 Baseline idea: each variable has its own variance; covariances are fixed to 0.
 
 ```{r}
-#| eval: false
+#| eval: true
 bm <- "
   lifeSatisfaction ~~ lifeSatisfaction
   selfEsteem ~~ selfEsteem
@@ -209,11 +211,13 @@ fit_bm <- sem(bm, data = E2, meanstructure = TRUE)
 
 ```{r}
 #| echo: false
-#| eval: false
+#| eval: true
 semPaths(fit_bm, layout = "tree",
          residuals = TRUE, sizeMan = 14,
          edge.color = "black", edge.label.color = "black",
-         nCharNodes = 9)
+         nCharNodes = 9, intercepts = FALSE)
+fitmeasures(fit_bm,
+            fit.measures = c( "chisq","df","cfi"))
 ```
 :::
 ::: {.column width="45%"}
@@ -224,6 +228,13 @@ $$
 \delta = \chi^2 - df
 $$
 compared to baseline (and saturated).
+
+```{r}
+#| echo: false
+fitmeasures(fit,
+            fit.measures = c( "chisq","df","cfi"))
+```
+
 :::
 :::
 
@@ -237,8 +248,17 @@ $$
 \text{with}\ \delta=\chi^2-df,\ \delta(\text{Saturated})=0
 $$
 
-**Implication:** CFI/TLI are functions of both misfit **and** \(df\).  
-Two models can have the same χ² but different CFI if their df differ.
+**Implication:** $CFI$/$TLI$ are functions of both misfit **and** $df$.  
+Two models can have the same χ² but different CFI if their $df$ differ.
+
+```{r}
+#| eval: false
+fitMeasures(fit, c("cfi", "tli", "nnfi"))
+```
+
+::: {.callout-note appearance="minimal"}
+All bounded between 0.0 and 1.0, with values closer to 1 (ONE) indicating better fit.
+:::
 
 ---
 
@@ -252,13 +272,18 @@ $$
 \mathrm{RMSEA}=\sqrt{\max\left(\frac{\chi^2-df}{df(N-1)},0\right)}
 $$
 
-- prefers parsimony: penalizes low \(df\) models less forgivingly
+- prefers parsimony: penalizes low $(df)$ models less forgivingly
 - always report the **confidence interval**
 
 ```{r}
 #| eval: false
 fitMeasures(fit, c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper"))
 ```
+
+::: {.callout-note appearance="minimal"}
+It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.
+:::
+
 
 ---
 
@@ -267,7 +292,7 @@ fitMeasures(fit, c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper"))
 SRMR summarizes the average standardized residual:
 
 - compare observed correlations vs model-implied correlations
-- less sensitive to \(N\) than χ², but sensitive to model structure
+- less sensitive to $(N)$ than χ², but sensitive to model structure
 
 ```{r}
 #| eval: false
@@ -278,6 +303,10 @@ fitMeasures(fit, c("srmr", "rmr"))
 SRMR is often most informative when paired with **residual inspection** (next slides).
 :::
 
+::: {.callout-note appearance="minimal"}
+It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.
+:::
+
 ---
 
 ## What to report (minimum set)
@@ -285,12 +314,10 @@ SRMR is often most informative when paired with **residual inspection** (next sl
 In manuscripts, prefer a *consistent* minimal bundle:
 
 - estimator + missing data strategy
-- χ², df, p
-- CFI and TLI
-- RMSEA with 90% CI (and SRMR)
+- χ², $df$, $p$
+- $CFI$ and $TLI$
+- $RMSEA$ with 90% $CI$ (and $SRMR$)
 - **local diagnostics summary** (what you checked, what you changed, and why)
-
-(We formalize reporting in deck 06 + the course reporting checklist.)
 
 ---
 
@@ -313,11 +340,11 @@ Global fit can look “ok” while a few parameters are seriously wrong (and vic
 lavaan can return observed, implied, and residual covariances.
 
 ```{r}
-#| eval: false
-res <- lavResiduals(fit, type = "cov")
+#| eval: true
+res <- lavResiduals(fit, type = "raw")
 names(res)
-# res$cov     # observed and implied covariance matrices
-# res$resid   # residual covariance matrix (S - Sigma_hat)
+
+res$cov     # residual covariance
 ```
 
 In practice you inspect:
@@ -332,17 +359,21 @@ In practice you inspect:
 Standardized residuals scale residuals by their sampling variability.
 
 ```{r}
-#| eval: false
-res_std <- residuals(fit, type = "standardized")
-# res_std$cov  # standardized residual covariances
+#| eval: true
+res_std <- residuals(fit, type = "cor")
+res_std$cov  # standardized residual covariances
 ```
 
 Heuristic: large absolute standardized residuals flag local misfit.  
-(We avoid “magic cutoffs”; interpret in context + patterns.)
+(We avoid “magic cutoffs”; interpret in context + patterns, but remember, you expect each of them to be $zero$.)
 
 ---
 
-## Step 5: model modification (the *dangerous* step)
+## Step 5: model modification (the *dangerous/magic* step)
+
+::: {.callout-warning appearance="minimal"}
+WHERE QRPs HAPPEN
+:::
 
 The goal is not “better numbers”.
 
@@ -353,7 +384,7 @@ The goal is:
 
 ---
 
-## Modification indices: the Lagrange Multiplier idea
+## Modification indices
 
 MI approximates how much χ² would decrease if a fixed parameter were freed.
 
@@ -363,7 +394,7 @@ MI approximates how much χ² would decrease if a fixed parameter were freed.
 So you inspect MI **together with** EPC (expected parameter change).
 
 ```{r}
-#| eval: false
+#| eval: true
 mi <- modificationIndices(fit, sort. = TRUE)
 head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 10)
 ```
@@ -375,7 +406,7 @@ head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 10)
 - **EPC**: expected *unstandardized* change (units matter)
 - **SEPC**: expected standardized change (comparability)
 
-If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large \(N\)).
+If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large $N$).
 
 ---
 
@@ -386,7 +417,7 @@ If an MI is huge but EPC is tiny, the “improvement” may be statistically det
 2. **Inspect local misfit**  
    residuals → standardized residuals → MI/EPC
 3. **Apply theory filter**  
-   is the modification plausible and consistent with your construct/design?
+   is the modification plausible and consistent with your construct/design? How can I justify it? What are the consequences on my theory/model?
 4. **Change one thing at a time**  
    refit, re-check, document
 5. **Validate**  
@@ -396,11 +427,19 @@ If an MI is huge but EPC is tiny, the “improvement” may be statistically det
 
 ## Pitfall callout: “models that fit” are not necessarily true
 
+Remember that just because your model fits the data, you cannot conclude that your model is correct nor that the data generating process follows your hypothesized paths.
+
 - opposite arrows can imply the same covariance structure (equivalence)
 - post-hoc modifications capitalize on chance
 - measurement error in observed variables contaminates estimates
 
-![](../assets/images/memefit.png){height="5.6cm"}
+As usual *all models are false, but some are useful*.
+
+---
+
+## Oh NO, my *p* values!
+
+![](../assets/images/memefit.png)
 
 ---
 
@@ -421,7 +460,7 @@ You’ll practice:
 
 ## Take-home: 3 things
 
-1. Fit indices quantify mismatch between **S** and **Σ̂(θ)**—they are not “truth”  
+1. Fit indices quantify mismatch between **S** and **Σ̂(θ)**; they are not “truth”  
 2. Always pair **global fit** with **local diagnostics** (residuals + MI/EPC)  
 3. Respecification is a scientific decision: **theory + transparency + validation**
 
@@ -436,6 +475,7 @@ Rules like “CFI > .95” or “RMSEA < .06” can be misleading because fit in
 - estimation method and sample size
 
 **Extra (later / self-study):** dynamic fit indices & simulation-informed expectations
+
 - Groskurth et al. (2023) — fit cutoffs depend on analysis characteristics
 - McNeish & Wolf (2023) — pushing against universal cutoffs
 - Dynamic fit index app (for exploring scenario-dependent thresholds)

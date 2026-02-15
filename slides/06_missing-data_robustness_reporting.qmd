@@ -1,0 +1,505 @@
+---
+title: "Lesson 6 — When SEM Goes Wrong"
+subtitle: "Robustness, Missing Data, and Reporting in SEM"
+format:
+  revealjs:
+    slide-number: c/t
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+include-in-header: ../assets/slidesheader.html
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+## Workflow map
+
+Specify → Identify → **Estimate** → **Evaluate** → Report
+
+Today we practice a *sensitivity mindset*:
+
+> Same model, different reasonable choices → **does the conclusion change?**
+
+---
+
+## Learning objectives
+
+By the end of today you can:
+
+- Distinguish **MCAR / MAR / MNAR** and what FIML assumes
+- Explain what **MLR** corrects (robust SE + scaled test statistic)
+- Decide when **bootstrap CIs** are needed (and when they’re overkill)
+- Combine **global + local** diagnostics without fishing
+- Write a **defensible reporting paragraph**
+
+---
+
+## Plan for today
+
+1) Simulate a “realistic messy” dataset (skewness + MAR missingness)  
+2) Fit the *same* SEM under different choices  
+3) Compare conclusions (parameters, SE, CIs, fit, local misfit)  
+4) Turn results into reporting decisions
+
+> <span style="color:red">Add figure: one pipeline diagram showing “Same model → different estimation choices → compare conclusions”.</span>
+
+---
+
+# Part I — Build a dataset that can fool you
+
+## Why simulate?
+
+Real SEM work is rarely “clean”:
+
+- indicators are **skewed**
+- residuals are **non-normal**
+- missingness is **not random**
+- indirect effects are **asymmetric**
+
+We simulate this so we can *see* what changes and what doesn’t.
+
+---
+
+## Setup
+
+```{r}
+library(lavaan)
+
+set.seed(1234)
+N <- 600
+```
+
+---
+
+## Population model (measurement + structural)
+
+A simple measurement-first SEM:
+
+- peer pressure → social comparison  
+- social media → social comparison  
+- social comparison → eating disorder symptoms
+
+```{r}
+model_pop <- "
+# Measurement
+peer  =~ 0.80*p1 + 0.70*p2 + 0.60*p3 + 0.70*p4
+media =~ 0.70*m1 + 0.80*m2 + 0.60*m3 + 0.70*m4
+comp  =~ 0.70*c1 + 0.70*c2 + 0.60*c3
+eat   =~ 0.70*e1 + 0.60*e2
+
+# Structural
+comp ~ 0.40*peer + 0.50*media
+eat  ~ 0.35*comp
+"
+dat <- simulateData(model_pop, sample.nobs = N)
+```
+
+---
+
+## Make indicators skewed
+
+We “Likert-ify” *some* indicators by applying a monotone transform (skewness).
+
+```{r}
+skew_vars <- c("p1","p2","m1","m2","c1")
+for (v in skew_vars) dat[[v]] <- exp(dat[[v]] / 2)
+```
+
+---
+
+## Quick distribution check
+
+```{r}
+hist(dat$p1, main = "Skewed indicator: p1", xlab = "p1")
+```
+
+> <span style="color:red">Add conceptual graphic: normal vs skewed distributions with same mean/variance but different tails.</span>
+
+---
+
+## Add heavy tails (non-normal residual behavior)
+
+We inject a small number of outliers in two indicators (a common real-life pattern).
+
+```{r}
+set.seed(1234)
+ix <- sample(seq_len(N), size = round(0.03*N))  # ~3% outliers
+dat$m4[ix] <- dat$m4[ix] + rnorm(length(ix), mean = 0, sd = 4)
+dat$c3[ix] <- dat$c3[ix] + rnorm(length(ix), mean = 0, sd = 4)
+```
+
+---
+
+## A simple non-normality summary (no extra packages)
+
+```{r}
+skew <- function(x) {
+  x <- x[is.finite(x)]
+  m <- mean(x); s <- sd(x)
+  mean((x - m)^3) / s^3
+}
+kurt_excess <- function(x) {
+  x <- x[is.finite(x)]
+  m <- mean(x); s <- sd(x)
+  mean((x - m)^4) / s^4 - 3
+}
+
+round(c(skew = skew(dat$p1), kurt_excess = kurt_excess(dat$p1)), 2)
+```
+
+---
+
+## Create MAR missingness (~20%)
+
+Missingness depends on an *observed* variable (MAR), not on the missing value itself.
+
+We make e1 and m3 more likely to be missing when peer pressure is high.
+
+```{r}
+set.seed(1234)
+
+# a proxy observed score for peer (in real life: a sum score, previous wave, etc.)
+peer_obs <- rowMeans(dat[, c("p1","p2","p3","p4")])
+
+p_miss <- plogis(scale(peer_obs))            # 0..1
+miss   <- runif(N) < (p_miss * 0.45)         # tune to ~20%
+
+dat$e1[miss] <- NA
+dat$m3[miss] <- NA
+
+round(colMeans(is.na(dat)), 3)
+```
+
+---
+
+## Missingness: what would you check?
+
+- % missing per variable
+- patterns (is it concentrated in a subset?)
+- association between missingness and observed variables (supports MAR plausibility)
+
+> <span style="color:red">Add small schematic: MCAR vs MAR vs MNAR (arrows from observed/unobserved to missingness indicator R).</span>
+
+---
+
+# Part II — One SEM, multiple reasonable choices
+
+## The analysis model (same model throughout)
+
+```{r}
+model_sem <- "
+# Measurement
+peer  =~ p1 + p2 + p3 + p4
+media =~ m1 + m2 + m3 + m4
+comp  =~ c1 + c2 + c3
+eat   =~ e1 + e2
+
+# Structural
+comp ~ peer + media
+eat  ~ comp
+"
+```
+
+---
+
+## A helper: extract the same key parameters each time
+
+We track the *same* hypotheses in every fit:
+
+- peer → comp
+- media → comp
+- comp → eat
+
+```{r}
+key_paths <- function(fit) {
+  pe <- parameterEstimates(fit)
+  pe <- pe[pe$op == "~" & pe$lhs %in% c("comp","eat"), ]
+  pe[pe$rhs %in% c("peer","media","comp"),
+     c("lhs","op","rhs","est","se","z","pvalue")]
+}
+```
+
+---
+
+# Part III — Missing data: listwise vs FIML
+
+## Concepts (technical, but actionable)
+
+- **MCAR**: missingness unrelated to observed/unobserved → listwise unbiased (but inefficient)
+- **MAR**: missingness depends on observed variables → **FIML OK** (under correct model)
+- **MNAR**: missingness depends on unobserved/missing values → both listwise & FIML can be biased
+
+Key point:
+
+> FIML is not “imputation”. It’s likelihood-based estimation using all available cases **assuming MAR**.
+
+---
+
+## Fit 1 — ML, default missing handling (listwise)
+
+```{r}
+fit_list <- sem(model_sem, data = dat)  # default: listwise deletion
+fitMeasures(fit_list, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+---
+
+## Fit 2 — ML + FIML
+
+```{r}
+fit_fiml <- sem(model_sem, data = dat, missing = "fiml")
+fitMeasures(fit_fiml, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+---
+
+## Sensitivity check: did the conclusion change?
+
+```{r}
+rbind(
+  listwise = key_paths(fit_list),
+  fiml     = key_paths(fit_fiml)
+)
+```
+
+::: callout-note
+### Interpretation rule of thumb (today)
+If your substantive conclusion changes under a reasonable alternative (e.g., listwise → FIML), treat the result as **fragile** and investigate *why*.
+:::
+
+---
+
+# Part IV — Robust estimation: ML vs MLR
+
+## What MLR does (the technical version)
+
+MLR (robust ML) typically:
+
+- keeps **similar point estimates**
+- adjusts **standard errors** using a “sandwich” (empirical) correction
+- reports a **scaled** test statistic (robust χ²) and robust fit indices
+
+Use case:
+
+- non-normality (skewness, heavy tails)
+- mild misspecification
+- “psychology-shaped” data
+
+---
+
+## Fit 3 — MLR + FIML
+
+```{r}
+fit_mlr <- sem(model_sem, data = dat,
+               missing = "fiml",
+               estimator = "MLR")
+fitMeasures(fit_mlr, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+---
+
+## Sensitivity check: do SE / p-values change?
+
+```{r}
+rbind(
+  fiml_ML  = key_paths(fit_fiml),
+  fiml_MLR = key_paths(fit_mlr)
+)
+```
+
+::: callout-warning
+### Pitfall
+Don’t mix-and-match reporting:
+- If you estimate **MLR**, report **robust** fit statistics (scaled χ², robust RMSEA/CFI/TLI).
+- Don’t copy/paste the ML χ² from another run.
+:::
+
+---
+
+# Part V — Bootstrap CIs (only when it matters)
+
+## Why bootstrap is special for indirect effects
+
+Indirect effects are products of coefficients:
+
+\[
+ab = a \times b
+\]
+
+Even if \(a\) and \(b\) are roughly normal, \(ab\) is often **skewed** → normal-theory CIs can be misleading.
+
+---
+
+## (Optional) Add an indirect effect to the model
+
+```{r}
+model_sem_ind <- paste0(model_sem, "\n\n# Indirect effect\nind_peer := (comp~peer)*(eat~comp)\n")
+```
+
+> <span style="color:red">If lavaan complains about label reuse depending on version, label paths explicitly (a* and b*) and redefine ind := a*b.</span>
+
+---
+
+## Fit 4 — Bootstrap SE/CI (keep small for live teaching)
+
+For live demos keep bootstrap modest (e.g., 300–800).  
+For papers, use ~2000+.
+
+```{r}
+#| cache: true
+fit_boot <- sem(model_sem, data = dat,
+                missing = "fiml",
+                se = "bootstrap",
+                bootstrap = 500)
+```
+
+---
+
+## Compare CI for key paths (normal vs bootstrap)
+
+```{r}
+pe_norm <- parameterEstimates(fit_fiml, ci = TRUE)
+pe_boot <- parameterEstimates(fit_boot, ci = TRUE, boot.ci.type = "perc")
+
+sel <- function(pe) {
+  pe[pe$op == "~" & pe$lhs %in% c("comp","eat") &
+       pe$rhs %in% c("peer","media","comp"),
+     c("lhs","op","rhs","est","ci.lower","ci.upper")]
+}
+
+list(
+  normal_CI = sel(pe_norm),
+  boot_CI   = sel(pe_boot)
+)
+```
+
+::: callout-note
+### Decision heuristic (today)
+Bootstrap is most valuable when:
+- your target parameter is a **product** (indirect effects),
+- distributions are skewed / small N,
+- normal CIs would be suspect.
+:::
+
+---
+
+# Part VI — Fit indices: the dangerous comfort
+
+## Global fit (quick recap)
+
+Global fit indices summarize average discrepancy:
+
+- χ² (sample-size sensitive)
+- CFI/TLI (incremental)
+- RMSEA (+ CI; small df behavior)
+- SRMR (residual-based)
+
+But:
+
+> Good global fit does not guarantee good measurement or correct structure.
+
+---
+
+## Local fit: residuals and MI
+
+```{r}
+# Residual correlations (a small block)
+resid(fit_mlr, type = "cor")$cov[1:6, 1:6]
+```
+
+```{r}
+modificationIndices(fit_mlr, sort. = TRUE)[1:10, c("lhs","op","rhs","mi","epc")]
+```
+
+> <span style="color:red">Add schematic: “CFI looks fine” but highlight a single large residual correlation and its substantive interpretation.</span>
+
+---
+
+## A disciplined respecification rule
+
+Only consider modifications that are:
+
+1) theoretically defensible  
+2) consistent with measurement-first logic  
+3) reported transparently (what was changed and why)
+
+::: callout-warning
+### Pitfall: “MI shopping”
+If you add correlated errors because they “fix RMSEA”, you can end up fitting noise.
+:::
+
+---
+
+# Part VII — Reporting like a researcher
+
+## What you must report (minimum)
+
+- Model specification (measurement + structural)
+- Estimator (ML / MLR / DWLS / ULS / …)
+- Missing data handling (listwise / FIML / …) + assumption (MAR)
+- χ²(df), p (robust/scaled if applicable)
+- CFI, TLI, RMSEA (+ CI), SRMR
+- Any respecifications (with theory rationale)
+- If bootstrap: type + number of draws + CI type
+
+---
+
+## Example reporting paragraph (template)
+
+> The SEM was estimated in `lavaan` using robust maximum likelihood (MLR) with FIML for missing data under a MAR assumption. Model fit was evaluated using the scaled χ² test and robust fit indices (CFI, TLI, RMSEA with 90% CI, SRMR). Key parameters were interpreted based on standardized estimates and robust standard errors. Where relevant, confidence intervals were obtained via bootstrap percentile CIs (B = 500 for teaching; ≥ 2000 for publication).
+
+---
+
+## Take-home: the sensitivity mindset
+
+For any important claim, ask:
+
+- Does it survive **FIML vs listwise**?
+- Does it survive **ML vs MLR**?
+- Does it survive **bootstrap vs normal CI** (when relevant)?
+- Does it survive **local diagnostics** (residuals/MI)?
+
+If not, don’t panic—**learn what the data are telling you**.
+
+---
+
+## Exercises → Lab 6
+
+In the lab you will:
+
+1) Increase missingness to ~40% and re-run the sensitivity checks  
+2) Simulate MNAR and compare to MAR  
+3) Identify 1–2 large MIs, justify (or reject) a modification  
+4) Write a short “Methods + Results” reporting paragraph
+
+> <span style="color:red">Link placeholder: add a direct link to /labs/06_robustness_lab.qmd once created.</span>
+
+---
+
+## 3 things to remember
+
+1) Missing data handling can change conclusions — **check sensitivity**  
+2) Robust SE protect against inflated significance — **don’t trust ML by default**  
+3) Fit indices are diagnostics, not verdicts — **always check local fit**
+
+---
+
+## Further reading (optional)
+
+- Missing data in SEM (FIML, MAR assumptions)
+- Robust estimation (MLR/MLM and non-normality)
+- Bootstrap inference for indirect effects
+- Reporting standards for SEM in psychology
+
+> <span style="color:red">Add 2–3 concrete citations once we confirm keys in refs/references.bib.</span>
+
+---
+
+## References
+
+::: {#refs}
+:::

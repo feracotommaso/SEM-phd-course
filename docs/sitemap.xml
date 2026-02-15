@@ -94,11 +94,11 @@
   </url>
   <url>
     <loc>/slides/03_model-fit_diagnostics_respecification.html</loc>
-    <lastmod>2026-02-11T14:36:37.319Z</lastmod>
+    <lastmod>2026-02-13T23:07:20.792Z</lastmod>
   </url>
   <url>
     <loc>/labs/lab03_fit-diagnostics_MI_residuals.html</loc>
-    <lastmod>2026-02-11T19:22:35.758Z</lastmod>
+    <lastmod>2026-02-13T23:10:01.594Z</lastmod>
   </url>
   <url>
     <loc>/slides/04_cfa_measurement_reliability.html</loc>
@@ -115,5 +115,13 @@
   <url>
     <loc>/slides/05_sem_measurement-plus-structure_capstone.html</loc>
     <lastmod>2026-02-13T15:44:27.886Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/06_robustness_missing_reporting.html</loc>
+    <lastmod>2026-02-14T22:50:33.145Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/06_missing-data_robustness_reporting.html</loc>
+    <lastmod>2026-02-15T12:53:14.760Z</lastmod>
   </url>
 </urlset>

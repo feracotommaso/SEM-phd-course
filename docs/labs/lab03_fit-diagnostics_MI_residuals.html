@@ -453,7 +453,7 @@ attachment        0.076  0.000  0.000  0.000  0.000</code></pre>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">  selfEsteem       ~ parentalSupport + attachment</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">  # ADD ONE PARAMETER HERE (exactly one line)</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # attachment ~~ parentalSupport</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">  attachment ~~ parentalSupport</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">  # OR: lifeSatisfaction ~ parentalSupport</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # OR: lifeSatisfaction ~ attachment</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
@@ -478,7 +478,7 @@ attachment        0.076  0.000  0.000  0.000  0.000</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi    tli  rmsea   srmr 
-72.623  3.000  0.788  0.505  0.219  0.067 </code></pre>
+72.859  5.000  0.820  0.640  0.168  0.068 </code></pre>
 </div>
 </div>
 </section>
@@ -495,7 +495,7 @@ Chi-Squared Difference Test
 
      Df  AIC  BIC Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
 fit0  3 2746 2779  72.6                                    
-fit1  3 2746 2779  72.6          0     0       0           </code></pre>
+fit1  5 5476 5530  72.9      0.237     0       2       0.89</code></pre>
 </div>
 </div>
 </section>
@@ -509,11 +509,11 @@ fit1  3 2746 2779  72.6          0     0       0           </code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 lfStsf slfEst salary prntlS attchm
-lifeSatisfaction -0.007                            
-selfEsteem       -0.007  0.000                     
-salary           -0.009 -0.018  0.000              
-parentalSupport   0.356  0.000  0.000  0.000       
-attachment        0.095  0.000  0.000  0.000  0.000</code></pre>
+lifeSatisfaction -0.003                            
+selfEsteem       -0.003  0.000                     
+salary           -0.005 -0.009  0.000              
+parentalSupport   0.364  0.000  0.021  0.000       
+attachment        0.098  0.000  0.006  0.000  0.000</code></pre>
 </div>
 </div>
 <p><strong>Interpretation questions</strong></p>
