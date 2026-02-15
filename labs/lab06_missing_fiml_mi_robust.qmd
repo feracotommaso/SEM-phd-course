@@ -1,0 +1,443 @@
+---
+title: "Lab 06 — Missing data, FIML, MI, and robust estimation"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+# Helper: set this to TRUE when you want the instructor version
+SHOW <- isTRUE(params$show_solutions)
+```
+
+# Goals
+
+By the end of this lab, you can:
+
+- Diagnose *what kind* of missingness you likely have (MCAR/MAR/MNAR)
+- Fit the **same SEM** under different defensible choices (listwise vs FIML; ML vs MLR)
+- Run **multiple imputation** (MI) and compare with FIML
+- Write a minimal, defensible **reporting paragraph** for a SEM with missing and non-normal data
+
+# Setup
+
+```{r}
+library(lavaan)
+
+# Optional packages (install if needed)
+# install.packages(c("semTools", "mice"))
+library(semTools)
+library(mice)
+
+set.seed(1234)
+```
+
+## Simulate a “messy but realistic” dataset
+
+We reuse the same model as in Lesson 6 (measurement + structural), then we add:
+
+- **skewness** (monotone transforms of some indicators)
+- **heavy tails/outliers** (a small proportion of extreme values)
+- **MAR missingness** (missingness depends on an observed proxy)
+
+```{r}
+simulate_sem_data <- function(N = 600, seed = 1234,
+                              add_skew = TRUE,
+                              add_outliers = TRUE) {
+  set.seed(seed)
+
+  model_pop <- "
+  # Measurement
+  peer  =~ 0.80*p1 + 0.70*p2 + 0.60*p3 + 0.70*p4
+  media =~ 0.70*m1 + 0.80*m2 + 0.60*m3 + 0.70*m4
+  comp  =~ 0.70*c1 + 0.70*c2 + 0.60*c3
+  eat   =~ 0.70*e1 + 0.60*e2
+
+  # Structural
+  comp ~ 0.40*peer + 0.50*media
+  eat  ~ 0.35*comp
+  "
+
+  dat <- simulateData(model_pop, sample.nobs = N)
+
+  if (add_skew) {
+    skew_vars <- c("p1","p2","m1","m2","c1")
+    for (v in skew_vars) dat[[v]] <- exp(dat[[v]] / 2)
+  }
+
+  if (add_outliers) {
+    set.seed(seed)
+    ix <- sample(seq_len(N), size = round(0.03 * N))  # ~3% outliers
+    dat$m4[ix] <- dat$m4[ix] + rnorm(length(ix), mean = 0, sd = 4)
+    dat$c3[ix] <- dat$c3[ix] + rnorm(length(ix), mean = 0, sd = 4)
+  }
+
+  dat
+}
+
+make_missing_mar <- function(dat, prop = 0.20, seed = 1234,
+                             vars = c("e1","m3")) {
+  set.seed(seed)
+
+  # Observed proxy for the latent 'peer' factor (think: sum score, previous wave, etc.)
+  peer_obs <- rowMeans(dat[, c("p1","p2","p3","p4")], na.rm = TRUE)
+
+  # Base MAR mechanism: higher peer_obs -> higher missingness probability
+  p_base <- plogis(as.numeric(scale(peer_obs)))  # in (0,1), mean ~ 0.5
+
+  # Calibrate to hit approx prop missing (cap to avoid p > 1)
+  k <- min(0.95, prop / mean(p_base))
+  p_miss <- pmin(p_base * k, 0.95)
+
+  miss <- runif(nrow(dat)) < p_miss
+
+  for (v in vars) dat[[v]][miss] <- NA
+
+  attr(dat, "missing_mechanism") <- list(type = "MAR", prop_target = prop, vars = vars)
+  dat
+}
+
+# Build the dataset used throughout the lab
+dat <- simulate_sem_data(N = 600, seed = 1234)
+dat <- make_missing_mar(dat, prop = 0.20, seed = 1234)
+
+round(colMeans(is.na(dat)), 3)
+```
+
+> <span style="color:red">Optional figure to add (not necessary): MCAR vs MAR vs MNAR schematic with arrows into a missingness indicator R.</span>
+
+---
+
+# Exercise 1 — Diagnose missingness (MCAR / MAR / MNAR)
+
+**Task**
+
+1. Compute the percent missing for each variable.
+2. Inspect missingness *patterns* (are some variables missing together?).
+3. Test whether missingness is related to **observed** variables (evidence consistent with MAR).
+
+Suggested tools: `colMeans(is.na(.))`, `md.pattern()` (mice), and simple regressions.
+
+```{r}
+# 1) % missing per variable
+round(colMeans(is.na(dat)), 3)
+
+# 2) Missingness patterns
+md.pattern(dat)
+
+# 3) Is missingness related to observed information?
+# Example: create a missingness indicator for e1 and see if it relates to peer_obs
+peer_obs <- rowMeans(dat[, c("p1","p2","p3","p4")], na.rm = TRUE)
+r_e1 <- as.integer(is.na(dat$e1))
+
+summary(lm(r_e1 ~ peer_obs))
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 1)\n\n")
+  cat("- If missingness relates to *observed* variables (e.g., peer_obs), MCAR is implausible; MAR becomes plausible.\n")
+  cat("- This does **not** prove MAR; it only checks whether MCAR is unlikely and whether a MAR story is consistent with observed data.\n\n")
+  cat("Typical reporting snippet: 'Missingness was associated with observed peer pressure proxy (b > 0, p < .05), suggesting MCAR is unlikely; analyses used FIML under a MAR assumption.'\n\n")
+}
+```
+
+---
+
+# Exercise 2 — Same SEM: listwise vs FIML
+
+We now fit the *same* model under two missing-data choices.
+
+```{r}
+model_sem <- "
+# Measurement
+peer  =~ p1 + p2 + p3 + p4
+media =~ m1 + m2 + m3 + m4
+comp  =~ c1 + c2 + c3
+eat   =~ e1 + e2
+
+# Structural
+comp ~ peer + media
+eat  ~ comp
+"
+
+key_paths <- function(fit) {
+  pe <- parameterEstimates(fit)
+  pe <- pe[pe$op == "~" & pe$lhs %in% c("comp","eat"), ]
+  pe[pe$rhs %in% c("peer","media","comp"),
+     c("lhs","op","rhs","est","se","z","pvalue")]
+}
+```
+
+**Task**
+
+1. Fit the model with default missing handling (listwise deletion).
+2. Fit the model with `missing = "fiml"`.
+3. Compare (a) sample size used, (b) fit indices, (c) the three structural paths.
+
+```{r}
+# 1) Listwise (default)
+fit_list <- sem(model_sem, data = dat)
+
+# 2) FIML
+fit_fiml <- sem(model_sem, data = dat, missing = "fiml")
+
+# 3) Compare fit
+fitMeasures(fit_list, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+fitMeasures(fit_fiml, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+
+# Compare key paths
+rbind(
+  listwise = key_paths(fit_list),
+  fiml     = key_paths(fit_fiml)
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 2)\n\n")
+  cat("- **Listwise** drops cases with any missingness on model variables → smaller nobs, wider SE, possible bias unless MCAR.\n")
+  cat("- **FIML** uses all available information under MAR (and correct model) → usually more efficient, often different SE/test stats.\n\n")
+  cat("Key interpretation question: **Do your substantive conclusions change?** If yes, report a sensitivity analysis.\n\n")
+}
+```
+
+---
+
+# Exercise 3 — Robust estimation: ML vs MLR (with FIML)
+
+Because we introduced skewness and heavy tails, normal-theory SEs can be too optimistic.
+
+**Task**
+
+1. Fit with `estimator = "MLR"` and `missing = "fiml"`.
+2. Compare key paths against ML+FIML.
+3. Identify which part changes the most: point estimates or SE/p-values?
+
+```{r}
+fit_mlr <- sem(model_sem, data = dat,
+               missing = "fiml",
+               estimator = "MLR")
+
+# Compare fit measures (note: robust/scaled test statistic for MLR)
+fitMeasures(fit_fiml, c("chisq","df","cfi","tli","rmsea","srmr"))
+fitMeasures(fit_mlr,  c("chisq","df","cfi","tli","rmsea","srmr"))
+
+# Compare paths
+rbind(
+  fiml_ML  = key_paths(fit_fiml),
+  fiml_MLR = key_paths(fit_mlr)
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 3)\n\n")
+  cat("- With MLR, point estimates often stay similar, but SEs and test statistics can change noticeably.\n")
+  cat("- Reporting rule: if you estimate **MLR**, report **robust/scaled** fit statistics from that run (not the ML chi-square).\n\n")
+}
+```
+
+---
+
+# Exercise 4 — Multiple Imputation (MI) and comparison with FIML
+
+MI is another MAR-based strategy. It can be useful when:
+
+- you want to include **auxiliary variables** in the imputation model,
+- you will analyze multiple outcomes/models,
+- you want datasets with no missingness for downstream workflows.
+
+**Task**
+
+1. Create `m = 20` imputations with `mice`.
+2. Fit the SEM on the imputed datasets using `semTools::runMI()`.
+3. Compare MI estimates with FIML+MLR.
+
+```{r}
+# 1) Impute
+imp <- mice(dat, m = 20, maxit = 15, seed = 1234, printFlag = FALSE)
+
+# 2) Fit the same SEM on all imputations
+fit_mi <- runMI(model_sem, data = imp, fun = "sem", estimator = "MLR")
+
+# 3) Compare key paths
+rbind(
+  fiml_MLR = key_paths(fit_mlr),
+  MI_MLR   = key_paths(fit_mi)
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 4)\n\n")
+  cat("- FIML and MI both rely on **MAR** (plus correct model assumptions).\n")
+  cat("- MI quality depends on the **imputation model** (include predictors of missingness and the missing variables themselves).\n")
+  cat("- If MI and FIML disagree, that's a red flag: check imputation model, distributional issues, and whether MNAR is plausible.\n\n")
+}
+```
+
+---
+
+# Exercise 5 — Stress test: increase missingness to ~40%
+
+**Task**
+
+1. Re-generate the dataset with ~40% MAR missingness on `e1` and `m3`.
+2. Repeat Exercise 2–4.
+3. In 2–3 sentences: *at what point does your inference become fragile?*
+
+```{r}
+dat40 <- simulate_sem_data(N = 600, seed = 2222)
+dat40 <- make_missing_mar(dat40, prop = 0.40, seed = 2222)
+
+round(colMeans(is.na(dat40)), 3)
+
+fit_list40 <- sem(model_sem, data = dat40)
+fit_fiml40 <- sem(model_sem, data = dat40, missing = "fiml")
+fit_mlr40  <- sem(model_sem, data = dat40, missing = "fiml", estimator = "MLR")
+
+rbind(
+  listwise = key_paths(fit_list40),
+  fiml_ML  = key_paths(fit_fiml40),
+  fiml_MLR = key_paths(fit_mlr40)
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 5)\n\n")
+  cat("- As missingness grows, listwise deletion often becomes unstable (large SE, occasional convergence issues, and higher risk of bias unless MCAR).\n")
+  cat("- FIML/MI usually remain usable longer, but with high missingness you should: (a) add auxiliary variables, (b) check identification, (c) treat conclusions as sensitivity-dependent.\n\n")
+}
+```
+
+---
+
+# Exercise 6 — (Optional) MNAR simulation: when FIML/MI can still be biased
+
+This is a *didactic* stress test: we create missingness depending on the (unobserved) value itself.
+
+```{r}
+make_missing_mnar <- function(dat, prop = 0.20, seed = 999, var = "e1") {
+  set.seed(seed)
+
+  p_base <- plogis(as.numeric(scale(dat[[var]])))  # depends on the value itself (MNAR)
+  k <- min(0.95, prop / mean(p_base))
+  p_miss <- pmin(p_base * k, 0.95)
+
+  miss <- runif(nrow(dat)) < p_miss
+  dat[[var]][miss] <- NA
+
+  attr(dat, "missing_mechanism") <- list(type = "MNAR", prop_target = prop, vars = var)
+  dat
+}
+
+dat_mnar <- simulate_sem_data(N = 600, seed = 3333)
+dat_mnar <- make_missing_mnar(dat_mnar, prop = 0.25, seed = 3333, var = "e1")
+round(colMeans(is.na(dat_mnar)), 3)
+
+fit_fiml_mnar <- sem(model_sem, data = dat_mnar, missing = "fiml", estimator = "MLR")
+key_paths(fit_fiml_mnar)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 6 — Optional)\n\n")
+  cat("- Under MNAR, FIML/MI can be biased because the missingness depends on unobserved values.\n")
+  cat("- Take-home: when MNAR is plausible, treat results as **sensitivity analyses** and consider specialized approaches (selection models, pattern-mixture models, sensitivity parameters).\n\n")
+}
+```
+
+---
+
+# Exercise 7 — Reporting paragraph (deliverable)
+
+**Task**
+
+Write a short paragraph (6–10 lines) that includes:
+
+- estimator (MLR vs ML)
+- missing handling (FIML vs MI)
+- model fit: χ²(df), CFI, TLI, RMSEA (+ CI), SRMR
+- 1–2 key substantive paths with standardized estimates (and CI/p)
+
+You can start from this scaffold:
+
+> The SEM was estimated in `lavaan` using ______ with ______ for missing data under a ______ assumption. Model fit was evaluated using ______. The paths from ______ to ______ and from ______ to ______ were ______ (β = __, SE = __, p = __). Sensitivity checks comparing ______ vs ______ indicated that ______.
+
+```{r}
+# Helper: grab the key fit measures for your chosen final model
+final_fit <- fit_mlr  # change if you want MI (fit_mi) or another choice
+fitMeasures(final_fit, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 7)\n\n")
+  cat("A good paragraph clearly states:\n") 
+  cat("- what you estimated,\n")
+  cat("- why that estimator/missing strategy is defensible,\n")
+  cat("- which fit indices are robust/scaled (if MLR),\n")
+  cat("- what changed (or did not) across sensitivity checks.\n\n")
+}
+```
+
+---
+
+# Common mistakes checklist
+
+- Treating FIML as “imputation” (it isn’t; it is likelihood-based under MAR)
+- Reporting ML χ² after estimating MLR (mixing runs)
+- Declaring “MNAR” without evidence (usually we only have plausibility arguments)
+- Using MI without thinking about the imputation model (auxiliaries matter)
+- Overinterpreting fit indices with messy data (use global + local diagnostics)
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+## References {.tiny}
+
+::: {#refs}
+:::
+
+<!--
+How to render:
+- Student version:    quarto render lab06_missing_fiml_mi_robust.qmd -P show_solutions:false
+- Instructor version: quarto render lab06_missing_fiml_mi_robust.qmd -P show_solutions:true
+-->
