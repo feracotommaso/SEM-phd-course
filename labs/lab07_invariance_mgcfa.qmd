@@ -1,0 +1,377 @@
+---
+title: "Lab 07 — Invariance (MG-CFA)"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+# Helper: set this to TRUE when you want the instructor version
+SHOW <- isTRUE(params$show_solutions)
+```
+
+# Goals
+
+By the end of this lab, you can:
+
+- Fit a multi-group CFA in **lavaan**
+- Run the invariance ladder (configural → metric → scalar → strict)
+- Decide *when* partial invariance is defensible (and how to implement it)
+- Map common claims (paths / latent means) to the *minimum* invariance level needed
+
+# Setup
+
+```{r}
+library(lavaan)
+# library(semTools)  # optional helpers (e.g., measurementInvariance)
+
+set.seed(1234)
+
+# --- Simulate a simple 2-factor battery measured in two groups ---
+# We simulate data separately per group so we can "bake in" a couple of
+# non-invariances that your diagnostics should detect.
+#
+# Group 0 (reference): baseline measurement
+# Group 1: (a) one loading differs, (b) two intercepts differ
+
+model_pop_g0 <- '
+  # measurement
+  f1 =~ 0.80*x1 + 0.70*x2 + 0.90*x3 + 0.60*x4
+  f2 =~ 0.70*x5 + 0.80*x6 + 0.60*x7
+
+  # factor (co)variances
+  f1 ~~ 1*f1
+  f2 ~~ 1*f2
+  f1 ~~ 0.40*f2
+
+  # item intercepts (baseline)
+  x1 ~ 0*1
+  x2 ~ 0*1
+  x3 ~ 0*1
+  x4 ~ 0*1
+  x5 ~ 0*1
+  x6 ~ 0*1
+  x7 ~ 0*1
+'
+
+model_pop_g1 <- '
+  # measurement (ONE loading differs: x3)
+  f1 =~ 0.80*x1 + 0.70*x2 + 0.70*x3 + 0.60*x4
+  f2 =~ 0.70*x5 + 0.80*x6 + 0.60*x7
+
+  # factor (co)variances
+  f1 ~~ 1*f1
+  f2 ~~ 1*f2
+  f1 ~~ 0.40*f2
+
+  # item intercepts (TWO intercepts differ: x2, x6)
+  x1 ~ 0*1
+  x2 ~ 0.50*1
+  x3 ~ 0*1
+  x4 ~ 0*1
+  x5 ~ 0*1
+  x6 ~ -0.40*1
+  x7 ~ 0*1
+'
+
+N0 <- 260
+N1 <- 330
+
+d0 <- simulateData(model_pop_g0, sample.nobs = N0, meanstructure = TRUE)
+d1 <- simulateData(model_pop_g1, sample.nobs = N1, meanstructure = TRUE)
+
+dat <- rbind(
+  transform(d0, group = 0),
+  transform(d1, group = 1)
+)
+
+# Add a little MCAR missingness (~5%) to resemble real data
+set.seed(4321)
+make_mcar <- function(x, p = 0.05) {
+  miss <- rbinom(length(x), 1, p) == 1
+  x[miss] <- NA
+  x
+}
+for (v in paste0("x", 1:7)) dat[[v]] <- make_mcar(dat[[v]], p = 0.05)
+
+# Analysis model syntax (the one YOU will fit)
+model_cfa <- '
+  f1 =~ x1 + x2 + x3 + x4
+  f2 =~ x5 + x6 + x7
+'
+
+fi <- c("chisq","df","cfi","tli","rmsea","rmsea.ci.lower","rmsea.ci.upper","srmr")
+
+# Quick look at group sizes
+table(dat$group)
+```
+
+# Exercise 1 — Configural invariance (same form)
+
+**Task**
+
+1. Fit the **configural** model (same factor structure in both groups; all parameters free across groups).
+2. Report: χ²(df), CFI, TLI, RMSEA (+ CI), SRMR.
+3. Interpret: does configural invariance look plausible?
+
+*Tip:* for invariance you almost always want a mean structure (`meanstructure = TRUE`) and (usually) `std.lv = TRUE`.
+
+```{r}
+fit_config <- cfa(
+  model_cfa,
+  data = dat,
+  group = "group",
+  meanstructure = TRUE,
+  std.lv = TRUE,
+  missing = "fiml"
+)
+
+fitMeasures(fit_config, fi)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 1)\n\n")
+  cat("**Configural** means: same *form* (same indicators per factor) across groups.\n\n")
+  cat("- If configural fit is poor, the invariance ladder is usually not meaningful yet.\n")
+  cat("- You should inspect local misfit *within* each group first (e.g., residuals / MI).\n\n")
+}
+```
+
+# Exercise 2 — Metric (weak) invariance (equal loadings)
+
+**Task**
+
+1. Fit the **metric** model (loadings constrained equal across groups).
+2. Compare to configural using:
+   - χ² difference test (`anova()`), and
+   - ΔCFI / ΔRMSEA (compute these).
+3. Decide: does metric invariance look acceptable?
+
+```{r}
+fit_metric <- cfa(
+  model_cfa,
+  data = dat,
+  group = "group",
+  meanstructure = TRUE,
+  std.lv = TRUE,
+  missing = "fiml",
+  group.equal = c("loadings")
+)
+
+anova(fit_config, fit_metric)
+
+c(
+  d_cfi = fitMeasures(fit_metric, "cfi") - fitMeasures(fit_config, "cfi"),
+  d_rmsea = fitMeasures(fit_metric, "rmsea") - fitMeasures(fit_config, "rmsea"),
+  d_srmr = fitMeasures(fit_metric, "srmr") - fitMeasures(fit_config, "srmr")
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 2)\n\n")
+  cat("Metric invariance supports comparing **relationships** (e.g., regressions/correlations) across groups.\n\n")
+  cat("Interpretation tips:\n")
+  cat("- In large samples, χ² diff is often significant even for tiny misfit.\n")
+  cat("- Use ΔCFI/ΔRMSEA/ΔSRMR as *practical* checks (rules of thumb, not laws).\n\n")
+}
+```
+
+# Exercise 3 — Scalar (strong) invariance (equal intercepts)
+
+**Task**
+
+1. Fit the **scalar** model (loadings + intercepts equal across groups).
+2. Compare to metric (Δ fit).
+3. If scalar fails, use **modification indices** to find candidate intercepts to free.
+4. Fit a **partial scalar** model freeing *only what you can justify*.
+
+```{r}
+fit_scalar <- cfa(
+  model_cfa,
+  data = dat,
+  group = "group",
+  meanstructure = TRUE,
+  std.lv = TRUE,
+  missing = "fiml",
+  group.equal = c("loadings", "intercepts")
+)
+
+anova(fit_metric, fit_scalar)
+
+c(
+  d_cfi = fitMeasures(fit_scalar, "cfi") - fitMeasures(fit_metric, "cfi"),
+  d_rmsea = fitMeasures(fit_scalar, "rmsea") - fitMeasures(fit_metric, "rmsea"),
+  d_srmr = fitMeasures(fit_scalar, "srmr") - fitMeasures(fit_metric, "srmr")
+)
+```
+
+```{r}
+# Look at the top MI specifically for intercept constraints
+mi_int <- lavTestScore(fit_scalar)
+mi_int$uni[order(mi_int$uni$X2, decreasing = TRUE),][1:10,]
+```
+
+Now pick **one or two** intercepts that are *plausible* (compare with `parameterTable()`) to free (content/method reasons), and refit as **partial scalar** using `group.partial`.
+
+```{r}
+fit_scalar_partial <- cfa(
+  model_cfa,
+  data = dat,
+  group = "group",
+  meanstructure = TRUE,
+  std.lv = TRUE,
+  missing = "fiml",
+  group.equal = c("loadings", "intercepts"),
+  # TODO: replace the two lines below with your choice(s)
+  group.partial = c("x2~1", "x6~1")
+)
+
+anova(fit_metric, fit_scalar_partial)
+
+fitMeasures(fit_scalar_partial, fi)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 3)\n\n")
+  cat("We simulated **two** intercept non-invariances (x2 and x6), so scalar should worsen.\n\n")
+  cat("A *disciplined* partial-scalar workflow:\n")
+  cat("1. Identify candidates (MI, EPC),\n")
+  cat("2. Ask: is there a substantive reason (wording/method/translation)?\n")
+  cat("3. Free the minimum set needed (often 1–2 intercepts),\n")
+  cat("4. Re-check fit AND whether the freed parameters are actually different.\n\n")
+  cat("After partial scalar, latent mean comparisons become more defensible (with care).\n\n")
+}
+```
+
+# Exercise 4 — Strict invariance (equal residual variances)
+
+**Task**
+
+1. Fit the **strict** model (loadings + intercepts + residual variances equal).
+2. Compare to your best scalar solution (full or partial scalar).
+3. Decide: do you *need* strict invariance for your intended claim?
+
+```{r}
+fit_strict <- cfa(
+  model_cfa,
+  data = dat,
+  group = "group",
+  meanstructure = TRUE,
+  std.lv = TRUE,
+  missing = "fiml",
+  group.equal = c("loadings", "intercepts", "residuals"),
+  group.partial = c("x2~1", "x6~1")  # keep your partial constraints, if used
+)
+
+anova(fit_scalar_partial, fit_strict)
+
+c(
+  d_cfi = fitMeasures(fit_strict, "cfi") - fitMeasures(fit_scalar_partial, "cfi"),
+  d_rmsea = fitMeasures(fit_strict, "rmsea") - fitMeasures(fit_scalar_partial, "rmsea"),
+  d_srmr = fitMeasures(fit_strict, "srmr") - fitMeasures(fit_scalar_partial, "srmr")
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 4)\n\n")
+  cat("Strict invariance is often *not* required for the most common claims.\n\n")
+  cat("Typical use:\n")
+  cat("- If you want to compare **observed** scores directly across groups, strict helps (but it's still not ideal).\n")
+  cat("- For **latent mean** comparisons, you usually stop at (partial) scalar.\n\n")
+}
+```
+
+# Exercise 5 — What level do you need for which claim?
+
+Create a small table mapping **claim → needed invariance level**.
+
+**Task**
+
+1. Create a data frame with two columns: `claim` and `needed_invariance`.
+2. Include at least these rows:
+
+- Compare factor structure → configural
+- Compare relationships (regressions/correlations) → metric
+- Compare latent means → scalar (often partial scalar)
+- Compare observed means directly → *not recommended* without strong evidence
+
+```{r}
+claims_tbl <- data.frame(
+  claim = c(
+    "Compare factor structure (same pattern of loadings)",
+    "Compare relationships across groups (paths/correlations among factors)",
+    "Compare latent means across groups",
+    "Compare observed means across groups"
+  ),
+  needed_invariance = c(
+    "Configural",
+    "Metric (often sufficient)",
+    "Scalar (often partial scalar)",
+    "Not recommended without strong invariance evidence"
+  )
+)
+```
+
+```{r}
+#| results: asis
+#| echo: false
+if (SHOW) {
+  cat("## Solution (Exercise 5)\n\n")
+  cat("Key sentence to remember:\n")
+  cat("**Scalar invariance (full or partial) is the gateway to latent mean comparisons.**\n\n")
+}
+```
+
+# Common mistakes checklist
+
+- Treating the invariance ladder as *purely mechanical* (it’s a theory + measurement argument)
+- Freeing parameters “because MI is large” (modification ≠ justification)
+- Forgetting meanstructure / identification details when comparing latent means
+- Concluding “no invariance” instead of trying *minimal* partial invariance
+
+# Reproducibility
+
+```{r}
+sessionInfo()
+```
+
+## References {.tiny}
+
+::: {#refs}
+:::
+
+<!--
+How to render:
+- Student version:    quarto render lab07_invariance_mgcfa.qmd -P show_solutions:false
+- Instructor version: quarto render lab07_invariance_mgcfa.qmd -P show_solutions:true
+-->

@@ -121,9 +121,6 @@ dat <- make_missing_mar(dat, prop = 0.20, seed = 1234)
 
 round(colMeans(is.na(dat)), 3)
 ```
-
-> <span style="color:red">Optional figure to add (not necessary): MCAR vs MAR vs MNAR schematic with arrows into a missingness indicator R.</span>
-
 ---
 
 # Exercise 1 — Diagnose missingness (MCAR / MAR / MNAR)
@@ -264,48 +261,7 @@ if (SHOW) {
 
 ---
 
-# Exercise 4 — Multiple Imputation (MI) and comparison with FIML
-
-MI is another MAR-based strategy. It can be useful when:
-
-- you want to include **auxiliary variables** in the imputation model,
-- you will analyze multiple outcomes/models,
-- you want datasets with no missingness for downstream workflows.
-
-**Task**
-
-1. Create `m = 20` imputations with `mice`.
-2. Fit the SEM on the imputed datasets using `semTools::runMI()`.
-3. Compare MI estimates with FIML+MLR.
-
-```{r}
-# 1) Impute
-imp <- mice(dat, m = 20, maxit = 15, seed = 1234, printFlag = FALSE)
-
-# 2) Fit the same SEM on all imputations
-fit_mi <- runMI(model_sem, data = imp, fun = "sem", estimator = "MLR")
-
-# 3) Compare key paths
-rbind(
-  fiml_MLR = key_paths(fit_mlr),
-  MI_MLR   = key_paths(fit_mi)
-)
-```
-
-```{r}
-#| results: asis
-#| echo: false
-if (SHOW) {
-  cat("## Solution (Exercise 4)\n\n")
-  cat("- FIML and MI both rely on **MAR** (plus correct model assumptions).\n")
-  cat("- MI quality depends on the **imputation model** (include predictors of missingness and the missing variables themselves).\n")
-  cat("- If MI and FIML disagree, that's a red flag: check imputation model, distributional issues, and whether MNAR is plausible.\n\n")
-}
-```
-
----
-
-# Exercise 5 — Stress test: increase missingness to ~40%
+# Exercise 4 — Stress test: increase missingness to ~40%
 
 **Task**
 
@@ -342,7 +298,7 @@ if (SHOW) {
 
 ---
 
-# Exercise 6 — (Optional) MNAR simulation: when FIML/MI can still be biased
+# Exercise 5 — (Optional) MNAR simulation: when FIML/MI can still be biased
 
 This is a *didactic* stress test: we create missingness depending on the (unobserved) value itself.
 
@@ -381,7 +337,7 @@ if (SHOW) {
 
 ---
 
-# Exercise 7 — Reporting paragraph (deliverable)
+# Exercise 6 — Reporting paragraph (deliverable)
 
 **Task**
 

@@ -1,0 +1,796 @@
+---
+title: "Evaluating Measurement and Structural Invariance <br/>via Multi-Group CFA"
+author: "Tommaso Feraco"
+include-in-header: ../assets/slidesheader.html
+
+format:
+  revealjs:
+    code-line-numbers: false
+    slide-number: c/t
+    self-contained: true
+
+    # Keep your colleague's defaults
+    code-fold: false
+    code-summary: "Show code"
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+library(lavaan)
+
+# Toy dataset for the code examples (kept close to the legacy slides)
+m <- "
+f1 =~ .76*x1 + .59*x2 + .84*x3 + .88*x4
+f2 =~ .53*x5 + .68*x6 + .75*x7
+"
+d <- lavaan::simulateData(m, seed = 12, sample.nobs = 589)
+set.seed(12)
+d$Group <- rbinom(589, 1, .60)
+
+m <- "
+f1 =~ x1 + x2 + x3 + x4
+f2 =~ x5 + x6 + x7
+"
+
+fi <- c("cfi", "tli", "srmr", "rmsea", "bic", "aic")
+```
+
+## Today in the workflow
+
+Specify → Identify → **Estimate → Evaluate → Revise/Report**
+
+::: {.callout-note appearance="minimal"}
+Today we focus on:
+
+-   **Evaluate**: “Does the *same* measurement model hold across groups?”
+-   **Report**: “What level of invariance supports which claims?”
+:::
+
+In particular:
+
+-   Why measurement invariance is a *prerequisite* for group comparisons
+-   The MG-CFA ladder (configural → metric → scalar → strict)
+-   How to evaluate invariance (Δ fit + local diagnostics)
+-   Partial invariance: what to free, how to justify it
+-   (Briefly) structural invariance: variances/covariances/means
+
+------------------------------------------------------------------------
+
+## Learning objectives
+
+By the end of this lesson you can:
+
+-   Explain **configural / metric / scalar / strict** invariance in plain language
+-   Fit MG-CFA models in `lavaan` using `group.equal`
+-   Compare nested models using **ΔCFI / ΔRMSEA / Δχ²** (and know the limits)
+-   Use **score tests / modification indices** to diagnose non-invariance
+-   Implement **partial invariance** via `group.partial`
+-   State which inferences are valid under each invariance level
+
+------------------------------------------------------------------------
+
+## A hot topic
+
+![](../assets/images/scopus.jpg){width="94%"}
+
+------------------------------------------------------------------------
+
+## Introduction
+
+::::: columns
+::: {.column width="50%"}
+![](../assets/images/twit1.png){width="94%"}
+:::
+
+::: {.column width="50%"}
+![](../assets/images/twit2.png){width="94%"}
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## The importance of Measurement Invariance
+
+-   Researchers often compare groups on psychological constructs, assuming instruments measure the *same* latent variables across groups.
+-   This assumption is often untested.
+-   **Measurement invariance is a prerequisite** for meaningful comparisons across groups (and across time).
+
+![](../assets/images/articolo.png){width="88%"}
+
+------------------------------------------------------------------------
+
+## Invariance of a Structural Equation Model
+
+More generally, testing invariance evaluates to what extent a hypothesized SEM can be considered **invariant** (same parameters) across groups.
+
+Invariance is commonly used for comparisons across:
+
+-   gender
+-   age groups
+-   clinical vs non-clinical
+-   culture / language / nationality
+-   time (longitudinal invariance)
+
+------------------------------------------------------------------------
+
+## Assessing invariance: the multi-group analysis
+
+-   Multi-group analysis is the most widely used method to assess invariance.
+-   In this lesson we focus on **CFA models** (MG-CFA).
+-   Logic: estimate the same model in multiple groups, then add equality constraints and check what breaks.
+
+------------------------------------------------------------------------
+
+## The starting point (MG-CFA)
+
+![](../assets/images/grafmulti.png){width="92%"}
+
+------------------------------------------------------------------------
+
+## The idea (constraints ladder)
+
+1)  Start with the same model in all groups (baseline: all structural parameters are *free* to vary across groups)\
+2)  Add constraints (more restrictive models: loadings, intercepts, residual variances, … *fixed* to be equal)\
+3)  Compare fit: does the constraint produce a meaningful worsening?
+
+------------------------------------------------------------------------
+
+## Invariance steps (measurement)
+
+1.  **Configural**: same factor structure (same “form”)
+2.  **Metric / weak**: equal loadings (Λ)
+3.  **Scalar / strong**: equal intercepts (τ)
+4.  **Strict**: equal residual variances (Θ)
+
+> **Scalar invariance** (full or partial) is the gateway to **latent mean** comparisons.
+
+------------------------------------------------------------------------
+
+## What level do you need for which claim?
+
+| Claim / Comparison | Minimum invariance |
+|------------------------------------|------------------------------------|
+| Same factor structure (same “form”) | Configural |
+| Compare relations (regressions/correlations) | Metric (often) |
+| Compare latent means | Scalar (often partial scalar) |
+| Compare observed means directly | Not recommended without invariance evidence |
+
+------------------------------------------------------------------------
+
+## Step-by-step guide (summary)
+
+| Step | Model                 | Constrain                      | Compare to |
+|:-----|-----------------------|--------------------------------|------------|
+| 0    | Separate CFAs         | —                              | —          |
+| 1    | Configural            | —                              | —          |
+| 2    | Metric                | loadings                       | configural |
+| 3    | Scalar                | loadings + intercepts          | metric     |
+| 4    | Strict                | \+ residual variances          | scalar     |
+| 5–7  | Structural invariance | lv variances/covariances/means | previous   |
+
+------------------------------------------------------------------------
+
+## MG-CFA scheme (steps 1–4)
+
+![](../assets/images/mgcfa.jpg){width="90%"}
+
+Slide stolen from Psicostat's meeting by [Enrico Perinelli](https://psicostat.dpss.psy.unipd.it/meetings/psicostat33.html).
+
+------------------------------------------------------------------------
+
+## TO READ
+
+All the next slides are inspired in large part from the following [blog post](https://www.the100.ci/2024/01/10/a-casual-but-causal-take-on-measurement-invariance/?fbclid=IwAR2kcAPkq0i1IZXntLkcbeSoU1D-Pb_R45VBhJ4EOZUmY_Cv3T0ne6-KbNE)
+
+## Step 0: Separate models for each group
+
+![](../assets/images/g0.png)
+
+## Step 1: Configural invariance
+
+![](../assets/images/g1.png)
+
+## Step 1: Configural (non-)invariance
+
+Configural invariance means that the “form” of the models is the same in the groups of interest. Form entails both the number of latent variables and whether the loadings are non-zero to begin with.
+
+![](../assets/images/conf.png)
+
+## Step 2: Metric invariance
+
+![](../assets/images/g2.png)
+
+## Step 2: Metric (non-)invariance
+
+Metric invariance means that for each item, the loading of the factor on the item is the same in the two groups (or, again more precisely, that we cannot reject the hypothesis that the loadings are the same).
+
+![](../assets/images/metric.png)
+
+## Step 2: Metric (non-)invariance
+
+The source of group differences does not come from the latent variable!
+
+![](../assets/images/metric2.png)
+
+## Step 3: Scalar invariance
+
+![](../assets/images/g3.png)
+
+## Step 3: Scalar invariance
+
+Scalar invariance means that for each item, the intercept is the same. This means that group differences in the item responses are fully accounted for by group differences in the latent construct.
+
+![](../assets/images/scalar.png)
+
+## Step 4: Invariance of observed residual variances
+
+Residual invariance means that for each item, the residual variance—the variance of the ominous E pointing into the items—is the same. We can again phrase this statistically: if we regressed the item scores on the factor, then the variance of the remaining residual would be the same in the groups (i.e., there would be homoscedasticity).
+
+## Step 4: Invariance of observed residual variances
+
+![](../assets/images/g4.png)
+
+The thing about the residual is that it captures everything that’s not explained in the model, and explaining changes in the amount of unexplained things seems a bit futile. Residual invariance is often not tested because it’s not necessary for latent mean comparisons. It’s a bit of an anticlimactic level to end on.
+
+## Step 5: Invariance of latent variances
+
+![](../assets/images/g5.png)
+
+## Step 6: Invariance of latent covariances
+
+![](../assets/images/g6.png)
+
+## Step 7: Invariance of latent means
+
+![](../assets/images/g7.png)
+
+------------------------------------------------------------------------
+
+## Evaluation: global comparison
+
+Common ingredients:
+
+-   Model fit in the more constrained model (χ², RMSEA, CFI/TLI, SRMR)
+-   **Change in fit** vs less constrained model:
+    -   Δχ² (highly N-sensitive)
+    -   ΔCFI (often used)
+    -   ΔRMSEA / ΔSRMR (sometimes used)
+    -   ΔBIC (information criteria)
+
+A marked worsening of fit indices indicates that the considered invariance model is too restrictive and thus must be rejected.
+
+::: callout-warning
+make a comprehensive evaluation based on different fit indices, rather than on a single fit criterion.
+:::
+
+------------------------------------------------------------------------
+
+## Practical comparison rules 
+
+Let MOD-A be a reference model and MOD-B a more restrictive model.
+
+-   Δχ² = χ²(B) − χ²(A) (N-sensitive; use with caution)
+-   ΔCFI = CFI(B) − CFI(A)
+    -   heuristic: accept if ΔCFI \> −.01
+-   ΔBIC = BIC(B) − BIC(A)
+    -   negative values favor B
+
+::: callout-warning
+**Pitfall:** with robust estimators (e.g., MLR/WLSMV), the χ² difference test is not always the plain `anova()` test.
+:::
+
+------------------------------------------------------------------------
+
+## Partial invariance (what it is)
+
+When invariance is untenable at some level (metric/scalar/strict), you can allow **some** parameters to differ:
+
+-   Free non-invariant loadings/intercepts/residual variances
+-   Keep most constraints to preserve comparability
+
+Options (in practice):
+
+1)  Free a small number of parameters (theory-driven)
+2)  Argue differences are negligible (rarely convincing)
+3)  Remove problematic indicators (last resort)
+4)  Conclude constructs are not comparable *with the current instrument* or *theoretically* (sometimes correct!)
+
+------------------------------------------------------------------------
+
+## How do we choose what to free?
+
+-   Inspect parameters by group (largest differences)
+-   Inspect **score tests / modification indices** for constrained parameters
+-   Free **one at a time** and re-evaluate
+-   Always justify based on theory and measurement logic
+
+::: callout-warning
+**Pitfall:** “MI shopping” can overfit noise. Partial invariance must remain *interpretable*.
+:::
+
+------------------------------------------------------------------------
+
+# Live coding — a small MG-CFA example
+
+## CFA model (toy)
+
+![](../assets/images/grafapp1.png){width="75%"}
+
+------------------------------------------------------------------------
+
+## Step 0 — Separate models (sanity check)
+
+This is **not** configural invariance. It’s only: “Does the model work in each group?”
+
+```{r}
+m0 <- cfa(m, data = d[d$Group == 0, ])
+m1 <- cfa(m, data = d[d$Group == 1, ])
+
+fitMeasures(m0, fi)
+fitMeasures(m1, fi)
+```
+
+------------------------------------------------------------------------
+
+## Step 1 — Configural invariance
+
+```{r}
+m_all <- cfa(m, data = d)
+fitMeasures(m_all, fi)
+```
+
+
+```{r}
+m_conf <- cfa(m, data = d, group = "Group")
+fitMeasures(m_conf, fi)
+```
+
+------------------------------------------------------------------------
+
+## Step 2 — Metric invariance (equal loadings)
+
+```{r}
+m_metr <- cfa(m, data = d, group = "Group",
+             group.equal = "loadings")
+
+fitMeasures(m_metr, fi)
+
+# Compare to configural
+anova(m_metr, m_conf)
+fitMeasures(m_metr, "cfi") - fitMeasures(m_conf, "cfi")
+fitMeasures(m_metr, "bic") - fitMeasures(m_conf, "bic")
+```
+
+------------------------------------------------------------------------
+
+## Step 2 diagnostics (what breaks?)
+
+```{r}
+# Score tests for equality constraints
+lavTestScore(m_metr)$uni |> head(10)
+
+# Parameter table (useful for mapping constraint ids)
+parameterTable(m_metr)[1:15, c("lhs","op","rhs","group","free","ustart")]
+```
+
+------------------------------------------------------------------------
+
+## Step 3 — Scalar invariance (loadings + intercepts)
+
+```{r}
+m_scal <- cfa(m, data = d, group = "Group",
+             group.equal = c("loadings","intercepts"))
+
+fitMeasures(m_scal, fi)
+
+anova(m_scal, m_metr)
+fitMeasures(m_scal, "cfi") - fitMeasures(m_metr, "cfi")
+```
+
+## What can we fix?
+
+Through the option  `group.equal` , it is possible to constrain groups of parameters to be equal across groups in order to assess increasingly restrictive invariance hypotheses:
+
+| Constrained parameters | In R |
+| --- | --- |
+| Factor loadings | `loadings` |
+| Intercepts of manifest variables | `intercepts` |
+| Residual variances of  manifest variables | `residuals` |
+| Residual covariances of manifest variables | `residual.covariances` |
+| Residual variances of latent variables | `lv.variances` |
+| Residual covariances of latent variable | `lv.covariances` |
+| Intercepts/means of latent variables | `means` |
+| All regression coefficients | `regressions` |
+| Thresholds | `thresholds` |
+
+------------------------------------------------------------------------
+
+## Partial invariance in lavaan
+
+`group.partial` allows selected parameters to differ.
+
+Example: After the inspection of MI, we decided to estimate a model of partial metric invariance in which the loading of the item x5 is free to vary between groups::
+
+```{r}
+m_metr_p <- cfa(m, data = d, group = "Group",
+               group.equal = "loadings",
+               group.partial = "f2 =~ x5")
+
+fitMeasures(m_metr_p, fi)
+```
+
+> Which model should we compare this to, and why?
+> How to we interpret the results of such a model?
+
+------------------------------------------------------------------------
+
+## Common mistakes (invariance)
+
+-   Comparing **latent means** without (partial) **scalar invariance**
+-   Freeing many parameters without theoretical rationale (“MI fishing”)
+-   Ignoring identification choices (scaling, reference indicators, factor means)
+-   Using automated helpers as a black box
+
+------------------------------------------------------------------------
+
+# Case study
+
+## The case study dataset
+
+```{r}
+#| eval: true
+load("../data/dmg.RData")
+str(dmg)
+```
+
+::: callout-important
+SEM work with variance-covariance matrices. For this reason, it is sufficient to find it in the original articles to use their “data”! The data we will use have been generated based on the parameters provided in the article, modifying the sample size.
+:::
+
+------------------------------------------------------------------------
+
+## Model 
+
+```{r}
+#| eval: true
+model <- "
+gc =~ Info + Sim + Vocab + Comp
+gv =~ PicComp + PicArr + BlkDsgn + ObjAsmb
+"
+```
+
+------------------------------------------------------------------------
+
+## Step 0 — Separate models 
+
+```{r}
+#| eval: true
+m_man <- cfa(model, data = dmg[dmg$diagnosis == "manic", ])
+m_nor <- cfa(model, data = dmg[dmg$diagnosis == "norming", ])
+
+fitMeasures(m_man, c("chisq","df","rmsea","cfi","tli"))
+fitMeasures(m_nor, c("chisq","df","rmsea","cfi","tli"))
+```
+
+------------------------------------------------------------------------
+
+## Step 1 — Configural 
+
+```{r}
+#| eval: true
+m_conf2 <- cfa(model, data = dmg, group = "diagnosis")
+fitMeasures(m_conf2, c("chisq","df","rmsea","cfi","tli"))
+```
+
+`ANY COMMENTS?`
+
+------------------------------------------------------------------------
+
+## Step 2 — Metric 
+
+```{r}
+#| eval: true
+m_metr2 <- cfa(model, data = dmg, group = "diagnosis",
+              group.equal = "loadings")
+
+fitMeasures(m_metr2, c("chisq","df","rmsea","cfi","tli"))
+```
+
+------------------------------------------------------------------------
+
+## Step 2 — Metric 
+
+```{r}
+#| eval: true
+anova(m_metr2, m_conf2)
+fitMeasures(m_metr2, "cfi") - fitMeasures(m_conf2, "cfi")
+fitMeasures(m_metr2, "bic") - fitMeasures(m_conf2, "bic")
+```
+
+------------------------------------------------------------------------
+
+## Step 3 — Scalar  and partial scalar
+
+```{r}
+#| eval: true
+m_scal2 <- cfa(model, data = dmg, group = "diagnosis",
+              group.equal = c("loadings","intercepts"))
+
+fitMeasures(m_scal2, c("chisq","df","rmsea","cfi","tli"))
+```
+
+`COMMENTS`
+
+------------------------------------------------------------------------
+
+## Step 3 — Scalar  and partial scalar
+
+```{r}
+#| eval: true
+anova(m_scal2, m_metr2)
+fitMeasures(m_scal2, "cfi") - fitMeasures(m_metr2, "cfi")
+```
+
+------------------------------------------------------------------------
+
+## Step 3 — Inspection of equality constraints
+
+```{r}
+#| eval: true
+# Identify the worst constraints
+lavTestScore(m_scal2)$uni |> head(10)
+```
+
+```{r}
+#| eval: false
+parameterTable(m_scal2)
+```
+
+
+------------------------------------------------------------------------
+
+## Step 3 — Partial scalar invariance
+
+```{r}
+#| eval: true
+# Example: free the intercept of Sim
+m_scal2_p <- cfa(model, data = dmg, group = "diagnosis",
+                group.equal = c("loadings","intercepts"),
+                group.partial = "Sim ~ 1")
+fitMeasures(m_scal2_p, c("chisq","df","rmsea","cfi","tli"))
+```
+
+------------------------------------------------------------------------
+
+## Step 3 — Partial scalar invariance
+
+```{r}
+#| eval: true
+anova(m_scal2_p, m_metr2)
+fitMeasures(m_scal2_p, "cfi") - fitMeasures(m_metr2, "cfi")
+```
+
+------------------------------------------------------------------------
+
+## What does partial scalar mean (interpretation)?
+
+-   Most intercepts are comparable across groups
+-   A small subset is not (e.g., `Sim`)
+-   Latent mean comparisons can be *more defensible* under partial scalar, but interpret non-invariant indicators substantively
+
+> Which item behaves differently across groups, and what could it reflect?
+
+## Invariance of Residuals of observed variables(1)
+
+```{r}
+# Note: parameter "Sim~1" remains free
+m.rvo=cfa(model,dmg,group="diagnosis",
+          group.equal=c("loadings","intercepts","residuals"),
+          group.partial="Sim~1") #Note that this is still here
+# Inspection of fit indices
+fitMeasures(m.rvo,c("chisq","df","rmsea","cfi","nnfi"))
+```
+
+## Invariance of Residuals of observed variables (2)
+
+```{r}
+anova(m.rvo,m_scal2_p) # Note: Comparison model Partial Scalar invariance
+fitMeasures(m.rvo,"cfi")-fitMeasures(m_scal2_p,"cfi")
+fitMeasures(m.rvo,"bic")-fitMeasures(m_scal2_p,"bic")
+
+# The Invariance of Residuals of observed variables
+#	is not satisfactory. Let's take a look at equality constraints
+```
+
+## Inspection of equality constraints
+
+```{r}
+lavTestScore(m.rvo)$uni |> head(10)
+```
+
+```{r}
+# (... see complete output )
+# From a first analysis, we can see that
+#  the residuals of variables  “Comp” and “PicComp”
+#  have Modification indices that are
+#  particularly high, so let's free them
+```
+
+## Invariance of Residuals of observed variables (1)
+
+```{r}
+m.rvo.P=cfa(model,dmg,group="diagnosis",
+            group.equal=c("loadings","intercepts","residuals"),
+            group.partial=c("Sim~1","PicComp~~PicComp","Comp~~Comp"))
+# Fit indices
+fitMeasures(m.rvo.P,c("chisq","df","rmsea","cfi","nnfi"))
+```
+
+## Partial Invariance of Residuals of observed variables (2)
+
+```{r}
+# Evaluation of Partial Invariance of Residuals of observed variables
+anova(m.rvo.P,m_scal2_p) # Note: Comparison model Partial Scalar invariance
+fitMeasures(m.rvo.P,"cfi")-fitMeasures(m_scal2_p,"cfi")
+fitMeasures(m.rvo.P,"bic")-fitMeasures(m_scal2_p,"bic")
+# Paartial Invariance of Residuals of observed variables is satisfactory.
+# Question: What can we say about overall
+# Measurement Invariance of the baseline theoretical model?
+```
+
+## Invariance of Variance of latent variables (1)
+
+```{r}
+m.vvl=cfa(model,dmg,group="diagnosis",
+          group.equal=c("loadings","intercepts","residuals",
+                        "lv.variances"),
+          group.partial=c("Sim~1","PicComp~~PicComp","Comp~~Comp"))
+# Fit indices
+fitMeasures(m.vvl,c("chisq","df","rmsea","cfi","nnfi"))
+```
+
+## Invariance of Variance of latent variables (2)
+
+```{r}
+anova(m.vvl,m.rvo.P)
+fitMeasures(m.vvl,"cfi")-fitMeasures(m.rvo.P,"cfi")
+fitMeasures(m.vvl,"bic")-fitMeasures(m.rvo.P,"bic")
+# OK, this looks good!
+```
+
+## Invariance of Covariance of latent variables (1)
+
+```{r}
+m.cvl=cfa(model,dmg,group="diagnosis",
+          group.equal=c("loadings","intercepts"
+                        ,"residuals","lv.variances","lv.covariances"),
+          group.partial=c("Sim~1","PicComp~~PicComp","Comp~~Comp"))
+# Fit indices
+fitMeasures(m.cvl,c("chisq","df","rmsea","cfi","nnfi"))
+```
+
+## Invariance of Covariance of latent variables(2)
+
+```{r}
+anova(m.cvl,m.vvl)
+fitMeasures(m.cvl,"cfi")-fitMeasures(m.vvl,"cfi")
+fitMeasures(m.cvl,"bic")-fitMeasures(m.vvl,"bic")
+# OK, we're almost there!
+```
+
+## Invariance of Means of latent variables (1)
+
+```{r}
+# last step
+m.med=cfa(model,dmg,group="diagnosis",
+          group.equal=c("loadings","intercepts"
+                        ,"residuals","lv.variances","lv.covariances",
+                        "means"),
+          group.partial=c("Sim~1","PicComp~~PicComp","Comp~~Comp"))
+# Fit indices
+fitMeasures(m.med,c("chisq","df","rmsea","cfi","nnfi"))
+```
+
+## Invariance of Means of latent variables (2)
+
+```{r}
+anova(m.med,m.cvl)
+fitMeasures(m.med,"cfi")-fitMeasures(m.cvl,"cfi")
+fitMeasures(m.med,"bic")-fitMeasures(m.cvl,"bic")
+# This last model is also satisfactory
+# ANY COMMENTS?
+```
+
+## Summing up
+
+```{r}
+#| echo: false
+#| message: false
+library(kableExtra)
+fi <- c("npar", "df", "chisq", "cfi", "tli", "nnfi", "agfi", "srmr", "rmsea", "bic", "aic")
+resTab <- round(rbind(
+fmMan <- fitMeasures(m_man, fit.measures = fi),
+fmNor <- fitMeasures(m_nor, fit.measures = fi),
+fmCon <- fitMeasures(m_conf2, fit.measures = fi),
+fmMet <- fitMeasures(m_metr2, fit.measures = fi),
+fmSca <- fitMeasures(m_scal2, fit.measures = fi),
+fmSca1 <- fitMeasures(m_scal2_p, fit.measures = fi),
+fmRvo <- fitMeasures(m.rvo, fit.measures = fi),
+fmRvo1 <- fitMeasures(m.rvo.P, fit.measures = fi),
+fmVvl <- fitMeasures(m.vvl, fit.measures = fi),
+fmCvl <- fitMeasures(m.cvl, fit.measures = fi),
+fmMed <- fitMeasures(m.med, fit.measures = fi)
+), 2)
+Models <- c("Manics", "Norming", "Configural", "Metric", "Scalar", "Scalar Partial",
+            "Residual Variances", "Residual Variances Partial", "Latent Variances",
+            "Latent Covariances", "Latent Means")
+resTab <- cbind(Models, resTab)
+kbl(resTab, digits = 3) %>%
+   kable_styling(latex_options="scale_down") %>%
+   row_spec(0,bold=TRUE)
+```
+
+------------------------------------------------------------------------
+
+## Structural invariance
+
+Test of multigroup invariance can also be used to compare differences in the regression coefficients of two or more groups (interactions).
+
+
+![](../assets/images/regressions.png){width="78%"}
+
+------------------------------------------------------------------------
+
+## Exercise (connect to the lab)
+
+::: callout-important
+**Try it (15–25 min)**\
+1. Fit configural, metric, scalar on the toy dataset `d`.\
+2. Decide whether scalar is acceptable using ΔCFI + theory.\
+3. If scalar fails, free **one** intercept using `group.partial`.\
+4. Write 3–4 sentences: *what is comparable now, and what is not?*
+:::
+
+> [Lab link placeholder: add a direct link to the invariance lab once created (e.g., `../labs/lab04_invariance.qmd`).]{style="color:red"}
+
+------------------------------------------------------------------------
+
+## Take-home: 3 things
+
+1)  Invariance is about **comparability**\
+2)  **Scalar (full/partial)** is the key for latent mean comparisons.\
+3)  Partial invariance is legitimate, but must be **disciplined + theory-driven**.
+
+------------------------------------------------------------------------
+
+## Further reading (extras)
+
+-   Partial invariance strategies and interpretability\
+-   Invariance with ordinal indicators (thresholds first)\
+-   Robust difference testing with MLR / WLSMV
+
+> [Add links to `extras/` modules when we create them.]{style="color:red"}
+
+------------------------------------------------------------------------
+
+## References {.tiny}
+
+::: {#refs}
+:::

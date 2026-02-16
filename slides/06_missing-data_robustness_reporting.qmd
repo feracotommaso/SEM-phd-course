@@ -326,11 +326,9 @@ Don’t mix-and-match reporting:
 
 Indirect effects are products of coefficients:
 
-\[
-ab = a \times b
-\]
+$ab = a \times b$
 
-Even if \(a\) and \(b\) are roughly normal, \(ab\) is often **skewed** → normal-theory CIs can be misleading.
+Even if $(a)$ and $(b)$ are roughly normal, $(ab)$ is often **skewed** → normal-theory CIs can be misleading.
 
 ---
 
