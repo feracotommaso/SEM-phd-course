@@ -1,0 +1,322 @@
+---
+title: "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+SHOW <- isTRUE(params$show_solutions)
+set.seed(2026)
+options(digits = 3)
+```
+
+# Goals
+
+In this lab you will:
+
+- Create an **ordinal** version of a familiar CFA dataset
+- Fit a CFA treating items as **continuous** (wrong-on-purpose) vs **ordinal** (WLSMV)
+- Interpret **thresholds** and why ordinal models replace intercepts with thresholds
+- Use CFA diagnostics (residuals + MI/EPC) *in the ordinal setting*
+- Test a simple **ordinal measurement invariance ladder** across groups
+
+---
+
+# Setup
+
+```{r}
+library(lavaan)
+library(semTools)
+```
+
+---
+
+# Data: Holzinger & Swineford (1939), made ordinal
+
+We use the classic `HolzingerSwineford1939` dataset and **discretize** the indicators into 5 ordered categories (a “Likert-ification”).
+
+```{r}
+dat_full <- HolzingerSwineford1939
+vars <- paste0("x", 1:9)
+
+make_ordinal <- function(x, k = 5) {
+  # quantile-based cutpoints (balanced categories)
+  qs <- quantile(x, probs = seq(0, 1, length.out = k + 1), na.rm = TRUE, type = 8)
+  qs <- unique(qs)
+  if (length(qs) < 3) {
+    qs <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = k + 1)
+  }
+  cut(x, breaks = qs, include.lowest = TRUE, ordered_result = TRUE)
+}
+
+dat_ord <- dat_full
+for (v in vars) dat_ord[[v]] <- make_ordinal(dat_full[[v]], k = 5)
+
+# A "wrong-on-purpose" version that treats ordinal codes as continuous numbers
+dat_ord_num <- dat_ord
+for (v in vars) dat_ord_num[[v]] <- as.numeric(dat_ord[[v]])
+
+# sanity check
+lapply(dat_ord[vars], table) |> head(2)
+```
+
+---
+
+# Measurement model (same as CFA lab)
+
+```{r}
+m3 <- '
+  visual  =~ x1 + x2 + x3
+  textual =~ x4 + x5 + x6
+  speed   =~ x7 + x8 + x9
+'
+```
+
+---
+
+# Exercise 1 — Fit CFA treating ordinal as continuous vs ordinal as ordinal
+
+## 1a) Continuous (ML) on ordinal codes (wrong-on-purpose)
+
+```{r}
+fit_cont <- cfa(m3, data = dat_ord_num, std.lv = TRUE)  # ML default
+fitMeasures(fit_cont, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+## 1b) Ordinal (WLSMV) with thresholds
+
+```{r}
+fit_ord <- cfa(
+  m3,
+  data = dat_ord,
+  ordered = vars,              # tells lavaan these are ordinal
+  std.lv = TRUE,
+  parameterization = "theta"   # common choice for categorical indicators
+  # estimator is set automatically to WLSMV when ordered= is used
+)
+
+fitMeasures(fit_ord, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+**Questions (answer in words)**
+
+1. Which fit indices change the most between the two analyses?
+2. Do standardized loadings change meaningfully? Why might they?
+3. What is the *conceptual* mistake of treating ordinal codes as if they were continuous?
+
+---
+
+# Exercise 2 — Compare key parameters (loadings + factor correlations)
+
+```{r}
+pe_cont <- parameterEstimates(fit_cont, standardized = TRUE)
+pe_ord  <- parameterEstimates(fit_ord,  standardized = TRUE)
+
+load_cont <- subset(pe_cont, op == "=~")[, c("lhs","rhs","est","se","pvalue","std.all")]
+load_ord  <- subset(pe_ord,  op == "=~")[, c("lhs","rhs","est","se","pvalue","std.all")]
+
+phi_cont <- subset(pe_cont, op == "~~" & lhs %in% c("visual","textual","speed") & rhs %in% c("visual","textual","speed") & lhs != rhs)[, c("lhs","rhs","est","std.all")]
+phi_ord  <- subset(pe_ord,  op == "~~" & lhs %in% c("visual","textual","speed") & rhs %in% c("visual","textual","speed") & lhs != rhs)[, c("lhs","rhs","est","std.all")]
+
+list(load_cont = load_cont, load_ord = load_ord,
+     phi_cont = phi_cont, phi_ord = phi_ord)
+```
+
+**Questions**
+
+1. Are factor correlations higher/lower under ordinal modeling? Why can that happen?
+2. Which indicators look weakest in standardized terms? Is that stable across estimators?
+
+---
+
+# Exercise 3 — Thresholds: what replaces intercepts?
+
+For ordinal indicators, the model is expressed in terms of an underlying **latent response** $(y^\*)$. Observed categories reflect whether $(y^\*)$ crosses thresholds:
+
+- category 1 if $(y^\* \le \tau_1)$
+- category 2 if $(\tau_1 < y^\* \le \tau_2)$
+- ...
+- category K if $(y^\* > \tau_{K-1})$
+
+In lavaan, thresholds appear with `op == "|"`.
+
+```{r}
+thr <- subset(pe_ord, op == "|")[, c("lhs","op","rhs","est","se")]
+head(thr, 18)
+```
+
+You can also inspect sample thresholds:
+
+```{r}
+lavInspect(fit_ord, "sampstat")$th |> head()
+```
+
+**Tasks**
+
+1. Pick one item (say `x1`) and report its thresholds (how many? why?).
+2. What would “more extreme” thresholds imply about item difficulty/endorsement (in plain language)?
+
+---
+
+# Exercise 4 — Local diagnostics in ordinal CFA
+
+## 4a) Standardized residuals
+
+```{r}
+res_std <- residuals(fit_ord, type = "cor")$cov
+res_std
+```
+
+Find the largest absolute residuals:
+
+```{r}
+R <- res_std
+diag(R) <- NA
+top_res <- as.data.frame(as.table(R))
+top_res <- top_res[order(abs(top_res$Freq), decreasing = TRUE), ]
+head(top_res, 10)
+```
+
+## 4b) Modification indices + EPC/SEPC
+
+```{r}
+mi <- modificationIndices(fit_ord, sort. = TRUE)
+head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 15)
+```
+
+**Questions**
+
+1. Do residuals and MI point to the same problematic pairs?
+2. In an ordinal CFA, which modifications are most common?
+   - correlated residuals (local dependence / method)
+   - cross-loadings (threaten simple structure)
+   - freeing thresholds/loadings across groups (invariance context)
+
+---
+
+# Exercise 5 — Ordinal measurement invariance across groups (school)
+
+We test invariance across `school` (Pasteur vs Grant-White).  
+We keep the same 3-factor model and treat items as ordinal.
+
+## 5a) Configural model (same pattern of loadings)
+
+```{r}
+dat_ord_g <- dat_ord
+dat_ord_g$school <- dat_full$school  # keep group variable
+
+fit_g0 <- cfa(
+  m3, data = dat_ord_g,
+  group = "school",
+  ordered = vars,
+  std.lv = TRUE,
+  parameterization = "theta"
+)
+
+fitMeasures(fit_g0, c("cfi","tli","rmsea","srmr"))
+```
+
+## 5b) Threshold invariance (equal thresholds)
+
+```{r}
+fit_g1 <- cfa(
+  m3, data = dat_ord_g,
+  group = "school",
+  group.equal = c("thresholds"),
+  ordered = vars,
+  std.lv = TRUE,
+  parameterization = "theta"
+)
+
+fitMeasures(fit_g1, c("cfi","tli","rmsea","srmr"))
+```
+
+## 5c) Threshold + loading invariance (often the key step)
+
+```{r}
+fit_g2 <- cfa(
+  m3, data = dat_ord_g,
+  group = "school",
+  group.equal = c("thresholds", "loadings"),
+  ordered = vars,
+  std.lv = TRUE,
+  parameterization = "theta"
+)
+
+fitMeasures(fit_g2, c("cfi","tli","rmsea","srmr"))
+```
+
+## 5d) Compare nested models (WLSMV difference tests)
+
+```{r}
+lavTestLRT(fit_g0, fit_g1, fit_g2)
+```
+
+**Interpretation tasks**
+
+1. Does adding equal thresholds worsen fit meaningfully?
+2. Does adding equal loadings (on top of thresholds) worsen fit meaningfully?
+3. Based on this ladder, what comparisons would you feel comfortable making?
+   - factor structure? (configural)
+   - relations among factors? (threshold+loading invariance often needed)
+   - latent means? (typically needs at least thresholds+loadings; and later we discuss partial invariance)
+
+---
+
+# Wrap-up
+
+## Deliverables
+
+1. A short paragraph: continuous-vs-ordinal CFA — what changed and why?
+2. A table (or bullet list) summarizing:
+   - top thresholds for one item
+   - top residual pairs + what you think they represent
+3. Invariance summary across `school`: configural vs thresholds vs thresholds+loadings
+
+---
+
+# Solutions (instructor version)
+
+```{r}
+#| echo: false
+if (SHOW) cat("Instructor solutions are enabled.\n")
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  list(
+    fit_cont = fitMeasures(fit_cont, c("chisq","df","cfi","tli","rmsea","srmr")),
+    fit_ord  = fitMeasures(fit_ord,  c("chisq","df","cfi","tli","rmsea","srmr")),
+    load_diff = merge(load_cont, load_ord, by = c("lhs","rhs"), suffixes = c("_cont","_ord")),
+    top_thresholds = head(thr, 12),
+    top_residuals = head(top_res, 10),
+    top_mi = head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 10),
+    inv_fit = rbind(
+      configural = fitMeasures(fit_g0, c("cfi","tli","rmsea","srmr")),
+      thresholds = fitMeasures(fit_g1, c("cfi","tli","rmsea","srmr")),
+      th_load    = fitMeasures(fit_g2, c("cfi","tli","rmsea","srmr"))
+    ),
+    inv_lrt = lavTestLRT(fit_g0, fit_g1, fit_g2)
+  )
+}
+```

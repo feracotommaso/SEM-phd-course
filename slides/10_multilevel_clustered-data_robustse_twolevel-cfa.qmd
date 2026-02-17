@@ -1,0 +1,1066 @@
+---
+title: "Multilevel Confirmatory Factor Analysis"
+subtitle: "Introduction, syntax, and practical examples (lavaan)"
+author: "Tommaso Feraco (adapted from Luca Menghini’s HandZone material)"
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+
+format:
+  revealjs:
+    slide-number: c/t
+    code-overflow: wrap
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+    slide-level: 2
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(semTools)
+
+options(digits = 3)
+set.seed(123)
+
+# Helper: discretize to Likert k categories
+cut_likert <- function(x, k = 5) {
+  qs <- quantile(x, probs = seq(0, 1, length.out = k + 1), na.rm = TRUE)
+  as.integer(cut(x, breaks = unique(qs), include.lowest = TRUE, labels = FALSE))
+}
+```
+
+## Today in the workflow
+
+**Specify → Identify → Estimate → Evaluate → Revise / Report**
+
+::: {.callout-note appearance="minimal"}
+**Focus today:** what changes when data are **clustered** (schools/teams) or **repeated** (ESM / within-person).  
+Key idea: with clustering we need to model **two covariance structures** (within & between).
+:::
+
+## Learning objectives
+
+By the end you should be able to:
+
+- Diagnose *non-independence* (clusters / repeated measures) and why it matters
+- Explain **within** vs **between** covariance (and how to compute them)
+- Fit a **two-level CFA** in `lavaan` (`level:` blocks + `cluster=`)
+- Read **level-specific fit** (especially `srmr_within` vs `srmr_between`)
+- Understand **cross-level invariance** and its link to construct meaning (e.g., traits as distributions of states)
+
+## Outline
+
+- SEM vs CFA (quick refresher)
+- From single-level CFA to multilevel CFA
+- Example A: individuals nested within groups (schools/teams)
+- Example B: repeated measures nested within persons (ESM)
+- Cross-level invariance and cross-level homology
+
+---
+
+# Multilevel CFA
+
+## Multilevel what!?
+
+SEM = multivariate *linear* models formalized as **systems of equations**.
+
+::: columns
+::: {.column width="50%"}
+
+**linear models**
+
+$\text{PERF}=\beta_1\text{IQ}+\beta_2\text{ANX}+\epsilon$
+
+![](../assets/images/lm.png){fig-align="center" width="70%"}
+
+:::
+::: {.column width="50%"}
+
+**SEM system**
+
+$$
+\begin{aligned}
+\text{ANX} &= \beta_1\text{SEFF} + \epsilon_2\\
+\text{PERF} &= \beta_2\text{SEFF} + \beta_3\text{ANX} + \epsilon_3
+\end{aligned}
+$$
+
+![](../assets/images/sem1.png){fig-align="center" width="70%"}
+
+:::
+:::
+
+## The two fundamental parts of a SEM
+
+1) **Structural model**: relations among variables (latent/observed)  
+2) **Measurement model**: indicators → latent variables (**CFA**)
+
+::: columns
+::: {.column width="50%"}
+![](../assets/images/sem1.png){fig-align="center" width="75%"}
+:::
+::: {.column width="50%"}
+![](../assets/images/sem3.png){fig-align="center" width="75%"}
+:::
+:::
+
+## Confirmatory factor analysis (CFA)
+
+CFA is the measurement model:
+
+- number of factors (1, 2, …, *k*)
+- which indicators load on which factor
+- (co)variances among factors and residual variances
+
+![](../assets/images/cfa1.PNG){fig-align="center" width="95%"}
+
+## Factor structure (concept)
+
+::: columns
+::: {.column width="50%"}
+A **factor structure** is one possible configuration of relations between a set of observed variables and one or more latent factors, defining:
+
+1. the **number** of latent variables (1-factor, 2-factor, …, *k*-factor model)  
+2. the **pattern** of relations between each observed variable and its factor (loading pattern)
+
+:::
+::: {.column width="50%"}
+![](../assets/images/cfa2.PNG){fig-align="center" width="95%"}
+:::
+:::
+
+Starting from the covariance matrix of observed variables, CFA tests the **fit** of one or more hypothesized factor structures and estimates the corresponding **loadings**.
+
+---
+
+## The starting point: variance–covariance matrix
+
+SEM is about reproducing the observed covariance matrix.
+
+$$
+H_0:\ \hat{\Sigma}(\theta) = \Sigma
+$$
+
+::: {.center}
+![](../assets/images/modelfit.png){width="50%"}
+:::
+
+
+::: {.callout-note appearance="minimal"}
+Fit indices summarize “how close” the model-implied covariance structure is to the data.
+:::
+
+---
+
+## What if data are multilevel?
+
+When observations are nested (e.g., students in classes; employees in teams) or repeated (ESM):
+
+- **local dependence**: units in the same cluster/person are more similar  
+- independence assumption fails  
+- ignoring clustering can bias **standard errors** and sometimes distort inference
+
+::: columns
+::: {.column width="50%"}
+
+```{r}
+# toy long dataset
+df <- data.frame(
+  cluster = rep(1:4, each = 6),
+  x1 = rnorm(24),
+  x2 = rnorm(24)
+)
+
+```
+:::
+::: {.column width="50%"}
+```{r}
+df[1:10,]
+```
+
+:::
+:::
+
+---
+
+## Decomposing (co)variance: within vs between
+
+We decompose the covariance structure into:
+
+::: columns
+::: {.column width="50%"}
+- **Between (L2):** covariance among **cluster means**
+
+```{r}
+wide <- aggregate(
+  cbind(x1, x2) ~ cluster, 
+  data = df, FUN = mean)
+names(wide)[2:3] <- c("x1.b","x2.b")
+
+head(wide)
+```
+
+
+::: {.callout-note appearance="minimal"}
+do clusters with higher mean $(X)$ also have higher mean $(Y)$?
+:::
+
+:::
+::: {.column width="50%"}
+
+- **Within (L1):** covariance among **deviations** from cluster means
+
+```{r}
+df2 <- merge(df, wide, by = "cluster")
+df2$x1.w <- df2$x1 - df2$x1.b
+df2$x2.w <- df2$x2 - df2$x2.b
+
+round(head(df2),2)
+```
+
+
+::: {.callout-note appearance="minimal"}
+Within: when a unit is above its cluster mean on $(X)$, is it also above on $(Y)$?
+:::
+
+::: 
+::: 
+
+
+
+---
+
+## Computing within/between covariance
+
+::: columns
+::: {.column width="50%"}
+- **Between (L2):** covariance among **cluster means**
+
+```{r}
+S_between <- cov(wide[, c("x1.b","x2.b")])
+S_between
+```
+
+
+::: {.callout-note appearance="minimal"}
+do clusters with higher mean $(X)$ also have higher mean $(Y)$?
+:::
+
+:::
+::: {.column width="50%"}
+
+- **Within (L1):** covariance among **deviations** from cluster means
+
+```{r}
+S_within  <- cov(df2[, c("x1.w","x2.w")])
+S_within
+```
+
+
+::: {.callout-note appearance="minimal"}
+Within: when a unit is above its cluster mean on $(X)$, is it also above on $(Y)$?
+:::
+
+::: 
+::: 
+
+---
+
+## Level-specific covariance matrices
+
+
+
+---
+
+## Multilevel CFA (MCFA)
+
+::: columns
+::: {.column width="50%"}
+
+MCFA estimates measurement structure at both levels and matches both matrices:
+
+- within-level factor model
+
+  - $(S_\text{within}\) vs \(\hat{\Sigma}_\text{within})$
+
+- between-level factor model
+
+  - $(S_\text{between}\) vs \(\hat{\Sigma}_\text{between})$
+
+That is why we need **level-specific fit** and **level-specific parameters**.
+
+:::
+::: {.column width="50%"}
+
+![](../assets/images/sem4.png){fig-align="center" width="90%"}
+
+::: {.callout-note appearance="minimal"}
+And we can ask:
+
+- are loadings stronger at L2?
+- is fit acceptable within **and** between?
+- is the construct “the same” across levels? (**cross-level invariance**)
+:::
+
+:::
+:::
+
+---
+
+# HandZone: Multilevel CFA
+
+## MCFA in lavaan: syntax
+
+Two key ingredients:
+
+1) `level: 1` and `level: 2` blocks  
+2) `cluster = "cluster_id"` in `cfa()` / `sem()`
+
+```{r}
+#| eval: false
+m2l <- '
+  level: 1
+    TD_w =~ d1 + d2 + d3 + d4
+  level: 2
+    TD_b =~ d1 + d2 + d3 + d4
+'
+fit2l <- cfa(m2l, data = dat, cluster = "ID")
+```
+
+## Simulate an ESM-like dataset
+
+- 139 individuals
+- 21 measurements each (3 days × 7 prompts/day)
+- 4 Likert indicators of “Task Demand”
+
+::: columns
+::: {.column width = "50%"}
+```{r}
+n_id <- 139
+n_rep <- 21
+N <- n_id * n_rep
+ID <- rep(sprintf("S%03d", 1:n_id), 
+          each = n_rep)
+# Between-person factor
+eta_b <- rnorm(n_id, 0, 0.7)
+eta_b_long <- rep(eta_b, each = n_rep)
+# Within-person factor
+eta_w <- rnorm(N, 0, 1.0)
+
+lambda <- c(0.80, 0.70, 0.75, 0.65)
+eps_sd <- c(0.70, 0.80, 0.75, 0.85)
+
+y_cont <- sapply(seq_along(lambda), 
+                 function(j) {
+  lambda[j]*(eta_b_long + eta_w) + 
+                 rnorm(N, 0, eps_sd[j])
+})
+
+```
+
+:::
+::: {.column width = "50%"}
+```{r}
+ESMdata <- data.frame(
+  ID = ID,
+  day = rep(rep(1:3, length.out = n_rep), 
+            times = n_id),
+  d1 = cut_likert(y_cont[,1]),
+  d2 = cut_likert(y_cont[,2]),
+  d3 = cut_likert(y_cont[,3]),
+  d4 = cut_likert(y_cont[,4])
+)
+head(ESMdata, 12)
+```
+
+:::
+:::
+
+## Multilevel CFA: fit the model
+
+```{r}
+m_td <- '
+  level: 1
+    TD_w =~ d1 + d2 + d3 + d4
+  level: 2
+    TD_b =~ d1 + d2 + d3 + d4
+'
+fit_td <- cfa(m_td, data = ESMdata, cluster = "ID", estimator = "MLR")
+```
+
+## Multilevel CFA: level-specific fit indices
+
+Global fit is often dominated by the within-level.
+
+SRMR is available by level:
+
+- `srmr_within`
+- `srmr_between` (**key** for L2 misspecification)
+
+```{r}
+round(lavInspect(fit_td, "fit")[
+  c("rmsea.robust","cfi.robust","tli.robust",
+    "srmr_within","srmr_between")
+  ], 3)
+```
+
+<span style="color:#c00000;">[ADD REFERENCES: Ryu & West (2009); Hsu et al. (2015) → add bib entries]</span>
+
+## Multilevel CFA: level-specific parameters
+
+```{r}
+# within loadings (first block)
+standardizedSolution(fit_td)[1:4, c("lhs","op","rhs","est.std")]
+```
+
+```{r}
+# between loadings (later block)
+standardizedSolution(fit_td)[15:18, c("lhs","op","rhs","est.std")]
+```
+
+::: {.callout-warning appearance="minimal"}
+Note: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).
+:::
+
+<span style="color:#c00000;">[ADD REFERENCES: Hox, 2010 → add bib entries]</span>
+
+## Multilevel CFA: but items are ordinal
+
+```{r}
+#| eval: true
+#| error: true
+fit_td_ord <- cfa(m_td, data = ESMdata, cluster = "ID",
+                  ordered = c("d1","d2","d3","d4"))
+```
+
+---
+
+# Groups: individuals nested within groups
+
+## Subjects nested within groups
+
+When participants belong to many groups (schools/classes/teams):
+
+- observations are **not independent**
+- you can still fit a single-level model, but SEs/inference can be wrong
+- multilevel CFA allows **separate within and between measurement models**
+
+## Example: individual vs team participation (simulated)
+
+```{r}
+n_school <- 68
+n_i <- 608
+schoolID <- sample(seq_len(n_school), size = n_i, replace = TRUE)
+# Between-school factor
+eta_school <- rnorm(n_school, 0, 0.6)
+eta_b <- eta_school[schoolID]
+# Within-person factor
+eta_w <- rnorm(n_i, 0, 1.0)
+
+lam_p <- c(0.80, 0.75, 0.70, 0.65)
+eps_p <- c(0.80, 0.85, 0.90, 0.95)
+p_cont <- sapply(seq_along(lam_p), function(j) {
+  lam_p[j] * (eta_b + eta_w) + rnorm(n_i, 0, eps_p[j])
+})
+
+edudata <- data.frame(
+  schoolID = schoolID,
+  p2 = cut_likert(p_cont[,1]),
+  p3 = cut_likert(p_cont[,2]),
+  p4 = cut_likert(p_cont[,3]),
+  p5 = cut_likert(p_cont[,4])
+)
+head(edudata, 4)
+```
+
+## Single-level CFA
+
+```{r}
+m_ep <- 'EP =~ p2 + p3 + p4 + p5'
+
+fit_mlr <- cfa(m_ep, edudata, estimator = "MLR")
+round(lavInspect(fit_mlr, "fit")[
+  c("chisq","df","rmsea.robust","cfi.robust","srmr")
+  ], 3)
+```
+
+```{r}
+#| eval: true
+# Ordinal estimator (single-level)
+fit_wlsmv <- cfa(m_ep, edudata, 
+                 ordered = c("p2","p3","p4","p5"))  # WLSMV default
+round(lavInspect(fit_wlsmv, "fit")[
+  c("chisq","df","rmsea","cfi","tli","srmr")
+  ], 3)
+```
+
+---
+
+## Multilevel CFA: preliminary models (Level 1)
+
+Hox (2010) suggests a preliminary check:
+
+- fit CFA on the **pooled-within covariance matrix** (within-cluster centered scores)
+
+```{r}
+lwd <- na.omit(edudata[, c("schoolID", paste0("p",2:5))])
+
+ms <- data.frame(
+  p2 = ave(lwd$p2, lwd$schoolID),
+  p3 = ave(lwd$p3, lwd$schoolID),
+  p4 = ave(lwd$p4, lwd$schoolID),
+  p5 = ave(lwd$p5, lwd$schoolID)
+)
+cs <- lwd[, 2:ncol(lwd)] - ms
+
+pw.cov <- (cov(cs) * (nrow(lwd) - 1)) / (nrow(lwd) - nlevels(lwd$schoolID))
+
+fit_pw <- cfa(m_ep, sample.cov = pw.cov, sample.nobs = nrow(lwd))
+round(lavInspect(fit_pw, "fit")[c("chisq","df","rmsea","cfi","tli","srmr")], 3)
+```
+
+## Multilevel CFA: preliminary models (Level 2)
+
+At Level 2 (between), fit benchmark models:
+
+1) **Null**: No structure at Level 2. If it fits well, there is no clear structure at Level 2 (classic CFA is better: no between variability)  
+2) **Independence**: Fit a model with variances only. If it fits well, there is probably a structure at Level 2, but not an interesting structural model (the pooled within matrix is better)  
+3) **Saturated**: Fit a saturated model with variances and covariances. If it fits well, then the construct *'exist'* only at Level 1, while covariances at Level 2 are spurious.
+
+## Multilevel CFA: preliminary models (Level 2)
+
+::: columns
+::: {.column width = "50%"}
+
+```{r}
+m_null <- '
+  level: 1
+    p.w =~ p2 + p3 + p4 + p5
+  level: 2
+    p2 ~~ 0*p2
+    p3 ~~ 0*p3
+    p4 ~~ 0*p4
+    p5 ~~ 0*p5
+'
+
+m_ind <- '
+  level: 1
+    p.w =~ p2 + p3 + p4 + p5
+  level: 2
+    p2 ~~ p2
+    p3 ~~ p3
+    p4 ~~ p4
+    p5 ~~ p5
+'
+
+```
+:::
+::: {.column width = "50%"}
+```{r}
+m_sat <- '
+  level: 1
+    p.w =~ p2 + p3 + p4 + p5
+  level: 2
+    p2 ~~ p2 + p3 + p4 + p5
+    p3 ~~ p3 + p4 + p5
+    p4 ~~ p4 + p5
+    p5 ~~ p5
+'
+
+fit_null <- cfa(m_null, edudata, 
+                cluster = "schoolID", 
+                estimator = "MLR")
+fit_ind  <- cfa(m_ind,  edudata, 
+                cluster = "schoolID", 
+                estimator = "MLR")
+fit_sat  <- cfa(m_sat,  edudata, 
+                cluster = "schoolID", 
+                estimator = "MLR")
+```
+```{r}
+#| echo: false
+
+f <- c("df","rmsea.robust","cfi.robust","srmr_within","srmr_between")
+round(rbind(
+  null = lavInspect(fit_null,"fit")[f],
+  ind  = lavInspect(fit_ind,"fit")[f],
+  sat  = lavInspect(fit_sat,"fit")[f]
+), 3)
+
+```
+
+
+:::
+:::
+
+## Multilevel CFA: the hypothesized model
+
+```{r}
+#| warning: true
+m_mcfa <- '
+  level: 1
+    p.w =~ p2 + p3 + p4 + p5
+  level: 2
+    p.b =~ p2 + p3 + p4 + p5
+'
+fit_mcfa <- cfa(m_mcfa, edudata, cluster = "schoolID", estimator = "MLR")
+
+round(rbind(
+  null = lavInspect(fit_null,"fit")[f],
+  ind  = lavInspect(fit_ind,"fit")[f],
+  sat  = lavInspect(fit_sat,"fit")[f],
+  mcfa = lavInspect(fit_mcfa,"fit")[f]
+), 3)
+```
+
+## Level-specific loadings
+
+```{r}
+standardizedSolution(fit_mcfa)[c(1:4, 15:18), c("lhs","op","rhs","est.std")]
+```
+
+
+::: {.callout-warning appearance="minimal"}
+Remember: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).
+:::
+
+---
+
+# Repeated measures: observations nested within persons
+
+## ESM / intensive longitudinal designs
+
+In ESM:
+
+- Level 2 (between): stable differences across persons (“trait-like”)
+- Level 1 (within): momentary fluctuations within a person (“state-like”)
+
+![](../assets/images/esm.png){fig-align="center" width="70%"}
+
+See Menghini, Pastore & Balducci (2023) https://doi.org/10.1027/1015-5759/a000725
+
+## Multiple-factor MCFA (compare structures)
+
+Some constructs show different dimensionality within vs between.
+
+![](../assets/images/mcfa2.png){fig-align="center" width="85%"}
+
+## Simulate a 3-factor MCFA dataset (NV, TA, FA)
+
+We simulate 9 ordinal items (3 per factor), repeated within persons.
+
+```{r}
+n_id <- 139
+n_rep <- 21
+N <- n_id * n_rep
+ID <- rep(sprintf("S%03d", 1:n_id), each = n_rep)
+
+# between factors (person-level)
+EtaB <- matrix(rnorm(n_id * 3), ncol = 3)
+colnames(EtaB) <- c("NV_b","TA_b","FA_b")
+EtaB_long <- EtaB[match(ID, sprintf("S%03d", 1:n_id)), ]
+
+# within factors (occasion-level)
+EtaW <- matrix(rnorm(N * 3), ncol = 3)
+colnames(EtaW) <- c("NV_w","TA_w","FA_w")
+
+lam <- c(0.80, 0.70, 0.75)
+
+make_items <- function(f_w, f_b, prefix) {
+  out <- sapply(1:3, function(j) lam[j] * (f_w + f_b) + rnorm(N, 0, 0.9))
+  colnames(out) <- paste0(prefix, 1:3)
+  out
+}
+
+V <- make_items(EtaW[,"NV_w"], EtaB_long[,"NV_b"], "v")
+T <- make_items(EtaW[,"TA_w"], EtaB_long[,"TA_b"], "t")
+F <- make_items(EtaW[,"FA_w"], EtaB_long[,"FA_b"], "f")
+
+ESM3 <- data.frame(
+  ID = ID,
+  v1 = cut_likert(V[,1]), v2 = cut_likert(V[,2]), v3 = cut_likert(V[,3]),
+  t1 = cut_likert(T[,1]), t2 = cut_likert(T[,2]), t3 = cut_likert(T[,3]),
+  f1 = cut_likert(F[,1]), f2 = cut_likert(F[,2]), f3 = cut_likert(F[,3])
+)
+head(ESM3, 4)
+```
+
+## Specify alternative structures
+
+::: columns
+::: {.column width = "50%"}
+
+```{r}
+m3x3 <- '
+  level: 1
+    NV_w =~ v1 + v2 + v3
+    TA_w =~ t1 + t2 + t3
+    FA_w =~ f1 + f2 + f3
+  level: 2
+    NV_b =~ v1 + v2 + v3
+    TA_b =~ t1 + t2 + t3
+    FA_b =~ f1 + f2 + f3
+'
+
+m2x3 <- '
+  level: 1
+    NV_w =~ v1 + v2 + v3
+    TA_w =~ t1 + t2 + t3
+    FA_w =~ f1 + f2 + f3
+  level: 2
+    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3
+    FA_b =~ f1 + f2 + f3
+'
+```
+
+:::
+::: {.column width = "50%"}
+
+```{r}
+m2x2 <- '
+  level: 1
+    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3
+    FA_w =~ f1 + f2 + f3
+  level: 2
+    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3
+    FA_b =~ f1 + f2 + f3
+'
+
+m3x2 <- '
+  level: 1
+    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3
+    FA_w =~ f1 + f2 + f3
+  level: 2
+    NV_b =~ v1 + v2 + v3
+    TA_b =~ t1 + t2 + t3
+    FA_b =~ f1 + f2 + f3
+'
+```
+:::
+:::
+
+## Fit and compare
+
+```{r}
+fit2x2 <- cfa(m2x2, ESM3, cluster = "ID", estimator = "MLR")
+fit3x2 <- cfa(m3x2, ESM3, cluster = "ID", estimator = "MLR")
+fit2x3 <- cfa(m2x3, ESM3, cluster = "ID", estimator = "MLR")
+fit3x3 <- cfa(m3x3, ESM3, cluster = "ID", estimator = "MLR")
+
+f2 <- c("df","rmsea.robust","cfi.robust","srmr_within","srmr_between")
+round(rbind(
+  `2x2` = lavInspect(fit2x2,"fit")[f2],
+  `3x2` = lavInspect(fit3x2,"fit")[f2],
+  `2x3` = lavInspect(fit2x3,"fit")[f2],
+  `3x3` = lavInspect(fit3x3,"fit")[f2]
+), 3)
+```
+
+---
+
+## Negative Level-2 variances (Heywood cases)
+
+Negative residual variances at Level 2 are common in MCFA because:
+
+- error tends to accumulate at Level 1  
+- Level-2 loadings can be very strong → residual variances close to 0  
+- sampling fluctuations around ~0 can produce negative estimates
+
+![](../assets/images/error.PNG){fig-align="center" width="70%"}
+
+```{r}
+p <- parameterEstimates(fit3x3)
+p[p$op == "~~" & p$ci.lower < 0, ]
+```
+
+<span style="color:#c00000;">[ADD REFERENCE: Hox (2010); Kolenikov & Bollen (2012) → add bib entries]</span>
+
+## Negative variances and influential-case analysis
+
+If misspecification is unlikely, one pragmatic strategy is **influential-case analysis**:
+
+- remove clusters (persons) that drive the improper solution  
+- refit until the negative variance becomes ~0  
+- compare substantive conclusions
+
+```{r}
+#| eval: false
+# Example template: replace IDs with the clusters you find influential
+clean <- subset(ESM3, !ID %in% c("S017","S035","S139","S008",
+                                 "S106","S142","S067"))
+fit3x3_c <- cfa(m3x3, clean, cluster = "ID", estimator = "MLR")
+```
+
+---
+
+# Invariance across levels
+
+## Invariance across groups (reminder)
+
+Question: are we measuring the *same* construct across groups?
+
+Typical approach: multi-group CFA with a sequence of constraints (configural → metric → scalar → …).
+
+![](../assets/images/invariance.png){fig-align="center" width="85%"}
+
+## Invariance across clusters!?
+
+Multi-group CFA becomes impractical with many clusters (e.g., 139 persons).
+
+Multilevel logic: treat clusters as **random effects** and focus on **cross-level invariance**.
+
+![](../assets/images/inv.jpg){fig-align="center" width="65%"}
+
+<span style="color:#c00000;">[ADD REFERENCE: Jak & Jorgensen (2017) → add bib entry]</span>
+
+## Cross-level invariance: configural
+
+Same factor structure at both levels.
+
+```{r}
+conf <- '
+  level: 1
+    NV_w =~ v1 + v2 + v3
+    TA_w =~ t1 + t2 + t3
+    FA_w =~ f1 + f2 + f3
+  level: 2
+    NV_b =~ v1 + v2 + v3
+    TA_b =~ t1 + t2 + t3
+    FA_b =~ f1 + f2 + f3
+'
+```
+
+## Cross-level invariance: weak (equal loadings)
+
+Same structure + equal (unstandardized) loadings across levels.
+
+```{r}
+weak <- '
+  level: 1
+    NV_w =~ a*v1 + b*v2 + c*v3
+    TA_w =~ d*t1 + e*t2 + f*t3
+    FA_w =~ g*f1 + h*f2 + i*f3
+  level: 2
+    NV_b =~ a*v1 + b*v2 + c*v3
+    TA_b =~ d*t1 + e*t2 + f*t3
+    FA_b =~ g*f1 + h*f2 + i*f3
+'
+```
+
+## Cross-level invariance: “strong” (as in Luca’s slide)
+
+Luca’s “strong” adds **zero residual variances at Level 2** (“perfect reliability”).
+
+::: {.callout-warning appearance="minimal"}
+With psychological data, this is rarely realistic. Treat it as a **theoretical benchmark**, not a default.
+:::
+
+```{r}
+strong <- '
+  level: 1
+    NV_w =~ a*v1 + b*v2 + c*v3
+    TA_w =~ d*t1 + e*t2 + f*t3
+    FA_w =~ g*f1 + h*f2 + i*f3
+  level: 2
+    NV_b =~ a*v1 + b*v2 + c*v3
+    TA_b =~ d*t1 + e*t2 + f*t3
+    FA_b =~ g*f1 + h*f2 + i*f3
+
+    v1 ~~ 0*v1; v2 ~~ 0*v2; v3 ~~ 0*v3
+    t1 ~~ 0*t1; t2 ~~ 0*t2; t3 ~~ 0*t3
+    f1 ~~ 0*f1; f2 ~~ 0*f2; f3 ~~ 0*f3
+'
+```
+
+## Compare invariance models
+
+```{r}
+fit.conf   <- cfa(conf,   ESM3, cluster = "ID", estimator = "MLR")
+fit.weak   <- cfa(weak,   ESM3, cluster = "ID", estimator = "MLR")
+fit.strong <- cfa(strong, ESM3, cluster = "ID", estimator = "MLR")
+
+round(rbind(
+  conf   = lavInspect(fit.conf,   "fit")[f2],
+  weak   = lavInspect(fit.weak,   "fit")[f2],
+  strong = lavInspect(fit.strong, "fit")[f2]
+), 3)
+```
+
+---
+
+## Multilevel constructs and cross-level invariance
+
+Cross-level invariance is not only “fit”—it’s about **construct meaning**.
+
+![](../assets/images/MCFAconstructs.png){fig-align="center" width="85%"}
+
+<span style="color:#c00000;">[ADD REFERENCE: Stapleton et al. (2016) → add bib entry]</span>
+
+## Traits as distributions of states
+
+Some theories treat traits as distributions of states.  
+This implicitly assumes at least **weak cross-level invariance**.
+
+![](../assets/images/wholetrait.PNG){fig-align="center" width="75%"}
+
+---
+
+# Example: state workaholism (simulated)
+
+## Luca’s real-data example (slides)
+
+![](../assets/images/ema.png){fig-align="center" width="80%"}
+![](../assets/images/statew.png){fig-align="center" width="70%"}
+
+## Simulate a workaholism ESM dataset (2 factors, 6 items)
+
+```{r}
+n_id <- 135
+n_rep <- 30
+N <- n_id * n_rep
+ID <- rep(sprintf("P%03d", 1:n_id), each = n_rep)
+# Between factors
+WE_b <- rnorm(n_id, 0, 0.6)
+WC_b <- rnorm(n_id, 0, 0.6)
+WE_b_long <- rep(WE_b, each = n_rep)
+WC_b_long <- rep(WC_b, each = n_rep)
+# Within factors
+WE_w <- rnorm(N, 0, 1.0)
+WC_w <- rnorm(N, 0, 1.0)
+# Loadings within
+lam_WE_w <- c(0.8, 0.7, 0.75)   # items 1,3,5
+lam_WC_w <- c(0.75, 0.70, 0.65) # items 2,4,6
+# Loadings between (slight violation on item1)
+lam_WE_b <- c(0.60, 0.70, 0.75)
+lam_WC_b <- lam_WC_w
+
+WH1 <- lam_WE_w[1]*WE_w + lam_WE_b[1]*WE_b_long + rnorm(N, 0, 0.9)
+WH3 <- lam_WE_w[2]*WE_w + lam_WE_b[2]*WE_b_long + rnorm(N, 0, 0.9)
+WH5 <- lam_WE_w[3]*WE_w + lam_WE_b[3]*WE_b_long + rnorm(N, 0, 0.9)
+
+WH2 <- lam_WC_w[1]*WC_w + lam_WC_b[1]*WC_b_long + rnorm(N, 0, 0.9)
+WH4 <- lam_WC_w[2]*WC_w + lam_WC_b[2]*WC_b_long + rnorm(N, 0, 0.9)
+WH6 <- lam_WC_w[3]*WC_w + lam_WC_b[3]*WC_b_long + rnorm(N, 0, 0.9)
+
+dat_wh <- data.frame(
+  ID = ID,
+  WHLSM1 = cut_likert(WH1),
+  WHLSM2 = cut_likert(WH2),
+  WHLSM3 = cut_likert(WH3),
+  WHLSM4 = cut_likert(WH4),
+  WHLSM5 = cut_likert(WH5),
+  WHLSM6 = cut_likert(WH6)
+)
+head(dat_wh, 4)
+```
+
+## Cross-level invariance: configural vs weak
+
+```{r}
+conf_wh <- '
+  level: 1
+    sWE =~ WHLSM1 + WHLSM3 + WHLSM5
+    sWC =~ WHLSM2 + WHLSM4 + WHLSM6
+  level: 2
+    tWE =~ WHLSM1 + WHLSM3 + WHLSM5
+    tWC =~ WHLSM2 + WHLSM4 + WHLSM6
+'
+
+weak_wh <- '
+  level: 1
+    sWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5
+    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6
+  level: 2
+    tWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5
+    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6
+'
+
+fit.conf_wh <- cfa(conf_wh, dat_wh, cluster = "ID", estimator = "MLR")
+fit.weak_wh <- cfa(weak_wh, dat_wh, cluster = "ID", estimator = "MLR")
+
+round(rbind(
+  conf = lavInspect(fit.conf_wh, "fit")[c("df","rmsea.robust","cfi.robust","srmr_within","srmr_between")],
+  weak = lavInspect(fit.weak_wh, "fit")[c("df","rmsea.robust","cfi.robust","srmr_within","srmr_between")]
+), 3)
+```
+
+## Partial invariance?
+
+Use modification indices to find which equality constraint is most problematic.
+
+```{r}
+mi <- modificationIndices(fit.weak_wh)
+mi[order(mi$mi, decreasing = TRUE), ][1:6, c("lhs","op","rhs","mi")]
+```
+
+Then free one loading across levels (partial weak invariance):
+
+```{r}
+weak_part_wh <- '
+  level: 1
+    sWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5
+    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6
+  level: 2
+    tWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5
+    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6
+'
+fit.weak_part_wh <- cfa(weak_part_wh, dat_wh, cluster = "ID", estimator = "MLR")
+
+```
+
+---
+
+# Cross-level homology
+
+## Beyond invariance: homology
+
+If cross-level invariance holds (conceptually and empirically), we can test whether the construct has a similar **nomological network** across levels (cross-level homology).
+
+![](../assets/images/homology.png){fig-align="center" width="80%"}
+
+<span style="color:#c00000;">[ADD REFERENCE: Chen et al. (2005) → add bib entries]</span>
+
+---
+
+## Take-home: 3 things
+
+1. With clustered/repeated data, always think **within vs between** (two covariance structures).  
+2. In MCFA, global fit can hide L2 misspecification — check **SRMR_between**.  
+3. Cross-level invariance connects estimation constraints to **construct interpretation** (trait/state, aggregation, homology).
+
+## Exercises → Lab 10
+
+Go to: **`labs/lab10_multilevel_robustse_twolevelcfa.qmd`**
+
+- fit a two-level CFA with `level:` + `cluster=`
+- compare alternative within/between structures and interpret SRMR
+- diagnose (potential) Heywood cases at Level 2
+- test (optional) cross-level invariance and partial invariance
+
+## Further reading
+
+<span style="color:#c00000;">[ADD the corresponding bib entries + citation keys in `refs/references.bib`]</span>
+
+- Hox (2010), *Multilevel Analysis* (SEM/MCFA chapter)  
+- Ryu & West (2009) on level-specific fit, SRMR  
+- Hsu et al. (2015) on level-specific fit in MCFA  
+- Kolenikov & Bollen (2012) on improper solutions / negative variances  
+- Jak & Jorgensen (2017) on cross-level invariance  
+- Stapleton et al. (2016) on multilevel constructs  
+- Chen et al. (2005) on cross-level homology  
+
+## References
+
+<span style="color:#c00000;">[Replace the red TODOs with proper `[@key]` citations once the bib entries are in place.]</span>

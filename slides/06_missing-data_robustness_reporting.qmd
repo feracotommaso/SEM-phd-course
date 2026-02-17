@@ -18,11 +18,14 @@ csl: ../refs/apa7.csl
 
 ## Workflow map
 
-Specify → Identify → **Estimate** → **Evaluate** → Report
+## Today in the workflow
 
+Specify → Identify → **Estimate → Evaluate** → Revise/Report
+
+::: {.callout-note appearance="minimal"}
 Today we practice a *sensitivity mindset*:
-
-> Same model, different reasonable choices → **does the conclusion change?**
+Same model, different reasonable choices → **does the conclusion change?**
+:::
 
 ---
 

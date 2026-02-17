@@ -318,10 +318,10 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 <p>To estimate a model treating items/observations as ordinal data, we need to change the estimationd method</p>
 <ul>
 <li><code>ML</code> is not always accurate with ordinal data (especially with few categories)</li>
-<li><code>lavaan</code>, when <code>ordered</code> is <code>TRUE</code>, automatically use <code>DWLS</code> (diagonally weighted least squares)</li>
-<li>A great alternative is <code>ULS</code>, which usually performs better, but has more convergence problems</li>
+<li><code>lavaan</code>, when <code>ordered</code> is <code>TRUE</code>, automatically use <code>WLSMV</code> (diagonally weighted least squares)</li>
+<li>A great alternative is <code>ULS</code>, but has more convergence problems</li>
 <li>We can also use robust ML alternatives, like <code>MLR</code></li>
-<li>Other available estimators: lavaan tutorial on estimators (see course site)</li>
+<li>Other available estimators: lavaan tutorial on estimators (see <a href="https://lavaan.ugent.be/tutorial/est.html">here</a>)</li>
 </ul>
 </section>
 <section id="how-to-fit-a-cfa-with-ordinal-data" class="slide level2">
@@ -554,6 +554,46 @@ Variances:
 <h2>Reviewer 2</h2>
 
 <img data-src="../assets/images/reviewer2.png" style="width:94.0%" class="r-stretch"></section>
+<section id="data-quality-checks-before-fitting" class="slide level2">
+<h2>Data quality checks (before fitting)</h2>
+<p>Before you run WLSMV / ordinal CFA, check:</p>
+<ul>
+<li><strong>Category frequencies</strong><br>
+Any category with very few responses? (e.g., &lt; 5% or tiny counts)</li>
+<li><strong>Empty / near-empty pairs</strong><br>
+Some item pairs may have empty cells in their K×K tables → unstable polychorics</li>
+<li><strong>Extreme skew / floor–ceiling</strong><br>
+Items with almost everyone in the same category carry little information</li>
+<li><strong>Too many categories for N</strong><br>
+Many categories + modest sample size → sparse tables and unstable estimation</li>
+</ul>
+<div class="callout callout-tip no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>If you see sparse categories, consider collapsing adjacent categories (with a substantive rationale).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-to-do-if-categories-are-sparse" class="slide level2">
+<h2>What to do if categories are sparse</h2>
+<p>Options (in order of “least invasive”):</p>
+<ul>
+<li><p>Collapse adjacent categories (e.g., merge 1–2 or 4–5)</p>
+<ul>
+<li>do it consistently across groups/time if you’ll test invariance</li>
+</ul></li>
+<li><p>Drop an item that is essentially constant or unusable</p></li>
+<li><p>Collect more data (sparse tables are fundamentally a sample-size problem)</p></li>
+</ul>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Avoid “data-driven collapsing” that changes the construct meaning. Document the decision clearly.</p>
+</div>
+</div>
+</div>
+</section>
 <section>
 <section id="mg-cfa-ordinal" class="title-slide slide level1 center">
 <h1>MG-CFA-ordinal</h1>
@@ -902,7 +942,12 @@ Group 2
 <ul>
 <li><code>labs/lab08_ordinal_sem_invariance.qmd</code></li>
 </ul>
-<p>Focus on: - fitting the <strong>same CFA/SEM</strong> treating items as continuous vs <strong>ordered</strong> - inspecting <strong>thresholds</strong> and (polychoric) correlations - MG-CFA steps with ordinal indicators (<strong>thresholds → thresholds + loadings</strong>)</p>
+<p>Focus on:</p>
+<ul>
+<li>fitting the <strong>same CFA/SEM</strong> treating items as continuous vs <strong>ordered</strong></li>
+<li>inspecting <strong>thresholds</strong> and (polychoric) correlations</li>
+<li>MG-CFA steps with ordinal indicators (<strong>thresholds → thresholds + loadings</strong>)</li>
+</ul>
 </section>
 <section id="take-home-summary" class="slide level2">
 <h2>Take-home summary</h2>

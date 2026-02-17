@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
+
+  <meta name="author" content="Tommaso Feraco (adapted from Luca Menghini’s HandZone material)">
+  <title>SEM-PhD – Multilevel Confirmatory Factor Analysis</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link rel="shortcut icon" href="../assets/images/faviconpsicostat2.png">
+
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="../assets/images/psicostatLogo.png" data-background-opacity="0.15" data-background-size="contain" class="quarto-title-block center">
+  <h1 class="title">Multilevel Confirmatory Factor Analysis</h1>
+  <p class="subtitle">Introduction, syntax, and practical examples (lavaan)</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Tommaso Feraco (adapted from Luca Menghini’s HandZone material) 
+</div>
+</div>
+</div>
+
+</section>
+<section id="today-in-the-workflow" class="slide level2">
+<h2>Today in the workflow</h2>
+<p><strong>Specify → Identify → Estimate → Evaluate → Revise / Report</strong></p>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><strong>Focus today:</strong> what changes when data are <strong>clustered</strong> (schools/teams) or <strong>repeated</strong> (ESM / within-person).<br>
+Key idea: with clustering we need to model <strong>two covariance structures</strong> (within &amp; between).</p>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2">
+<h2>Learning objectives</h2>
+<p>By the end you should be able to:</p>
+<ul>
+<li>Diagnose <em>non-independence</em> (clusters / repeated measures) and why it matters</li>
+<li>Explain <strong>within</strong> vs <strong>between</strong> covariance (and how to compute them)</li>
+<li>Fit a <strong>two-level CFA</strong> in <code>lavaan</code> (<code>level:</code> blocks + <code>cluster=</code>)</li>
+<li>Read <strong>level-specific fit</strong> (especially <code>srmr_within</code> vs <code>srmr_between</code>)</li>
+<li>Understand <strong>cross-level invariance</strong> and its link to construct meaning (e.g., traits as distributions of states)</li>
+</ul>
+</section>
+<section id="outline" class="slide level2">
+<h2>Outline</h2>
+<ul>
+<li>SEM vs CFA (quick refresher)</li>
+<li>From single-level CFA to multilevel CFA</li>
+<li>Example A: individuals nested within groups (schools/teams)</li>
+<li>Example B: repeated measures nested within persons (ESM)</li>
+<li>Cross-level invariance and cross-level homology</li>
+</ul>
+</section>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="multilevel-cfa" class="title-slide slide level1 center">
+<h1>Multilevel CFA</h1>
+
+</section>
+<section id="multilevel-what" class="slide level2">
+<h2>Multilevel what!?</h2>
+<p>SEM = multivariate <em>linear</em> models formalized as <strong>systems of equations</strong>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>linear models</strong></p>
+<p><span class="math inline">\(\text{PERF}=\beta_1\text{IQ}+\beta_2\text{ANX}+\epsilon\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/lm.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<p><strong>SEM system</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{ANX} &amp;= \beta_1\text{SEFF} + \epsilon_2\\
+\text{PERF} &amp;= \beta_2\text{SEFF} + \beta_3\text{ANX} + \epsilon_3
+\end{aligned}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/sem1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="the-two-fundamental-parts-of-a-sem" class="slide level2">
+<h2>The two fundamental parts of a SEM</h2>
+<ol type="1">
+<li><strong>Structural model</strong>: relations among variables (latent/observed)<br>
+</li>
+<li><strong>Measurement model</strong>: indicators → latent variables (<strong>CFA</strong>)</li>
+</ol>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/sem1.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/sem3.png" class="quarto-figure quarto-figure-center" style="width:75.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="confirmatory-factor-analysis-cfa" class="slide level2">
+<h2>Confirmatory factor analysis (CFA)</h2>
+<p>CFA is the measurement model:</p>
+<ul>
+<li>number of factors (1, 2, …, <em>k</em>)</li>
+<li>which indicators load on which factor</li>
+<li>(co)variances among factors and residual variances</li>
+</ul>
+
+<img data-src="../assets/images/cfa1.PNG" class="quarto-figure quarto-figure-center r-stretch" style="width:95.0%"></section>
+<section id="factor-structure-concept" class="slide level2">
+<h2>Factor structure (concept)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>A <strong>factor structure</strong> is one possible configuration of relations between a set of observed variables and one or more latent factors, defining:</p>
+<ol type="1">
+<li>the <strong>number</strong> of latent variables (1-factor, 2-factor, …, <em>k</em>-factor model)<br>
+</li>
+<li>the <strong>pattern</strong> of relations between each observed variable and its factor (loading pattern)</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/cfa2.PNG" class="quarto-figure quarto-figure-center" style="width:95.0%"></p>
+</figure>
+</div>
+</div></div>
+<p>Starting from the covariance matrix of observed variables, CFA tests the <strong>fit</strong> of one or more hypothesized factor structures and estimates the corresponding <strong>loadings</strong>.</p>
+</section>
+<section id="the-starting-point-variancecovariance-matrix" class="slide level2">
+<h2>The starting point: variance–covariance matrix</h2>
+<p>SEM is about reproducing the observed covariance matrix.</p>
+<p><span class="math display">\[
+H_0:\ \hat{\Sigma}(\theta) = \Sigma
+\]</span></p>
+<div class="center">
+<p><img data-src="../assets/images/modelfit.png" style="width:50.0%"></p>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Fit indices summarize “how close” the model-implied covariance structure is to the data.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-if-data-are-multilevel" class="slide level2">
+<h2>What if data are multilevel?</h2>
+<p>When observations are nested (e.g., students in classes; employees in teams) or repeated (ESM):</p>
+<ul>
+<li><strong>local dependence</strong>: units in the same cluster/person are more similar<br>
+</li>
+<li>independence assumption fails<br>
+</li>
+<li>ignoring clustering can bias <strong>standard errors</strong> and sometimes distort inference</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># toy long dataset</span></span>
+<span id="cb1-2"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-3"><a></a>  <span class="at">cluster =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">each =</span> <span class="dv">6</span>),</span>
+<span id="cb1-4"><a></a>  <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>),</span>
+<span id="cb1-5"><a></a>  <span class="at">x2 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>)</span>
+<span id="cb1-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   cluster          x1         x2
+1        1 -0.56047565 -0.6250393
+2        1 -0.23017749 -1.6866933
+3        1  1.55870831  0.8377870
+4        1  0.07050839  0.1533731
+5        1  0.12928774 -1.1381369
+6        1  1.71506499  1.2538149
+7        2  0.46091621  0.4264642
+8        2 -1.26506123 -0.2950715
+9        2 -0.68685285  0.8951257
+10       2 -0.44566197  0.8781335</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="decomposing-covariance-within-vs-between" class="slide level2">
+<h2>Decomposing (co)variance: within vs between</h2>
+<p>We decompose the covariance structure into:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Between (L2):</strong> covariance among <strong>cluster means</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>wide <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(</span>
+<span id="cb4-2"><a></a>  <span class="fu">cbind</span>(x1, x2) <span class="sc">~</span> cluster, </span>
+<span id="cb4-3"><a></a>  <span class="at">data =</span> df, <span class="at">FUN =</span> mean)</span>
+<span id="cb4-4"><a></a><span class="fu">names</span>(wide)[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1.b"</span>,<span class="st">"x2.b"</span>)</span>
+<span id="cb4-5"><a></a></span>
+<span id="cb4-6"><a></a><span class="fu">head</span>(wide)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cluster        x1.b        x2.b
+1       1  0.44715272 -0.20081574
+2       2 -0.05879404  0.56914554
+3       3  0.04562658 -0.18284200
+4       4 -0.46868830  0.01981214</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>do clusters with higher mean <span class="math inline">\((X)\)</span> also have higher mean <span class="math inline">\((Y)\)</span>?</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Within (L1):</strong> covariance among <strong>deviations</strong> from cluster means</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>df2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(df, wide, <span class="at">by =</span> <span class="st">"cluster"</span>)</span>
+<span id="cb6-2"><a></a>df2<span class="sc">$</span>x1.w <span class="ot">&lt;-</span> df2<span class="sc">$</span>x1 <span class="sc">-</span> df2<span class="sc">$</span>x1.b</span>
+<span id="cb6-3"><a></a>df2<span class="sc">$</span>x2.w <span class="ot">&lt;-</span> df2<span class="sc">$</span>x2 <span class="sc">-</span> df2<span class="sc">$</span>x2.b</span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a><span class="fu">round</span>(<span class="fu">head</span>(df2),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cluster    x1    x2 x1.b x2.b  x1.w  x2.w
+1       1 -0.56 -0.63 0.45 -0.2 -1.01 -0.42
+2       1 -0.23 -1.69 0.45 -0.2 -0.68 -1.49
+3       1  1.56  0.84 0.45 -0.2  1.11  1.04
+4       1  0.07  0.15 0.45 -0.2 -0.38  0.35
+5       1  0.13 -1.14 0.45 -0.2 -0.32 -0.94
+6       1  1.72  1.25 0.45 -0.2  1.27  1.45</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Within: when a unit is above its cluster mean on <span class="math inline">\((X)\)</span>, is it also above on <span class="math inline">\((Y)\)</span>?</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="computing-withinbetween-covariance" class="slide level2">
+<h2>Computing within/between covariance</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>Between (L2):</strong> covariance among <strong>cluster means</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>S_between <span class="ot">&lt;-</span> <span class="fu">cov</span>(wide[, <span class="fu">c</span>(<span class="st">"x1.b"</span>,<span class="st">"x2.b"</span>)])</span>
+<span id="cb8-2"><a></a>S_between</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            x1.b        x2.b
+x1.b  0.14161724 -0.04636824
+x2.b -0.04636824  0.12918010</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>do clusters with higher mean <span class="math inline">\((X)\)</span> also have higher mean <span class="math inline">\((Y)\)</span>?</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Within (L1):</strong> covariance among <strong>deviations</strong> from cluster means</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>S_within  <span class="ot">&lt;-</span> <span class="fu">cov</span>(df2[, <span class="fu">c</span>(<span class="st">"x1.w"</span>,<span class="st">"x2.w"</span>)])</span>
+<span id="cb10-2"><a></a>S_within</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          x1.w      x2.w
+x1.w 0.8085842 0.1428157
+x2.w 0.1428157 0.7787649</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Within: when a unit is above its cluster mean on <span class="math inline">\((X)\)</span>, is it also above on <span class="math inline">\((Y)\)</span>?</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="level-specific-covariance-matrices" class="slide level2">
+<h2>Level-specific covariance matrices</h2>
+</section>
+<section id="multilevel-cfa-mcfa" class="slide level2">
+<h2>Multilevel CFA (MCFA)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>MCFA estimates measurement structure at both levels and matches both matrices:</p>
+<ul>
+<li><p>within-level factor model</p>
+<ul>
+<li><span class="math inline">\((S_\text{within}\) vs \(\hat{\Sigma}_\text{within})\)</span></li>
+</ul></li>
+<li><p>between-level factor model</p>
+<ul>
+<li><span class="math inline">\((S_\text{between}\) vs \(\hat{\Sigma}_\text{between})\)</span></li>
+</ul></li>
+</ul>
+<p>That is why we need <strong>level-specific fit</strong> and <strong>level-specific parameters</strong>.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/sem4.png" class="quarto-figure quarto-figure-center" style="width:90.0%"></p>
+</figure>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>And we can ask:</p>
+<ul>
+<li>are loadings stronger at L2?</li>
+<li>is fit acceptable within <strong>and</strong> between?</li>
+<li>is the construct “the same” across levels? (<strong>cross-level invariance</strong>)</li>
+</ul>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="handzone-multilevel-cfa" class="title-slide slide level1 center">
+<h1>HandZone: Multilevel CFA</h1>
+
+</section>
+<section id="mcfa-in-lavaan-syntax" class="slide level2">
+<h2>MCFA in lavaan: syntax</h2>
+<p>Two key ingredients:</p>
+<ol type="1">
+<li><code>level: 1</code> and <code>level: 2</code> blocks<br>
+</li>
+<li><code>cluster = "cluster_id"</code> in <code>cfa()</code> / <code>sem()</code></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>m2l <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb12-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb12-3"><a></a><span class="st">    TD_w =~ d1 + d2 + d3 + d4</span></span>
+<span id="cb12-4"><a></a><span class="st">  level: 2</span></span>
+<span id="cb12-5"><a></a><span class="st">    TD_b =~ d1 + d2 + d3 + d4</span></span>
+<span id="cb12-6"><a></a><span class="st">'</span></span>
+<span id="cb12-7"><a></a>fit2l <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m2l, <span class="at">data =</span> dat, <span class="at">cluster =</span> <span class="st">"ID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="simulate-an-esm-like-dataset" class="slide level2">
+<h2>Simulate an ESM-like dataset</h2>
+<ul>
+<li>139 individuals</li>
+<li>21 measurements each (3 days × 7 prompts/day)</li>
+<li>4 Likert indicators of “Task Demand”</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>n_id <span class="ot">&lt;-</span> <span class="dv">139</span></span>
+<span id="cb13-2"><a></a>n_rep <span class="ot">&lt;-</span> <span class="dv">21</span></span>
+<span id="cb13-3"><a></a>N <span class="ot">&lt;-</span> n_id <span class="sc">*</span> n_rep</span>
+<span id="cb13-4"><a></a>ID <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"S%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n_id), </span>
+<span id="cb13-5"><a></a>          <span class="at">each =</span> n_rep)</span>
+<span id="cb13-6"><a></a><span class="co"># Between-person factor</span></span>
+<span id="cb13-7"><a></a>eta_b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_id, <span class="dv">0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb13-8"><a></a>eta_b_long <span class="ot">&lt;-</span> <span class="fu">rep</span>(eta_b, <span class="at">each =</span> n_rep)</span>
+<span id="cb13-9"><a></a><span class="co"># Within-person factor</span></span>
+<span id="cb13-10"><a></a>eta_w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb13-11"><a></a></span>
+<span id="cb13-12"><a></a>lambda <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.70</span>, <span class="fl">0.75</span>, <span class="fl">0.65</span>)</span>
+<span id="cb13-13"><a></a>eps_sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.80</span>, <span class="fl">0.75</span>, <span class="fl">0.85</span>)</span>
+<span id="cb13-14"><a></a></span>
+<span id="cb13-15"><a></a>y_cont <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_along</span>(lambda), </span>
+<span id="cb13-16"><a></a>                 <span class="cf">function</span>(j) {</span>
+<span id="cb13-17"><a></a>  lambda[j]<span class="sc">*</span>(eta_b_long <span class="sc">+</span> eta_w) <span class="sc">+</span> </span>
+<span id="cb13-18"><a></a>                 <span class="fu">rnorm</span>(N, <span class="dv">0</span>, eps_sd[j])</span>
+<span id="cb13-19"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>ESMdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-2"><a></a>  <span class="at">ID =</span> ID,</span>
+<span id="cb14-3"><a></a>  <span class="at">day =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">length.out =</span> n_rep), </span>
+<span id="cb14-4"><a></a>            <span class="at">times =</span> n_id),</span>
+<span id="cb14-5"><a></a>  <span class="at">d1 =</span> <span class="fu">cut_likert</span>(y_cont[,<span class="dv">1</span>]),</span>
+<span id="cb14-6"><a></a>  <span class="at">d2 =</span> <span class="fu">cut_likert</span>(y_cont[,<span class="dv">2</span>]),</span>
+<span id="cb14-7"><a></a>  <span class="at">d3 =</span> <span class="fu">cut_likert</span>(y_cont[,<span class="dv">3</span>]),</span>
+<span id="cb14-8"><a></a>  <span class="at">d4 =</span> <span class="fu">cut_likert</span>(y_cont[,<span class="dv">4</span>])</span>
+<span id="cb14-9"><a></a>)</span>
+<span id="cb14-10"><a></a><span class="fu">head</span>(ESMdata, <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ID day d1 d2 d3 d4
+1  S001   1  4  5  2  1
+2  S001   2  4  4  5  4
+3  S001   3  3  2  4  2
+4  S001   1  4  4  5  5
+5  S001   2  4  3  4  4
+6  S001   3  2  4  4  3
+7  S001   1  2  2  3  4
+8  S001   2  2  4  1  5
+9  S001   3  5  5  3  5
+10 S001   1  4  5  4  5
+11 S001   2  1  2  2  1
+12 S001   3  2  3  2  2</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="multilevel-cfa-fit-the-model" class="slide level2">
+<h2>Multilevel CFA: fit the model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>m_td <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb16-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb16-3"><a></a><span class="st">    TD_w =~ d1 + d2 + d3 + d4</span></span>
+<span id="cb16-4"><a></a><span class="st">  level: 2</span></span>
+<span id="cb16-5"><a></a><span class="st">    TD_b =~ d1 + d2 + d3 + d4</span></span>
+<span id="cb16-6"><a></a><span class="st">'</span></span>
+<span id="cb16-7"><a></a>fit_td <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_td, <span class="at">data =</span> ESMdata, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="multilevel-cfa-level-specific-fit-indices" class="slide level2">
+<h2>Multilevel CFA: level-specific fit indices</h2>
+<p>Global fit is often dominated by the within-level.</p>
+<p>SRMR is available by level:</p>
+<ul>
+<li><code>srmr_within</code></li>
+<li><code>srmr_between</code> (<strong>key</strong> for L2 misspecification)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">round</span>(<span class="fu">lavInspect</span>(fit_td, <span class="st">"fit"</span>)[</span>
+<span id="cb17-2"><a></a>  <span class="fu">c</span>(<span class="st">"rmsea.robust"</span>,<span class="st">"cfi.robust"</span>,<span class="st">"tli.robust"</span>,</span>
+<span id="cb17-3"><a></a>    <span class="st">"srmr_within"</span>,<span class="st">"srmr_between"</span>)</span>
+<span id="cb17-4"><a></a>  ], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rmsea.robust   cfi.robust   tli.robust  srmr_within srmr_between 
+       0.000        1.000        1.003        0.008        0.002 </code></pre>
+</div>
+</div>
+<p><span style="color:#c00000;">[ADD REFERENCES: Ryu &amp; West (2009); Hsu et al.&nbsp;(2015) → add bib entries]</span></p>
+</section>
+<section id="multilevel-cfa-level-specific-parameters" class="slide level2">
+<h2>Multilevel CFA: level-specific parameters</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="co"># within loadings (first block)</span></span>
+<span id="cb19-2"><a></a><span class="fu">standardizedSolution</span>(fit_td)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est.std"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   lhs op rhs est.std
+1 TD_w =~  d1   0.731
+2 TD_w =~  d2   0.632
+3 TD_w =~  d3   0.662
+4 TD_w =~  d4   0.554</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="co"># between loadings (later block)</span></span>
+<span id="cb21-2"><a></a><span class="fu">standardizedSolution</span>(fit_td)[<span class="dv">15</span><span class="sc">:</span><span class="dv">18</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est.std"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    lhs op rhs est.std
+15 TD_b =~  d1   1.012
+16 TD_b =~  d2   0.986
+17 TD_b =~  d3   1.016
+18 TD_b =~  d4   1.010</code></pre>
+</div>
+</div>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Note: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).</p>
+</div>
+</div>
+</div>
+<p><span style="color:#c00000;">[ADD REFERENCES: Hox, 2010 → add bib entries]</span></p>
+</section>
+<section id="multilevel-cfa-but-items-are-ordinal" class="slide level2">
+<h2>Multilevel CFA: but items are ordinal</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>fit_td_ord <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_td, <span class="at">data =</span> ESMdata, <span class="at">cluster =</span> <span class="st">"ID"</span>,</span>
+<span id="cb23-2"><a></a>                  <span class="at">ordered =</span> <span class="fu">c</span>(<span class="st">"d1"</span>,<span class="st">"d2"</span>,<span class="st">"d3"</span>,<span class="st">"d4"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error: lavaan-&gt;lav_lavaan_step02_options():  
+   categorical + clustered is not supported yet.</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="groups-individuals-nested-within-groups" class="title-slide slide level1 center">
+<h1>Groups: individuals nested within groups</h1>
+
+</section>
+<section id="subjects-nested-within-groups" class="slide level2">
+<h2>Subjects nested within groups</h2>
+<p>When participants belong to many groups (schools/classes/teams):</p>
+<ul>
+<li>observations are <strong>not independent</strong></li>
+<li>you can still fit a single-level model, but SEs/inference can be wrong</li>
+<li>multilevel CFA allows <strong>separate within and between measurement models</strong></li>
+</ul>
+</section>
+<section id="example-individual-vs-team-participation-simulated" class="slide level2">
+<h2>Example: individual vs team participation (simulated)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>n_school <span class="ot">&lt;-</span> <span class="dv">68</span></span>
+<span id="cb25-2"><a></a>n_i <span class="ot">&lt;-</span> <span class="dv">608</span></span>
+<span id="cb25-3"><a></a>schoolID <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(n_school), <span class="at">size =</span> n_i, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-4"><a></a><span class="co"># Between-school factor</span></span>
+<span id="cb25-5"><a></a>eta_school <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_school, <span class="dv">0</span>, <span class="fl">0.6</span>)</span>
+<span id="cb25-6"><a></a>eta_b <span class="ot">&lt;-</span> eta_school[schoolID]</span>
+<span id="cb25-7"><a></a><span class="co"># Within-person factor</span></span>
+<span id="cb25-8"><a></a>eta_w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_i, <span class="dv">0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb25-9"><a></a></span>
+<span id="cb25-10"><a></a>lam_p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.75</span>, <span class="fl">0.70</span>, <span class="fl">0.65</span>)</span>
+<span id="cb25-11"><a></a>eps_p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.85</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>)</span>
+<span id="cb25-12"><a></a>p_cont <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_along</span>(lam_p), <span class="cf">function</span>(j) {</span>
+<span id="cb25-13"><a></a>  lam_p[j] <span class="sc">*</span> (eta_b <span class="sc">+</span> eta_w) <span class="sc">+</span> <span class="fu">rnorm</span>(n_i, <span class="dv">0</span>, eps_p[j])</span>
+<span id="cb25-14"><a></a>})</span>
+<span id="cb25-15"><a></a></span>
+<span id="cb25-16"><a></a>edudata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb25-17"><a></a>  <span class="at">schoolID =</span> schoolID,</span>
+<span id="cb25-18"><a></a>  <span class="at">p2 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">1</span>]),</span>
+<span id="cb25-19"><a></a>  <span class="at">p3 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">2</span>]),</span>
+<span id="cb25-20"><a></a>  <span class="at">p4 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">3</span>]),</span>
+<span id="cb25-21"><a></a>  <span class="at">p5 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">4</span>])</span>
+<span id="cb25-22"><a></a>)</span>
+<span id="cb25-23"><a></a><span class="fu">head</span>(edudata, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  schoolID p2 p3 p4 p5
+1       28  5  5  5  5
+2        8  5  3  4  5
+3       18  1  2  1  2
+4       26  2  1  4  2</code></pre>
+</div>
+</div>
+</section>
+<section id="single-level-cfa" class="slide level2">
+<h2>Single-level CFA</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>m_ep <span class="ot">&lt;-</span> <span class="st">'EP =~ p2 + p3 + p4 + p5'</span></span>
+<span id="cb27-2"><a></a></span>
+<span id="cb27-3"><a></a>fit_mlr <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_ep, edudata, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb27-4"><a></a><span class="fu">round</span>(<span class="fu">lavInspect</span>(fit_mlr, <span class="st">"fit"</span>)[</span>
+<span id="cb27-5"><a></a>  <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"rmsea.robust"</span>,<span class="st">"cfi.robust"</span>,<span class="st">"srmr"</span>)</span>
+<span id="cb27-6"><a></a>  ], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       chisq           df rmsea.robust   cfi.robust         srmr 
+       5.837        2.000        0.055        0.994        0.017 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="co"># Ordinal estimator (single-level)</span></span>
+<span id="cb29-2"><a></a>fit_wlsmv <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_ep, edudata, </span>
+<span id="cb29-3"><a></a>                 <span class="at">ordered =</span> <span class="fu">c</span>(<span class="st">"p2"</span>,<span class="st">"p3"</span>,<span class="st">"p4"</span>,<span class="st">"p5"</span>))  <span class="co"># WLSMV default</span></span>
+<span id="cb29-4"><a></a><span class="fu">round</span>(<span class="fu">lavInspect</span>(fit_wlsmv, <span class="st">"fit"</span>)[</span>
+<span id="cb29-5"><a></a>  <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"rmsea"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"srmr"</span>)</span>
+<span id="cb29-6"><a></a>  ], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>chisq    df rmsea   cfi   tli  srmr 
+1.136 2.000 0.000 1.000 1.002 0.012 </code></pre>
+</div>
+</div>
+</section>
+<section id="multilevel-cfa-preliminary-models-level-1" class="slide level2">
+<h2>Multilevel CFA: preliminary models (Level 1)</h2>
+<p>Hox (2010) suggests a preliminary check:</p>
+<ul>
+<li>fit CFA on the <strong>pooled-within covariance matrix</strong> (within-cluster centered scores)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>lwd <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(edudata[, <span class="fu">c</span>(<span class="st">"schoolID"</span>, <span class="fu">paste0</span>(<span class="st">"p"</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>))])</span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a>ms <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-4"><a></a>  <span class="at">p2 =</span> <span class="fu">ave</span>(lwd<span class="sc">$</span>p2, lwd<span class="sc">$</span>schoolID),</span>
+<span id="cb31-5"><a></a>  <span class="at">p3 =</span> <span class="fu">ave</span>(lwd<span class="sc">$</span>p3, lwd<span class="sc">$</span>schoolID),</span>
+<span id="cb31-6"><a></a>  <span class="at">p4 =</span> <span class="fu">ave</span>(lwd<span class="sc">$</span>p4, lwd<span class="sc">$</span>schoolID),</span>
+<span id="cb31-7"><a></a>  <span class="at">p5 =</span> <span class="fu">ave</span>(lwd<span class="sc">$</span>p5, lwd<span class="sc">$</span>schoolID)</span>
+<span id="cb31-8"><a></a>)</span>
+<span id="cb31-9"><a></a>cs <span class="ot">&lt;-</span> lwd[, <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(lwd)] <span class="sc">-</span> ms</span>
+<span id="cb31-10"><a></a></span>
+<span id="cb31-11"><a></a>pw.cov <span class="ot">&lt;-</span> (<span class="fu">cov</span>(cs) <span class="sc">*</span> (<span class="fu">nrow</span>(lwd) <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">/</span> (<span class="fu">nrow</span>(lwd) <span class="sc">-</span> <span class="fu">nlevels</span>(lwd<span class="sc">$</span>schoolID))</span>
+<span id="cb31-12"><a></a></span>
+<span id="cb31-13"><a></a>fit_pw <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_ep, <span class="at">sample.cov =</span> pw.cov, <span class="at">sample.nobs =</span> <span class="fu">nrow</span>(lwd))</span>
+<span id="cb31-14"><a></a><span class="fu">round</span>(<span class="fu">lavInspect</span>(fit_pw, <span class="st">"fit"</span>)[<span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"rmsea"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"srmr"</span>)], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>chisq    df rmsea   cfi   tli  srmr 
+5.856 2.000 0.056 0.991 0.973 0.019 </code></pre>
+</div>
+</div>
+</section>
+<section id="multilevel-cfa-preliminary-models-level-2" class="slide level2">
+<h2>Multilevel CFA: preliminary models (Level 2)</h2>
+<p>At Level 2 (between), fit benchmark models:</p>
+<ol type="1">
+<li><strong>Null</strong>: No structure at Level 2. If it fits well, there is no clear structure at Level 2 (classic CFA is better: no between variability)<br>
+</li>
+<li><strong>Independence</strong>: Fit a model with variances only. If it fits well, there is probably a structure at Level 2, but not an interesting structural model (the pooled within matrix is better)<br>
+</li>
+<li><strong>Saturated</strong>: Fit a saturated model with variances and covariances. If it fits well, then the construct <em>‘exist’</em> only at Level 1, while covariances at Level 2 are spurious.</li>
+</ol>
+</section>
+<section id="multilevel-cfa-preliminary-models-level-2-1" class="slide level2">
+<h2>Multilevel CFA: preliminary models (Level 2)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>m_null <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb33-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb33-3"><a></a><span class="st">    p.w =~ p2 + p3 + p4 + p5</span></span>
+<span id="cb33-4"><a></a><span class="st">  level: 2</span></span>
+<span id="cb33-5"><a></a><span class="st">    p2 ~~ 0*p2</span></span>
+<span id="cb33-6"><a></a><span class="st">    p3 ~~ 0*p3</span></span>
+<span id="cb33-7"><a></a><span class="st">    p4 ~~ 0*p4</span></span>
+<span id="cb33-8"><a></a><span class="st">    p5 ~~ 0*p5</span></span>
+<span id="cb33-9"><a></a><span class="st">'</span></span>
+<span id="cb33-10"><a></a></span>
+<span id="cb33-11"><a></a>m_ind <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb33-12"><a></a><span class="st">  level: 1</span></span>
+<span id="cb33-13"><a></a><span class="st">    p.w =~ p2 + p3 + p4 + p5</span></span>
+<span id="cb33-14"><a></a><span class="st">  level: 2</span></span>
+<span id="cb33-15"><a></a><span class="st">    p2 ~~ p2</span></span>
+<span id="cb33-16"><a></a><span class="st">    p3 ~~ p3</span></span>
+<span id="cb33-17"><a></a><span class="st">    p4 ~~ p4</span></span>
+<span id="cb33-18"><a></a><span class="st">    p5 ~~ p5</span></span>
+<span id="cb33-19"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a>m_sat <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb34-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb34-3"><a></a><span class="st">    p.w =~ p2 + p3 + p4 + p5</span></span>
+<span id="cb34-4"><a></a><span class="st">  level: 2</span></span>
+<span id="cb34-5"><a></a><span class="st">    p2 ~~ p2 + p3 + p4 + p5</span></span>
+<span id="cb34-6"><a></a><span class="st">    p3 ~~ p3 + p4 + p5</span></span>
+<span id="cb34-7"><a></a><span class="st">    p4 ~~ p4 + p5</span></span>
+<span id="cb34-8"><a></a><span class="st">    p5 ~~ p5</span></span>
+<span id="cb34-9"><a></a><span class="st">'</span></span>
+<span id="cb34-10"><a></a></span>
+<span id="cb34-11"><a></a>fit_null <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_null, edudata, </span>
+<span id="cb34-12"><a></a>                <span class="at">cluster =</span> <span class="st">"schoolID"</span>, </span>
+<span id="cb34-13"><a></a>                <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb34-14"><a></a>fit_ind  <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_ind,  edudata, </span>
+<span id="cb34-15"><a></a>                <span class="at">cluster =</span> <span class="st">"schoolID"</span>, </span>
+<span id="cb34-16"><a></a>                <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb34-17"><a></a>fit_sat  <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_sat,  edudata, </span>
+<span id="cb34-18"><a></a>                <span class="at">cluster =</span> <span class="st">"schoolID"</span>, </span>
+<span id="cb34-19"><a></a>                <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     df rmsea.robust cfi.robust srmr_within srmr_between
+null 12        0.085      0.908       0.057           NA
+ind   8        0.105      0.907       0.058        0.763
+sat   2        0.000      1.000       0.019        0.004</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="multilevel-cfa-the-hypothesized-model" class="slide level2">
+<h2>Multilevel CFA: the hypothesized model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a>m_mcfa <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb36-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb36-3"><a></a><span class="st">    p.w =~ p2 + p3 + p4 + p5</span></span>
+<span id="cb36-4"><a></a><span class="st">  level: 2</span></span>
+<span id="cb36-5"><a></a><span class="st">    p.b =~ p2 + p3 + p4 + p5</span></span>
+<span id="cb36-6"><a></a><span class="st">'</span></span>
+<span id="cb36-7"><a></a>fit_mcfa <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_mcfa, edudata, <span class="at">cluster =</span> <span class="st">"schoolID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: lavaan-&gt;lav_data_full():  
+   Level-1 variable "p4" has no variance within some clusters . The cluster 
+   ids with zero within variance are: 58.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: lavaan-&gt;lav_data_full():  
+   Level-1 variable "p5" has no variance within some clusters . The cluster 
+   ids with zero within variance are: 5.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: lavaan-&gt;lav_object_post_check():  
+   some estimated ov variances are negative</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb40-2"><a></a>  <span class="at">null =</span> <span class="fu">lavInspect</span>(fit_null,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-3"><a></a>  <span class="at">ind  =</span> <span class="fu">lavInspect</span>(fit_ind,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-4"><a></a>  <span class="at">sat  =</span> <span class="fu">lavInspect</span>(fit_sat,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-5"><a></a>  <span class="at">mcfa =</span> <span class="fu">lavInspect</span>(fit_mcfa,<span class="st">"fit"</span>)[f]</span>
+<span id="cb40-6"><a></a>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     df rmsea.robust cfi.robust srmr_within srmr_between
+null 12        0.085      0.908       0.057           NA
+ind   8        0.105      0.907       0.058        0.763
+sat   2        0.000      1.000       0.019        0.004
+mcfa  4        0.000      1.000       0.019        0.005</code></pre>
+</div>
+</div>
+</section>
+<section id="level-specific-loadings" class="slide level2">
+<h2>Level-specific loadings</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a></a><span class="fu">standardizedSolution</span>(fit_mcfa)[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">15</span><span class="sc">:</span><span class="dv">18</span>), <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est.std"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   lhs op rhs est.std
+1  p.w =~  p2   0.707
+2  p.w =~  p3   0.638
+3  p.w =~  p4   0.563
+4  p.w =~  p5   0.572
+15 p.b =~  p2   1.020
+16 p.b =~  p3   1.030
+17 p.b =~  p4   0.967
+18 p.b =~  p5   1.118</code></pre>
+</div>
+</div>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Remember: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="repeated-measures-observations-nested-within-persons" class="title-slide slide level1 center">
+<h1>Repeated measures: observations nested within persons</h1>
+
+</section>
+<section id="esm-intensive-longitudinal-designs" class="slide level2">
+<h2>ESM / intensive longitudinal designs</h2>
+<p>In ESM:</p>
+<ul>
+<li>Level 2 (between): stable differences across persons (“trait-like”)</li>
+<li>Level 1 (within): momentary fluctuations within a person (“state-like”)</li>
+</ul>
+
+<img data-src="../assets/images/esm.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>See Menghini, Pastore &amp; Balducci (2023) https://doi.org/10.1027/1015-5759/a000725</p>
+</section>
+<section id="multiple-factor-mcfa-compare-structures" class="slide level2">
+<h2>Multiple-factor MCFA (compare structures)</h2>
+<p>Some constructs show different dimensionality within vs between.</p>
+
+<img data-src="../assets/images/mcfa2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section>
+<section id="simulate-a-3-factor-mcfa-dataset-nv-ta-fa" class="slide level2">
+<h2>Simulate a 3-factor MCFA dataset (NV, TA, FA)</h2>
+<p>We simulate 9 ordinal items (3 per factor), repeated within persons.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a>n_id <span class="ot">&lt;-</span> <span class="dv">139</span></span>
+<span id="cb44-2"><a></a>n_rep <span class="ot">&lt;-</span> <span class="dv">21</span></span>
+<span id="cb44-3"><a></a>N <span class="ot">&lt;-</span> n_id <span class="sc">*</span> n_rep</span>
+<span id="cb44-4"><a></a>ID <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"S%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n_id), <span class="at">each =</span> n_rep)</span>
+<span id="cb44-5"><a></a></span>
+<span id="cb44-6"><a></a><span class="co"># between factors (person-level)</span></span>
+<span id="cb44-7"><a></a>EtaB <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n_id <span class="sc">*</span> <span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb44-8"><a></a><span class="fu">colnames</span>(EtaB) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"NV_b"</span>,<span class="st">"TA_b"</span>,<span class="st">"FA_b"</span>)</span>
+<span id="cb44-9"><a></a>EtaB_long <span class="ot">&lt;-</span> EtaB[<span class="fu">match</span>(ID, <span class="fu">sprintf</span>(<span class="st">"S%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n_id)), ]</span>
+<span id="cb44-10"><a></a></span>
+<span id="cb44-11"><a></a><span class="co"># within factors (occasion-level)</span></span>
+<span id="cb44-12"><a></a>EtaW <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(N <span class="sc">*</span> <span class="dv">3</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb44-13"><a></a><span class="fu">colnames</span>(EtaW) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"NV_w"</span>,<span class="st">"TA_w"</span>,<span class="st">"FA_w"</span>)</span>
+<span id="cb44-14"><a></a></span>
+<span id="cb44-15"><a></a>lam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.70</span>, <span class="fl">0.75</span>)</span>
+<span id="cb44-16"><a></a></span>
+<span id="cb44-17"><a></a>make_items <span class="ot">&lt;-</span> <span class="cf">function</span>(f_w, f_b, prefix) {</span>
+<span id="cb44-18"><a></a>  out <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(j) lam[j] <span class="sc">*</span> (f_w <span class="sc">+</span> f_b) <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>))</span>
+<span id="cb44-19"><a></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(prefix, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb44-20"><a></a>  out</span>
+<span id="cb44-21"><a></a>}</span>
+<span id="cb44-22"><a></a></span>
+<span id="cb44-23"><a></a>V <span class="ot">&lt;-</span> <span class="fu">make_items</span>(EtaW[,<span class="st">"NV_w"</span>], EtaB_long[,<span class="st">"NV_b"</span>], <span class="st">"v"</span>)</span>
+<span id="cb44-24"><a></a>T <span class="ot">&lt;-</span> <span class="fu">make_items</span>(EtaW[,<span class="st">"TA_w"</span>], EtaB_long[,<span class="st">"TA_b"</span>], <span class="st">"t"</span>)</span>
+<span id="cb44-25"><a></a>F <span class="ot">&lt;-</span> <span class="fu">make_items</span>(EtaW[,<span class="st">"FA_w"</span>], EtaB_long[,<span class="st">"FA_b"</span>], <span class="st">"f"</span>)</span>
+<span id="cb44-26"><a></a></span>
+<span id="cb44-27"><a></a>ESM3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-28"><a></a>  <span class="at">ID =</span> ID,</span>
+<span id="cb44-29"><a></a>  <span class="at">v1 =</span> <span class="fu">cut_likert</span>(V[,<span class="dv">1</span>]), <span class="at">v2 =</span> <span class="fu">cut_likert</span>(V[,<span class="dv">2</span>]), <span class="at">v3 =</span> <span class="fu">cut_likert</span>(V[,<span class="dv">3</span>]),</span>
+<span id="cb44-30"><a></a>  <span class="at">t1 =</span> <span class="fu">cut_likert</span>(T[,<span class="dv">1</span>]), <span class="at">t2 =</span> <span class="fu">cut_likert</span>(T[,<span class="dv">2</span>]), <span class="at">t3 =</span> <span class="fu">cut_likert</span>(T[,<span class="dv">3</span>]),</span>
+<span id="cb44-31"><a></a>  <span class="at">f1 =</span> <span class="fu">cut_likert</span>(F[,<span class="dv">1</span>]), <span class="at">f2 =</span> <span class="fu">cut_likert</span>(F[,<span class="dv">2</span>]), <span class="at">f3 =</span> <span class="fu">cut_likert</span>(F[,<span class="dv">3</span>])</span>
+<span id="cb44-32"><a></a>)</span>
+<span id="cb44-33"><a></a><span class="fu">head</span>(ESM3, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    ID v1 v2 v3 t1 t2 t3 f1 f2 f3
+1 S001  2  2  4  1  4  3  2  4  5
+2 S001  3  2  4  4  3  2  5  2  4
+3 S001  5  2  3  2  1  1  5  5  5
+4 S001  2  1  1  2  2  2  3  5  5</code></pre>
+</div>
+</div>
+</section>
+<section id="specify-alternative-structures" class="slide level2">
+<h2>Specify alternative structures</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a></a>m3x3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb46-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb46-3"><a></a><span class="st">    NV_w =~ v1 + v2 + v3</span></span>
+<span id="cb46-4"><a></a><span class="st">    TA_w =~ t1 + t2 + t3</span></span>
+<span id="cb46-5"><a></a><span class="st">    FA_w =~ f1 + f2 + f3</span></span>
+<span id="cb46-6"><a></a><span class="st">  level: 2</span></span>
+<span id="cb46-7"><a></a><span class="st">    NV_b =~ v1 + v2 + v3</span></span>
+<span id="cb46-8"><a></a><span class="st">    TA_b =~ t1 + t2 + t3</span></span>
+<span id="cb46-9"><a></a><span class="st">    FA_b =~ f1 + f2 + f3</span></span>
+<span id="cb46-10"><a></a><span class="st">'</span></span>
+<span id="cb46-11"><a></a></span>
+<span id="cb46-12"><a></a>m2x3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb46-13"><a></a><span class="st">  level: 1</span></span>
+<span id="cb46-14"><a></a><span class="st">    NV_w =~ v1 + v2 + v3</span></span>
+<span id="cb46-15"><a></a><span class="st">    TA_w =~ t1 + t2 + t3</span></span>
+<span id="cb46-16"><a></a><span class="st">    FA_w =~ f1 + f2 + f3</span></span>
+<span id="cb46-17"><a></a><span class="st">  level: 2</span></span>
+<span id="cb46-18"><a></a><span class="st">    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3</span></span>
+<span id="cb46-19"><a></a><span class="st">    FA_b =~ f1 + f2 + f3</span></span>
+<span id="cb46-20"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a></a>m2x2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb47-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb47-3"><a></a><span class="st">    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3</span></span>
+<span id="cb47-4"><a></a><span class="st">    FA_w =~ f1 + f2 + f3</span></span>
+<span id="cb47-5"><a></a><span class="st">  level: 2</span></span>
+<span id="cb47-6"><a></a><span class="st">    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3</span></span>
+<span id="cb47-7"><a></a><span class="st">    FA_b =~ f1 + f2 + f3</span></span>
+<span id="cb47-8"><a></a><span class="st">'</span></span>
+<span id="cb47-9"><a></a></span>
+<span id="cb47-10"><a></a>m3x2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb47-11"><a></a><span class="st">  level: 1</span></span>
+<span id="cb47-12"><a></a><span class="st">    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3</span></span>
+<span id="cb47-13"><a></a><span class="st">    FA_w =~ f1 + f2 + f3</span></span>
+<span id="cb47-14"><a></a><span class="st">  level: 2</span></span>
+<span id="cb47-15"><a></a><span class="st">    NV_b =~ v1 + v2 + v3</span></span>
+<span id="cb47-16"><a></a><span class="st">    TA_b =~ t1 + t2 + t3</span></span>
+<span id="cb47-17"><a></a><span class="st">    FA_b =~ f1 + f2 + f3</span></span>
+<span id="cb47-18"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
+</section>
+<section id="fit-and-compare" class="slide level2">
+<h2>Fit and compare</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a>fit2x2 <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m2x2, ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb48-2"><a></a>fit3x2 <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m3x2, ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb48-3"><a></a>fit2x3 <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m2x3, ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb48-4"><a></a>fit3x3 <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m3x3, ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb48-5"><a></a></span>
+<span id="cb48-6"><a></a>f2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"df"</span>,<span class="st">"rmsea.robust"</span>,<span class="st">"cfi.robust"</span>,<span class="st">"srmr_within"</span>,<span class="st">"srmr_between"</span>)</span>
+<span id="cb48-7"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb48-8"><a></a>  <span class="st">`</span><span class="at">2x2</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">lavInspect</span>(fit2x2,<span class="st">"fit"</span>)[f2],</span>
+<span id="cb48-9"><a></a>  <span class="st">`</span><span class="at">3x2</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">lavInspect</span>(fit3x2,<span class="st">"fit"</span>)[f2],</span>
+<span id="cb48-10"><a></a>  <span class="st">`</span><span class="at">2x3</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">lavInspect</span>(fit2x3,<span class="st">"fit"</span>)[f2],</span>
+<span id="cb48-11"><a></a>  <span class="st">`</span><span class="at">3x3</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">lavInspect</span>(fit3x3,<span class="st">"fit"</span>)[f2]</span>
+<span id="cb48-12"><a></a>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    df rmsea.robust cfi.robust srmr_within srmr_between
+2x2 52        0.100      0.682       0.094        0.257
+3x2 50        0.081      0.802       0.094        0.020
+2x3 50        0.060      0.891       0.012        0.257
+3x3 48        0.000      1.000       0.012        0.020</code></pre>
+</div>
+</div>
+</section>
+<section id="negative-level-2-variances-heywood-cases" class="slide level2">
+<h2>Negative Level-2 variances (Heywood cases)</h2>
+<p>Negative residual variances at Level 2 are common in MCFA because:</p>
+<ul>
+<li>error tends to accumulate at Level 1<br>
+</li>
+<li>Level-2 loadings can be very strong → residual variances close to 0<br>
+</li>
+<li>sampling fluctuations around ~0 can produce negative estimates</li>
+</ul>
+
+<img data-src="../assets/images/error.PNG" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit3x3)</span>
+<span id="cb50-2"><a></a>p[p<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~~"</span> <span class="sc">&amp;</span> p<span class="sc">$</span>ci.lower <span class="sc">&lt;</span> <span class="dv">0</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    lhs op  rhs block level    est    se      z pvalue ci.lower ci.upper
+22 NV_w ~~ TA_w     1     1  0.003 0.017  0.202  0.840   -0.030    0.037
+23 NV_w ~~ FA_w     1     1 -0.013 0.017 -0.772  0.440   -0.047    0.020
+24 TA_w ~~ FA_w     1     1 -0.016 0.017 -0.942  0.346   -0.050    0.017
+46   v1 ~~   v1     2     2 -0.016 0.008 -2.001  0.045   -0.032    0.000
+47   v2 ~~   v2     2     2  0.007 0.009  0.827  0.408   -0.010    0.024
+48   v3 ~~   v3     2     2  0.011 0.008  1.420  0.156   -0.004    0.027
+49   t1 ~~   t1     2     2  0.007 0.009  0.730  0.465   -0.011    0.025
+50   t2 ~~   t2     2     2 -0.013 0.008 -1.654  0.098   -0.028    0.002
+51   t3 ~~   t3     2     2 -0.002 0.008 -0.216  0.829   -0.017    0.014
+52   f1 ~~   f1     2     2  0.002 0.008  0.294  0.769   -0.013    0.018
+53   f2 ~~   f2     2     2 -0.005 0.007 -0.630  0.529   -0.019    0.010
+54   f3 ~~   f3     2     2 -0.007 0.008 -0.979  0.328   -0.022    0.007
+58 NV_b ~~ TA_b     2     2 -0.034 0.057 -0.596  0.551   -0.145    0.077
+59 NV_b ~~ FA_b     2     2 -0.013 0.054 -0.248  0.804   -0.120    0.093
+60 TA_b ~~ FA_b     2     2 -0.030 0.051 -0.598  0.550   -0.130    0.069</code></pre>
+</div>
+</div>
+<p><span style="color:#c00000;">[ADD REFERENCE: Hox (2010); Kolenikov &amp; Bollen (2012) → add bib entries]</span></p>
+</section>
+<section id="negative-variances-and-influential-case-analysis" class="slide level2">
+<h2>Negative variances and influential-case analysis</h2>
+<p>If misspecification is unlikely, one pragmatic strategy is <strong>influential-case analysis</strong>:</p>
+<ul>
+<li>remove clusters (persons) that drive the improper solution<br>
+</li>
+<li>refit until the negative variance becomes ~0<br>
+</li>
+<li>compare substantive conclusions</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a></a><span class="co"># Example template: replace IDs with the clusters you find influential</span></span>
+<span id="cb52-2"><a></a>clean <span class="ot">&lt;-</span> <span class="fu">subset</span>(ESM3, <span class="sc">!</span>ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"S017"</span>,<span class="st">"S035"</span>,<span class="st">"S139"</span>,<span class="st">"S008"</span>,</span>
+<span id="cb52-3"><a></a>                                 <span class="st">"S106"</span>,<span class="st">"S142"</span>,<span class="st">"S067"</span>))</span>
+<span id="cb52-4"><a></a>fit3x3_c <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m3x3, clean, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="invariance-across-levels" class="title-slide slide level1 center">
+<h1>Invariance across levels</h1>
+
+</section>
+<section id="invariance-across-groups-reminder" class="slide level2">
+<h2>Invariance across groups (reminder)</h2>
+<p>Question: are we measuring the <em>same</em> construct across groups?</p>
+<p>Typical approach: multi-group CFA with a sequence of constraints (configural → metric → scalar → …).</p>
+
+<img data-src="../assets/images/invariance.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section>
+<section id="invariance-across-clusters" class="slide level2">
+<h2>Invariance across clusters!?</h2>
+<p>Multi-group CFA becomes impractical with many clusters (e.g., 139 persons).</p>
+<p>Multilevel logic: treat clusters as <strong>random effects</strong> and focus on <strong>cross-level invariance</strong>.</p>
+
+<img data-src="../assets/images/inv.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Jak &amp; Jorgensen (2017) → add bib entry]</span></p>
+</section>
+<section id="cross-level-invariance-configural" class="slide level2">
+<h2>Cross-level invariance: configural</h2>
+<p>Same factor structure at both levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a></a>conf <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb53-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb53-3"><a></a><span class="st">    NV_w =~ v1 + v2 + v3</span></span>
+<span id="cb53-4"><a></a><span class="st">    TA_w =~ t1 + t2 + t3</span></span>
+<span id="cb53-5"><a></a><span class="st">    FA_w =~ f1 + f2 + f3</span></span>
+<span id="cb53-6"><a></a><span class="st">  level: 2</span></span>
+<span id="cb53-7"><a></a><span class="st">    NV_b =~ v1 + v2 + v3</span></span>
+<span id="cb53-8"><a></a><span class="st">    TA_b =~ t1 + t2 + t3</span></span>
+<span id="cb53-9"><a></a><span class="st">    FA_b =~ f1 + f2 + f3</span></span>
+<span id="cb53-10"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cross-level-invariance-weak-equal-loadings" class="slide level2">
+<h2>Cross-level invariance: weak (equal loadings)</h2>
+<p>Same structure + equal (unstandardized) loadings across levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a></a>weak <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb54-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb54-3"><a></a><span class="st">    NV_w =~ a*v1 + b*v2 + c*v3</span></span>
+<span id="cb54-4"><a></a><span class="st">    TA_w =~ d*t1 + e*t2 + f*t3</span></span>
+<span id="cb54-5"><a></a><span class="st">    FA_w =~ g*f1 + h*f2 + i*f3</span></span>
+<span id="cb54-6"><a></a><span class="st">  level: 2</span></span>
+<span id="cb54-7"><a></a><span class="st">    NV_b =~ a*v1 + b*v2 + c*v3</span></span>
+<span id="cb54-8"><a></a><span class="st">    TA_b =~ d*t1 + e*t2 + f*t3</span></span>
+<span id="cb54-9"><a></a><span class="st">    FA_b =~ g*f1 + h*f2 + i*f3</span></span>
+<span id="cb54-10"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cross-level-invariance-strong-as-in-lucas-slide" class="slide level2">
+<h2>Cross-level invariance: “strong” (as in Luca’s slide)</h2>
+<p>Luca’s “strong” adds <strong>zero residual variances at Level 2</strong> (“perfect reliability”).</p>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>With psychological data, this is rarely realistic. Treat it as a <strong>theoretical benchmark</strong>, not a default.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a></a>strong <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb55-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb55-3"><a></a><span class="st">    NV_w =~ a*v1 + b*v2 + c*v3</span></span>
+<span id="cb55-4"><a></a><span class="st">    TA_w =~ d*t1 + e*t2 + f*t3</span></span>
+<span id="cb55-5"><a></a><span class="st">    FA_w =~ g*f1 + h*f2 + i*f3</span></span>
+<span id="cb55-6"><a></a><span class="st">  level: 2</span></span>
+<span id="cb55-7"><a></a><span class="st">    NV_b =~ a*v1 + b*v2 + c*v3</span></span>
+<span id="cb55-8"><a></a><span class="st">    TA_b =~ d*t1 + e*t2 + f*t3</span></span>
+<span id="cb55-9"><a></a><span class="st">    FA_b =~ g*f1 + h*f2 + i*f3</span></span>
+<span id="cb55-10"><a></a></span>
+<span id="cb55-11"><a></a><span class="st">    v1 ~~ 0*v1; v2 ~~ 0*v2; v3 ~~ 0*v3</span></span>
+<span id="cb55-12"><a></a><span class="st">    t1 ~~ 0*t1; t2 ~~ 0*t2; t3 ~~ 0*t3</span></span>
+<span id="cb55-13"><a></a><span class="st">    f1 ~~ 0*f1; f2 ~~ 0*f2; f3 ~~ 0*f3</span></span>
+<span id="cb55-14"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="compare-invariance-models" class="slide level2">
+<h2>Compare invariance models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a></a>fit.conf   <span class="ot">&lt;-</span> <span class="fu">cfa</span>(conf,   ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb56-2"><a></a>fit.weak   <span class="ot">&lt;-</span> <span class="fu">cfa</span>(weak,   ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb56-3"><a></a>fit.strong <span class="ot">&lt;-</span> <span class="fu">cfa</span>(strong, ESM3, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb56-4"><a></a></span>
+<span id="cb56-5"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb56-6"><a></a>  <span class="at">conf   =</span> <span class="fu">lavInspect</span>(fit.conf,   <span class="st">"fit"</span>)[f2],</span>
+<span id="cb56-7"><a></a>  <span class="at">weak   =</span> <span class="fu">lavInspect</span>(fit.weak,   <span class="st">"fit"</span>)[f2],</span>
+<span id="cb56-8"><a></a>  <span class="at">strong =</span> <span class="fu">lavInspect</span>(fit.strong, <span class="st">"fit"</span>)[f2]</span>
+<span id="cb56-9"><a></a>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       df rmsea.robust cfi.robust srmr_within srmr_between
+conf   48            0          1       0.012        0.020
+weak   54            0          1       0.013        0.019
+strong 63            0          1       0.013        0.020</code></pre>
+</div>
+</div>
+</section>
+<section id="multilevel-constructs-and-cross-level-invariance" class="slide level2">
+<h2>Multilevel constructs and cross-level invariance</h2>
+<p>Cross-level invariance is not only “fit”—it’s about <strong>construct meaning</strong>.</p>
+
+<img data-src="../assets/images/MCFAconstructs.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Stapleton et al.&nbsp;(2016) → add bib entry]</span></p>
+</section>
+<section id="traits-as-distributions-of-states" class="slide level2">
+<h2>Traits as distributions of states</h2>
+<p>Some theories treat traits as distributions of states.<br>
+This implicitly assumes at least <strong>weak cross-level invariance</strong>.</p>
+
+<img data-src="../assets/images/wholetrait.PNG" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="example-state-workaholism-simulated" class="title-slide slide level1 center">
+<h1>Example: state workaholism (simulated)</h1>
+
+</section>
+<section id="lucas-real-data-example-slides" class="slide level2">
+<h2>Luca’s real-data example (slides)</h2>
+<p><img data-src="../assets/images/ema.png" class="quarto-figure quarto-figure-center" style="width:80.0%"> <img data-src="../assets/images/statew.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</section>
+<section id="simulate-a-workaholism-esm-dataset-2-factors-6-items" class="slide level2">
+<h2>Simulate a workaholism ESM dataset (2 factors, 6 items)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a></a>n_id <span class="ot">&lt;-</span> <span class="dv">135</span></span>
+<span id="cb58-2"><a></a>n_rep <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb58-3"><a></a>N <span class="ot">&lt;-</span> n_id <span class="sc">*</span> n_rep</span>
+<span id="cb58-4"><a></a>ID <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"P%03d"</span>, <span class="dv">1</span><span class="sc">:</span>n_id), <span class="at">each =</span> n_rep)</span>
+<span id="cb58-5"><a></a><span class="co"># Between factors</span></span>
+<span id="cb58-6"><a></a>WE_b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_id, <span class="dv">0</span>, <span class="fl">0.6</span>)</span>
+<span id="cb58-7"><a></a>WC_b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_id, <span class="dv">0</span>, <span class="fl">0.6</span>)</span>
+<span id="cb58-8"><a></a>WE_b_long <span class="ot">&lt;-</span> <span class="fu">rep</span>(WE_b, <span class="at">each =</span> n_rep)</span>
+<span id="cb58-9"><a></a>WC_b_long <span class="ot">&lt;-</span> <span class="fu">rep</span>(WC_b, <span class="at">each =</span> n_rep)</span>
+<span id="cb58-10"><a></a><span class="co"># Within factors</span></span>
+<span id="cb58-11"><a></a>WE_w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb58-12"><a></a>WC_w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb58-13"><a></a><span class="co"># Loadings within</span></span>
+<span id="cb58-14"><a></a>lam_WE_w <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>)   <span class="co"># items 1,3,5</span></span>
+<span id="cb58-15"><a></a>lam_WC_w <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.70</span>, <span class="fl">0.65</span>) <span class="co"># items 2,4,6</span></span>
+<span id="cb58-16"><a></a><span class="co"># Loadings between (slight violation on item1)</span></span>
+<span id="cb58-17"><a></a>lam_WE_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.70</span>, <span class="fl">0.75</span>)</span>
+<span id="cb58-18"><a></a>lam_WC_b <span class="ot">&lt;-</span> lam_WC_w</span>
+<span id="cb58-19"><a></a></span>
+<span id="cb58-20"><a></a>WH1 <span class="ot">&lt;-</span> lam_WE_w[<span class="dv">1</span>]<span class="sc">*</span>WE_w <span class="sc">+</span> lam_WE_b[<span class="dv">1</span>]<span class="sc">*</span>WE_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-21"><a></a>WH3 <span class="ot">&lt;-</span> lam_WE_w[<span class="dv">2</span>]<span class="sc">*</span>WE_w <span class="sc">+</span> lam_WE_b[<span class="dv">2</span>]<span class="sc">*</span>WE_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-22"><a></a>WH5 <span class="ot">&lt;-</span> lam_WE_w[<span class="dv">3</span>]<span class="sc">*</span>WE_w <span class="sc">+</span> lam_WE_b[<span class="dv">3</span>]<span class="sc">*</span>WE_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-23"><a></a></span>
+<span id="cb58-24"><a></a>WH2 <span class="ot">&lt;-</span> lam_WC_w[<span class="dv">1</span>]<span class="sc">*</span>WC_w <span class="sc">+</span> lam_WC_b[<span class="dv">1</span>]<span class="sc">*</span>WC_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-25"><a></a>WH4 <span class="ot">&lt;-</span> lam_WC_w[<span class="dv">2</span>]<span class="sc">*</span>WC_w <span class="sc">+</span> lam_WC_b[<span class="dv">2</span>]<span class="sc">*</span>WC_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-26"><a></a>WH6 <span class="ot">&lt;-</span> lam_WC_w[<span class="dv">3</span>]<span class="sc">*</span>WC_w <span class="sc">+</span> lam_WC_b[<span class="dv">3</span>]<span class="sc">*</span>WC_b_long <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="fl">0.9</span>)</span>
+<span id="cb58-27"><a></a></span>
+<span id="cb58-28"><a></a>dat_wh <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb58-29"><a></a>  <span class="at">ID =</span> ID,</span>
+<span id="cb58-30"><a></a>  <span class="at">WHLSM1 =</span> <span class="fu">cut_likert</span>(WH1),</span>
+<span id="cb58-31"><a></a>  <span class="at">WHLSM2 =</span> <span class="fu">cut_likert</span>(WH2),</span>
+<span id="cb58-32"><a></a>  <span class="at">WHLSM3 =</span> <span class="fu">cut_likert</span>(WH3),</span>
+<span id="cb58-33"><a></a>  <span class="at">WHLSM4 =</span> <span class="fu">cut_likert</span>(WH4),</span>
+<span id="cb58-34"><a></a>  <span class="at">WHLSM5 =</span> <span class="fu">cut_likert</span>(WH5),</span>
+<span id="cb58-35"><a></a>  <span class="at">WHLSM6 =</span> <span class="fu">cut_likert</span>(WH6)</span>
+<span id="cb58-36"><a></a>)</span>
+<span id="cb58-37"><a></a><span class="fu">head</span>(dat_wh, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    ID WHLSM1 WHLSM2 WHLSM3 WHLSM4 WHLSM5 WHLSM6
+1 P001      1      4      2      5      1      4
+2 P001      1      5      1      5      1      4
+3 P001      2      4      1      5      1      4
+4 P001      4      1      1      4      1      2</code></pre>
+</div>
+</div>
+</section>
+<section id="cross-level-invariance-configural-vs-weak" class="slide level2">
+<h2>Cross-level invariance: configural vs weak</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a></a>conf_wh <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb60-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb60-3"><a></a><span class="st">    sWE =~ WHLSM1 + WHLSM3 + WHLSM5</span></span>
+<span id="cb60-4"><a></a><span class="st">    sWC =~ WHLSM2 + WHLSM4 + WHLSM6</span></span>
+<span id="cb60-5"><a></a><span class="st">  level: 2</span></span>
+<span id="cb60-6"><a></a><span class="st">    tWE =~ WHLSM1 + WHLSM3 + WHLSM5</span></span>
+<span id="cb60-7"><a></a><span class="st">    tWC =~ WHLSM2 + WHLSM4 + WHLSM6</span></span>
+<span id="cb60-8"><a></a><span class="st">'</span></span>
+<span id="cb60-9"><a></a></span>
+<span id="cb60-10"><a></a>weak_wh <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb60-11"><a></a><span class="st">  level: 1</span></span>
+<span id="cb60-12"><a></a><span class="st">    sWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5</span></span>
+<span id="cb60-13"><a></a><span class="st">    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6</span></span>
+<span id="cb60-14"><a></a><span class="st">  level: 2</span></span>
+<span id="cb60-15"><a></a><span class="st">    tWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5</span></span>
+<span id="cb60-16"><a></a><span class="st">    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6</span></span>
+<span id="cb60-17"><a></a><span class="st">'</span></span>
+<span id="cb60-18"><a></a></span>
+<span id="cb60-19"><a></a>fit.conf_wh <span class="ot">&lt;-</span> <span class="fu">cfa</span>(conf_wh, dat_wh, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb60-20"><a></a>fit.weak_wh <span class="ot">&lt;-</span> <span class="fu">cfa</span>(weak_wh, dat_wh, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb60-21"><a></a></span>
+<span id="cb60-22"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
+<span id="cb60-23"><a></a>  <span class="at">conf =</span> <span class="fu">lavInspect</span>(fit.conf_wh, <span class="st">"fit"</span>)[<span class="fu">c</span>(<span class="st">"df"</span>,<span class="st">"rmsea.robust"</span>,<span class="st">"cfi.robust"</span>,<span class="st">"srmr_within"</span>,<span class="st">"srmr_between"</span>)],</span>
+<span id="cb60-24"><a></a>  <span class="at">weak =</span> <span class="fu">lavInspect</span>(fit.weak_wh, <span class="st">"fit"</span>)[<span class="fu">c</span>(<span class="st">"df"</span>,<span class="st">"rmsea.robust"</span>,<span class="st">"cfi.robust"</span>,<span class="st">"srmr_within"</span>,<span class="st">"srmr_between"</span>)]</span>
+<span id="cb60-25"><a></a>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     df rmsea.robust cfi.robust srmr_within srmr_between
+conf 16        0.014      0.996       0.014        0.046
+weak 20        0.018      0.992       0.015        0.046</code></pre>
+</div>
+</div>
+</section>
+<section id="partial-invariance" class="slide level2">
+<h2>Partial invariance?</h2>
+<p>Use modification indices to find which equality constraint is most problematic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit.weak_wh)</span>
+<span id="cb62-2"><a></a>mi[<span class="fu">order</span>(mi<span class="sc">$</span>mi, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ][<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      lhs op    rhs     mi
+83 WHLSM3 ~~ WHLSM5 18.185
+62 WHLSM3 ~~ WHLSM5 17.976
+1     sWE =~ WHLSM1 17.796
+24    tWE =~ WHLSM1 17.795
+53    sWE =~ WHLSM6 10.478
+82 WHLSM1 ~~ WHLSM6  6.599</code></pre>
+</div>
+</div>
+<p>Then free one loading across levels (partial weak invariance):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a></a>weak_part_wh <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb64-2"><a></a><span class="st">  level: 1</span></span>
+<span id="cb64-3"><a></a><span class="st">    sWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5</span></span>
+<span id="cb64-4"><a></a><span class="st">    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6</span></span>
+<span id="cb64-5"><a></a><span class="st">  level: 2</span></span>
+<span id="cb64-6"><a></a><span class="st">    tWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5</span></span>
+<span id="cb64-7"><a></a><span class="st">    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6</span></span>
+<span id="cb64-8"><a></a><span class="st">'</span></span>
+<span id="cb64-9"><a></a>fit.weak_part_wh <span class="ot">&lt;-</span> <span class="fu">cfa</span>(weak_part_wh, dat_wh, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="cross-level-homology" class="title-slide slide level1 center">
+<h1>Cross-level homology</h1>
+
+</section>
+<section id="beyond-invariance-homology" class="slide level2">
+<h2>Beyond invariance: homology</h2>
+<p>If cross-level invariance holds (conceptually and empirically), we can test whether the construct has a similar <strong>nomological network</strong> across levels (cross-level homology).</p>
+
+<img data-src="../assets/images/homology.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Chen et al.&nbsp;(2005) → add bib entries]</span></p>
+</section>
+<section id="take-home-3-things" class="slide level2">
+<h2>Take-home: 3 things</h2>
+<ol type="1">
+<li>With clustered/repeated data, always think <strong>within vs between</strong> (two covariance structures).<br>
+</li>
+<li>In MCFA, global fit can hide L2 misspecification — check <strong>SRMR_between</strong>.<br>
+</li>
+<li>Cross-level invariance connects estimation constraints to <strong>construct interpretation</strong> (trait/state, aggregation, homology).</li>
+</ol>
+</section>
+<section id="exercises-lab-10" class="slide level2">
+<h2>Exercises → Lab 10</h2>
+<p>Go to: <strong><code>labs/lab10_multilevel_robustse_twolevelcfa.qmd</code></strong></p>
+<ul>
+<li>fit a two-level CFA with <code>level:</code> + <code>cluster=</code></li>
+<li>compare alternative within/between structures and interpret SRMR</li>
+<li>diagnose (potential) Heywood cases at Level 2</li>
+<li>test (optional) cross-level invariance and partial invariance</li>
+</ul>
+</section>
+<section id="further-reading" class="slide level2">
+<h2>Further reading</h2>
+<p><span style="color:#c00000;">[ADD the corresponding bib entries + citation keys in <code>refs/references.bib</code>]</span></p>
+<ul>
+<li>Hox (2010), <em>Multilevel Analysis</em> (SEM/MCFA chapter)<br>
+</li>
+<li>Ryu &amp; West (2009) on level-specific fit, SRMR<br>
+</li>
+<li>Hsu et al.&nbsp;(2015) on level-specific fit in MCFA<br>
+</li>
+<li>Kolenikov &amp; Bollen (2012) on improper solutions / negative variances<br>
+</li>
+<li>Jak &amp; Jorgensen (2017) on cross-level invariance<br>
+</li>
+<li>Stapleton et al.&nbsp;(2016) on multilevel constructs<br>
+</li>
+<li>Chen et al.&nbsp;(2005) on cross-level homology</li>
+</ul>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<p><span style="color:#c00000;">[Replace the red TODOs with proper <code>[@key]</code> citations once the bib entries are in place.]</span></p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

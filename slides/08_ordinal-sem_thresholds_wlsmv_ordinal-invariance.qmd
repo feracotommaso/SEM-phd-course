@@ -48,23 +48,23 @@ suppressPackageStartupMessages({
 **Specify → Identify → Estimate → Evaluate → Revise/Report**
 
 ::: {.callout-note appearance="minimal"}
-**Today:** extending SEM to **ordinal (ordered-categorical)** indicators:  
+**Today:** extending SEM to **ordinal (ordered-categorical)** indicators:\
 thresholds, polychoric correlations, **DWLS/WLSMV (and ULS)**, and what changes in **model fit** and **invariance**.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Learning objectives
 
 By the end of this session you should be able to:
 
-- Explain the **latent-response** view of ordinal items and the role of **thresholds**
-- Know when treating Likert items as continuous is risky (few categories / skewed distributions)
-- Fit ordinal CFA/SEM in **lavaan** using `ordered=` and appropriate estimators (DWLS/WLSMV/ULS)
-- Understand how (and why) **global fit indices** behave differently with ordinal data
-- Run **MG-CFA invariance** with ordinal indicators (thresholds first, then loadings)
+-   Explain the **latent-response** view of ordinal items and the role of **thresholds**
+-   Know when treating Likert items as continuous is risky (few categories / skewed distributions)
+-   Fit ordinal CFA/SEM in **lavaan** using `ordered=` and appropriate estimators (DWLS/WLSMV/ULS)
+-   Understand how (and why) **global fit indices** behave differently with ordinal data
+-   Run **MG-CFA invariance** with ordinal indicators (thresholds first, then loadings)
 
----
+------------------------------------------------------------------------
 
 ## Introduction
 
@@ -89,10 +89,10 @@ p1
 
 `COMMENTS?`
 
-
 ## Introduction
 
-However, we postulate that they are generated from continuous normal latent distributions 
+However, we postulate that they are generated from continuous normal latent distributions
+
 ```{r, fig.height=4, fig.width=9, echo=FALSE}
 p2 <- ggplot(data = d, aes(latent)) +
   geom_histogram(color = "blue", bins = 100) +theme_bw()+
@@ -101,12 +101,13 @@ p2 <- ggplot(data = d, aes(latent)) +
       axis.text.y=element_blank())
 ggpubr::ggarrange(p2,p1, ncol = 1)
 ```
-`COMMENTS?`
 
+`COMMENTS?`
 
 ## Likert scales
 
 This also applies to Liker scales, where the difference between reporting a score of 1 or 2, and the difference between reporting a score of 2 or 3 is not the same!
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, size="tiny"}
 set.seed(12)
 # Assuming Likert item scores ranging from 1 to 5
@@ -182,10 +183,10 @@ pp <- ggpubr::ggarrange(pb, ph, ncol = 2)
 ggpubr::ggarrange(pp, pd, ncol = 1)
 ```
 
-
 ## The `adaptability` data
 
 And in real data they are often not normally distributed
+
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 library(reshape2)
 D.ad <- read.csv("../data/Exercise3_2.csv")[,-1]
@@ -196,7 +197,6 @@ ggplot(dad, aes(x = value, fill = "orange", color = "black")) +
   theme_bw()+ 
   theme(legend.position = "none")
 ```
-
 
 ## Wrong correlations
 
@@ -217,7 +217,7 @@ cor1 <- cor(d)
 cor2 <- cor(d1)
 ```
 
-::: {.columns}
+::::: columns
 ::: {.column width="50%"}
 ```{r, echo=FALSE, fig.height=5}
 corrplot::corrplot(cor1, addCoef.col = 'black', method = 'ellipse', tl.pos = 'd')
@@ -229,7 +229,7 @@ corrplot::corrplot(cor1, addCoef.col = 'black', method = 'ellipse', tl.pos = 'd'
 corrplot::corrplot(cor2, addCoef.col = 'black', method = 'ellipse', tl.pos = 'd')
 ```
 :::
-:::
+:::::
 
 ::: {.callout-note appearance="minimal"}
 Data were generated from a multivariate normal distribution using `MASS::mvrnorm` and then manually truncated on a 3-point scale
@@ -241,17 +241,18 @@ This, of course, has consequences on SEM parameters, which are based on covarian
 
 To estimate a model treating items/observations as ordinal data, we need to change the estimationd method
 
-- `ML` is not always accurate with ordinal data (especially with few categories)
-- `lavaan`, when `ordered` is `TRUE`, automatically use `DWLS` (diagonally weighted least squares)
-- A great alternative is `ULS`, which usually performs better, but has more convergence problems
-- We can also use robust ML alternatives, like `MLR`
-- Other available estimators: lavaan tutorial on estimators (see course site)
+-   `ML` is not always accurate with ordinal data (especially with few categories)
+-   `lavaan`, when `ordered` is `TRUE`, automatically use `WLSMV` (diagonally weighted least squares)
+-   A great alternative is `ULS`, but has more convergence problems
+-   We can also use robust ML alternatives, like `MLR`
+-   Other available estimators: lavaan tutorial on estimators (see [here](https://lavaan.ugent.be/tutorial/est.html))
 
 ## How to fit a CFA with ordinal data
 
 ```{r, message=FALSE}
 library(lavaan)
 ```
+
 ```{r, eval=TRUE, tidy=TRUE}
 # THE MODEL IS SPECIFIED AS USUAL
 mOrd <- "
@@ -267,17 +268,16 @@ fitOrd <- sem(mOrd, D.ad, std.lv=T,
 #             ordered = T) # or just "TRUE" if all ordered       
 ```
 
-
 ## Results (1)
 
 ```{r, eval=FALSE, echo=FALSE}
 summary(fitOrd, std=T)
 ```
+
 ```{r, size="tiny"}
 temp = capture.output(summary(fitOrd, std=T))
 cat(c(temp[1:21], "[...]"), sep = "\n")
 ```
-
 
 ## Results (2)
 
@@ -286,14 +286,12 @@ temp = capture.output(summary(fitOrd, std=T))
 cat(c("[...]", temp[22:40], "[...]"), sep = "\n")
 ```
 
-
 ## Results (3)
 
 ```{r, size="tiny", echo=FALSE}
 temp = capture.output(summary(fitOrd, std=T))
 cat(c("[...]", temp[41:61], "[...]"), sep = "\n")
 ```
-
 
 ## Results (4)
 
@@ -302,34 +300,31 @@ temp = capture.output(summary(fitOrd, std=T))
 cat(c("[...]", temp[62:79], "[...]", "[...]"), sep = "\n")
 ```
 
-
 ## Thresholds (1)
 
-- We can assume that a discrete variable $x$ (expressed with $k$ ordered categories) represents an approximation of a continuous latent variable $\xi$, normally distributed with mean 0.
-- Therefore, when we observe $x = i$, it means that the true corresponding value $\xi$ is ranging between two values, i.e.
+-   We can assume that a discrete variable $x$ (expressed with $k$ ordered categories) represents an approximation of a continuous latent variable $\xi$, normally distributed with mean 0.
+-   Therefore, when we observe $x = i$, it means that the true corresponding value $\xi$ is ranging between two values, i.e.
 
 $$
 \alpha_{i-1} < \xi \leq \alpha_i
-$$
-  where $\alpha_0 = - \infty, \alpha_1 < \alpha_2 < \dots < \alpha_{k-1}$ e $\alpha_k = +\infty$ are the thresholds
-- Consequenlty we will have that, given a discrete ordered variable with $k$ possible values, there are $k - 1$ unknown thresholds.
-
+$$ where $\alpha_0 = - \infty, \alpha_1 < \alpha_2 < \dots < \alpha_{k-1}$ e $\alpha_k = +\infty$ are the thresholds - Consequenlty we will have that, given a discrete ordered variable with $k$ possible values, there are $k - 1$ unknown thresholds.
 
 ## Thresholds (2)
 
-Thresholds represent the link between the (continuous) latent variable $\xi$ and the observed values (on a discrete scale).   
+Thresholds represent the link between the (continuous) latent variable $\xi$ and the observed values (on a discrete scale).
 
-For example, the item `Adaptability_1` 
+For example, the item `Adaptability_1`
+
 ```{r, echo=FALSE}
 round(parameterTable(fitOrd)[11:16,"est"],2)
 ```
 
 That we can manually compute as:
+
 ```{r, tidy=TRUE}
 round(qnorm(cumsum(table(D.ad$Adaptability_1)) /
              sum(table(D.ad$Adaptability_1))),2)
 ```
-
 
 ## Results (5)
 
@@ -338,10 +333,10 @@ temp = capture.output(summary(fitOrd, std=T))
 cat(c("[...]", temp[99:112], "[...]"), sep = "\n")
 ```
 
-
 ## Model fit
 
 This works as usual
+
 ```{r, tidy=TRUE, eval=FALSE}
 fi <- c("npar", "df", "chisq", 
         "cfi", "tli", "nnfi", "agfi", 
@@ -349,6 +344,7 @@ fi <- c("npar", "df", "chisq",
 fitmeasures(fitOrd, fit.measures = fi)
 # OR inspect(fitOrd, "fit")[fi]
 ```
+
 ```{r, echo=FALSE}
 fi <- c("npar", "df", "chisq", 
         "cfi", "tli", "nnfi", "agfi", 
@@ -357,18 +353,18 @@ fitmeasures(fitOrd, fit.measures = fi)[1:3]
 fitmeasures(fitOrd, fit.measures = fi)[4:7]
 fitmeasures(fitOrd, fit.measures = fi)[8:11]
 ```
-`BUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!`
 
+`BUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!`
 
 ## Model fit, references
 
 Some references for model fit with ordinal data:
 
-- RMSEA (doi:10.1080/10705511.2019.1611434) tends to reject models with large datasets and 5-point scales
-- CFI and TLI tend to overestimate model fit
-- SRMR seems to be less biased 
+-   RMSEA (doi:10.1080/10705511.2019.1611434) tends to reject models with large datasets and 5-point scales
+-   CFI and TLI tend to overestimate model fit
+-   SRMR seems to be less biased
 
-But there are many contradictory suggestions and it is not easy to navigate them. Look for what you need as simulation studies depend on many variables.   
+But there are many contradictory suggestions and it is not easy to navigate them. Look for what you need as simulation studies depend on many variables.
 
 This (doi:10.1027/2698-1866/a000034) might be a helpful summary/reflection.
 
@@ -376,24 +372,57 @@ This (doi:10.1027/2698-1866/a000034) might be a helpful summary/reflection.
 
 ![](../assets/images/reviewer2.png){width="94%"}
 
+## Data quality checks (before fitting)
+
+Before you run WLSMV / ordinal CFA, check:
+
+- **Category frequencies**  
+  Any category with very few responses? (e.g., < 5% or tiny counts)
+- **Empty / near-empty pairs**  
+  Some item pairs may have empty cells in their K×K tables → unstable polychorics
+- **Extreme skew / floor–ceiling**  
+  Items with almost everyone in the same category carry little information
+- **Too many categories for N**  
+  Many categories + modest sample size → sparse tables and unstable estimation
+
+::: {.callout-tip appearance="minimal"}
+If you see sparse categories, consider collapsing adjacent categories (with a substantive rationale).
+:::
+
+---
+
+## What to do if categories are sparse
+
+Options (in order of “least invasive”):
+
+- Collapse adjacent categories (e.g., merge 1–2 or 4–5)
+
+  - do it consistently across groups/time if you’ll test invariance
+
+- Drop an item that is essentially constant or unusable
+
+- Collect more data (sparse tables are fundamentally a sample-size problem)
+
+::: {.callout-warning appearance="minimal"}
+Avoid “data-driven collapsing” that changes the construct meaning. Document the decision clearly.
+:::
+
 # MG-CFA-ordinal
 
 ## Prerequisites
 
 When we test multigroup invariance with ordinal data we assume that the `THRESHOLDS` are also equal between the two groups, but before running the analysis, remember:
 
-- the number of parameters is higher than with continuous data...and you split the data in two or more parts! Be sure you have enough data in each group
-- all the observed indicators hold the same categories in each group, otherwise you cannot fit the model
-
+-   the number of parameters is higher than with continuous data...and you split the data in two or more parts! Be sure you have enough data in each group
+-   all the observed indicators hold the same categories in each group, otherwise you cannot fit the model
 
 ## Steps
 
 The steps that you should follow fo MG-CFA with ordinal data are slightly different:
 
-- **Baseline model**, as the configural model
-- **Equal thresholds model**, you should start by forcing the thresholds to be equal across groups
-- **Equal loadings and thresholds model**, only now you can fix the loadings to be equal across groups
-
+-   **Baseline model**, as the configural model
+-   **Equal thresholds model**, you should start by forcing the thresholds to be equal across groups
+-   **Equal loadings and thresholds model**, only now you can fix the loadings to be equal across groups
 
 ## In `R`
 
@@ -414,7 +443,6 @@ fLoad <- sem(mOrd, D.ad, std.lv=T, estimator = "ULS",
              group.equal = c("thresholds", "loadings"))
 ```
 
-
 ## Model fit comparison
 
 ```{r}
@@ -430,7 +458,6 @@ kbl(round(fitTable, digits = 3)) %>%
    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "condensed")) %>%
    row_spec(0,bold=TRUE)
 ```
-
 
 ## Model results
 
@@ -456,48 +483,47 @@ kbl(pt) %>%
 
 ```
 
-
 ## Additional materials
 
-- Svetina et al. (doi:10.1080/10705511.2019.1602776) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data 
-- Enrico Perinelli held a `psicostat` meeting on the topic following Svetina et al.'s code
+-   Svetina et al. (doi:10.1080/10705511.2019.1602776) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data
+-   Enrico Perinelli held a `psicostat` meeting on the topic following Svetina et al.'s code
 
----
+------------------------------------------------------------------------
 
 ## Exercises → Lab
 
 Open and work through:
 
-- `labs/lab08_ordinal_sem_invariance.qmd`
+-   `labs/lab08_ordinal_sem_invariance.qmd`
 
-Focus on:
-- fitting the **same CFA/SEM** treating items as continuous vs **ordered**
-- inspecting **thresholds** and (polychoric) correlations
+Focus on: 
+
+- fitting the **same CFA/SEM** treating items as continuous vs **ordered** 
+- inspecting **thresholds** and (polychoric) correlations 
 - MG-CFA steps with ordinal indicators (**thresholds → thresholds + loadings**)
 
----
+------------------------------------------------------------------------
 
 ## Take-home summary
 
 **Three things to remember:**
 
-1. Ordinal items are usually modeled via an underlying **continuous latent response** + **thresholds**
-2. Estimation changes (DWLS/WLSMV/ULS), and **fit indices are not “plug-and-play”** as in ML for continuous data
-3. With ordinal MG-CFA, **threshold invariance** is a key early step (often before loadings)
+1.  Ordinal items are usually modeled via an underlying **continuous latent response** + **thresholds**
+2.  Estimation changes (DWLS/WLSMV/ULS), and **fit indices are not “plug-and-play”** as in ML for continuous data
+3.  With ordinal MG-CFA, **threshold invariance** is a key early step (often before loadings)
 
----
+------------------------------------------------------------------------
 
 ## Further reading
 
-- Svetina et al. tutorial + simulation-based guidance for ordinal MG-CFA  
-- Simulation papers on fit indices with ordinal data (RMSEA/CFI/TLI/SRMR)
+-   Svetina et al. tutorial + simulation-based guidance for ordinal MG-CFA\
+-   Simulation papers on fit indices with ordinal data (RMSEA/CFI/TLI/SRMR)
 
 (See the “Additional materials” slide for links.)
 
----
+------------------------------------------------------------------------
 
 ## References
 
 ::: {#refs}
 :::
-

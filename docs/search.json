@@ -5121,7 +5121,7 @@
     "href": "slides/06_missing-data_robustness_reporting.html#workflow-map",
     "title": "Lesson 6 — When SEM Goes Wrong",
     "section": "Workflow map",
-    "text": "Workflow map\nSpecify → Identify → Estimate → Evaluate → Report\nToday we practice a sensitivity mindset:\n\nSame model, different reasonable choices → does the conclusion change?"
+    "text": "Workflow map"
   },
   {
     "objectID": "slides/06_missing-data_robustness_reporting.html#learning-objectives",
@@ -6066,7 +6066,7 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#in-lavaan-and-sem",
     "title": "SEM with ordinal variables",
     "section": "In lavaan and SEM",
-    "text": "In lavaan and SEM\nTo estimate a model treating items/observations as ordinal data, we need to change the estimationd method\n\nML is not always accurate with ordinal data (especially with few categories)\nlavaan, when ordered is TRUE, automatically use DWLS (diagonally weighted least squares)\nA great alternative is ULS, which usually performs better, but has more convergence problems\nWe can also use robust ML alternatives, like MLR\nOther available estimators: lavaan tutorial on estimators (see course site)"
+    "text": "In lavaan and SEM\nTo estimate a model treating items/observations as ordinal data, we need to change the estimationd method\n\nML is not always accurate with ordinal data (especially with few categories)\nlavaan, when ordered is TRUE, automatically use WLSMV (diagonally weighted least squares)\nA great alternative is ULS, but has more convergence problems\nWe can also use robust ML alternatives, like MLR\nOther available estimators: lavaan tutorial on estimators (see here)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#how-to-fit-a-cfa-with-ordinal-data",
@@ -6192,7 +6192,7 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#exercises-lab",
     "title": "SEM with ordinal variables",
     "section": "Exercises → Lab",
-    "text": "Exercises → Lab\nOpen and work through:\n\nlabs/lab08_ordinal_sem_invariance.qmd\n\nFocus on: - fitting the same CFA/SEM treating items as continuous vs ordered - inspecting thresholds and (polychoric) correlations - MG-CFA steps with ordinal indicators (thresholds → thresholds + loadings)"
+    "text": "Exercises → Lab\nOpen and work through:\n\nlabs/lab08_ordinal_sem_invariance.qmd\n\nFocus on:\n\nfitting the same CFA/SEM treating items as continuous vs ordered\ninspecting thresholds and (polychoric) correlations\nMG-CFA steps with ordinal indicators (thresholds → thresholds + loadings)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#take-home-summary",
@@ -6214,5 +6214,1055 @@
     "title": "SEM with ordinal variables",
     "section": "References",
     "text": "References"
+  },
+  {
+    "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#data-quality-checks-before-fitting",
+    "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#data-quality-checks-before-fitting",
+    "title": "SEM with ordinal variables",
+    "section": "Data quality checks (before fitting)",
+    "text": "Data quality checks (before fitting)\nBefore you run WLSMV / ordinal CFA, check:\n\nCategory frequencies\nAny category with very few responses? (e.g., &lt; 5% or tiny counts)\nEmpty / near-empty pairs\nSome item pairs may have empty cells in their K×K tables → unstable polychorics\nExtreme skew / floor–ceiling\nItems with almost everyone in the same category carry little information\nToo many categories for N\nMany categories + modest sample size → sparse tables and unstable estimation\n\n\n\n\nIf you see sparse categories, consider collapsing adjacent categories (with a substantive rationale)."
+  },
+  {
+    "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#quick-checks-in-r-copypaste",
+    "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#quick-checks-in-r-copypaste",
+    "title": "SEM with ordinal variables",
+    "section": "Quick checks in R (copy/paste)",
+    "text": "Quick checks in R (copy/paste)\n\nvars &lt;- c(\"item1\",\"item2\",\"item3\",\"item4\")   # ordered items\n\n# 1) Univariate category counts\nlapply(dat[vars], table)\n\n# 2) Univariate proportions\nlapply(dat[vars], prop.table)\n\n# 3) Flag sparse categories (e.g., &lt; 5% per category)\nsparse &lt;- lapply(dat[vars], function(x) prop.table(table(x)) &lt; .05)\nsparse\n\n# 4) Pairwise contingency tables for suspicious item pairs\n# (Pick a few pairs; don’t do all pairs if you have many items.)\ntable(dat$item1, dat$item2)\ntable(dat$item3, dat$item4)\n\nWhat to do if categories are sparse\nOptions (in order of “least invasive”):\n\nCollapse adjacent categories (e.g., merge 1–2 or 4–5)\n\ndo it consistently across groups/time if you’ll test invariance\n\nDrop an item that is essentially constant or unusable\nCollect more data (sparse tables are fundamentally a sample-size problem)\n\n\n\n\nAvoid “data-driven collapsing” that changes the construct meaning. Document the decision clearly."
+  },
+  {
+    "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#what-to-do-if-categories-are-sparse",
+    "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#what-to-do-if-categories-are-sparse",
+    "title": "SEM with ordinal variables",
+    "section": "What to do if categories are sparse",
+    "text": "What to do if categories are sparse\nOptions (in order of “least invasive”):\n\nCollapse adjacent categories (e.g., merge 1–2 or 4–5)\n\ndo it consistently across groups/time if you’ll test invariance\n\nDrop an item that is essentially constant or unusable\nCollect more data (sparse tables are fundamentally a sample-size problem)\n\n\n\n\nAvoid “data-driven collapsing” that changes the construct meaning. Document the decision clearly."
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html",
+    "href": "labs/lab08_ordinal_sem_invariance.html",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "",
+    "text": "In this lab you will:\n\nCreate an ordinal version of a familiar CFA dataset\nFit a CFA treating items as continuous (wrong-on-purpose) vs ordinal (WLSMV)\nInterpret thresholds and why ordinal models replace intercepts with thresholds\nUse CFA diagnostics (residuals + MI/EPC) in the ordinal setting\nTest a simple ordinal measurement invariance ladder across groups"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#a-continuous-ml-on-ordinal-codes-wrong-on-purpose",
+    "href": "labs/lab08_ordinal_sem_invariance.html#a-continuous-ml-on-ordinal-codes-wrong-on-purpose",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "1a) Continuous (ML) on ordinal codes (wrong-on-purpose)",
+    "text": "1a) Continuous (ML) on ordinal codes (wrong-on-purpose)\n\n\nShow code\nfit_cont &lt;- cfa(m3, data = dat_ord_num, std.lv = TRUE)  # ML default\nfitMeasures(fit_cont, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n chisq     df    cfi    tli  rmsea   srmr \n79.046 24.000  0.928  0.891  0.087  0.060"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#b-ordinal-wlsmv-with-thresholds",
+    "href": "labs/lab08_ordinal_sem_invariance.html#b-ordinal-wlsmv-with-thresholds",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "1b) Ordinal (WLSMV) with thresholds",
+    "text": "1b) Ordinal (WLSMV) with thresholds\n\n\nShow code\nfit_ord &lt;- cfa(\n  m3,\n  data = dat_ord,\n  ordered = vars,              # tells lavaan these are ordinal\n  std.lv = TRUE,\n  parameterization = \"theta\"   # common choice for categorical indicators\n  # estimator is set automatically to WLSMV when ordered= is used\n)\n\nfitMeasures(fit_ord, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n chisq     df    cfi    tli  rmsea   srmr \n56.708 24.000  0.987  0.980  0.067  0.065 \n\n\nQuestions (answer in words)\n\nWhich fit indices change the most between the two analyses?\nDo standardized loadings change meaningfully? Why might they?\nWhat is the conceptual mistake of treating ordinal codes as if they were continuous?"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#a-standardized-residuals",
+    "href": "labs/lab08_ordinal_sem_invariance.html#a-standardized-residuals",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "4a) Standardized residuals",
+    "text": "4a) Standardized residuals\n\n\nShow code\nres_std &lt;- residuals(fit_ord, type = \"cor\")$cov\nres_std\n\n\n       x1     x2     x3     x4     x5     x6     x7     x8     x9\nx1  0.000                                                        \nx2 -0.052  0.000                                                 \nx3 -0.006  0.101  0.000                                          \nx4  0.090  0.050 -0.079  0.000                                   \nx5 -0.016  0.020 -0.133 -0.004  0.000                            \nx6  0.017 -0.001 -0.048 -0.012  0.010  0.000                     \nx7 -0.144 -0.165 -0.073  0.056 -0.013  0.001  0.000              \nx8 -0.065 -0.043  0.008 -0.058 -0.054 -0.033  0.161  0.000       \nx9  0.068  0.032  0.150  0.046  0.061 -0.028 -0.074 -0.072  0.000\n\n\nFind the largest absolute residuals:\n\n\nShow code\nR &lt;- res_std\ndiag(R) &lt;- NA\ntop_res &lt;- as.data.frame(as.table(R))\ntop_res &lt;- top_res[order(abs(top_res$Freq), decreasing = TRUE), ]\nhead(top_res, 10)\n\n\n   Var1 Var2   Freq\n16   x7   x2 -0.165\n56   x2   x7 -0.165\n62   x8   x7  0.161\n70   x7   x8  0.161\n27   x9   x3  0.150\n75   x3   x9  0.150\n7    x7   x1 -0.144\n55   x1   x7 -0.144\n23   x5   x3 -0.133\n39   x3   x5 -0.133"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#b-modification-indices-epcsepc",
+    "href": "labs/lab08_ordinal_sem_invariance.html#b-modification-indices-epcsepc",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "4b) Modification indices + EPC/SEPC",
+    "text": "4b) Modification indices + EPC/SEPC\n\n\nShow code\nmi &lt;- modificationIndices(fit_ord, sort. = TRUE)\nhead(mi[, c(\"lhs\",\"op\",\"rhs\",\"mi\",\"epc\",\"sepc.all\")], 15)\n\n\n        lhs op rhs    mi    epc sepc.all\n133      x7 ~~  x8 29.83 -0.651   -0.651\n87   visual =~  x9 29.44 -1.156   -0.662\n135      x8 ~~  x9 12.48  1.043    1.043\n85   visual =~  x7 12.04  0.348    0.295\n90  textual =~  x3 11.41  0.338    0.280\n120      x3 ~~  x9  9.73 -0.446   -0.446\n112      x2 ~~  x7  7.30  0.239    0.239\n105      x1 ~~  x7  7.03  0.407    0.407\n93  textual =~  x9  6.51 -0.314   -0.180\n86   visual =~  x8  5.60  0.309    0.239\n88  textual =~  x1  5.60 -0.496   -0.273\n134      x7 ~~  x9  5.50  0.522    0.522\n116      x3 ~~  x5  5.10  0.413    0.413\n96    speed =~  x3  4.72 -0.242   -0.201\n92  textual =~  x8  4.30  0.158    0.122\n\n\nQuestions\n\nDo residuals and MI point to the same problematic pairs?\nIn an ordinal CFA, which modifications are most common?\n\ncorrelated residuals (local dependence / method)\ncross-loadings (threaten simple structure)\nfreeing thresholds/loadings across groups (invariance context)"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#a-configural-model-same-pattern-of-loadings",
+    "href": "labs/lab08_ordinal_sem_invariance.html#a-configural-model-same-pattern-of-loadings",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "5a) Configural model (same pattern of loadings)",
+    "text": "5a) Configural model (same pattern of loadings)\n\n\nShow code\ndat_ord_g &lt;- dat_ord\ndat_ord_g$school &lt;- dat_full$school  # keep group variable\n\nfit_g0 &lt;- cfa(\n  m3, data = dat_ord_g,\n  group = \"school\",\n  ordered = vars,\n  std.lv = TRUE,\n  parameterization = \"theta\"\n)\n\nfitMeasures(fit_g0, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n  cfi   tli rmsea  srmr \n0.988 0.982 0.062 0.073"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#b-threshold-invariance-equal-thresholds",
+    "href": "labs/lab08_ordinal_sem_invariance.html#b-threshold-invariance-equal-thresholds",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "5b) Threshold invariance (equal thresholds)",
+    "text": "5b) Threshold invariance (equal thresholds)\n\n\nShow code\nfit_g1 &lt;- cfa(\n  m3, data = dat_ord_g,\n  group = \"school\",\n  group.equal = c(\"thresholds\"),\n  ordered = vars,\n  std.lv = TRUE,\n  parameterization = \"theta\"\n)\n\nfitMeasures(fit_g1, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n  cfi   tli rmsea  srmr \n0.970 0.970 0.082 0.075"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#c-threshold-loading-invariance-often-the-key-step",
+    "href": "labs/lab08_ordinal_sem_invariance.html#c-threshold-loading-invariance-often-the-key-step",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "5c) Threshold + loading invariance (often the key step)",
+    "text": "5c) Threshold + loading invariance (often the key step)\n\n\nShow code\nfit_g2 &lt;- cfa(\n  m3, data = dat_ord_g,\n  group = \"school\",\n  group.equal = c(\"thresholds\", \"loadings\"),\n  ordered = vars,\n  std.lv = TRUE,\n  parameterization = \"theta\"\n)\n\nfitMeasures(fit_g2, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n  cfi   tli rmsea  srmr \n0.972 0.974 0.076 0.075"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#d-compare-nested-models-wlsmv-difference-tests",
+    "href": "labs/lab08_ordinal_sem_invariance.html#d-compare-nested-models-wlsmv-difference-tests",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "5d) Compare nested models (WLSMV difference tests)",
+    "text": "5d) Compare nested models (WLSMV difference tests)\n\n\nShow code\nlavTestLRT(fit_g0, fit_g1, fit_g2)\n\n\n\nScaled Chi-Squared Difference Test (method = \"satorra.2000\")\n\nlavaan-&gt;lavTestLRT():  \n   lavaan NOTE: The \"Chisq\" column contains standard test statistics, not the \n   robust test that should be reported per model. A robust difference test is \n   a function of two standard (not robust) statistics.\n       Df AIC BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    \nfit_g0 48          75.7                                  \nfit_g1 72         143.7       93.7      24    3.4e-10 ***\nfit_g2 78         144.6        1.0       6       0.98    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nInterpretation tasks\n\nDoes adding equal thresholds worsen fit meaningfully?\nDoes adding equal loadings (on top of thresholds) worsen fit meaningfully?\nBased on this ladder, what comparisons would you feel comfortable making?\n\nfactor structure? (configural)\nrelations among factors? (threshold+loading invariance often needed)\nlatent means? (typically needs at least thresholds+loadings; and later we discuss partial invariance)"
+  },
+  {
+    "objectID": "labs/lab08_ordinal_sem_invariance.html#deliverables",
+    "href": "labs/lab08_ordinal_sem_invariance.html#deliverables",
+    "title": "Lab 08 — Ordinal CFA/SEM: thresholds, WLSMV, and ordinal invariance",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nA short paragraph: continuous-vs-ordinal CFA — what changed and why?\nA table (or bullet list) summarizing:\n\ntop thresholds for one item\ntop residual pairs + what you think they represent\n\nInvariance summary across school: configural vs thresholds vs thresholds+loadings"
+  },
+  {
+    "objectID": "slides/06_missing-data_robustness_reporting.html#today-in-the-workflow",
+    "href": "slides/06_missing-data_robustness_reporting.html#today-in-the-workflow",
+    "title": "Lesson 6 — When SEM Goes Wrong",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday we practice a sensitivity mindset: Same model, different reasonable choices → does the conclusion change?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#today-in-the-workflow",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#today-in-the-workflow",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise / Report\n\n\n\nFocus today: what changes when data are clustered (schools/teams) or repeated (ESM / within-person).\nKey idea: with clustering we need to model two covariance structures (within & between)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#learning-objectives",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#learning-objectives",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end you should be able to:\n\nDiagnose non-independence (clusters / repeated measures) and why it matters\nExplain within vs between covariance (and how to compute them)\nFit a two-level CFA in lavaan (level: blocks + cluster=)\nRead level-specific fit (especially srmr_within vs srmr_between)\nUnderstand cross-level invariance and its link to construct meaning (e.g., traits as distributions of states)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#outline-come-nel-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#outline-come-nel-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Outline (come nel PDF)",
+    "text": "Outline (come nel PDF)\n\nSEM, CFA e razionale della CFA multilivello\n\nHandZone: come condurre una CFA multilivello con lavaan\n\nEsempio pratico: Gruppi e individui\n\nEsempi pratici: Misure ripetute\n\nInvarianza cross-livello: dalla pratica alla teoria"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-what",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-what",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel what!?",
+    "text": "Multilevel what!?\nSEM = multivariate linear models formalized as systems of equations.\n\n\nlinear models\n\\(\\text{PERF}=\\beta_1\\text{IQ}+\\beta_2\\text{ANX}+\\epsilon\\)\n\n\n\n\n\n\nSEM system\n\\[\n\\begin{aligned}\n\\text{ANX} &= \\beta_1\\text{SEFF} + \\epsilon_2\\\\\n\\text{PERF} &= \\beta_2\\text{SEFF} + \\beta_3\\text{ANX} + \\epsilon_3\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#le-due-parti-fondamentali-di-un-sem",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#le-due-parti-fondamentali-di-un-sem",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Le due parti fondamentali di un SEM",
+    "text": "Le due parti fondamentali di un SEM\nUn SEM include generalmente:\n\nModello strutturale: relazioni “regression-like” tra (latenti o osservate)\n\nModello di misurazione: relazioni tra latenti e indicatori (CFA)\n\n[INSERIRE FIGURA: “Le due parti fondamentali” (schema SEM dal PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#analisi-fattoriale-confermativa-cfa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#analisi-fattoriale-confermativa-cfa",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Analisi fattoriale confermativa (CFA)",
+    "text": "Analisi fattoriale confermativa (CFA)\nUna CFA include solo il modello di misurazione:\n\ndefinisce i fattori (latenti) e quali indicatori li misurano\nstima saturazioni, varianze residue, (co)varianze tra fattori\nvaluta l’adattamento del modello a partire da (S) e (())\n\n[INSERIRE FIGURA: “CFA” / “Struttura fattoriale” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#punto-di-partenza-la-matrice-di-covarianza",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#punto-di-partenza-la-matrice-di-covarianza",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Punto di partenza: la matrice di covarianza",
+    "text": "Punto di partenza: la matrice di covarianza\nSEM/CFA partono dalla matrice di covarianza osservata (S):\n\\[\n\\mathrm{cov}(x,y) = \\frac{\\sum (x_i-\\bar x)(y_i-\\bar y)}{N}\n\\]\nIl modello stima parametri () tali che:\n\nla matrice implicata (()) “assomigli” a (S)\nla differenza tra (S) e () guida fit e diagnostica"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#e-se-i-dati-sono-multilivello",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#e-se-i-dati-sono-multilivello",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "E se i dati sono multilivello?",
+    "text": "E se i dati sono multilivello?\nQuando le osservazioni sono nidificate (cluster) o ripetute:\n\nsi creano dipendenze locali (osservazioni nello stesso cluster più simili)\nsi viola l’assunto di indipendenza\nignorare la struttura può alterare SE e inferenza (e a volte anche stime)\n\nEsempi: - persone entro scuole/classi/team - misure ripetute entro persone (ESM, longitudinali intensivi)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#scomposizione-within-vs-between-intuizione",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#scomposizione-within-vs-between-intuizione",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Scomposizione within vs between (intuizione)",
+    "text": "Scomposizione within vs between (intuizione)\nPossiamo decomporre la (co)varianza in:\n\nBetween (L2): covarianza tra le medie dei cluster\n\nWithin (L1): covarianza tra gli scarti dalla media del cluster\n\nInterpretazione: - Between: cluster con media alta su X hanno media alta su Y? - Within: unità “sopra la media del proprio cluster” su X sono anche sopra su Y?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#come-si-ottengono-pseudo-codice",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#come-si-ottengono-pseudo-codice",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Come si ottengono (pseudo-codice)",
+    "text": "Come si ottengono (pseudo-codice)\n\n# df: long data, cluster = id_cluster\nwide &lt;- aggregate(cbind(x1, x2) ~ cluster, data = df, FUN = mean)  # between means\ndf &lt;- merge(df, wide, by = \"cluster\", suffixes = c(\"\", \".b\"))\ndf$x1.w &lt;- df$x1 - df$x1.b\ndf$x2.w &lt;- df$x2 - df$x2.b\n\nS_between &lt;- cov(wide[, c(\"x1\",\"x2\")])\nS_within  &lt;- cov(df[, c(\"x1.w\",\"x2.w\")])"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-idea",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-idea",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Multilevel CFA (idea)",
+    "text": "Multilevel CFA (idea)\nLa MCFA usa due strutture:\n\nfattori e residui a livello within\nfattori e residui a livello between\n\nObiettivo: capire se la struttura di misura è coerente a entrambi i livelli e valutare: - saturazioni livello-specifiche - varianze residue livello-specifiche - fit livello-specifico\n[INSERIRE FIGURA: “Multilevel CFA” (schema within/between) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#handzone-cfa-con-lavaan-recap-veloce",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#handzone-cfa-con-lavaan-recap-veloce",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "HandZone: CFA con lavaan (recap veloce)",
+    "text": "HandZone: CFA con lavaan (recap veloce)\n\ndata(HolzingerSwineford1939, package = \"lavaan\")\n\nm3 &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\nm1 &lt;- 'general =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9'\n\nfit3 &lt;- cfa(m3, data = HolzingerSwineford1939)\nfit1 &lt;- cfa(m1, data = HolzingerSwineford1939)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-e-confronto-tra-modelli-recap",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-e-confronto-tra-modelli-recap",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Fit e confronto tra modelli (recap)",
+    "text": "Fit e confronto tra modelli (recap)\n\nlavInspect(fit3, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]\nlavInspect(fit1, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]\n\n[INSERIRE FIGURA/TABELLA: confronto fit (come nel PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-in-lavaan-sintassi",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-in-lavaan-sintassi",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Multilevel CFA in lavaan: sintassi",
+    "text": "Multilevel CFA in lavaan: sintassi\nDue ingredienti:\n\nblocchi level: 1 e level: 2\nargomento cluster = \"ID\" in cfa() / sem()\n\n\nm2l &lt;- '\n  level: 1\n    TD_w =~ d1 + d2 + d3 + d4\n  level: 2\n    TD_b =~ d1 + d2 + d3 + d4\n'\n\nfit2l &lt;- cfa(m2l, data = ESMdata, cluster = \"ID\")\n\n[INSERIRE FIGURA: “MCFA con R (ESM)” / esempio HandZone dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-livello-specifico-punto-chiave-pratico",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-livello-specifico-punto-chiave-pratico",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Fit livello-specifico (punto chiave pratico)",
+    "text": "Fit livello-specifico (punto chiave pratico)\nIn MCFA:\n\nRMSEA/CFI/TLI sono spesso guidati dal within (molte più osservazioni a L1)\nSRMR è disponibile separatamente:\n\nsrmr_within\nsrmr_between (molto informativo per L2)\n\n\n\nlavInspect(fit2l, \"fit\")[c(\"rmsea\",\"cfi\",\"tli\",\"srmr_within\",\"srmr_between\")]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#parametri-livello-specifici",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#parametri-livello-specifici",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Parametri livello-specifici",
+    "text": "Parametri livello-specifici\n\n# within loadings (indicativo: righe iniziali)\nstandardizedSolution(fit2l)[1:4, ]\n\n# between loadings (indicativo: righe successive)\nstandardizedSolution(fit2l)[15:18, ]\n\n\n\n\nNel PDF: nota che spesso le saturazioni between risultano più forti (Hox, 2010)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#esempio-gruppi-soggetti-nidificati-entro-scuoleteam",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#esempio-gruppi-soggetti-nidificati-entro-scuoleteam",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Esempio (gruppi): soggetti nidificati entro scuole/team",
+    "text": "Esempio (gruppi): soggetti nidificati entro scuole/team\nQuando soggetti sono reclutati in scuole/classi/organizzazioni:\n\ncorrelazioni più forti entro gruppo\npossibile componente “shared” (contesto / composizione)\ndomanda: il costrutto esiste anche a livello gruppo?\n\n[INSERIRE SLIDE: descrizione dataset “participation” (campione + 4 item) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#single-level-cfa-mlr-vs-wlsmv",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#single-level-cfa-mlr-vs-wlsmv",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Single-level CFA (MLR vs WLSMV)",
+    "text": "Single-level CFA (MLR vs WLSMV)\n[INSERIRE FIGURA: “Single-level CFA (MLR vs WLSMV)” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#modello-preliminare-l1-pooled-within-hox-2010",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#modello-preliminare-l1-pooled-within-hox-2010",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Modello preliminare L1: pooled-within (Hox, 2010)",
+    "text": "Modello preliminare L1: pooled-within (Hox, 2010)\nIdea: fit della CFA sulla matrice pooled-within prima di passare al two-level.\n\nlwd &lt;- na.omit(edudata[, c(\"schoolID\", paste0(\"p\",2:5))])\n\nms &lt;- data.frame(\n  p2 = ave(lwd$p2, lwd$schoolID),\n  p3 = ave(lwd$p3, lwd$schoolID),\n  p4 = ave(lwd$p4, lwd$schoolID),\n  p5 = ave(lwd$p5, lwd$schoolID)\n)\n\ncs &lt;- lwd[, 2:ncol(lwd)] - ms\n\npw.cov &lt;- (cov(cs) * (nrow(lwd) - 1)) / (nrow(lwd) - nlevels(lwd$schoolID))\n\nm1 &lt;- 'EP =~ p2 + p3 + p4 + p5'\nfit_pw &lt;- cfa(m1, sample.cov = pw.cov, sample.nobs = nrow(lwd))\nlavInspect(fit_pw, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#modelli-preliminari-l2-benchmark",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#modelli-preliminari-l2-benchmark",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Modelli preliminari L2: benchmark",
+    "text": "Modelli preliminari L2: benchmark\nBenchmark models (Hox):\n\nNull (L2): nessuna varianza a L2 (se va bene → poca struttura between)\nIndependence (L2): solo varianze, niente covarianze\nSaturated (L2): L2 saturo (se necessario per fit → la struttura factor L2 non spiega bene)\n\n\nm_null &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ 0*p2\n    p3 ~~ 0*p3\n    p4 ~~ 0*p4\n    p5 ~~ 0*p5\n'\n\nm_ind &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2\n    p3 ~~ p3\n    p4 ~~ p4\n    p5 ~~ p5\n'\n\nm_sat &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2 + p3 + p4 + p5\n    p3 ~~ p3 + p4 + p5\n    p4 ~~ p4 + p5\n    p5 ~~ p5\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#mcfa-modello-ipotizzato-1-fattore-a-entrambi-i-livelli",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#mcfa-modello-ipotizzato-1-fattore-a-entrambi-i-livelli",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "MCFA: modello ipotizzato (1 fattore a entrambi i livelli)",
+    "text": "MCFA: modello ipotizzato (1 fattore a entrambi i livelli)\n\nm_mcfa &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p.b =~ p2 + p3 + p4 + p5\n'\n\nfit_mcfa &lt;- cfa(m_mcfa, data = edudata, cluster = \"schoolID\", estimator = \"MLR\")\n\n[INSERIRE FIGURA: “MCFA: modello ipotizzato” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#saturazioni-livello-specifiche-ω-idea-dal-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#saturazioni-livello-specifiche-ω-idea-dal-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Saturazioni livello-specifiche + ω (idea dal PDF)",
+    "text": "Saturazioni livello-specifiche + ω (idea dal PDF)\n\nsl &lt;- standardizedSolution(fit_mcfa)[c(1:4, 15:18), 1:6]\n\nsl.w &lt;- sl[1:4, \"est.std\"]; re.w &lt;- 1 - sl.w^2\nomega_w &lt;- sum(sl.w)^2 / (sum(sl.w)^2 + sum(re.w))\n\nsl.b &lt;- sl[5:8, \"est.std\"]; re.b &lt;- 1 - sl.b^2\nomega_b &lt;- sum(sl.b)^2 / (sum(sl.b)^2 + sum(re.b))\n\nround(c(omega_within = omega_w, omega_between = omega_b), 2)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#misure-ripetute-entro-persona-esm-stressor-strain",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#misure-ripetute-entro-persona-esm-stressor-strain",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Misure ripetute entro persona (ESM): stressor & strain",
+    "text": "Misure ripetute entro persona (ESM): stressor & strain\nDati ESM (misure ripetute):\n\nwithin-person = fluttuazioni “state”\nbetween-person = differenze stabili “trait-like”\n\n[INSERIRE FIGURA: “stressor e strain” (design ESM) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#strutture-alternative-withinbetween-più-fattori",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#strutture-alternative-withinbetween-più-fattori",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Strutture alternative within/between (più fattori)",
+    "text": "Strutture alternative within/between (più fattori)\nIdea: confrontare dimensionalità diversa tra livelli (3×3, 2×3, 2×2, 3×2).\n\nm3x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm3x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\n[INSERIRE FIGURA: “MCFA con più di un fattore / strutture alternative” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#varianze-negative-a-livello-2-heywood-cases",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#varianze-negative-a-livello-2-heywood-cases",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Varianze negative a livello 2 (Heywood cases)",
+    "text": "Varianze negative a livello 2 (Heywood cases)\nNel two-level CFA possono apparire varianze residue negative a L2:\n\nspesso perché la varianza residua vera è ~0 a L2\noppure per misspecification / campione piccolo a livello cluster\n\nNel PDF: discussione + citazione (Kolenikov & Bollen, 2012).\n\np &lt;- parameterEstimates(fit3x3)\np[p$op == \"~~\" & p$ci.lower &lt; 0, ]\n\n[INSERIRE SLIDE: “Analisi casi influenti” dal PDF (lista ID rimossi)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invarianza-cross-livello-idea",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invarianza-cross-livello-idea",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Invarianza cross-livello (idea)",
+    "text": "Invarianza cross-livello (idea)\nCon molti cluster, la MG-CFA classica è impraticabile.\nSi può testare se la misura è “simile” tra within e between: cross-level invariance.\n[INSERIRE FIGURE: “Invarianza tra gruppi / tra cluster!?” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configurale",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configurale",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: configurale",
+    "text": "Cross-level invariance: configurale\nStessa struttura fattoriale a livello 1 e 2.\n\nconf &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-debole-loadings-uguali",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-debole-loadings-uguali",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: debole (loadings uguali)",
+    "text": "Cross-level invariance: debole (loadings uguali)\n\nweak &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-forte-nota-dal-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-forte-nota-dal-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: “forte” (nota dal PDF)",
+    "text": "Cross-level invariance: “forte” (nota dal PDF)\nNel deck originale: oltre ai loadings uguali, residui L2 fissati a 0 (attendibilità perfetta).\nIn psicologia spesso è un benchmark teorico più che un default.\n\nstrong &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n\n    v1 ~~ 0*v1; v2 ~~ 0*v2; v3 ~~ 0*v3\n    t1 ~~ 0*t1; t2 ~~ 0*t2; t3 ~~ 0*t3\n    f1 ~~ 0*f1; f2 ~~ 0*f2; f3 ~~ 0*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#confronto-modelli-fit",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#confronto-modelli-fit",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Confronto modelli (fit)",
+    "text": "Confronto modelli (fit)\n\nfit.conf   &lt;- cfa(conf,   clean, cluster = \"ID\")\nfit.weak   &lt;- cfa(weak,   clean, cluster = \"ID\")\nfit.strong &lt;- cfa(strong, clean, cluster = \"ID\")\n\nf &lt;- c(\"df\",\"rmsea\",\"cfi\",\"srmr_within\",\"srmr_between\")\nround(rbind(\n  conf   = lavInspect(fit.conf,   \"fit\")[f],\n  weak   = lavInspect(fit.weak,   \"fit\")[f],\n  strong = lavInspect(fit.strong, \"fit\")[f]\n), 3)\n\n[INSERIRE FIGURA/TABELLA: confronto modelli (come nel PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#costrutti-multilivello-e-omologia-cross-livello",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#costrutti-multilivello-e-omologia-cross-livello",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Costrutti multilivello e omologia cross-livello",
+    "text": "Costrutti multilivello e omologia cross-livello\nMessaggio finale del PDF:\n\nwithin e between possono rappresentare “lo stesso” costrutto (omologia) oppure costrutti differenti\nl’invarianza cross-livello aiuta a sostenere interpretazioni trait/state\n\n[INSERIRE FIGURE FINALI: costrutti multilivello, tratti/stati, workaholism (dal PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#exercises-lab-10",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#exercises-lab-10",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Exercises → Lab 10",
+    "text": "Exercises → Lab 10\nGo to: labs/lab10_multilevel_robustse_twolevelcfa.qmd\n\nfit a two-level CFA with level: + cluster=\ncompare alternative within/between structures and interpret SRMR\ndiagnose (potential) Heywood cases at Level 2\ntest (optional) cross-level invariance and partial invariance"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#take-home-3-things",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#take-home-3-things",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nWith clustered/repeated data, always think within vs between (two covariance structures).\n\nIn MCFA, global fit can hide L2 misspecification — check SRMR_between.\n\nCross-level invariance connects estimation constraints to construct interpretation (trait/state, aggregation, homology)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#further-reading",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#further-reading",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Further reading",
+    "text": "Further reading\n[ADD the corresponding bib entries + citation keys in refs/references.bib]\n\nHox (2010), Multilevel Analysis (SEM/MCFA chapter)\n\nRyu & West (2009) on level-specific fit, SRMR\n\nHsu et al. (2015) on level-specific fit in MCFA\n\nKolenikov & Bollen (2012) on improper solutions / negative variances\n\nJak & Jorgensen (2017) on cross-level invariance\n\nStapleton et al. (2016) on multilevel constructs\n\nChen et al. (2005) on cross-level homology"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#references",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#references",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "References",
+    "text": "References\n[Replace the red TODOs with proper [@key] citations once the bib entries are in place.]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#outline",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#outline",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Outline",
+    "text": "Outline\n\nSEM vs CFA (quick refresher)\nFrom single-level CFA to multilevel CFA\nExample A: individuals nested within groups (schools/teams)\nExample B: repeated measures nested within persons (ESM)\nCross-level invariance and cross-level homology"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#the-two-fundamental-parts-of-a-sem",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#the-two-fundamental-parts-of-a-sem",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "The two fundamental parts of a SEM",
+    "text": "The two fundamental parts of a SEM\n\nStructural model: relations among variables (latent/observed)\n\nMeasurement model: indicators → latent variables (CFA)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#confirmatory-factor-analysis-cfa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#confirmatory-factor-analysis-cfa",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Confirmatory factor analysis (CFA)",
+    "text": "Confirmatory factor analysis (CFA)\nCFA is the measurement model:\n\nnumber of factors (1, 2, …, k)\nwhich indicators load on which factor\n(co)variances among factors and residual variances"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#factor-structure-concept",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#factor-structure-concept",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Factor structure (concept)",
+    "text": "Factor structure (concept)\n\n\nA factor structure is one possible configuration of relations between a set of observed variables and one or more latent factors, defining:\n\nthe number of latent variables (1-factor, 2-factor, …, k-factor model)\n\nthe pattern of relations between each observed variable and its factor (loading pattern)\n\n\n\n\n\n\n\n\nStarting from the covariance matrix of observed variables, CFA tests the fit of one or more hypothesized factor structures and estimates the corresponding loadings."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#the-starting-point-variancecovariance-matrix",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#the-starting-point-variancecovariance-matrix",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "The starting point: variance–covariance matrix",
+    "text": "The starting point: variance–covariance matrix\nSEM is about reproducing the observed covariance matrix.\n\\[\nH_0:\\ \\hat{\\Sigma}(\\theta) = \\Sigma\n\\]\n\n\n\n\n\n\nFit indices summarize “how close” the model-implied covariance structure is to the data."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#what-if-data-are-multilevel",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#what-if-data-are-multilevel",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "What if data are multilevel?",
+    "text": "What if data are multilevel?\nWhen observations are nested (e.g., students in classes; employees in teams) or repeated (ESM):\n\nlocal dependence: units in the same cluster/person are more similar\n\nindependence assumption fails\n\nignoring clustering can bias standard errors and sometimes distort inference\n\n\n\n\n# toy long dataset\ndf &lt;- data.frame(\n  cluster = rep(1:4, each = 6),\n  x1 = rnorm(24),\n  x2 = rnorm(24)\n)\n\n\n\ndf[1:10,]\n\n   cluster          x1         x2\n1        1 -0.56047565 -0.6250393\n2        1 -0.23017749 -1.6866933\n3        1  1.55870831  0.8377870\n4        1  0.07050839  0.1533731\n5        1  0.12928774 -1.1381369\n6        1  1.71506499  1.2538149\n7        2  0.46091621  0.4264642\n8        2 -1.26506123 -0.2950715\n9        2 -0.68685285  0.8951257\n10       2 -0.44566197  0.8781335"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#decomposing-covariance-within-vs-between",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#decomposing-covariance-within-vs-between",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Decomposing (co)variance: within vs between",
+    "text": "Decomposing (co)variance: within vs between\nWe decompose the covariance structure into:\n\n\n\nBetween (L2): covariance among cluster means\n\n\nwide &lt;- aggregate(\n  cbind(x1, x2) ~ cluster, \n  data = df, FUN = mean)\nnames(wide)[2:3] &lt;- c(\"x1.b\",\"x2.b\")\n\nhead(wide)\n\n  cluster        x1.b        x2.b\n1       1  0.44715272 -0.20081574\n2       2 -0.05879404  0.56914554\n3       3  0.04562658 -0.18284200\n4       4 -0.46868830  0.01981214\n\n\n\n\n\ndo clusters with higher mean \\((X)\\) also have higher mean \\((Y)\\)?\n\n\n\n\n\nWithin (L1): covariance among deviations from cluster means\n\n\ndf2 &lt;- merge(df, wide, by = \"cluster\")\ndf2$x1.w &lt;- df2$x1 - df2$x1.b\ndf2$x2.w &lt;- df2$x2 - df2$x2.b\n\nround(head(df2),2)\n\n  cluster    x1    x2 x1.b x2.b  x1.w  x2.w\n1       1 -0.56 -0.63 0.45 -0.2 -1.01 -0.42\n2       1 -0.23 -1.69 0.45 -0.2 -0.68 -1.49\n3       1  1.56  0.84 0.45 -0.2  1.11  1.04\n4       1  0.07  0.15 0.45 -0.2 -0.38  0.35\n5       1  0.13 -1.14 0.45 -0.2 -0.32 -0.94\n6       1  1.72  1.25 0.45 -0.2  1.27  1.45\n\n\n\n\n\nWithin: when a unit is above its cluster mean on \\((X)\\), is it also above on \\((Y)\\)?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#computing-withinbetween-didactic-example",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#computing-withinbetween-didactic-example",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Computing within/between (didactic example)",
+    "text": "Computing within/between (didactic example)\n\n\n\nBetween (L2): covariance among cluster means\n\n\nS_between &lt;- cov(wide[, c(\"x1.b\",\"x2.b\")])\nS_between\n\n            x1.b        x2.b\nx1.b  0.14161724 -0.04636824\nx2.b -0.04636824  0.12918010\n\n\n\n\n\ndo clusters with higher mean \\((X)\\) also have higher mean \\((Y)\\)?\n\n\n\n\n\nWithin (L1): covariance among deviations from cluster means\n\n\nS_within  &lt;- cov(df2[, c(\"x1.w\",\"x2.w\")])\nS_within\n\n          x1.w      x2.w\nx1.w 0.8085842 0.1428157\nx2.w 0.1428157 0.7787649\n\n\n\n\n\nWithin: when a unit is above its cluster mean on \\((X)\\), is it also above on \\((Y)\\)?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#level-specific-covariance-matrices",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#level-specific-covariance-matrices",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Level-specific covariance matrices",
+    "text": "Level-specific covariance matrices"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-mcfa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-mcfa",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA (MCFA)",
+    "text": "Multilevel CFA (MCFA)\n\n\nMCFA estimates measurement structure at both levels and matches both matrices:\n\nwithin-level factor model\n\n\\((S_\\text{within}\\) vs \\(\\hat{\\Sigma}_\\text{within})\\)\n\nbetween-level factor model\n\n\\((S_\\text{between}\\) vs \\(\\hat{\\Sigma}_\\text{between})\\)\n\n\nThat is why we need level-specific fit and level-specific parameters.\n\n\n\n\n\n\n\n\n\nAnd we can ask:\n\nare loadings stronger at L2?\nis fit acceptable within and between?\nis the construct “the same” across levels? (cross-level invariance)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-data-model-specification",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-data-model-specification",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "CFA with lavaan: data + model specification",
+    "text": "CFA with lavaan: data + model specification\n\n\n\ndata(HolzingerSwineford1939, package = \"lavaan\")\n\nm3 &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\n\nm1 &lt;- 'general =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9'\n\nfit3 &lt;- cfa(m3, data = HolzingerSwineford1939)\nfit1 &lt;- cfa(m1, data = HolzingerSwineford1939)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-fit-indices-and-model-comparison",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-fit-indices-and-model-comparison",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "CFA with lavaan: fit indices and model comparison",
+    "text": "CFA with lavaan: fit indices and model comparison\n\nround(lavInspect(fit3, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")], 3)\n\n chisq     df  rmsea    cfi    tli   srmr \n85.306 24.000  0.092  0.931  0.896  0.065 \n\nround(lavInspect(fit1, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")], 3)\n\n  chisq      df   rmsea     cfi     tli    srmr \n312.264  27.000   0.187   0.677   0.569   0.143 \n\n\n\n# Optional model weights (if MuMIn installed)\nlibrary(MuMIn)\nWeights(AIC(fit3, fit1))\nWeights(BIC(fit3, fit1))"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-estimated-parameters",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-estimated-parameters",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "CFA with lavaan: estimated parameters",
+    "text": "CFA with lavaan: estimated parameters\n\nparameterEstimates(fit3)[1:10, ]\n\n       lhs op rhs   est    se      z pvalue ci.lower ci.upper\n1   visual =~  x1 1.000 0.000     NA     NA    1.000    1.000\n2   visual =~  x2 0.554 0.100  5.554      0    0.358    0.749\n3   visual =~  x3 0.729 0.109  6.685      0    0.516    0.943\n4  textual =~  x4 1.000 0.000     NA     NA    1.000    1.000\n5  textual =~  x5 1.113 0.065 17.014      0    0.985    1.241\n6  textual =~  x6 0.926 0.055 16.703      0    0.817    1.035\n7    speed =~  x7 1.000 0.000     NA     NA    1.000    1.000\n8    speed =~  x8 1.180 0.165  7.152      0    0.857    1.503\n9    speed =~  x9 1.082 0.151  7.155      0    0.785    1.378\n10      x1 ~~  x1 0.549 0.114  4.833      0    0.326    0.772\n\nstandardizedSolution(fit3)[1:10, c(\"lhs\",\"op\",\"rhs\",\"est.std\")]\n\n       lhs op rhs est.std\n1   visual =~  x1   0.772\n2   visual =~  x2   0.424\n3   visual =~  x3   0.581\n4  textual =~  x4   0.852\n5  textual =~  x5   0.855\n6  textual =~  x6   0.838\n7    speed =~  x7   0.570\n8    speed =~  x8   0.723\n9    speed =~  x9   0.665\n10      x1 ~~  x1   0.404"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-but-items-are-ordinal",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cfa-with-lavaan-but-items-are-ordinal",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "CFA with lavaan: but items are ordinal 🙂",
+    "text": "CFA with lavaan: but items are ordinal 🙂\n\nfit3_ord &lt;- cfa(m3, data = HolzingerSwineford1939, ordered = TRUE) # WLSMV default\nlavInspect(fit3_ord, \"fit\")[c(\"rmsea\",\"cfi\",\"tli\",\"srmr\")]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#mcfa-in-lavaan-syntax",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#mcfa-in-lavaan-syntax",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "MCFA in lavaan: syntax",
+    "text": "MCFA in lavaan: syntax\nTwo key ingredients:\n\nlevel: 1 and level: 2 blocks\n\ncluster = \"cluster_id\" in cfa() / sem()\n\n\nm2l &lt;- '\n  level: 1\n    TD_w =~ d1 + d2 + d3 + d4\n  level: 2\n    TD_b =~ d1 + d2 + d3 + d4\n'\nfit2l &lt;- cfa(m2l, data = dat, cluster = \"ID\")"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-an-esm-like-dataset-task-demand",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-an-esm-like-dataset-task-demand",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Simulate an ESM-like dataset (Task Demand)",
+    "text": "Simulate an ESM-like dataset (Task Demand)\n\n139 individuals\n21 measurements each (3 days × 7 prompts/day)\n4 Likert indicators of “Task Demand”\n\n\n\n\nn_id &lt;- 139\nn_rep &lt;- 21\nN &lt;- n_id * n_rep\nID &lt;- rep(sprintf(\"S%03d\", 1:n_id), \n          each = n_rep)\n\n# Between-person factor\neta_b &lt;- rnorm(n_id, 0, 0.7)\neta_b_long &lt;- rep(eta_b, each = n_rep)\n\n# Within-person factor\neta_w &lt;- rnorm(N, 0, 1.0)\n\nlambda &lt;- c(0.80, 0.70, 0.75, 0.65)\neps_sd &lt;- c(0.70, 0.80, 0.75, 0.85)\n\ny_cont &lt;- sapply(seq_along(lambda), \n                 function(j) {\n  lambda[j]*(eta_b_long + eta_w) + \n                 rnorm(N, 0, eps_sd[j])\n})\n\n\n\nESMdata &lt;- data.frame(\n  ID = ID,\n  day = rep(rep(1:3, length.out = n_rep), \n            times = n_id),\n  d1 = cut_likert(y_cont[,1]),\n  d2 = cut_likert(y_cont[,2]),\n  d3 = cut_likert(y_cont[,3]),\n  d4 = cut_likert(y_cont[,4])\n)\nhead(ESMdata, 12)\n\n     ID day d1 d2 d3 d4\n1  S001   1  4  5  2  1\n2  S001   2  4  4  5  4\n3  S001   3  3  2  4  2\n4  S001   1  4  4  5  5\n5  S001   2  4  3  4  4\n6  S001   3  2  4  4  3\n7  S001   1  2  2  3  4\n8  S001   2  2  4  1  5\n9  S001   3  5  5  3  5\n10 S001   1  4  5  4  5\n11 S001   2  1  2  2  1\n12 S001   3  2  3  2  2"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-fit-the-model",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-fit-the-model",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: fit the model",
+    "text": "Multilevel CFA: fit the model\n\nm_td &lt;- '\n  level: 1\n    TD_w =~ d1 + d2 + d3 + d4\n  level: 2\n    TD_b =~ d1 + d2 + d3 + d4\n'\nfit_td &lt;- cfa(m_td, data = ESMdata, cluster = \"ID\", estimator = \"MLR\")"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-level-specific-fit-indices",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-level-specific-fit-indices",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: level-specific fit indices",
+    "text": "Multilevel CFA: level-specific fit indices\nGlobal fit is often dominated by the within-level.\nSRMR is available by level:\n\nsrmr_within\nsrmr_between (key for L2 misspecification)\n\n\nround(lavInspect(fit_td, \"fit\")[\n  c(\"rmsea.robust\",\"cfi.robust\",\"tli.robust\",\n    \"srmr_within\",\"srmr_between\")\n  ], 3)\n\nrmsea.robust   cfi.robust   tli.robust  srmr_within srmr_between \n       0.000        1.000        1.003        0.008        0.002 \n\n\n[ADD REFERENCES: Ryu & West (2009); Hsu et al. (2015) → add bib entries]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-level-specific-parameters",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-level-specific-parameters",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: level-specific parameters",
+    "text": "Multilevel CFA: level-specific parameters\n\n# within loadings (first block)\nstandardizedSolution(fit_td)[1:4, c(\"lhs\",\"op\",\"rhs\",\"est.std\")]\n\n   lhs op rhs est.std\n1 TD_w =~  d1   0.731\n2 TD_w =~  d2   0.632\n3 TD_w =~  d3   0.662\n4 TD_w =~  d4   0.554\n\n\n\n# between loadings (later block)\nstandardizedSolution(fit_td)[15:18, c(\"lhs\",\"op\",\"rhs\",\"est.std\")]\n\n    lhs op rhs est.std\n15 TD_b =~  d1   1.012\n16 TD_b =~  d2   0.986\n17 TD_b =~  d3   1.016\n18 TD_b =~  d4   1.010\n\n\n\n\n\nNote: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).\n\n\n\n[ADD REFERENCES: Hox, 2010 → add bib entries]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-but-items-are-ordinal",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-but-items-are-ordinal",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: but items are ordinal",
+    "text": "Multilevel CFA: but items are ordinal\n\nfit_td_ord &lt;- cfa(m_td, data = ESMdata, cluster = \"ID\",\n                  ordered = c(\"d1\",\"d2\",\"d3\",\"d4\"))\n\nError: lavaan-&gt;lav_lavaan_step02_options():  \n   categorical + clustered is not supported yet."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#subjects-nested-within-groups",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#subjects-nested-within-groups",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Subjects nested within groups",
+    "text": "Subjects nested within groups\nWhen participants belong to many groups (schools/classes/teams):\n\nobservations are not independent\nyou can still fit a single-level model, but SEs/inference can be wrong\nmultilevel CFA allows separate within and between measurement models"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#example-individual-vs-team-participation-simulated",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#example-individual-vs-team-participation-simulated",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Example: individual vs team participation (simulated)",
+    "text": "Example: individual vs team participation (simulated)\n\nn_school &lt;- 68\nn_i &lt;- 608\nschoolID &lt;- sample(seq_len(n_school), size = n_i, replace = TRUE)\n# Between-school factor\neta_school &lt;- rnorm(n_school, 0, 0.6)\neta_b &lt;- eta_school[schoolID]\n# Within-person factor\neta_w &lt;- rnorm(n_i, 0, 1.0)\n\nlam_p &lt;- c(0.80, 0.75, 0.70, 0.65)\neps_p &lt;- c(0.80, 0.85, 0.90, 0.95)\np_cont &lt;- sapply(seq_along(lam_p), function(j) {\n  lam_p[j] * (eta_b + eta_w) + rnorm(n_i, 0, eps_p[j])\n})\n\nedudata &lt;- data.frame(\n  schoolID = schoolID,\n  p2 = cut_likert(p_cont[,1]),\n  p3 = cut_likert(p_cont[,2]),\n  p4 = cut_likert(p_cont[,3]),\n  p5 = cut_likert(p_cont[,4])\n)\nhead(edudata, 4)\n\n  schoolID p2 p3 p4 p5\n1       28  5  5  5  5\n2        8  5  3  4  5\n3       18  1  2  1  2\n4       26  2  1  4  2"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#distributions-of-items-ordinal",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#distributions-of-items-ordinal",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Distributions of items (ordinal)",
+    "text": "Distributions of items (ordinal)\n\n[IF THIS IMAGE IS MISSING: copy partin.png into assets/images/]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#single-level-cfa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#single-level-cfa",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Single-level CFA",
+    "text": "Single-level CFA\n\nm_ep &lt;- 'EP =~ p2 + p3 + p4 + p5'\n\nfit_mlr &lt;- cfa(m_ep, edudata, estimator = \"MLR\")\nround(lavInspect(fit_mlr, \"fit\")[\n  c(\"chisq\",\"df\",\"rmsea.robust\",\"cfi.robust\",\"srmr\")\n  ], 3)\n\n       chisq           df rmsea.robust   cfi.robust         srmr \n       5.837        2.000        0.055        0.994        0.017 \n\n\n\n# Ordinal estimator (single-level)\nfit_wlsmv &lt;- cfa(m_ep, edudata, \n                 ordered = c(\"p2\",\"p3\",\"p4\",\"p5\"))  # WLSMV default\nround(lavInspect(fit_wlsmv, \"fit\")[\n  c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")\n  ], 3)\n\nchisq    df rmsea   cfi   tli  srmr \n1.136 2.000 0.000 1.000 1.002 0.012"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-1",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-1",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: preliminary models (Level 1)",
+    "text": "Multilevel CFA: preliminary models (Level 1)\nHox (2010) suggests a preliminary check:\n\nfit CFA on the pooled-within covariance matrix (within-cluster centered scores)\n\n\nlwd &lt;- na.omit(edudata[, c(\"schoolID\", paste0(\"p\",2:5))])\n\nms &lt;- data.frame(\n  p2 = ave(lwd$p2, lwd$schoolID),\n  p3 = ave(lwd$p3, lwd$schoolID),\n  p4 = ave(lwd$p4, lwd$schoolID),\n  p5 = ave(lwd$p5, lwd$schoolID)\n)\ncs &lt;- lwd[, 2:ncol(lwd)] - ms\n\npw.cov &lt;- (cov(cs) * (nrow(lwd) - 1)) / (nrow(lwd) - nlevels(lwd$schoolID))\n\nfit_pw &lt;- cfa(m_ep, sample.cov = pw.cov, sample.nobs = nrow(lwd))\nround(lavInspect(fit_pw, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")], 3)\n\nchisq    df rmsea   cfi   tli  srmr \n5.856 2.000 0.056 0.991 0.973 0.019"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-2",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-2",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: preliminary models (Level 2)",
+    "text": "Multilevel CFA: preliminary models (Level 2)\nAt Level 2 (between), fit benchmark models:\n\nNull: No structure at Level 2. If it fits well, there is no clear structure at Level 2 (classic CFA is better: no between variability)\n\nIndependence: Fit a model with variances only. If it fits well, there is probably a structure at Level 2, but not an interesting structural model (the pooled within matrix is better)\n\nSaturated: Fit a saturated model with variances and covariances. If it fits well, then the construct ‘exist’ only at Level 1, while covariances at Level 2 are spurious."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-the-hypothesized-model",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-the-hypothesized-model",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: the hypothesized model",
+    "text": "Multilevel CFA: the hypothesized model\n\nm_mcfa &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p.b =~ p2 + p3 + p4 + p5\n'\nfit_mcfa &lt;- cfa(m_mcfa, edudata, cluster = \"schoolID\", estimator = \"MLR\")\n\nWarning: lavaan-&gt;lav_data_full():  \n   Level-1 variable \"p4\" has no variance within some clusters . The cluster \n   ids with zero within variance are: 58.\n\n\nWarning: lavaan-&gt;lav_data_full():  \n   Level-1 variable \"p5\" has no variance within some clusters . The cluster \n   ids with zero within variance are: 5.\n\n\nWarning: lavaan-&gt;lav_object_post_check():  \n   some estimated ov variances are negative\n\nround(rbind(\n  null = lavInspect(fit_null,\"fit\")[f],\n  ind  = lavInspect(fit_ind,\"fit\")[f],\n  sat  = lavInspect(fit_sat,\"fit\")[f],\n  mcfa = lavInspect(fit_mcfa,\"fit\")[f]\n), 3)\n\n     df rmsea.robust cfi.robust srmr_within srmr_between\nnull 12        0.085      0.908       0.057           NA\nind   8        0.105      0.907       0.058        0.763\nsat   2        0.000      1.000       0.019        0.004\nmcfa  4        0.000      1.000       0.019        0.005"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#level-specific-loadings",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#level-specific-loadings",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Level-specific loadings",
+    "text": "Level-specific loadings\n\nstandardizedSolution(fit_mcfa)[c(1:4, 15:18), c(\"lhs\",\"op\",\"rhs\",\"est.std\")]\n\n   lhs op rhs est.std\n1  p.w =~  p2   0.707\n2  p.w =~  p3   0.638\n3  p.w =~  p4   0.563\n4  p.w =~  p5   0.572\n15 p.b =~  p2   1.020\n16 p.b =~  p3   1.030\n17 p.b =~  p4   0.967\n18 p.b =~  p5   1.118\n\n\n\n\n\nRemember: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#esm-intensive-longitudinal-designs",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#esm-intensive-longitudinal-designs",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "ESM / intensive longitudinal designs",
+    "text": "ESM / intensive longitudinal designs\nIn ESM:\n\nLevel 2 (between): stable differences across persons (“trait-like”)\nLevel 1 (within): momentary fluctuations within a person (“state-like”)\n\n\nSee Menghini, Pastore & Balducci (2023) https://doi.org/10.1027/1015-5759/a000725"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multiple-factor-mcfa-compare-structures",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multiple-factor-mcfa-compare-structures",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multiple-factor MCFA (compare structures)",
+    "text": "Multiple-factor MCFA (compare structures)\nSome constructs show different dimensionality within vs between."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-a-3-factor-mcfa-dataset-nv-ta-fa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-a-3-factor-mcfa-dataset-nv-ta-fa",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Simulate a 3-factor MCFA dataset (NV, TA, FA)",
+    "text": "Simulate a 3-factor MCFA dataset (NV, TA, FA)\nWe simulate 9 ordinal items (3 per factor), repeated within persons.\n\nn_id &lt;- 139\nn_rep &lt;- 21\nN &lt;- n_id * n_rep\nID &lt;- rep(sprintf(\"S%03d\", 1:n_id), each = n_rep)\n\n# between factors (person-level)\nEtaB &lt;- matrix(rnorm(n_id * 3), ncol = 3)\ncolnames(EtaB) &lt;- c(\"NV_b\",\"TA_b\",\"FA_b\")\nEtaB_long &lt;- EtaB[match(ID, sprintf(\"S%03d\", 1:n_id)), ]\n\n# within factors (occasion-level)\nEtaW &lt;- matrix(rnorm(N * 3), ncol = 3)\ncolnames(EtaW) &lt;- c(\"NV_w\",\"TA_w\",\"FA_w\")\n\nlam &lt;- c(0.80, 0.70, 0.75)\n\nmake_items &lt;- function(f_w, f_b, prefix) {\n  out &lt;- sapply(1:3, function(j) lam[j] * (f_w + f_b) + rnorm(N, 0, 0.9))\n  colnames(out) &lt;- paste0(prefix, 1:3)\n  out\n}\n\nV &lt;- make_items(EtaW[,\"NV_w\"], EtaB_long[,\"NV_b\"], \"v\")\nT &lt;- make_items(EtaW[,\"TA_w\"], EtaB_long[,\"TA_b\"], \"t\")\nF &lt;- make_items(EtaW[,\"FA_w\"], EtaB_long[,\"FA_b\"], \"f\")\n\nESM3 &lt;- data.frame(\n  ID = ID,\n  v1 = cut_likert(V[,1]), v2 = cut_likert(V[,2]), v3 = cut_likert(V[,3]),\n  t1 = cut_likert(T[,1]), t2 = cut_likert(T[,2]), t3 = cut_likert(T[,3]),\n  f1 = cut_likert(F[,1]), f2 = cut_likert(F[,2]), f3 = cut_likert(F[,3])\n)\nhead(ESM3, 4)\n\n    ID v1 v2 v3 t1 t2 t3 f1 f2 f3\n1 S001  2  2  4  1  4  3  2  4  5\n2 S001  3  2  4  4  3  2  5  2  4\n3 S001  5  2  3  2  1  1  5  5  5\n4 S001  2  1  1  2  2  2  3  5  5"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#specify-alternative-structures-as-in-luca",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#specify-alternative-structures-as-in-luca",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Specify alternative structures (as in Luca)",
+    "text": "Specify alternative structures (as in Luca)\n\nm3x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm3x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-and-compare",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#fit-and-compare",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Fit and compare",
+    "text": "Fit and compare\n\nfit2x2 &lt;- cfa(m2x2, ESM3, cluster = \"ID\", estimator = \"MLR\")\nfit3x2 &lt;- cfa(m3x2, ESM3, cluster = \"ID\", estimator = \"MLR\")\nfit2x3 &lt;- cfa(m2x3, ESM3, cluster = \"ID\", estimator = \"MLR\")\nfit3x3 &lt;- cfa(m3x3, ESM3, cluster = \"ID\", estimator = \"MLR\")\n\nf2 &lt;- c(\"df\",\"rmsea.robust\",\"cfi.robust\",\"srmr_within\",\"srmr_between\")\nround(rbind(\n  `2x2` = lavInspect(fit2x2,\"fit\")[f2],\n  `3x2` = lavInspect(fit3x2,\"fit\")[f2],\n  `2x3` = lavInspect(fit2x3,\"fit\")[f2],\n  `3x3` = lavInspect(fit3x3,\"fit\")[f2]\n), 3)\n\n    df rmsea.robust cfi.robust srmr_within srmr_between\n2x2 52        0.100      0.682       0.094        0.257\n3x2 50        0.081      0.802       0.094        0.020\n2x3 50        0.060      0.891       0.012        0.257\n3x3 48        0.000      1.000       0.012        0.020"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#negative-level-2-variances-heywood-cases",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#negative-level-2-variances-heywood-cases",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Negative Level-2 variances (Heywood cases)",
+    "text": "Negative Level-2 variances (Heywood cases)\nNegative residual variances at Level 2 are common in MCFA because:\n\nerror tends to accumulate at Level 1\n\nLevel-2 loadings can be very strong → residual variances close to 0\n\nsampling fluctuations around ~0 can produce negative estimates\n\n\n\np &lt;- parameterEstimates(fit3x3)\np[p$op == \"~~\" & p$ci.lower &lt; 0, ]\n\n    lhs op  rhs block level    est    se      z pvalue ci.lower ci.upper\n22 NV_w ~~ TA_w     1     1  0.003 0.017  0.202  0.840   -0.030    0.037\n23 NV_w ~~ FA_w     1     1 -0.013 0.017 -0.772  0.440   -0.047    0.020\n24 TA_w ~~ FA_w     1     1 -0.016 0.017 -0.942  0.346   -0.050    0.017\n46   v1 ~~   v1     2     2 -0.016 0.008 -2.001  0.045   -0.032    0.000\n47   v2 ~~   v2     2     2  0.007 0.009  0.827  0.408   -0.010    0.024\n48   v3 ~~   v3     2     2  0.011 0.008  1.420  0.156   -0.004    0.027\n49   t1 ~~   t1     2     2  0.007 0.009  0.730  0.465   -0.011    0.025\n50   t2 ~~   t2     2     2 -0.013 0.008 -1.654  0.098   -0.028    0.002\n51   t3 ~~   t3     2     2 -0.002 0.008 -0.216  0.829   -0.017    0.014\n52   f1 ~~   f1     2     2  0.002 0.008  0.294  0.769   -0.013    0.018\n53   f2 ~~   f2     2     2 -0.005 0.007 -0.630  0.529   -0.019    0.010\n54   f3 ~~   f3     2     2 -0.007 0.008 -0.979  0.328   -0.022    0.007\n58 NV_b ~~ TA_b     2     2 -0.034 0.057 -0.596  0.551   -0.145    0.077\n59 NV_b ~~ FA_b     2     2 -0.013 0.054 -0.248  0.804   -0.120    0.093\n60 TA_b ~~ FA_b     2     2 -0.030 0.051 -0.598  0.550   -0.130    0.069\n\n\n[ADD REFERENCE: Hox (2010); Kolenikov & Bollen (2012) → add bib entries]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#negative-variances-and-influential-case-analysis",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#negative-variances-and-influential-case-analysis",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Negative variances and influential-case analysis",
+    "text": "Negative variances and influential-case analysis\nIf misspecification is unlikely, one pragmatic strategy is influential-case analysis:\n\nremove clusters (persons) that drive the improper solution\n\nrefit until the negative variance becomes ~0\n\ncompare substantive conclusions\n\n\n# Example template: replace IDs with the clusters you find influential\nclean &lt;- subset(ESM3, !ID %in% c(\"S017\",\"S035\",\"S139\",\"S008\",\n                                 \"S106\",\"S142\",\"S067\"))\nfit3x3_c &lt;- cfa(m3x3, clean, cluster = \"ID\", estimator = \"MLR\")"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invariance-across-groups-reminder",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invariance-across-groups-reminder",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Invariance across groups (reminder)",
+    "text": "Invariance across groups (reminder)\nQuestion: are we measuring the same construct across groups?\nTypical approach: multi-group CFA with a sequence of constraints (configural → metric → scalar → …)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invariance-across-clusters",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#invariance-across-clusters",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Invariance across clusters!?",
+    "text": "Invariance across clusters!?\nMulti-group CFA becomes impractical with many clusters (e.g., 139 persons).\nMultilevel logic: treat clusters as random effects and focus on cross-level invariance.\n\n[ADD REFERENCE: Jak & Jorgensen (2017) → add bib entry]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configural",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configural",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Cross-level invariance: configural",
+    "text": "Cross-level invariance: configural\nSame factor structure at both levels.\n\nconf &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-weak-equal-loadings",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-weak-equal-loadings",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Cross-level invariance: weak (equal loadings)",
+    "text": "Cross-level invariance: weak (equal loadings)\nSame structure + equal (unstandardized) loadings across levels.\n\nweak &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-strong-as-in-lucas-slide",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-strong-as-in-lucas-slide",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Cross-level invariance: “strong” (as in Luca’s slide)",
+    "text": "Cross-level invariance: “strong” (as in Luca’s slide)\nLuca’s “strong” adds zero residual variances at Level 2 (“perfect reliability”).\n\n\n\nWith psychological data, this is rarely realistic. Treat it as a theoretical benchmark, not a default.\n\n\n\n\nstrong &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n\n    v1 ~~ 0*v1; v2 ~~ 0*v2; v3 ~~ 0*v3\n    t1 ~~ 0*t1; t2 ~~ 0*t2; t3 ~~ 0*t3\n    f1 ~~ 0*f1; f2 ~~ 0*f2; f3 ~~ 0*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#compare-invariance-models",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#compare-invariance-models",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Compare invariance models",
+    "text": "Compare invariance models\n\nfit.conf   &lt;- cfa(conf,   ESM3, cluster = \"ID\", estimator = \"MLR\")\nfit.weak   &lt;- cfa(weak,   ESM3, cluster = \"ID\", estimator = \"MLR\")\nfit.strong &lt;- cfa(strong, ESM3, cluster = \"ID\", estimator = \"MLR\")\n\nround(rbind(\n  conf   = lavInspect(fit.conf,   \"fit\")[f2],\n  weak   = lavInspect(fit.weak,   \"fit\")[f2],\n  strong = lavInspect(fit.strong, \"fit\")[f2]\n), 3)\n\n       df rmsea.robust cfi.robust srmr_within srmr_between\nconf   48            0          1       0.012        0.020\nweak   54            0          1       0.013        0.019\nstrong 63            0          1       0.013        0.020"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#try-with-the-participation-data",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#try-with-the-participation-data",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Try with the participation data",
+    "text": "Try with the participation data\n\nconf_p &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p.b =~ p2 + p3 + p4 + p5\n'\n\nweak_p &lt;- '\n  level: 1\n    p.w =~ a*p2 + b*p3 + c*p4 + d*p5\n  level: 2\n    p.b =~ a*p2 + b*p3 + c*p4 + d*p5\n'\n\nfit.conf_p &lt;- cfa(conf_p, edudata, cluster = \"schoolID\", estimator = \"MLR\")\nfit.weak_p &lt;- cfa(weak_p, edudata, cluster = \"schoolID\", estimator = \"MLR\")\n\nf3 &lt;- c(\"df\",\"rmsea.robust\",\"cfi.robust\",\"srmr_within\",\"srmr_between\")\nround(rbind(\n  conf = lavInspect(fit.conf_p, \"fit\")[f3],\n  weak = lavInspect(fit.weak_p, \"fit\")[f3]\n), 3)\n\n     df rmsea.robust cfi.robust srmr_within srmr_between\nconf  4            0          1       0.019        0.005\nweak  7            0          1       0.020        0.008"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-constructs-and-cross-level-invariance",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-constructs-and-cross-level-invariance",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel constructs and cross-level invariance",
+    "text": "Multilevel constructs and cross-level invariance\nCross-level invariance is not only “fit”—it’s about construct meaning.\n\n[ADD REFERENCE: Stapleton et al. (2016) → add bib entry]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#traits-as-distributions-of-states",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#traits-as-distributions-of-states",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Traits as distributions of states",
+    "text": "Traits as distributions of states\nSome theories treat traits as distributions of states.\nThis implicitly assumes at least weak cross-level invariance."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#lucas-real-data-example-slides",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#lucas-real-data-example-slides",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Luca’s real-data example (slides)",
+    "text": "Luca’s real-data example (slides)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-a-workaholism-esm-dataset-2-factors-6-items",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-a-workaholism-esm-dataset-2-factors-6-items",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Simulate a workaholism ESM dataset (2 factors, 6 items)",
+    "text": "Simulate a workaholism ESM dataset (2 factors, 6 items)\n\nn_id &lt;- 135\nn_rep &lt;- 30\nN &lt;- n_id * n_rep\nID &lt;- rep(sprintf(\"P%03d\", 1:n_id), each = n_rep)\n# Between factors\nWE_b &lt;- rnorm(n_id, 0, 0.6)\nWC_b &lt;- rnorm(n_id, 0, 0.6)\nWE_b_long &lt;- rep(WE_b, each = n_rep)\nWC_b_long &lt;- rep(WC_b, each = n_rep)\n# Within factors\nWE_w &lt;- rnorm(N, 0, 1.0)\nWC_w &lt;- rnorm(N, 0, 1.0)\n# Loadings within\nlam_WE_w &lt;- c(0.8, 0.7, 0.75)   # items 1,3,5\nlam_WC_w &lt;- c(0.75, 0.70, 0.65) # items 2,4,6\n# Loadings between (slight violation on item1)\nlam_WE_b &lt;- c(0.60, 0.70, 0.75)\nlam_WC_b &lt;- lam_WC_w\n\nWH1 &lt;- lam_WE_w[1]*WE_w + lam_WE_b[1]*WE_b_long + rnorm(N, 0, 0.9)\nWH3 &lt;- lam_WE_w[2]*WE_w + lam_WE_b[2]*WE_b_long + rnorm(N, 0, 0.9)\nWH5 &lt;- lam_WE_w[3]*WE_w + lam_WE_b[3]*WE_b_long + rnorm(N, 0, 0.9)\n\nWH2 &lt;- lam_WC_w[1]*WC_w + lam_WC_b[1]*WC_b_long + rnorm(N, 0, 0.9)\nWH4 &lt;- lam_WC_w[2]*WC_w + lam_WC_b[2]*WC_b_long + rnorm(N, 0, 0.9)\nWH6 &lt;- lam_WC_w[3]*WC_w + lam_WC_b[3]*WC_b_long + rnorm(N, 0, 0.9)\n\ndat_wh &lt;- data.frame(\n  ID = ID,\n  WHLSM1 = cut_likert(WH1),\n  WHLSM2 = cut_likert(WH2),\n  WHLSM3 = cut_likert(WH3),\n  WHLSM4 = cut_likert(WH4),\n  WHLSM5 = cut_likert(WH5),\n  WHLSM6 = cut_likert(WH6)\n)\nhead(dat_wh, 4)\n\n    ID WHLSM1 WHLSM2 WHLSM3 WHLSM4 WHLSM5 WHLSM6\n1 P001      1      4      2      5      1      4\n2 P001      1      5      1      5      1      4\n3 P001      2      4      1      5      1      4\n4 P001      4      1      1      4      1      2"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configural-vs-weak",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#cross-level-invariance-configural-vs-weak",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Cross-level invariance: configural vs weak",
+    "text": "Cross-level invariance: configural vs weak\n\nconf_wh &lt;- '\n  level: 1\n    sWE =~ WHLSM1 + WHLSM3 + WHLSM5\n    sWC =~ WHLSM2 + WHLSM4 + WHLSM6\n  level: 2\n    tWE =~ WHLSM1 + WHLSM3 + WHLSM5\n    tWC =~ WHLSM2 + WHLSM4 + WHLSM6\n'\n\nweak_wh &lt;- '\n  level: 1\n    sWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5\n    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6\n  level: 2\n    tWE =~ a*WHLSM1 + b*WHLSM3 + c*WHLSM5\n    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6\n'\n\nfit.conf_wh &lt;- cfa(conf_wh, dat_wh, cluster = \"ID\", estimator = \"MLR\")\nfit.weak_wh &lt;- cfa(weak_wh, dat_wh, cluster = \"ID\", estimator = \"MLR\")\n\nround(rbind(\n  conf = lavInspect(fit.conf_wh, \"fit\")[c(\"df\",\"rmsea.robust\",\"cfi.robust\",\"srmr_within\",\"srmr_between\")],\n  weak = lavInspect(fit.weak_wh, \"fit\")[c(\"df\",\"rmsea.robust\",\"cfi.robust\",\"srmr_within\",\"srmr_between\")]\n), 3)\n\n     df rmsea.robust cfi.robust srmr_within srmr_between\nconf 16        0.014      0.996       0.014        0.046\nweak 20        0.018      0.992       0.015        0.046"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#partial-invariance",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#partial-invariance",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Partial invariance?",
+    "text": "Partial invariance?\nUse modification indices to find which equality constraint is most problematic.\n\nmi &lt;- modificationIndices(fit.weak_wh)\nmi[order(mi$mi, decreasing = TRUE), ][1:6, c(\"lhs\",\"op\",\"rhs\",\"mi\")]\n\n      lhs op    rhs     mi\n83 WHLSM3 ~~ WHLSM5 18.185\n62 WHLSM3 ~~ WHLSM5 17.976\n1     sWE =~ WHLSM1 17.796\n24    tWE =~ WHLSM1 17.795\n53    sWE =~ WHLSM6 10.478\n82 WHLSM1 ~~ WHLSM6  6.599\n\n\nThen free one loading across levels (partial weak invariance):\n\nweak_part_wh &lt;- '\n  level: 1\n    sWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5\n    sWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6\n  level: 2\n    tWE =~ WHLSM1 + b*WHLSM3 + c*WHLSM5\n    tWC =~ d*WHLSM2 + e*WHLSM4 + f*WHLSM6\n'\nfit.weak_part_wh &lt;- cfa(weak_part_wh, dat_wh, cluster = \"ID\", estimator = \"MLR\")"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#beyond-invariance-homology",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#beyond-invariance-homology",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Beyond invariance: homology",
+    "text": "Beyond invariance: homology\nIf cross-level invariance holds (conceptually and empirically), we can test whether the construct has a similar nomological network across levels (cross-level homology).\n\n[ADD REFERENCE: Chen et al. (2005) → add bib entries]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#computing-withinbetween-covariance",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#computing-withinbetween-covariance",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Computing within/between covariance",
+    "text": "Computing within/between covariance\n\n\n\nBetween (L2): covariance among cluster means\n\n\nS_between &lt;- cov(wide[, c(\"x1.b\",\"x2.b\")])\nS_between\n\n            x1.b        x2.b\nx1.b  0.14161724 -0.04636824\nx2.b -0.04636824  0.12918010\n\n\n\n\n\ndo clusters with higher mean \\((X)\\) also have higher mean \\((Y)\\)?\n\n\n\n\n\nWithin (L1): covariance among deviations from cluster means\n\n\nS_within  &lt;- cov(df2[, c(\"x1.w\",\"x2.w\")])\nS_within\n\n          x1.w      x2.w\nx1.w 0.8085842 0.1428157\nx2.w 0.1428157 0.7787649\n\n\n\n\n\nWithin: when a unit is above its cluster mean on \\((X)\\), is it also above on \\((Y)\\)?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-an-esm-like-dataset",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#simulate-an-esm-like-dataset",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Simulate an ESM-like dataset",
+    "text": "Simulate an ESM-like dataset\n\n139 individuals\n21 measurements each (3 days × 7 prompts/day)\n4 Likert indicators of “Task Demand”\n\n\n\n\nn_id &lt;- 139\nn_rep &lt;- 21\nN &lt;- n_id * n_rep\nID &lt;- rep(sprintf(\"S%03d\", 1:n_id), \n          each = n_rep)\n# Between-person factor\neta_b &lt;- rnorm(n_id, 0, 0.7)\neta_b_long &lt;- rep(eta_b, each = n_rep)\n# Within-person factor\neta_w &lt;- rnorm(N, 0, 1.0)\n\nlambda &lt;- c(0.80, 0.70, 0.75, 0.65)\neps_sd &lt;- c(0.70, 0.80, 0.75, 0.85)\n\ny_cont &lt;- sapply(seq_along(lambda), \n                 function(j) {\n  lambda[j]*(eta_b_long + eta_w) + \n                 rnorm(N, 0, eps_sd[j])\n})\n\n\n\nESMdata &lt;- data.frame(\n  ID = ID,\n  day = rep(rep(1:3, length.out = n_rep), \n            times = n_id),\n  d1 = cut_likert(y_cont[,1]),\n  d2 = cut_likert(y_cont[,2]),\n  d3 = cut_likert(y_cont[,3]),\n  d4 = cut_likert(y_cont[,4])\n)\nhead(ESMdata, 12)\n\n     ID day d1 d2 d3 d4\n1  S001   1  4  5  2  1\n2  S001   2  4  4  5  4\n3  S001   3  3  2  4  2\n4  S001   1  4  4  5  5\n5  S001   2  4  3  4  4\n6  S001   3  2  4  4  3\n7  S001   1  2  2  3  4\n8  S001   2  2  4  1  5\n9  S001   3  5  5  3  5\n10 S001   1  4  5  4  5\n11 S001   2  1  2  2  1\n12 S001   3  2  3  2  2"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-2-1",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#multilevel-cfa-preliminary-models-level-2-1",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Multilevel CFA: preliminary models (Level 2)",
+    "text": "Multilevel CFA: preliminary models (Level 2)\n\n\n\nm_null &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ 0*p2\n    p3 ~~ 0*p3\n    p4 ~~ 0*p4\n    p5 ~~ 0*p5\n'\n\nm_ind &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2\n    p3 ~~ p3\n    p4 ~~ p4\n    p5 ~~ p5\n'\n\n\n\nm_sat &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2 + p3 + p4 + p5\n    p3 ~~ p3 + p4 + p5\n    p4 ~~ p4 + p5\n    p5 ~~ p5\n'\n\nfit_null &lt;- cfa(m_null, edudata, \n                cluster = \"schoolID\", \n                estimator = \"MLR\")\nfit_ind  &lt;- cfa(m_ind,  edudata, \n                cluster = \"schoolID\", \n                estimator = \"MLR\")\nfit_sat  &lt;- cfa(m_sat,  edudata, \n                cluster = \"schoolID\", \n                estimator = \"MLR\")\n\n\n\n     df rmsea.robust cfi.robust srmr_within srmr_between\nnull 12        0.085      0.908       0.057           NA\nind   8        0.105      0.907       0.058        0.763\nsat   2        0.000      1.000       0.019        0.004"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#specify-alternative-structures",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html#specify-alternative-structures",
+    "title": "Multilevel Confirmatory Factor Analysis",
+    "section": "Specify alternative structures",
+    "text": "Specify alternative structures\n\n\n\nm3x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\n\n\nm2x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm3x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "",
+    "text": "By the end of this lab, you can:\n\nRecognize when non-independence (clusters / repeated measures) matters\nDecompose variability into within vs between components (conceptually + via lavaan)\nFit a two-level CFA in lavaan using level: blocks and cluster=\nRead level-specific fit, especially srmr_within and srmr_between\nDiagnose (and think through) Heywood cases / negative level-2 variances\n(Optional) test cross-level invariance of loadings (and partial invariance)"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#packages",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#packages",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Packages",
+    "text": "Packages\n\n\nShow code\nlibrary(lavaan)\nlibrary(semTools)"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#helper-discretize-to-likert",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#helper-discretize-to-likert",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Helper: discretize to Likert",
+    "text": "Helper: discretize to Likert\n\n\nShow code\ncut_likert &lt;- function(x, k = 5) {\n  qs &lt;- quantile(x, probs = seq(0, 1, length.out = k + 1), na.rm = TRUE)\n  as.integer(cut(x, breaks = unique(qs), include.lowest = TRUE, labels = FALSE))\n}"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nCheck the marginal distributions of d1–d4 (are categories used?).\nCompute the number of clusters and average cluster size.\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-1",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-1",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nFit the model with estimator = \"MLR\" and cluster = \"ID\".\nExtract these fit measures: rmsea.robust, cfi.robust, tli.robust, srmr_within, srmr_between.\nInterpret what it would mean if srmr_between were much worse than srmr_within.\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-2",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-2",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nFit a single-level CFA to the same ordinal indicators (no cluster=).\nCompare the story you would tell about fit vs the two-level fit.\n(Conceptual) What is the risk of relying on the single-level fit here?\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-3",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-3",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nExtract standardized loadings at Level 1 and Level 2.\nDo you see stronger loadings at Level 2? Why could that happen?\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-4",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-4",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nFit the same two-level CFA on ESMdata2.\nCompare srmr_within and srmr_between to the original dataset.\nPropose one model modification at Level 2 that could improve srmr_between.\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-5",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-5",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nCheck the estimated variances at Level 2 for ESMdata2.\nIf any variance is negative or near 0, list two possible explanations (substantive/statistical).\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-6",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#your-task-6",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Your task",
+    "text": "Your task\n\nFit conf and weak on the original dataset (ESMdata) and compare fit (focus on srmr_between).\nIf the weak model fits worse, inspect modification indices and propose a partial invariance model.\n\n\n\nShow code\n# Write your code here"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#what-you-should-be-able-to-say-now",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#what-you-should-be-able-to-say-now",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "What you should be able to say now",
+    "text": "What you should be able to say now\n\n“This dataset has a within covariance structure and a between covariance structure.”\n“My MCFA fits within/between simultaneously; SRMR tells me where misfit is.”\n“Cross-level invariance connects modeling constraints to construct interpretation.”"
+  },
+  {
+    "objectID": "labs/lab10_multilevel_robustse_twolevelcfa.html#next-steps",
+    "href": "labs/lab10_multilevel_robustse_twolevelcfa.html#next-steps",
+    "title": "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan",
+    "section": "Next steps",
+    "text": "Next steps\n\nMigrate the key citations into refs/references.bib and cite them in the slides/lab.\n(If you want a true ordinal data-generating model) simulate via latent response + thresholds and fit with WLSMV."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "",
+    "text": "Specify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\n\n\n\nToday: cosa cambia quando i dati sono nidificati (cluster) o ripetuti (entro persona).\nIdea chiave: SEM/CFA partono da una matrice di covarianza; con dati clustered abbiamo within e between."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#today-in-the-workflow",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#today-in-the-workflow",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "",
+    "text": "Specify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\n\n\n\nToday: cosa cambia quando i dati sono nidificati (cluster) o ripetuti (entro persona).\nIdea chiave: SEM/CFA partono da una matrice di covarianza; con dati clustered abbiamo within e between."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#learning-objectives",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#learning-objectives",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Learning objectives",
+    "text": "Learning objectives\n\nRiconoscere quando l’indipendenza è violata (cluster/repeated) e cosa succede se la ignori\n\nCapire la decomposizione within vs between della (co)varianza\n\nSpecificare e stimare una two-level CFA in lavaan (level: + cluster=)\n\nLeggere fit livello-specifici (SRMR within vs between)\n\nCapire la logica dell’invarianza cross-livello (e i suoi limiti)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#outline-come-nel-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#outline-come-nel-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Outline (come nel PDF)",
+    "text": "Outline (come nel PDF)\n\nSEM, CFA e razionale della CFA multilivello\n\nHandZone: come condurre una CFA multilivello con lavaan\n\nEsempio pratico: Gruppi e individui\n\nEsempi pratici: Misure ripetute\n\nInvarianza cross-livello: dalla pratica alla teoria"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-what",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-what",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Multilevel what!?",
+    "text": "Multilevel what!?\n[INSERIRE FIGURA: “Multilevel what!?” (schema introduttivo dal PDF)]\nIdea: SEM = sistema di equazioni stimate simultaneamente.\nEsempio (regressione “standard”):\n\\[\n\\text{PERF} = \\beta_1 \\text{IQ} + \\beta_2 \\text{ANX} + \\epsilon\n\\]\nEsempio (sistema SEM):\n\\[\n\\begin{aligned}\n\\text{ANX} &= \\beta_1 \\text{SEFF} + \\epsilon_2\\\\\n\\text{PERF} &= \\beta_2 \\text{SEFF} + \\beta_3 \\text{ANX} + \\epsilon_3\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#le-due-parti-fondamentali-di-un-sem",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#le-due-parti-fondamentali-di-un-sem",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Le due parti fondamentali di un SEM",
+    "text": "Le due parti fondamentali di un SEM\nUn SEM include generalmente:\n\nModello strutturale: relazioni “regression-like” tra (latenti o osservate)\n\nModello di misurazione: relazioni tra latenti e indicatori (CFA)\n\n[INSERIRE FIGURA: “Le due parti fondamentali” (schema SEM dal PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#analisi-fattoriale-confermativa-cfa",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#analisi-fattoriale-confermativa-cfa",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Analisi fattoriale confermativa (CFA)",
+    "text": "Analisi fattoriale confermativa (CFA)\nUna CFA include solo il modello di misurazione:\n\ndefinisce i fattori (latenti) e quali indicatori li misurano\nstima saturazioni, varianze residue, (co)varianze tra fattori\nvaluta l’adattamento del modello a partire da (S) e (())\n\n[INSERIRE FIGURA: “CFA” / “Struttura fattoriale” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#punto-di-partenza-la-matrice-di-covarianza",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#punto-di-partenza-la-matrice-di-covarianza",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Punto di partenza: la matrice di covarianza",
+    "text": "Punto di partenza: la matrice di covarianza\nSEM/CFA partono dalla matrice di covarianza osservata (S):\n\\[\n\\mathrm{cov}(x,y) = \\frac{\\sum (x_i-\\bar x)(y_i-\\bar y)}{N}\n\\]\nIl modello stima parametri () tali che:\n\nla matrice implicata (()) “assomigli” a (S)\nla differenza tra (S) e () guida fit e diagnostica"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#e-se-i-dati-sono-multilivello",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#e-se-i-dati-sono-multilivello",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "E se i dati sono multilivello?",
+    "text": "E se i dati sono multilivello?\nQuando le osservazioni sono nidificate (cluster) o ripetute:\n\nsi creano dipendenze locali (osservazioni nello stesso cluster più simili)\nsi viola l’assunto di indipendenza\nignorare la struttura può alterare SE e inferenza (e a volte anche stime)\n\nEsempi: - persone entro scuole/classi/team - misure ripetute entro persone (ESM, longitudinali intensivi)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#scomposizione-within-vs-between-intuizione",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#scomposizione-within-vs-between-intuizione",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Scomposizione within vs between (intuizione)",
+    "text": "Scomposizione within vs between (intuizione)\nPossiamo decomporre la (co)varianza in:\n\nBetween (L2): covarianza tra le medie dei cluster\n\nWithin (L1): covarianza tra gli scarti dalla media del cluster\n\nInterpretazione: - Between: cluster con media alta su X hanno media alta su Y? - Within: unità “sopra la media del proprio cluster” su X sono anche sopra su Y?"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#come-si-ottengono-pseudo-codice",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#come-si-ottengono-pseudo-codice",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Come si ottengono (pseudo-codice)",
+    "text": "Come si ottengono (pseudo-codice)\n\n# df: long data, cluster = id_cluster\nwide &lt;- aggregate(cbind(x1, x2) ~ cluster, data = df, FUN = mean)  # between means\ndf &lt;- merge(df, wide, by = \"cluster\", suffixes = c(\"\", \".b\"))\ndf$x1.w &lt;- df$x1 - df$x1.b\ndf$x2.w &lt;- df$x2 - df$x2.b\n\nS_between &lt;- cov(wide[, c(\"x1\",\"x2\")])\nS_within  &lt;- cov(df[, c(\"x1.w\",\"x2.w\")])"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-cfa-idea",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-cfa-idea",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Multilevel CFA (idea)",
+    "text": "Multilevel CFA (idea)\nLa MCFA usa due strutture:\n\nfattori e residui a livello within\nfattori e residui a livello between\n\nObiettivo: capire se la struttura di misura è coerente a entrambi i livelli e valutare: - saturazioni livello-specifiche - varianze residue livello-specifiche - fit livello-specifico\n[INSERIRE FIGURA: “Multilevel CFA” (schema within/between) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#handzone-cfa-con-lavaan-recap-veloce",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#handzone-cfa-con-lavaan-recap-veloce",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "HandZone: CFA con lavaan (recap veloce)",
+    "text": "HandZone: CFA con lavaan (recap veloce)\n\ndata(HolzingerSwineford1939, package = \"lavaan\")\n\nm3 &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\nm1 &lt;- 'general =~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9'\n\nfit3 &lt;- cfa(m3, data = HolzingerSwineford1939)\nfit1 &lt;- cfa(m1, data = HolzingerSwineford1939)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#fit-e-confronto-tra-modelli-recap",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#fit-e-confronto-tra-modelli-recap",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Fit e confronto tra modelli (recap)",
+    "text": "Fit e confronto tra modelli (recap)\n\nlavInspect(fit3, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]\nlavInspect(fit1, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]\n\n[INSERIRE FIGURA/TABELLA: confronto fit (come nel PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-cfa-in-lavaan-sintassi",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#multilevel-cfa-in-lavaan-sintassi",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Multilevel CFA in lavaan: sintassi",
+    "text": "Multilevel CFA in lavaan: sintassi\nDue ingredienti:\n\nblocchi level: 1 e level: 2\nargomento cluster = \"ID\" in cfa() / sem()\n\n\nm2l &lt;- '\n  level: 1\n    TD_w =~ d1 + d2 + d3 + d4\n  level: 2\n    TD_b =~ d1 + d2 + d3 + d4\n'\n\nfit2l &lt;- cfa(m2l, data = ESMdata, cluster = \"ID\")\n\n[INSERIRE FIGURA: “MCFA con R (ESM)” / esempio HandZone dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#fit-livello-specifico-punto-chiave-pratico",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#fit-livello-specifico-punto-chiave-pratico",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Fit livello-specifico (punto chiave pratico)",
+    "text": "Fit livello-specifico (punto chiave pratico)\nIn MCFA:\n\nRMSEA/CFI/TLI sono spesso guidati dal within (molte più osservazioni a L1)\nSRMR è disponibile separatamente:\n\nsrmr_within\nsrmr_between (molto informativo per L2)\n\n\n\nlavInspect(fit2l, \"fit\")[c(\"rmsea\",\"cfi\",\"tli\",\"srmr_within\",\"srmr_between\")]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#parametri-livello-specifici",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#parametri-livello-specifici",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Parametri livello-specifici",
+    "text": "Parametri livello-specifici\n\n# within loadings (indicativo: righe iniziali)\nstandardizedSolution(fit2l)[1:4, ]\n\n# between loadings (indicativo: righe successive)\nstandardizedSolution(fit2l)[15:18, ]\n\n\n\n\n\n\n\nNel PDF: nota che spesso le saturazioni between risultano più forti (Hox, 2010)."
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#esempio-gruppi-soggetti-nidificati-entro-scuoleteam",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#esempio-gruppi-soggetti-nidificati-entro-scuoleteam",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Esempio (gruppi): soggetti nidificati entro scuole/team",
+    "text": "Esempio (gruppi): soggetti nidificati entro scuole/team\nQuando soggetti sono reclutati in scuole/classi/organizzazioni:\n\ncorrelazioni più forti entro gruppo\npossibile componente “shared” (contesto / composizione)\ndomanda: il costrutto esiste anche a livello gruppo?\n\n[INSERIRE SLIDE: descrizione dataset “participation” (campione + 4 item) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#single-level-cfa-mlr-vs-wlsmv",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#single-level-cfa-mlr-vs-wlsmv",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Single-level CFA (MLR vs WLSMV)",
+    "text": "Single-level CFA (MLR vs WLSMV)\n[INSERIRE FIGURA: “Single-level CFA (MLR vs WLSMV)” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#modello-preliminare-l1-pooled-within-hox-2010",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#modello-preliminare-l1-pooled-within-hox-2010",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Modello preliminare L1: pooled-within (Hox, 2010)",
+    "text": "Modello preliminare L1: pooled-within (Hox, 2010)\nIdea: fit della CFA sulla matrice pooled-within prima di passare al two-level.\n\nlwd &lt;- na.omit(edudata[, c(\"schoolID\", paste0(\"p\",2:5))])\n\nms &lt;- data.frame(\n  p2 = ave(lwd$p2, lwd$schoolID),\n  p3 = ave(lwd$p3, lwd$schoolID),\n  p4 = ave(lwd$p4, lwd$schoolID),\n  p5 = ave(lwd$p5, lwd$schoolID)\n)\n\ncs &lt;- lwd[, 2:ncol(lwd)] - ms\n\npw.cov &lt;- (cov(cs) * (nrow(lwd) - 1)) / (nrow(lwd) - nlevels(lwd$schoolID))\n\nm1 &lt;- 'EP =~ p2 + p3 + p4 + p5'\nfit_pw &lt;- cfa(m1, sample.cov = pw.cov, sample.nobs = nrow(lwd))\nlavInspect(fit_pw, \"fit\")[c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\",\"srmr\")]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#modelli-preliminari-l2-benchmark",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#modelli-preliminari-l2-benchmark",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Modelli preliminari L2: benchmark",
+    "text": "Modelli preliminari L2: benchmark\nBenchmark models (Hox):\n\nNull (L2): nessuna varianza a L2 (se va bene → poca struttura between)\nIndependence (L2): solo varianze, niente covarianze\nSaturated (L2): L2 saturo (se necessario per fit → la struttura factor L2 non spiega bene)\n\n\nm_null &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ 0*p2\n    p3 ~~ 0*p3\n    p4 ~~ 0*p4\n    p5 ~~ 0*p5\n'\n\nm_ind &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2\n    p3 ~~ p3\n    p4 ~~ p4\n    p5 ~~ p5\n'\n\nm_sat &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p2 ~~ p2 + p3 + p4 + p5\n    p3 ~~ p3 + p4 + p5\n    p4 ~~ p4 + p5\n    p5 ~~ p5\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#mcfa-modello-ipotizzato-1-fattore-a-entrambi-i-livelli",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#mcfa-modello-ipotizzato-1-fattore-a-entrambi-i-livelli",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "MCFA: modello ipotizzato (1 fattore a entrambi i livelli)",
+    "text": "MCFA: modello ipotizzato (1 fattore a entrambi i livelli)\n\nm_mcfa &lt;- '\n  level: 1\n    p.w =~ p2 + p3 + p4 + p5\n  level: 2\n    p.b =~ p2 + p3 + p4 + p5\n'\n\nfit_mcfa &lt;- cfa(m_mcfa, data = edudata, cluster = \"schoolID\", estimator = \"MLR\")\n\n[INSERIRE FIGURA: “MCFA: modello ipotizzato” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#saturazioni-livello-specifiche-ω-idea-dal-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#saturazioni-livello-specifiche-ω-idea-dal-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Saturazioni livello-specifiche + ω (idea dal PDF)",
+    "text": "Saturazioni livello-specifiche + ω (idea dal PDF)\n\nsl &lt;- standardizedSolution(fit_mcfa)[c(1:4, 15:18), 1:6]\n\nsl.w &lt;- sl[1:4, \"est.std\"]; re.w &lt;- 1 - sl.w^2\nomega_w &lt;- sum(sl.w)^2 / (sum(sl.w)^2 + sum(re.w))\n\nsl.b &lt;- sl[5:8, \"est.std\"]; re.b &lt;- 1 - sl.b^2\nomega_b &lt;- sum(sl.b)^2 / (sum(sl.b)^2 + sum(re.b))\n\nround(c(omega_within = omega_w, omega_between = omega_b), 2)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#misure-ripetute-entro-persona-esm-stressor-strain",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#misure-ripetute-entro-persona-esm-stressor-strain",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Misure ripetute entro persona (ESM): stressor & strain",
+    "text": "Misure ripetute entro persona (ESM): stressor & strain\nDati ESM (misure ripetute):\n\nwithin-person = fluttuazioni “state”\nbetween-person = differenze stabili “trait-like”\n\n[INSERIRE FIGURA: “stressor e strain” (design ESM) dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#strutture-alternative-withinbetween-più-fattori",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#strutture-alternative-withinbetween-più-fattori",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Strutture alternative within/between (più fattori)",
+    "text": "Strutture alternative within/between (più fattori)\nIdea: confrontare dimensionalità diversa tra livelli (3×3, 2×3, 2×2, 3×2).\n\nm3x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x3 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm2x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\nm3x2 &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3 + t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'\n\n[INSERIRE FIGURA: “MCFA con più di un fattore / strutture alternative” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#varianze-negative-a-livello-2-heywood-cases",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#varianze-negative-a-livello-2-heywood-cases",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Varianze negative a livello 2 (Heywood cases)",
+    "text": "Varianze negative a livello 2 (Heywood cases)\nNel two-level CFA possono apparire varianze residue negative a L2:\n\nspesso perché la varianza residua vera è ~0 a L2\noppure per misspecification / campione piccolo a livello cluster\n\nNel PDF: discussione + citazione (Kolenikov & Bollen, 2012).\n\np &lt;- parameterEstimates(fit3x3)\np[p$op == \"~~\" & p$ci.lower &lt; 0, ]\n\n[INSERIRE SLIDE: “Analisi casi influenti” dal PDF (lista ID rimossi)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#invarianza-cross-livello-idea",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#invarianza-cross-livello-idea",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Invarianza cross-livello (idea)",
+    "text": "Invarianza cross-livello (idea)\nCon molti cluster, la MG-CFA classica è impraticabile.\nSi può testare se la misura è “simile” tra within e between: cross-level invariance.\n[INSERIRE FIGURE: “Invarianza tra gruppi / tra cluster!?” dal PDF]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-configurale",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-configurale",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: configurale",
+    "text": "Cross-level invariance: configurale\nStessa struttura fattoriale a livello 1 e 2.\n\nconf &lt;- '\n  level: 1\n    NV_w =~ v1 + v2 + v3\n    TA_w =~ t1 + t2 + t3\n    FA_w =~ f1 + f2 + f3\n  level: 2\n    NV_b =~ v1 + v2 + v3\n    TA_b =~ t1 + t2 + t3\n    FA_b =~ f1 + f2 + f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-debole-loadings-uguali",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-debole-loadings-uguali",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: debole (loadings uguali)",
+    "text": "Cross-level invariance: debole (loadings uguali)\n\nweak &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-forte-nota-dal-pdf",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#cross-level-invariance-forte-nota-dal-pdf",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Cross-level invariance: “forte” (nota dal PDF)",
+    "text": "Cross-level invariance: “forte” (nota dal PDF)\nNel deck originale: oltre ai loadings uguali, residui L2 fissati a 0 (attendibilità perfetta).\nIn psicologia spesso è un benchmark teorico più che un default.\n\nstrong &lt;- '\n  level: 1\n    NV_w =~ a*v1 + b*v2 + c*v3\n    TA_w =~ d*t1 + e*t2 + f*t3\n    FA_w =~ g*f1 + h*f2 + i*f3\n  level: 2\n    NV_b =~ a*v1 + b*v2 + c*v3\n    TA_b =~ d*t1 + e*t2 + f*t3\n    FA_b =~ g*f1 + h*f2 + i*f3\n\n    v1 ~~ 0*v1; v2 ~~ 0*v2; v3 ~~ 0*v3\n    t1 ~~ 0*t1; t2 ~~ 0*t2; t3 ~~ 0*t3\n    f1 ~~ 0*f1; f2 ~~ 0*f2; f3 ~~ 0*f3\n'"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#confronto-modelli-fit",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#confronto-modelli-fit",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Confronto modelli (fit)",
+    "text": "Confronto modelli (fit)\n\nfit.conf   &lt;- cfa(conf,   clean, cluster = \"ID\")\nfit.weak   &lt;- cfa(weak,   clean, cluster = \"ID\")\nfit.strong &lt;- cfa(strong, clean, cluster = \"ID\")\n\nf &lt;- c(\"df\",\"rmsea\",\"cfi\",\"srmr_within\",\"srmr_between\")\nround(rbind(\n  conf   = lavInspect(fit.conf,   \"fit\")[f],\n  weak   = lavInspect(fit.weak,   \"fit\")[f],\n  strong = lavInspect(fit.strong, \"fit\")[f]\n), 3)\n\n[INSERIRE FIGURA/TABELLA: confronto modelli (come nel PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#costrutti-multilivello-e-omologia-cross-livello",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#costrutti-multilivello-e-omologia-cross-livello",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Costrutti multilivello e omologia cross-livello",
+    "text": "Costrutti multilivello e omologia cross-livello\nMessaggio finale del PDF:\n\nwithin e between possono rappresentare “lo stesso” costrutto (omologia) oppure costrutti differenti\nl’invarianza cross-livello aiuta a sostenere interpretazioni trait/state\n\n[INSERIRE FIGURE FINALI: costrutti multilivello, tratti/stati, workaholism (dal PDF)]"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#exercises-lab-10",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#exercises-lab-10",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Exercises → Lab 10",
+    "text": "Exercises → Lab 10\nVai a:\n\nlabs/lab10_multilevel_robustse_twolevelcfa.qmd\n\nCose che farai:\n\nSpecificare un modello 2-livelli (level: + cluster=)\n\nConfrontare strutture alternative within/between\n\nLeggere srmr_within vs srmr_between e diagnosticare Heywood a livello 2\n\n(Opzionale) impostare cross-level invariance e confrontare modelli"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#take-home-3-things",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#take-home-3-things",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nCon dati nidificati, pensa sempre within vs between (decomposizione della covarianza)\n\nIn MCFA, usa indici livello-specifici (spec. SRMR_between) e controlla Heywood cases a lv2\n\nL’invarianza cross-livello collega pratica (fit) e teoria (che cosa “è” il costrutto a lv2)"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#further-reading",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#further-reading",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "Further reading",
+    "text": "Further reading\n\nHox, J. (2010). Multilevel Analysis (cap. su SEM/MCFA)\n\nStapleton et al. (2016) su costrutti multilivello e cross-level invariance\n\nKolenikov & Bollen (2012) su varianze negative / soluzioni improprie in MCFA"
+  },
+  {
+    "objectID": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#references",
+    "href": "slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html#references",
+    "title": "Multilevel / clustered-data strategy",
+    "section": "References",
+    "text": "References\n[INSERIRE: citazioni dal PDF in refs/references.bib]"
   }
 ]

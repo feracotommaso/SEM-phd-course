@@ -1,0 +1,380 @@
+---
+title: "Lab 10 — Multilevel CFA (clustered / repeated data) in lavaan"
+author: "Tommaso Feraco"
+date: ""
+params:
+  show_solutions: false
+
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    code-summary: "Show code"
+    code-overflow: wrap
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+```{r}
+#| include: false
+# Helper: set this to TRUE when you want the instructor version
+SHOW <- isTRUE(params$show_solutions)
+
+set.seed(123)
+```
+
+# Goals
+
+By the end of this lab, you can:
+
+- Recognize when **non-independence** (clusters / repeated measures) matters
+- Decompose variability into **within** vs **between** components (conceptually + via lavaan)
+- Fit a **two-level CFA** in lavaan using `level:` blocks and `cluster=`
+- Read **level-specific fit**, especially `srmr_within` and `srmr_between`
+- Diagnose (and think through) **Heywood cases** / negative level-2 variances
+- (Optional) test **cross-level invariance** of loadings (and partial invariance)
+
+# Setup
+
+## Packages
+
+```{r}
+library(lavaan)
+library(semTools)
+```
+
+## Helper: discretize to Likert
+
+```{r}
+cut_likert <- function(x, k = 5) {
+  qs <- quantile(x, probs = seq(0, 1, length.out = k + 1), na.rm = TRUE)
+  as.integer(cut(x, breaks = unique(qs), include.lowest = TRUE, labels = FALSE))
+}
+```
+
+# Exercise 1 — Simulate clustered (ESM-like) ordinal items
+
+We simulate:
+
+- **139 persons** (clusters)
+- **21 observations per person**
+- **4 ordinal items** measuring a latent factor (Task Demand)
+
+This is not “true” ordinal data generation (threshold model), but it is adequate for practicing MCFA workflow.
+
+```{r}
+n_id <- 139
+n_rep <- 21
+N <- n_id * n_rep
+ID <- rep(sprintf("S%03d", 1:n_id), each = n_rep)
+
+# Between-person factor (trait-like)
+eta_b <- rnorm(n_id, 0, 0.7)
+eta_b_long <- rep(eta_b, each = n_rep)
+
+# Within-person factor (state-like)
+eta_w <- rnorm(N, 0, 1.0)
+
+lambda <- c(0.80, 0.70, 0.75, 0.65)
+eps_sd <- c(0.70, 0.80, 0.75, 0.85)
+
+# Continuous responses (before discretizing to Likert)
+y_cont <- sapply(seq_along(lambda), function(j) {
+  lambda[j] * (eta_b_long + eta_w) + rnorm(N, 0, eps_sd[j])
+})
+
+ESMdata <- data.frame(
+  ID = ID,
+  d1 = cut_likert(y_cont[,1]),
+  d2 = cut_likert(y_cont[,2]),
+  d3 = cut_likert(y_cont[,3]),
+  d4 = cut_likert(y_cont[,4])
+)
+
+head(ESMdata, 8)
+```
+
+## Your task
+
+1. Check the marginal distributions of `d1`–`d4` (are categories used?).
+2. Compute the number of clusters and average cluster size.
+
+```{r}
+#| eval: true
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  print(table(ESMdata$d1))
+  print(table(ESMdata$d2))
+  print(table(ESMdata$d3))
+  print(table(ESMdata$d4))
+
+  n_clusters <- length(unique(ESMdata$ID))
+  avg_size <- mean(table(ESMdata$ID))
+  cat("Clusters:", n_clusters, "\n")
+  cat("Avg cluster size:", avg_size, "\n")
+}
+```
+
+# Exercise 2 — Fit a two-level CFA (MCFA)
+
+We specify a one-factor model at both levels:
+
+- Level 1: `TD_w`
+- Level 2: `TD_b`
+
+```{r}
+m_td <- '
+  level: 1
+    TD_w =~ d1 + d2 + d3 + d4
+  level: 2
+    TD_b =~ d1 + d2 + d3 + d4
+'
+```
+
+## Your task
+
+1. Fit the model with `estimator = "MLR"` and `cluster = "ID"`.
+2. Extract these fit measures: `rmsea.robust`, `cfi.robust`, `tli.robust`, `srmr_within`, `srmr_between`.
+3. Interpret *what it would mean* if `srmr_between` were much worse than `srmr_within`.
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_td <- cfa(m_td, data = ESMdata, cluster = "ID", estimator = "MLR")
+  fm <- lavInspect(fit_td, "fit")[c("rmsea.robust","cfi.robust","tli.robust","srmr_within","srmr_between")]
+  print(round(fm, 3))
+
+  cat("\nInterpretation hint:\n")
+  cat("- SRMR_within: mismatch in within-person covariance structure.\n")
+  cat("- SRMR_between: mismatch in between-person covariance (cluster means) structure.\n")
+  cat("If SRMR_between is much worse, the model misses *between-level* dependencies\n")
+  cat("(e.g., extra correlations among cluster means not captured by the factor model).\n")
+}
+```
+
+# Exercise 3 — Compare single-level vs multilevel thinking
+
+A common (bad) habit is to ignore clustering and just fit a single-level CFA.
+
+## Your task
+
+1. Fit a **single-level** CFA to the same ordinal indicators (no `cluster=`).
+2. Compare the *story* you would tell about fit vs the two-level fit.
+3. (Conceptual) What is the risk of relying on the single-level fit here?
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_single <- cfa('TD =~ d1 + d2 + d3 + d4', data = ESMdata, estimator = "MLR")
+  fm_single <- lavInspect(fit_single, "fit")[c("rmsea.robust","cfi.robust","tli.robust","srmr")]
+  print(round(fm_single, 3))
+
+  cat("\nConceptual answer (typical):\n")
+  cat("- Single-level fit is an aggregate compromise across within+between structures.\n")
+  cat("- You can miss misfit at Level 2 even when overall fit looks OK.\n")
+  cat("- SEs/inference can be wrong if clustering is ignored.\n")
+}
+```
+
+# Exercise 4 — Level-specific parameters (loadings)
+
+## Your task
+
+1. Extract standardized loadings at Level 1 and Level 2.
+2. Do you see stronger loadings at Level 2? Why could that happen?
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_td <- cfa(m_td, data = ESMdata, cluster = "ID", estimator = "MLR")
+  ss <- standardizedSolution(fit_td)
+
+  # crude slicing: first block usually corresponds to within loadings
+  within <- ss[ss$op == "=~" & ss$lhs == "TD_w", c("lhs","rhs","est.std")]
+  between <- ss[ss$op == "=~" & ss$lhs == "TD_b", c("lhs","rhs","est.std")]
+
+  print(within)
+  print(between)
+
+  cat("\nWhy Level-2 loadings can be stronger:\n")
+  cat("- A lot of idiosyncratic measurement noise lives at Level 1.\n")
+  cat("- Aggregation/means reduce random error, inflating signal-to-noise at Level 2.\n")
+}
+```
+
+# Exercise 5 — Stress test: induce Level-2 misfit
+
+We now create a dataset where **between-level residual correlations** exist (not captured by the factor).
+
+```{r}
+# Create a new dataset ESMdata2 with extra between correlations among d1 and d2
+eta_b2 <- rnorm(n_id, 0, 0.7)
+eta_b2_long <- rep(eta_b2, each = n_rep)
+
+eta_w2 <- rnorm(N, 0, 1.0)
+
+# Add a shared between-only disturbance u_b to items 1 and 2
+u_b <- rnorm(n_id, 0, 0.6)
+u_b_long <- rep(u_b, each = n_rep)
+
+y2_cont <- sapply(seq_along(lambda), function(j) {
+  base <- lambda[j] * (eta_b2_long + eta_w2) + rnorm(N, 0, eps_sd[j])
+  if (j %in% c(1,2)) base <- base + u_b_long
+  base
+})
+
+ESMdata2 <- data.frame(
+  ID = ID,
+  d1 = cut_likert(y2_cont[,1]),
+  d2 = cut_likert(y2_cont[,2]),
+  d3 = cut_likert(y2_cont[,3]),
+  d4 = cut_likert(y2_cont[,4])
+)
+```
+
+## Your task
+
+1. Fit the same two-level CFA on `ESMdata2`.
+2. Compare `srmr_within` and `srmr_between` to the original dataset.
+3. Propose one model modification **at Level 2** that could improve `srmr_between`.
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_td1 <- cfa(m_td, data = ESMdata,  cluster = "ID", estimator = "MLR")
+  fit_td2 <- cfa(m_td, data = ESMdata2, cluster = "ID", estimator = "MLR")
+
+  f <- c("rmsea.robust","cfi.robust","tli.robust","srmr_within","srmr_between")
+  print(round(rbind(
+    original = lavInspect(fit_td1, "fit")[f],
+    stressed = lavInspect(fit_td2, "fit")[f]
+  ), 3))
+
+  cat("\nTypical modification:\n")
+  cat("- Add a BETWEEN residual correlation: d1 ~~ d2 at level 2.\n")
+}
+```
+
+# Exercise 6 — Heywood cases / negative Level-2 variances (diagnostic mindset)
+
+In MCFA, it is common to encounter:
+
+- negative residual variances at Level 2
+- extremely large Level-2 loadings
+- warnings about non-positive definite matrices
+
+## Your task
+
+1. Check the estimated variances at Level 2 for `ESMdata2`.
+2. If any variance is negative or near 0, list two possible explanations (substantive/statistical).
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_td2 <- cfa(m_td, data = ESMdata2, cluster = "ID", estimator = "MLR")
+  pe <- parameterEstimates(fit_td2)
+  lvl2_vars <- subset(pe, op == "~~" & lhs == rhs & grepl("^d[1-4]$", lhs))
+  print(lvl2_vars[, c("lhs","est","se","pvalue")])
+
+  cat("\nTwo common explanations:\n")
+  cat("1) Sampling fluctuation around a true variance near 0 at Level 2.\n")
+  cat("2) Misspecification (e.g., omitted between-level covariance, wrong factor structure).\n")
+  cat("Also: very strong Level-2 loadings can push residual variances toward 0.\n")
+}
+```
+
+# Optional Exercise 7 — Cross-level invariance of loadings
+
+We test whether loadings are equal across levels:
+
+- Configural: same pattern
+- Weak (cross-level): equal loadings across levels
+
+```{r}
+conf <- '
+  level: 1
+    TD_w =~ d1 + d2 + d3 + d4
+  level: 2
+    TD_b =~ d1 + d2 + d3 + d4
+'
+
+weak <- '
+  level: 1
+    TD_w =~ a*d1 + b*d2 + c*d3 + d*d4
+  level: 2
+    TD_b =~ a*d1 + b*d2 + c*d3 + d*d4
+'
+```
+
+## Your task
+
+1. Fit `conf` and `weak` on the original dataset (`ESMdata`) and compare fit (focus on `srmr_between`).
+2. If the weak model fits worse, inspect modification indices and propose a **partial** invariance model.
+
+```{r}
+# Write your code here
+```
+
+```{r}
+#| echo: false
+if (SHOW) {
+  fit_conf <- cfa(conf, data = ESMdata, cluster = "ID", estimator = "MLR")
+  fit_weak <- cfa(weak, data = ESMdata, cluster = "ID", estimator = "MLR")
+
+  f <- c("df","rmsea.robust","cfi.robust","srmr_within","srmr_between")
+  print(round(rbind(
+    conf = lavInspect(fit_conf, "fit")[f],
+    weak = lavInspect(fit_weak, "fit")[f]
+  ), 3))
+
+  mi <- modificationIndices(fit_weak)
+  print(head(mi[order(mi$mi, decreasing = TRUE), c("lhs","op","rhs","mi")], 8))
+
+  cat("\nPartial invariance idea:\n")
+  cat("- Free one loading across levels by removing its label (e.g., TD_b =~ d1 + ... while TD_w uses a*d1).\n")
+}
+```
+
+# Wrap-up
+
+## What you should be able to say now
+
+- “This dataset has a within covariance structure and a between covariance structure.”
+- “My MCFA fits within/between simultaneously; SRMR tells me where misfit is.”
+- “Cross-level invariance connects modeling constraints to construct interpretation.”
+
+## Next steps
+
+- Migrate the key citations into `refs/references.bib` and cite them in the slides/lab.
+- (If you want a true ordinal data-generating model) simulate via latent response + thresholds and fit with WLSMV.
