@@ -4112,8 +4112,8 @@
     "objectID": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
     "href": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
     "title": "CFA: measurement models, identification, reliability",
-    "section": "Today in the workflow",
-    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
+    "section": "",
+    "text": "Specify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#learning-objectives",
@@ -4148,7 +4148,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Confirmatory Factor Analysis (CFA)",
-    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
+    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#general-formula-your-original",
@@ -4281,7 +4281,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-where-deck-03-plugs-in",
     "title": "CFA: measurement models, identification, reliability",
     "section": "CFA evaluation (where deck 03 plugs in)",
-    "text": "CFA evaluation (where deck 03 plugs in)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
+    "text": "CFA evaluation (where deck 03 plugs in)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\n\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#a-disciplined-cfa-respecification-mindset",
@@ -4309,7 +4309,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#reliability-from-cfa-ω-family",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Reliability from CFA (ω family)",
-    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
+    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#graphical-representation",
@@ -4323,7 +4323,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example-your-original-wisc-slide",
     "title": "CFA: measurement models, identification, reliability",
     "section": "A hierarchical intelligence example (your original WISC slide)",
-    "text": "A hierarchical intelligence example (your original WISC slide)\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
+    "text": "A hierarchical intelligence example (your original WISC slide)\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).\n\n\n\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#second-order-cfa-syntax-template",
@@ -4351,7 +4351,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#bifactor-interpretation-requires-diagnostics-not-just-fit",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Bifactor: interpretation requires diagnostics (not just fit)",
-    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
+    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
@@ -7264,5 +7264,425 @@
     "title": "Multilevel / clustered-data strategy",
     "section": "References",
     "text": "References\n[INSERIRE: citazioni dal PDF in refs/references.bib]"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#title",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#title",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Title",
+    "text": "Title\n\n\nLongitudinal SEM\nInvariance over time → Latent Growth Models\n\nMeasurement-first, two-step mindset\n\nFit ≠ truth (especially over time)\n\nGrowth is a latent variable model with time-coded loadings"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#workflow-map",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#workflow-map",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Workflow map",
+    "text": "Workflow map\n\n\n\n\n\n\nNote\n\n\nSEM workflow: Specify → Identify → Estimate → Evaluate → Revise/Report\nToday we highlight Evaluate (and the disciplined loop back to Revise/Report).\n\n\n\n\n[ADD IMAGE] A simple workflow diagram (Specify→Identify→Estimate→Evaluate→Revise/Report) with “Evaluate” highlighted for Lesson 09. Save as: assets/images/workflow_map_evaluate.png"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#learning-objectives",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#learning-objectives",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of today you can:\n\nFit and justify measurement invariance over time (longitudinal CFA).\nSpecify and estimate latent growth curve models (LGM) in SEM form.\nInterpret growth parameters (means, variances, covariances) and understand time coding.\nUse global + local diagnostics to decide on disciplined respecification."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#what-question-are-we-asking",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#what-question-are-we-asking",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "What question are we asking?",
+    "text": "What question are we asking?\nLongitudinal SEM is not one model, but a family of models.\n\n\n\n\n\n\nTip\n\n\nChoose the model family from the scientific question:\n\nGrowth (LGM): “How do people change on average? How do trajectories differ?”\nStability / lagged prediction (CLPM/RI-CLPM): “Do individual changes predict later changes?”\nChange processes (LCS): “How is change from t→t+1 driven/coupled?”\n\n\n\n\nToday: Invariance over time + LGM (growth).\nRI-CLPM and LCS are linked as extras later."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#minimal-key-concept-measurement-first-two-step",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#minimal-key-concept-measurement-first-two-step",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Minimal key concept: measurement-first (two-step)",
+    "text": "Minimal key concept: measurement-first (two-step)\nTwo-step mindset\n\nMeasurement model: is the construct measured comparably across waves?\n\nStructural/growth model: only then interpret change parameters.\n\nIf measurement shifts over time, “growth” can become a mixture of:\n\ntrue change in the latent construct\nchanges in item functioning / scaling / intercepts"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#longitudinal-invariance-ladder",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#longitudinal-invariance-ladder",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Longitudinal invariance ladder",
+    "text": "Longitudinal invariance ladder\nMeasurement waves are our “groups” for the MG-CFA.\n\nConfigural: same factor structure each wave\nMetric: equal loadings (\\(Λ\\)) across waves\nScalar: equal intercepts (\\(τ\\)) across waves\n→ necessary for latent mean / growth mean interpretation\n\n\n\n\n\n\n\nWarning\n\n\nKey point: Without at least (partial) scalar invariance, mean differences over time can be artifacts of shifting intercepts (thresholds for ordinal items)."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#identification-reminders-longitudinal-cfa",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#identification-reminders-longitudinal-cfa",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Identification reminders (longitudinal CFA)",
+    "text": "Identification reminders (longitudinal CFA)\nFor each wave:\n\nFix factor scale (e.g., one loading = 1, or factor variance = 1)\nWith multiple waves, keep scaling consistent across time\n\nIn longitudinal CFA with means, the usual identification logic extends:\n\nIntercepts and factor means can’t all be free without constraints\nIn lavaan, a standard way is fix factor mean at wave 1 to 0 and estimate others (or use growth factors later)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-longitudinal-cfa-same-items-multiple-waves",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-longitudinal-cfa-same-items-multiple-waves",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Diagram: longitudinal CFA (same items, multiple waves)",
+    "text": "Diagram: longitudinal CFA (same items, multiple waves)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#live-coding-setup",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#live-coding-setup",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Live coding setup",
+    "text": "Live coding setup\n\nlibrary(lavaan)\nlibrary(semTools)\nlibrary(dplyr)\n\nset.seed(12345)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#example-data-transparent-simulation",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#example-data-transparent-simulation",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Example data (transparent simulation)",
+    "text": "Example data (transparent simulation)\n\n\n\nWe simulate:\n\nOne latent trait at each wave\nStrong stability (correlated factors over time)\nSome correlated residuals for the same indicator across waves (realistic)\nLater we impose invariance constraints in fitting\n\n\n\n\n\n\n\nNote\n\n\nWe set meanstructure = TRUE in simulation to generate item intercepts + means consistently with the population model.\n\n\n\n\n\npop &lt;- '\n# Wave 1 factor\nF1 =~ 1*y1_1 + .8*y2_1 + .9*y3_1 + .7*y4_1\n# Wave 2 factor\nF2 =~ 1*y1_2 + .8*y2_2 + .9*y3_2 + .7*y4_2\n# Wave 3 factor\nF3 =~ 1*y1_3 + .8*y2_3 + .9*y3_3 + .7*y4_3\n# Wave 4 factor\nF4 =~ 1*y1_4 + .8*y2_4 + .9*y3_4 + .7*y4_4\n\n# Factor means (0 baseline; increasing means)\nF1 ~ 0*1\nF2 ~ .2*1\nF3 ~ .5*1\nF4 ~ .8*1\n\n# Factor variances\nF1 ~~ 1*F1\nF2 ~~ 1*F2\nF3 ~~ 1*F3\nF4 ~~ 1*F4\n\n# Stability (correlations)\nF1 ~~ .70*F2\nF2 ~~ .75*F3\nF3 ~~ .80*F4\nF1 ~~ .60*F3\nF2 ~~ .65*F4\nF1 ~~ .55*F4\n\n# Residual variances (items)\ny1_1 ~~ .5*y1_1; y2_1 ~~ .6*y2_1; y3_1 ~~ .5*y3_1; y4_1 ~~ .7*y4_1\ny1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2\ny1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3\ny1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4\n\n# Correlated residuals across adjacent waves for same indicator (method/wording carryover)\ny1_1 ~~ .25*y1_2\ny1_2 ~~ .25*y1_3\ny1_3 ~~ .25*y1_4\ny2_1 ~~ .20*y2_2\ny2_2 ~~ .20*y2_3\ny2_3 ~~ .20*y2_4\n'\n\ndat &lt;- simulateData(pop, sample.nobs = 6000, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-1-configural-longitudinal-cfa",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-1-configural-longitudinal-cfa",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Step 1: Configural longitudinal CFA",
+    "text": "Step 1: Configural longitudinal CFA\nWe specify one factor per wave, same indicators each wave.\nWe also allow conceptually justified correlated residuals (same items).\n\n\nmod_config &lt;- '\nF1 =~ y1_1 + y2_1 + y3_1 + y4_1\nF2 =~ y1_2 + y2_2 + y3_2 + y4_2\nF3 =~ y1_3 + y2_3 + y3_3 + y4_3\nF4 =~ y1_4 + y2_4 + y3_4 + y4_4\n\n# correlated residuals for the same item across adjacent waves \ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\n\nfit_config &lt;- cfa(mod_config, data = dat, meanstructure = TRUE)\nfitMeasures(fit_config, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n chisq     df    cfi    tli  rmsea   srmr \n85.683 92.000  1.000  1.000  0.000  0.007"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-2-metric-and-scalar-invariance-over-time",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-2-metric-and-scalar-invariance-over-time",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Step 2: Metric and scalar invariance (over time)",
+    "text": "Step 2: Metric and scalar invariance (over time)\nUse semTools::measurementInvariance() with waves as “groups” requires long format. For teaching, we’ll do the “manual wide approach” (explicit equality labels) to keep it transparent."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#evaluate-invariance-fit-comparisons",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#evaluate-invariance-fit-comparisons",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Evaluate invariance: fit comparisons",
+    "text": "Evaluate invariance: fit comparisons\n\nlavTestLRT(fit_config, fit_metric, fit_scalar)\n\n\nChi-Squared Difference Test\n\n            Df    AIC    BIC Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)\nfit_config  92 246326 246728  85.7                                      \nfit_metric 101 246315 246657  92.7       7.06 0.00000       9       0.63\nfit_scalar 110 246309 246591 105.3      12.57 0.00813       9       0.18\n\n\n\ndata.frame(bind_rows(\n  config = fitMeasures(fit_config, c(\"cfi\",\"rmsea\",\"srmr\")),\n  metric = fitMeasures(fit_metric, c(\"cfi\",\"rmsea\",\"srmr\")),\n  scalar = fitMeasures(fit_scalar, c(\"cfi\",\"rmsea\",\"srmr\")),.id = \"model\"))\n\n   model cfi rmsea    srmr\n1 config   1     0 0.00684\n2 metric   1     0 0.00891\n3 scalar   1     0 0.00929\n\n\n\n\n\n\n\n\nTip\n\n\nAlways check where misfit arises (local diagnostics)."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagnostics-global-vs-local-fit-in-invariance",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagnostics-global-vs-local-fit-in-invariance",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Diagnostics: global vs local fit (in invariance)",
+    "text": "Diagnostics: global vs local fit (in invariance)\nGlobal: χ², CFI/TLI, RMSEA (+CI), SRMR\nLocal:\n\nstandardized residuals\nmodification indices (MI)\ninspect which items/waves break invariance\n\n\n# Local diagnostics example\nmi &lt;- modificationIndices(fit_scalar)\nmi |&gt; arrange(desc(mi)) |&gt; head(10)\n\n    lhs op  rhs   mi    epc sepc.lv sepc.all sepc.nox\n1  y1_1 ~~ y4_1 7.95 -0.027  -0.027   -0.044   -0.044\n2    F2 =~ y1_1 5.27  0.027   0.027    0.022    0.022\n3    F3 =~ y1_1 5.03  0.024   0.023    0.019    0.019\n4    F2 =~ y4_1 3.95 -0.025  -0.025   -0.023   -0.023\n5    F1 =~ y4_4 3.75  0.025   0.025    0.023    0.023\n6  y4_3 ~~ y2_4 3.70  0.017   0.017    0.026    0.026\n7    F1 =~ y4_3 3.56 -0.024  -0.024   -0.023   -0.023\n8    F2 =~ y4_4 3.45  0.024   0.024    0.022    0.022\n9  y3_1 ~~ y4_3 3.31 -0.017  -0.017   -0.028   -0.028\n10 y4_1 ~~ y2_2 3.17 -0.015  -0.015   -0.023   -0.023"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#pitfallcallout-partial-invariance-fishing",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#pitfallcallout-partial-invariance-fishing",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Pitfall/callout: “Partial invariance = fishing?”",
+    "text": "Pitfall/callout: “Partial invariance = fishing?”\n\n\n\n\n\n\nWarning\n\n\nPartial invariance is not “cheating” if done transparently:\n\nfree the smallest number of parameters\njustify based on item content / design changes\nreport which parameters were freed\nverify conclusions are robust (sensitivity)\n\n\n\n\nA good practice: free one intercept (or loading) at a time guided by theory + MI, then reassess."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#transition-from-invariance-to-growth",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#transition-from-invariance-to-growth",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Transition: from invariance to growth",
+    "text": "Transition: from invariance to growth\nIf longitudinal (partial) scalar invariance holds, we can interpret latent means over time (like we did for group comparisons in MG-CFA).\nGrowth models re-express these latent means as a trajectory using growth factors:\n\nIntercept factor (i): baseline level (at a chosen time point)\nSlope factor (s): rate of change (linear, unless extended)\n\nOptional: quadratic slope, piecewise slopes…"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#minimal-math-lgm-as-cfa-with-time-scores",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#minimal-math-lgm-as-cfa-with-time-scores",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Minimal math: LGM as CFA with time scores",
+    "text": "Minimal math: LGM as CFA with time scores\nFor person n at time t:\n\\[\n\\eta_{nt} = i_n + \\lambda_t s_n + \\varepsilon_{nt}\n\\]\n\n\\((i_n)\\) and \\((s_n)\\) are latent variables (random effects)\n\\((\\lambda_t)\\) are fixed time scores (e.g., 0,1,2,3)\n\\((\\varepsilon_{nt})\\) are time-specific residuals\n\nMeans and variances:\n\n\\((E(i_n) = \\mu_i)\\), \\((Var(i_n)=\\sigma_i^2)\\)\n\\((E(s_n) = \\mu_s)\\), \\((Var(s_n)=\\sigma_s^2)\\)\n\\((Cov(i_n,s_n)=\\sigma_{is})\\)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-growth-model-intercept-slope",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-growth-model-intercept-slope",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Diagram: growth model (intercept + slope)",
+    "text": "Diagram: growth model (intercept + slope)\n\n\n\n\n\n\n\nNote\n\n\nThis is a linear second-order latent growth curve model"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#lgm-on-observed-composites-teaching-friendly",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#lgm-on-observed-composites-teaching-friendly",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "LGM on observed composites (teaching-friendly)",
+    "text": "LGM on observed composites (teaching-friendly)\nWe’ll start with a simple observed repeated measure (think: scale score). In practice, you often combine: - longitudinal invariance CFA for measurement - then growth model on latent factors (“second-order” growth)\nCreate an observed score per wave (for illustration):\n\ndat &lt;- dat |&gt;\n  mutate(\n    y_t1 = rowMeans(across(c(y1_1,y2_1,y3_1,y4_1))),\n    y_t2 = rowMeans(across(c(y1_2,y2_2,y3_2,y4_2))),\n    y_t3 = rowMeans(across(c(y1_3,y2_3,y3_3,y4_3))),\n    y_t4 = rowMeans(across(c(y1_4,y2_4,y3_4,y4_4)))\n  )"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#linear-growth-model-in-lavaan",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#linear-growth-model-in-lavaan",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Linear growth model in lavaan",
+    "text": "Linear growth model in lavaan\nIn lavaan, growth() is a convenience wrapper that fits an SEM with meanstructure=TRUE by default (needed to estimate growth means). If you use sem()/cfa(), you must set it explicitly.\n\nlgm_linear &lt;- '\n# growth factors\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\n\n# (optional) allow residual autocorrelation\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\n\nfit_lgm &lt;- growth(lgm_linear, data = dat)  # meanstructure handled\n\n\n\n\n\n\n\nWarning\n\n\nThis model is already assuming random intercepts and slopes"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#interpreting-the-growth-output",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#interpreting-the-growth-output",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Interpreting the growth output",
+    "text": "Interpreting the growth output\nKey parameters:\n\nMean(i) = average baseline (at time score 0)\nMean(s) = average change per time unit\nVar(i) = between-person differences in baseline\nVar(s) = between-person differences in change (heterogeneity)\nCov(i,s) = association between intercept and slope (often negative due to artifacts: regression-to-mean, boundaries, heteroskedasticity - interpret carefully)\n\n\nparameterEstimates(fit_lgm) |&gt;\n  filter(op %in% c(\"~1\",\"~~\") & lhs %in% c(\"i\",\"s\"))\n\n  lhs op rhs    est    se     z pvalue ci.lower ci.upper\n1   i ~~   i  0.478 0.025 19.41  0.000    0.429    0.526\n2   s ~~   s  0.031 0.005  6.42  0.000    0.021    0.040\n3   i ~~   s -0.028 0.009 -3.21  0.001   -0.044   -0.011\n4   i ~1     -0.017 0.012 -1.47  0.141   -0.040    0.006\n5   s ~1      0.230 0.004 56.51  0.000    0.222    0.238"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#pitfallcallout-time-coding-is-a-modeling-choice",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#pitfallcallout-time-coding-is-a-modeling-choice",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Pitfall/callout: time coding is a modeling choice",
+    "text": "Pitfall/callout: time coding is a modeling choice\n\n\n\n\n\n\nWarning\n\n\nChanging time scores changes interpretation.\nIf you code slope loadings as 0,1,2,3 then:\n\nintercept = expected value at wave 1\n\nIf you code as -1,0,1,2 then: - intercept = expected value at wave 2\nIf you center at the midpoint, intercept becomes “midpoint status.”\n\n\n\nRemember to choose a centering that matches the substantive interpretation you want.\n\n\n\n\n\n\nWarning\n\n\nTIME POINTS MUST BE CHOSEN A PRIORI, BASED ON THEORY.\ne.g. Is this time point large enough to see change?"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#when-linear-growth-is-wrong",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#when-linear-growth-is-wrong",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "When linear growth is wrong",
+    "text": "When linear growth is wrong\nSigns: - systematic residual patterns (local misfit) - poor global fit - slope mean doesn’t capture curvature\nOptions (in order of interpretability): 1) Add quadratic slope 2) Use piecewise slopes (e.g., pre/post intervention) 3) Use latent basis (free intermediate time scores)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-growth-example",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-growth-example",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Quadratic growth example",
+    "text": "Quadratic growth example\n\n\nset.seed(123)\n\n## ----------------------------\n## 1) Population model: quadratic growth on observed variables\n## ----------------------------\npop_quad &lt;- '\n# Growth factors (no first-order measurement factors; y_t* are the repeated measures)\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\nq =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4\n\n# Factor means (imply the mean trajectory)\ni ~ 0*1\ns ~ 0.40*1\nq ~ 0.15*1\n\n# Factor (co)variances (individual differences)\ni ~~ 1.00*i\ns ~~ 0.40*s\nq ~~ 0.10*q\ni ~~ 0.30*s\ni ~~ 0.10*q\ns ~~ 0.05*q\n\n# Fix observed intercepts so means come from i,s,q\ny_t1 ~ 0*1\ny_t2 ~ 0*1\ny_t3 ~ 0*1\ny_t4 ~ 0*1\n\n# Residual variances\ny_t1 ~~ 0.64*y_t1\ny_t2 ~~ 0.64*y_t2\ny_t3 ~~ 0.64*y_t3\ny_t4 ~~ 0.64*y_t4\n\n# Adjacent residual autocorrelation (covariances)\ny_t1 ~~ 0.192*y_t2\ny_t2 ~~ 0.192*y_t3\ny_t3 ~~ 0.192*y_t4\n'\n\ndat &lt;- simulateData(pop_quad, sample.nobs = 6000, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#local-diagnostics-for-growth-models",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#local-diagnostics-for-growth-models",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Local diagnostics for growth models",
+    "text": "Local diagnostics for growth models\nGlobal fit is necessary but not sufficient.\n\nresidual autocorrelation (y_t2 ~~ y_t3, etc.)\nMIs suggesting additional residual correlations\nimplausible negative variances (Heywood)\nstandardized residuals / fitted vs observed means\n\n\nmi_g &lt;- modificationIndices(fit_quad)\nmi_g |&gt; arrange(desc(mi)) |&gt; head(10)\n\n    lhs op  rhs   mi    epc sepc.lv sepc.all sepc.nox\n1     i =~ y_t4 1.42  4.525   5.596    1.267    1.267\n2     i =~ y_t3 1.42 -1.508  -1.865   -0.682   -0.682\n3     i =~ y_t2 1.42  1.508   1.865    1.084    1.084\n4     s =~ y_t1 1.42  0.099   0.108    0.084    0.084\n5  y_t2 ~1      1.42 -0.014  -0.014   -0.008   -0.008\n6     s =~ y_t2 1.42 -0.033  -0.036   -0.021   -0.021\n7  y_t1 ~1      1.42  0.041   0.041    0.032    0.032\n8     q =~ y_t4 1.42 -0.281  -0.121   -0.027   -0.027\n9     q =~ y_t1 1.42  0.281   0.121    0.094    0.094\n10 y_t3 ~1      1.42  0.014   0.014    0.005    0.005"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#conditional-growth-predictors-of-i-and-s",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#conditional-growth-predictors-of-i-and-s",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Conditional growth: predictors of i and s",
+    "text": "Conditional growth: predictors of i and s\nAdd a time-invariant covariate x predicting baseline and growth.\n\ndat$x &lt;- rnorm(nrow(dat))  # example covariate\n\nlgm_cond &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\n\n# regressions: predictors of growth factors\ni ~ x\ns ~ x\n\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\n\nfit_lgm_c &lt;- growth(lgm_cond, data = dat)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#what-we-did-not-do-on-purpose",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#what-we-did-not-do-on-purpose",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "What we did NOT do (on purpose)",
+    "text": "What we did NOT do (on purpose)\n\nRI-CLPM and LCS families (they answer different questions)\n→ RI-CLPM warnings & alternatives: slides/opt05_riclpm_warning-and-alternatives.qmd (and/or extras/ex06_riclpm_vs_clpm.qmd) → Latent change score models: extras/ex07_latent-change-score_models.qmd"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#exercises-lab09-explicit-links",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#exercises-lab09-explicit-links",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Exercises → Lab09 (explicit links)",
+    "text": "Exercises → Lab09 (explicit links)\nIn Lab09 (longitudinal growth) you will:\n\nLongitudinal invariance ladder\n\nFit configural → metric → scalar\nDecide if partial scalar is needed (and document what you free)\n\nFit linear LGM (time scores 0,1,2,3)\n\nInterpret mean/variance of intercept and slope\nRe-center time to change intercept meaning\n\nAdd curvature or residual autocorrelation\n\nCompare fit + interpretability (don’t respecify blindly)\n\nConditional growth\n\nAdd a predictor of intercept and slope; interpret effects"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#take-home-summary-3-things",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#take-home-summary-3-things",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Take-home summary: 3 things",
+    "text": "Take-home summary: 3 things\n\nMeasurement invariance over time is the entry ticket to interpreting mean change.\nGrowth models are SEMs with time-coded loadings: interpretation depends on time coding/centering.\nDiagnostics matter: combine global fit with local checks; respecify with theory and transparency."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#further-reading-extras",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#further-reading-extras",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Further reading (extras)",
+    "text": "Further reading (extras)\n\nRI-CLPM warnings & alternatives: slides/opt05_riclpm_warning-and-alternatives.qmd (and/or extras/ex06_riclpm_vs_clpm.qmd)\nLatent change score models: extras/ex07_latent-change-score_models.qmd\nOptional deepening: reporting and model comparison conventions (connect to Lesson 06 / reporting checklist)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#references",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#references",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "References",
+    "text": "References\n(Generated from refs/references.bib using APA 7 CSL.)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#metric-invariance-equal-loadings",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#metric-invariance-equal-loadings",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Metric invariance: equal loadings",
+    "text": "Metric invariance: equal loadings\n\nmod_metric &lt;- '\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\n\nfit_metric &lt;- cfa(mod_metric, data = dat, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#scalar-invariance-equal-intercepts-too",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#scalar-invariance-equal-intercepts-too",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Scalar invariance: equal intercepts too",
+    "text": "Scalar invariance: equal intercepts too\n\nmod_scalar &lt;- '\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\n# equal intercepts across time\ny1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1\ny2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1\ny3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1\ny4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1\n\ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\n\nfit_scalar &lt;- cfa(mod_scalar, data = dat, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#today-in-the-workflow",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#today-in-the-workflow",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: measurement in a longitudinal fashion.\nGrowth: measuring and testing change in latent variables."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-longitudinal-cfa",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#diagram-longitudinal-cfa",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Diagram: longitudinal CFA",
+    "text": "Diagram: longitudinal CFA"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-2-metric-invariance-equal-loadings",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-2-metric-invariance-equal-loadings",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Step 2: Metric invariance: equal loadings",
+    "text": "Step 2: Metric invariance: equal loadings\n\n\nmod_metric &lt;- '\n# equal loadings across timepoints\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\n# correlated residuals \ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\n\nfit_metric &lt;- cfa(mod_metric, data = dat, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-3-scalar-invariance-equal-intercepts-too",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#step-3-scalar-invariance-equal-intercepts-too",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Step 3: Scalar invariance: equal intercepts too",
+    "text": "Step 3: Scalar invariance: equal intercepts too\n\n\nmod_scalar &lt;- '\n# equal loadings across timepoints\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\n# equal intercepts across time\ny1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1\ny2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1\ny3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1\ny4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1\n\n# correlated residuals \ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n\n# free means\nF1 ~ 0*1\nF2 ~ m2*1\nF3 ~ m3*1\nF4 ~ m4*1\n'\nfit_scalar &lt;- cfa(mod_scalar, data = dat, meanstructure = TRUE)\n\n\n\n\n\n\n\n\nTip\n\n\nFreeing means could be essential if there is actual mean change."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#transition-from-invariance-to-growth-1",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#transition-from-invariance-to-growth-1",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Transition: from invariance to growth",
+    "text": "Transition: from invariance to growth\nWhat questions do you answer with latent growth models?\n\nWhat is the average trajectory for all respondents?\n\nWhat is their initial value (i.e., mean)?\nIs there any change?\n\nWhat’s the form of the change\n\n\nIs the average trajectory enough or participants vary in their trajectories?\n\nrandom effects of intercepts and slope\n\nAre random effects explainable? How? Do we need more variables?"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#lgm-on-observed-composites",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#lgm-on-observed-composites",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "LGM on observed composites",
+    "text": "LGM on observed composites\nWe’ll start with a simple observed repeated measure (think: scale score).\nIn practice, you often combine:\n\nlongitudinal invariance CFA for measurement\nthen growth model on latent factors (“second-order” growth)\n\nCreate an observed score per wave from the data we used before:\n\ndat &lt;- dat |&gt;\n  mutate(\n    y_t1 = rowMeans(across(c(y1_1,y2_1,y3_1,y4_1))),\n    y_t2 = rowMeans(across(c(y1_2,y2_2,y3_2,y4_2))),\n    y_t3 = rowMeans(across(c(y1_3,y2_3,y3_3,y4_3))),\n    y_t4 = rowMeans(across(c(y1_4,y2_4,y3_4,y4_4)))\n  )\n\n\n\n\n\n\n\nWarning\n\n\n(teaching-friendly less publication/SEM-friendly)"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#the-growth-summary",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#the-growth-summary",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "The growth summary",
+    "text": "The growth summary\n\nsummary(fit_lgm, fit.measures = TRUE, standardized = TRUE)\n\nlavaan 0.6-19 ended normally after 26 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        12\n\n  Number of observations                          6000\n\nModel Test User Model:\n                                                      \n  Test statistic                                39.720\n  Degrees of freedom                                 2\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                             10572.830\n  Degrees of freedom                                 6\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.996\n  Tucker-Lewis Index (TLI)                       0.989\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)             -26907.698\n  Loglikelihood unrestricted model (H1)     -26887.838\n                                                      \n  Akaike (AIC)                               53839.396\n  Bayesian (BIC)                             53919.790\n  Sample-size adjusted Bayesian (SABIC)      53881.658\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.056\n  90 Percent confidence interval - lower         0.042\n  90 Percent confidence interval - upper         0.072\n  P-value H_0: RMSEA &lt;= 0.050                    0.230\n  P-value H_0: RMSEA &gt;= 0.080                    0.006\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.014\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i =~                                                                  \n    y_t1              1.000                               0.691    0.742\n    y_t2              1.000                               0.691    0.741\n    y_t3              1.000                               0.691    0.750\n    y_t4              1.000                               0.691    0.756\n  s =~                                                                  \n    y_t1              0.000                               0.000    0.000\n    y_t2              1.000                               0.175    0.187\n    y_t3              2.000                               0.350    0.379\n    y_t4              3.000                               0.524    0.574\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n .y_t1 ~~                                                               \n   .y_t2              0.084    0.014    5.812    0.000    0.084    0.208\n .y_t2 ~~                                                               \n   .y_t3              0.102    0.007   15.354    0.000    0.102    0.262\n .y_t3 ~~                                                               \n   .y_t4              0.065    0.015    4.253    0.000    0.065    0.218\n  i ~~                                                                  \n    s                -0.028    0.009   -3.213    0.001   -0.228   -0.228\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n    i                -0.017    0.012   -1.473    0.141   -0.025   -0.025\n    s                 0.230    0.004   56.514    0.000    1.317    1.317\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .y_t1              0.390    0.024   16.180    0.000    0.390    0.449\n   .y_t2              0.418    0.014   29.997    0.000    0.418    0.480\n   .y_t3              0.359    0.014   26.593    0.000    0.359    0.423\n   .y_t4              0.248    0.025    9.774    0.000    0.248    0.297\n    i                 0.478    0.025   19.414    0.000    1.000    1.000\n    s                 0.031    0.005    6.415    0.000    1.000    1.000"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#a-stepwise-approach-to-lgm",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#a-stepwise-approach-to-lgm",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "A stepwise approach to LGM",
+    "text": "A stepwise approach to LGM"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#the-second-order-factor-model",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#the-second-order-factor-model",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "The second-order factor model",
+    "text": "The second-order factor model\n\n\n\nThe measurement block\n\nlgm_linear_2ndorder &lt;- '\n## 1) MEASUREMENT (strong/scalar invariance)\n\n# equal loadings across time (metric invariance)\nF1 =~ 1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ 1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ 1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ 1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\n# equal intercepts across time (scalar invariance)\ny1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1\ny2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1\ny3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1\ny4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1\n\n# (optional) correlated residuals across waves\ny1_1 ~~ r1*y1_2\ny1_2 ~~ r1*y1_3\ny1_3 ~~ r1*y1_4\n\ny2_1 ~~ r2*y2_2\ny2_2 ~~ r2*y2_3\ny2_3 ~~ r2*y2_4\n\ny3_1 ~~ r3*y3_2\ny3_2 ~~ r3*y3_3\ny3_3 ~~ r3*y3_4\n\ny4_1 ~~ r4*y4_2\ny4_2 ~~ r4*y4_3\ny4_3 ~~ r4*y4_4\n\n'\n\n\nThe latent change block\n\nlgm_linear_2ndorder &lt;- '\n## 2) SECOND-ORDER GROWTH ON LATENT FACTORS\n\n# growth factors (second-order)\ni =~ 1*F1 + 1*F2 + 1*F3 + 1*F4\ns =~ 0*F1 + 1*F2 + 2*F3 + 3*F4\n\n# estimate growth means (trajectory in the latent metric)\ni ~ 1\ns ~ 1\n\n# fix means of the first-order factors so i/s carry the mean structure\nF1 ~ 0*1\nF2 ~ 0*1\nF3 ~ 0*1\nF4 ~ 0*1\n\n# (optional) allow i-s covariance\ni ~~ s\n\n# (optional) residual autocorrelation among the time-specific factors\nF1 ~~ F2\nF2 ~~ F3\nF3 ~~ F4\n'\nfit_lgm_2nd &lt;- sem(lgm_linear_2ndorder, data = dat, meanstructure = TRUE)\n\n\n\n\n\n\n\n\n\nWarning\n\n\nWe are not using growth() here but sem + meanstructure=TRUE"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-results",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-results",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Quadratic results",
+    "text": "Quadratic results\n\n\n\n\n## ----------------------------\n## 2) FIT LGM without quadratic\n## ----------------------------\nlgm_lin &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\n'\n\nfit_lin &lt;- growth(lgm_lin, data = dat)\n\nfitMeasures(fit_lin,  c(\"cfi\",\"tli\",\"rmsea\",\"srmr\",\"aic\",\"bic\"))\n\n      cfi       tli     rmsea      srmr       aic       bic \n    0.929     0.915     0.242     0.106 84653.539 84713.835 \n\n\n\n\n## ----------------------------\n## 3) FIT LGM with quadratic\n## ----------------------------\nlgm_quad &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\nq =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4\n'\n\nfit_quad &lt;- growth(lgm_quad, data = dat)\nfitMeasures(fit_quad, c(\"cfi\",\"tli\",\"rmsea\",\"srmr\",\"aic\",\"bic\"))\n\n      cfi       tli     rmsea      srmr       aic       bic \n    1.000     1.000     0.008     0.001 82904.604 82991.697 \n\n\n\n\nanova(fit_lin, fit_quad)  # chi-square diff test (nested models)\n\n\nChi-Squared Difference Test\n\n         Df   AIC   BIC   Chisq Chisq diff RMSEA Df diff          Pr(&gt;Chisq)\nfit_quad  1 82905 82992    1.42                                             \nfit_lin   5 84654 84714 1758.36       1757  0.27       4 &lt;0.0000000000000002\n            \nfit_quad    \nfit_lin  ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#summary-of-the-conditional-model",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#summary-of-the-conditional-model",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Summary of the conditional model",
+    "text": "Summary of the conditional model\n\n\n\n\nsummary(fit_lgm_c, fit.measures = TRUE, standardized = TRUE)\n\nlavaan 0.6-19 ended normally after 41 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        14\n\n  Number of observations                          6000\n\nModel Test User Model:\n                                                      \n  Test statistic                               502.347\n  Degrees of freedom                                 4\n  P-value (Chi-square)                           0.000\n\nModel Test Baseline Model:\n\n  Test statistic                             24670.853\n  Degrees of freedom                                10\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.980\n  Tucker-Lewis Index (TLI)                       0.949\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)             -41685.211\n  Loglikelihood unrestricted model (H1)     -41434.038\n                                                      \n  Akaike (AIC)                               83398.422\n  Bayesian (BIC)                             83492.216\n  Sample-size adjusted Bayesian (SABIC)      83447.727\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.144\n  90 Percent confidence interval - lower         0.134\n  90 Percent confidence interval - upper         0.155\n  P-value H_0: RMSEA &lt;= 0.050                    0.000\n  P-value H_0: RMSEA &gt;= 0.080                    1.000\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.052\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i =~                                                                  \n    y_t1              1.000                               0.542    0.420\n    y_t2              1.000                               0.542    0.315\n    y_t3              1.000                               0.542    0.197\n    y_t4              1.000                               0.542    0.121\n  s =~                                                                  \n    y_t1              0.000                               0.000    0.000\n    y_t2              1.000                               0.832    0.483\n    y_t3              2.000                               1.664    0.605\n    y_t4              3.000                               2.496    0.557\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i ~                                                                   \n    x                -0.012    0.016   -0.775    0.438   -0.022   -0.022\n  s ~                                                                   \n    x                 0.030    0.014    2.138    0.033    0.036    0.036\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n .y_t1 ~~                                                               \n   .y_t2              0.416    0.028   14.784    0.000    0.416    0.688\n .y_t2 ~~                                                               \n   .y_t3             -0.248    0.020  -12.374    0.000   -0.248   -0.465\n .y_t3 ~~                                                               \n   .y_t4              2.814    0.104   27.025    0.000    2.814    0.935\n .i ~~                                                                  \n   .s                 0.857    0.037   22.944    0.000    1.900    1.900\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .i                -0.141    0.016   -9.050    0.000   -0.259   -0.259\n   .s                 0.630    0.014   44.449    0.000    0.757    0.757\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .y_t1              1.373    0.058   23.604    0.000    1.373    0.823\n   .y_t2              0.266    0.027    9.840    0.000    0.266    0.090\n   .y_t3              1.073    0.065   16.476    0.000    1.073    0.142\n   .y_t4              8.445    0.223   37.805    0.000    8.445    0.420\n   .i                 0.294    0.053    5.575    0.000    1.000    1.000\n   .s                 0.692    0.028   24.380    0.000    0.999    0.999\n\n\n\n\n\n\n\n\n\nWarning\n\n\nAs for \\(i\\) ~~ \\(s\\) correlations, when an external variable is associated with the intercept, it will probably be associated with the slope, but this is often an artifact. A second-order model could help resolving this issue and avoid issues due to bounds in measures."
+  },
+  {
+    "objectID": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-growth-example-simulation",
+    "href": "slides/09_longitudinal-sem_growth_invariance-over-time.html#quadratic-growth-example-simulation",
+    "title": "Longitudinal SEM: Growth + Invariance Over Time",
+    "section": "Quadratic growth example (simulation)",
+    "text": "Quadratic growth example (simulation)\n\n\nset.seed(123)\n\n## ----------------------------\n## 1) Population model: quadratic growth on observed variables\n## ----------------------------\npop_quad &lt;- '\n# Growth factors (no first-order measurement factors; y_t* are the repeated measures)\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\nq =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4\n\n# Factor means (imply the mean trajectory)\ni ~ 0*1\ns ~ 0.40*1\nq ~ 0.15*1\n\n# Factor (co)variances (individual differences)\ni ~~ 1.00*i\ns ~~ 0.40*s\nq ~~ 0.10*q\ni ~~ 0.30*s\ni ~~ 0.10*q\ns ~~ 0.05*q\n\n# Fix observed intercepts so means come from i,s,q\ny_t1 ~ 0*1\ny_t2 ~ 0*1\ny_t3 ~ 0*1\ny_t4 ~ 0*1\n\n# Residual variances\ny_t1 ~~ 0.64*y_t1\ny_t2 ~~ 0.64*y_t2\ny_t3 ~~ 0.64*y_t3\ny_t4 ~~ 0.64*y_t4\n\n# Adjacent residual autocorrelation (covariances)\ny_t1 ~~ 0.192*y_t2\ny_t2 ~~ 0.192*y_t3\ny_t3 ~~ 0.192*y_t4\n'\n\ndat &lt;- simulateData(pop_quad, sample.nobs = 6000, meanstructure = TRUE)"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html",
+    "href": "labs/lab09_longitudinal_growth.html",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "",
+    "text": "By the end of this lab you will be able to:\n\nFit a longitudinal CFA and evaluate configural → metric → scalar invariance across waves.\nUse global and local diagnostics to motivate disciplined partial invariance.\nFit latent growth curve models (LGM): linear, (optional) quadratic, and interpret growth parameters.\nExtend LGM with a predictor (conditional growth).\n\n\n\n\n\n\n\nNote\n\n\n\nTwo-step mindset: (1) Measurement invariance over time → (2) Growth model.\nIf the measurement shifts, “growth” can be an artifact."
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#what-you-will-do",
+    "href": "labs/lab09_longitudinal_growth.html#what-you-will-do",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "",
+    "text": "By the end of this lab you will be able to:\n\nFit a longitudinal CFA and evaluate configural → metric → scalar invariance across waves.\nUse global and local diagnostics to motivate disciplined partial invariance.\nFit latent growth curve models (LGM): linear, (optional) quadratic, and interpret growth parameters.\nExtend LGM with a predictor (conditional growth).\n\n\n\n\n\n\n\nNote\n\n\n\nTwo-step mindset: (1) Measurement invariance over time → (2) Growth model.\nIf the measurement shifts, “growth” can be an artifact."
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#setup",
+    "href": "labs/lab09_longitudinal_growth.html#setup",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "0.2 Setup",
+    "text": "0.2 Setup\n\n\nCode\nlibrary(lavaan)\nlibrary(semTools)\nlibrary(dplyr)\n\nset.seed(1234)"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#data-transparent-simulation",
+    "href": "labs/lab09_longitudinal_growth.html#data-transparent-simulation",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "0.3 Data (transparent simulation)",
+    "text": "0.3 Data (transparent simulation)\nWe simulate a construct measured by 4 indicators across 4 waves:\n\nOne latent factor per wave (F1–F4)\nStability across waves (correlated factors)\nCorrelated residuals across adjacent waves for the same indicator (common in repeated measures)\nIncreasing factor means over time (so growth exists in the population)\n\n\n\nCode\npop &lt;- '\n# Wave 1 factor\nF1 =~ 1*y1_1 + .8*y2_1 + .9*y3_1 + .7*y4_1\n# Wave 2 factor\nF2 =~ 1*y1_2 + .8*y2_2 + .9*y3_2 + .7*y4_2\n# Wave 3 factor\nF3 =~ 1*y1_3 + .8*y2_3 + .9*y3_3 + .7*y4_3\n# Wave 4 factor\nF4 =~ 1*y1_4 + .8*y2_4 + .9*y3_4 + .7*y4_4\n\n# Factor means (0 baseline; increasing means)\nF1 ~ 0*1\nF2 ~ .2*1\nF3 ~ .5*1\nF4 ~ .8*1\n\n# Factor variances\nF1 ~~ 1*F1\nF2 ~~ 1*F2\nF3 ~~ 1*F3\nF4 ~~ 1*F4\n\n# Stability (correlations)\nF1 ~~ .70*F2\nF2 ~~ .75*F3\nF3 ~~ .80*F4\nF1 ~~ .60*F3\nF2 ~~ .65*F4\nF1 ~~ .55*F4\n\n# Residual variances (items)\ny1_1 ~~ .5*y1_1; y2_1 ~~ .6*y2_1; y3_1 ~~ .5*y3_1; y4_1 ~~ .7*y4_1\ny1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2\ny1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3\ny1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4\n\n# Correlated residuals across adjacent waves for same indicator\ny1_1 ~~ .25*y1_2\ny1_2 ~~ .25*y1_3\ny1_3 ~~ .25*y1_4\ny2_1 ~~ .20*y2_2\ny2_2 ~~ .20*y2_3\ny2_3 ~~ .20*y2_4\n'\n\ndat &lt;- simulateData(pop, sample.nobs = 600, meanstructure = TRUE)\n\n\n\n0.3.1 Optional: add missingness (realistic in longitudinal studies)\nIf you want a more realistic workflow, introduce missing data and use FIML.\n\n\nCode\n# OPTIONAL: comment out if you want complete data\nset.seed(2026)\nmiss_id &lt;- sample(seq_len(nrow(dat)), size = round(0.20*nrow(dat)))\ndat[miss_id, c(\"y1_4\",\"y2_4\",\"y3_4\",\"y4_4\")] &lt;- NA"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#a1.-configural-invariance",
+    "href": "labs/lab09_longitudinal_growth.html#a1.-configural-invariance",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "1.1 A1. Configural invariance",
+    "text": "1.1 A1. Configural invariance\nFit the configural model: same factor structure each wave, with correlated residuals for the same indicator across adjacent waves.\n\n\nCode\nmod_config &lt;- '\nF1 =~ y1_1 + y2_1 + y3_1 + y4_1\nF2 =~ y1_2 + y2_2 + y3_2 + y4_2\nF3 =~ y1_3 + y2_3 + y3_3 + y4_3\nF4 =~ y1_4 + y2_4 + y3_4 + y4_4\n\n# correlated residuals across time for same indicator (adjacent waves)\ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\nfit_config &lt;- cfa(mod_config, data = dat, meanstructure = TRUE, missing = \"fiml\")\nfitMeasures(fit_config, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n chisq     df    cfi    tli  rmsea   srmr \n80.696 92.000  1.000  1.003  0.000  0.021 \n\n\n\n1.1.1 Questions\n\nIs the overall fit acceptable for a baseline model?\nDo the correlated residuals feel substantively justified here? Why might they be needed in repeated-measures measurement models?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#a2.-metric-invariance-equal-loadings-across-waves",
+    "href": "labs/lab09_longitudinal_growth.html#a2.-metric-invariance-equal-loadings-across-waves",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "1.2 A2. Metric invariance (equal loadings across waves)",
+    "text": "1.2 A2. Metric invariance (equal loadings across waves)\nImpose equality constraints on loadings using labels (l1, l2, …). Keep the residual correlations.\n\n\nCode\nmod_metric &lt;- '\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\nfit_metric &lt;- cfa(mod_metric, data = dat, meanstructure = TRUE, missing = \"fiml\")\nfitMeasures(fit_metric, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n  chisq      df     cfi     tli   rmsea    srmr \n 83.889 101.000   1.000   1.004   0.000   0.026 \n\n\nCompare configural vs metric:\n\n\nCode\nlavTestLRT(fit_config, fit_metric)\n\n\n\nChi-Squared Difference Test\n\n            Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nfit_config  92 23287 23551 80.696                                    \nfit_metric 101 23272 23497 83.889     3.1932     0       9     0.9561\n\n\n\n\nCode\nrbind(\n  config = fitMeasures(fit_config, c(\"cfi\",\"rmsea\",\"srmr\")),\n  metric = fitMeasures(fit_metric, c(\"cfi\",\"rmsea\",\"srmr\"))\n)\n\n\n       cfi rmsea       srmr\nconfig   1     0 0.02105610\nmetric   1     0 0.02550694\n\n\n\n1.2.1 Questions\n\nDoes metric invariance appear plausible (based on fit changes)?\nIf you see a meaningful fit drop, where might non-invariance be coming from?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#a3.-scalar-invariance-equal-intercepts-across-waves",
+    "href": "labs/lab09_longitudinal_growth.html#a3.-scalar-invariance-equal-intercepts-across-waves",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "1.3 A3. Scalar invariance (equal intercepts across waves)",
+    "text": "1.3 A3. Scalar invariance (equal intercepts across waves)\nAdd equality constraints on intercepts as well (i1, i2, …). This is the gateway to interpreting latent mean change.\n\n\nCode\nmod_scalar &lt;- '\nF1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1\nF2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2\nF3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3\nF4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4\n\n# equal intercepts across time\ny1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1\ny2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1\ny3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1\ny4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1\n\ny1_1 ~~ y1_2\ny1_2 ~~ y1_3\ny1_3 ~~ y1_4\ny2_1 ~~ y2_2\ny2_2 ~~ y2_3\ny2_3 ~~ y2_4\n'\nfit_scalar &lt;- cfa(mod_scalar, data = dat, meanstructure = TRUE, missing = \"fiml\")\nfitMeasures(fit_scalar, c(\"chisq\",\"df\",\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n\n  chisq      df     cfi     tli   rmsea    srmr \n323.401 113.000   0.958   0.956   0.056   0.085 \n\n\nCompare the three models:\n\n\nCode\nlavTestLRT(fit_config, fit_metric, fit_scalar)\n\n\n\nChi-Squared Difference Test\n\n            Df   AIC   BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    \nfit_config  92 23287 23551  80.696                                          \nfit_metric 101 23272 23497  83.889      3.193 0.00000       9     0.9561    \nfit_scalar 113 23488 23659 323.401    239.512 0.17776      12     &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\n\n\nCode\nbind_rows(\n  config = fitMeasures(fit_config, c(\"cfi\",\"rmsea\",\"srmr\")),\n  metric = fitMeasures(fit_metric, c(\"cfi\",\"rmsea\",\"srmr\")),\n  scalar = fitMeasures(fit_scalar, c(\"cfi\",\"rmsea\",\"srmr\")),\n  .id = \"model\"\n)\n\n\n# A tibble: 3 × 4\n  model  cfi        rmsea      srmr      \n  &lt;chr&gt;  &lt;lvn.vctr&gt; &lt;lvn.vctr&gt; &lt;lvn.vctr&gt;\n1 config 1.0000000  0.00000000 0.02105610\n2 metric 1.0000000  0.00000000 0.02550694\n3 scalar 0.9583592  0.05570686 0.08531473"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#a4.-local-diagnostics-partial-scalar-invariance-disciplined",
+    "href": "labs/lab09_longitudinal_growth.html#a4.-local-diagnostics-partial-scalar-invariance-disciplined",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "1.4 A4. Local diagnostics + partial scalar invariance (disciplined)",
+    "text": "1.4 A4. Local diagnostics + partial scalar invariance (disciplined)\nInspect modification indices (MIs) for the scalar model:\n\n\nCode\nmi &lt;- modificationIndices(fit_scalar) |&gt;\n  arrange(desc(mi))\nmi |&gt; head(15)\n\n\n    lhs op  rhs     mi    epc sepc.lv sepc.all sepc.nox\n1    F4 ~1      82.053  0.331   0.325    0.325    0.325\n2    F1 ~1      58.138 -0.272  -0.267   -0.267   -0.267\n3  y2_1 ~~ y2_3  6.683 -0.067  -0.067   -0.117   -0.117\n4    F2 ~1       5.631 -0.067  -0.064   -0.064   -0.064\n5  y1_4 ~~ y2_4  5.301  0.071   0.071    0.124    0.124\n6  y1_4 ~~ y3_4  4.479 -0.068  -0.068   -0.140   -0.140\n7  y3_1 ~~ y4_3  4.282  0.062   0.062    0.099    0.099\n8  y3_1 ~~ y4_1  4.173 -0.061  -0.061   -0.109   -0.109\n9  y1_3 ~~ y4_3  3.936  0.049   0.049    0.080    0.080\n10 y3_4 ~~ y4_4  3.561  0.063   0.063    0.115    0.115\n11 y4_2 ~~ y2_4  3.419 -0.055  -0.055   -0.088   -0.088\n12 y1_2 ~~ y2_4  3.316  0.042   0.042    0.077    0.077\n13   F2 =~ y4_1  3.226  0.068   0.071    0.067    0.067\n14 y4_2 ~~ y4_4  3.083  0.060   0.060    0.089    0.089\n15   F3 =~ y4_1  2.820  0.062   0.065    0.061    0.061\n\n\n\n1.4.1 Your task\n\nIdentify one intercept constraint that is strongly suggested to be freed (large MI) and is at least somewhat plausible substantively (e.g., an item that could drift over time).\nFit a partial scalar model freeing that single intercept equality.\nRe-evaluate fit vs full scalar.\n\n\n\n\n\n\n\nWarning\n\n\n\nPartial invariance is acceptable when: - you free the minimum needed, - you justify it, - you report it transparently, - you check your substantive conclusions don’t hinge on it.\n\n\nHint (how to free one intercept constraint):\nIf you labeled all intercepts equal (e.g., y3_1 ~ i3*1; y3_2 ~ i3*1; ...), you can break equality for one wave by giving it a different label:\n\n\nCode\n# Example (DO NOT run blindly): make y3_4 intercept free from the others\n# y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3_4*1\n\n\nCreate your modified model below.\n\n\nCode\n# TODO: write mod_partial_scalar\nmod_partial_scalar &lt;- mod_scalar\n\n# fit_partial_scalar &lt;- cfa(mod_partial_scalar, data = dat, meanstructure = TRUE, missing = \"fiml\")\n# fitMeasures(fit_partial_scalar, c(\"cfi\",\"rmsea\",\"srmr\"))"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#b1.-build-wave-level-observed-scores-teaching-friendly",
+    "href": "labs/lab09_longitudinal_growth.html#b1.-build-wave-level-observed-scores-teaching-friendly",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "2.1 B1. Build wave-level observed scores (teaching-friendly)",
+    "text": "2.1 B1. Build wave-level observed scores (teaching-friendly)\nTo keep growth interpretation simple, we create a wave score as the mean of the four indicators.\n\n\nCode\ndat &lt;- dat |&gt;\n  mutate(\n    y_t1 = rowMeans(across(c(y1_1,y2_1,y3_1,y4_1)), na.rm = TRUE),\n    y_t2 = rowMeans(across(c(y1_2,y2_2,y3_2,y4_2)), na.rm = TRUE),\n    y_t3 = rowMeans(across(c(y1_3,y2_3,y3_3,y4_3)), na.rm = TRUE),\n    y_t4 = rowMeans(across(c(y1_4,y2_4,y3_4,y4_4)), na.rm = TRUE)\n  )"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#b2.-linear-growth-model",
+    "href": "labs/lab09_longitudinal_growth.html#b2.-linear-growth-model",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "2.2 B2. Linear growth model",
+    "text": "2.2 B2. Linear growth model\nFit a linear LGM with time scores (0, 1, 2, 3).\n\n\nCode\nlgm_linear &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\n\n# optional residual autocorrelation (often helpful)\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\nfit_lgm &lt;- growth(lgm_linear, data = dat, missing = \"fiml\")\nsummary(fit_lgm, fit.measures = TRUE, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 29 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        12\n\n  Number of observations                           600\n  Number of missing patterns                         2\n\nModel Test User Model:\n                                                      \n  Test statistic                                 7.526\n  Degrees of freedom                                 2\n  P-value (Chi-square)                           0.023\n\nModel Test Baseline Model:\n\n  Test statistic                              1036.573\n  Degrees of freedom                                 6\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.995\n  Tucker-Lewis Index (TLI)                       0.984\n                                                      \n  Robust Comparative Fit Index (CFI)             0.995\n  Robust Tucker-Lewis Index (TLI)                0.985\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)              -2561.659\n  Loglikelihood unrestricted model (H1)      -2557.896\n                                                      \n  Akaike (AIC)                                5147.318\n  Bayesian (BIC)                              5200.081\n  Sample-size adjusted Bayesian (SABIC)       5161.984\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.068\n  90 Percent confidence interval - lower         0.021\n  90 Percent confidence interval - upper         0.122\n  P-value H_0: RMSEA &lt;= 0.050                    0.219\n  P-value H_0: RMSEA &gt;= 0.080                    0.415\n                                                      \n  Robust RMSEA                                   0.067\n  90 Percent confidence interval - lower         0.019\n  90 Percent confidence interval - upper         0.124\n  P-value H_0: Robust RMSEA &lt;= 0.050             0.229\n  P-value H_0: Robust RMSEA &gt;= 0.080             0.415\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.018\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Observed\n  Observed information based on                Hessian\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i =~                                                                  \n    y_t1              1.000                               0.782    0.858\n    y_t2              1.000                               0.782    0.816\n    y_t3              1.000                               0.782    0.813\n    y_t4              1.000                               0.782    0.878\n  s =~                                                                  \n    y_t1              0.000                               0.000    0.000\n    y_t2              1.000                               0.221    0.230\n    y_t3              2.000                               0.442    0.459\n    y_t4              3.000                               0.663    0.744\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n .y_t1 ~~                                                               \n   .y_t2              0.019    0.048    0.393    0.695    0.019    0.064\n .y_t2 ~~                                                               \n   .y_t3              0.115    0.023    4.974    0.000    0.115    0.292\n .y_t3 ~~                                                               \n   .y_t4              0.024    0.050    0.489    0.625    0.024    0.099\n  i ~~                                                                  \n    s                -0.069    0.030   -2.322    0.020   -0.398   -0.398\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n    i                 0.030    0.037    0.814    0.416    0.038    0.038\n    s                 0.206    0.013   15.866    0.000    0.931    0.931\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .y_t1              0.220    0.079    2.793    0.005    0.220    0.264\n   .y_t2              0.397    0.046    8.641    0.000    0.397    0.431\n   .y_t3              0.394    0.047    8.403    0.000    0.394    0.425\n   .y_t4              0.156    0.082    1.908    0.056    0.156    0.196\n    i                 0.612    0.085    7.175    0.000    1.000    1.000\n    s                 0.049    0.016    3.123    0.002    1.000    1.000\n\n\nExtract and interpret the growth factor means/variances:\n\n\nCode\nparameterEstimates(fit_lgm) |&gt;\n  filter(op %in% c(\"~1\",\"~~\") & lhs %in% c(\"i\",\"s\"))\n\n\n  lhs op rhs    est    se      z pvalue ci.lower ci.upper\n1   i ~~   i  0.612 0.085  7.175  0.000    0.445    0.780\n2   s ~~   s  0.049 0.016  3.123  0.002    0.018    0.079\n3   i ~~   s -0.069 0.030 -2.322  0.020   -0.127   -0.011\n4   i ~1      0.030 0.037  0.814  0.416   -0.042    0.102\n5   s ~1      0.206 0.013 15.866  0.000    0.180    0.231\n\n\n\n2.2.1 Questions\n\nWhat is the interpretation of Mean(i) and Mean(s) with this time coding?\nAre there individual differences in baseline and change (variances of i and s)?\nWhat does Cov(i, s) suggest about baseline–change association?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#b3.-re-centering-time-interpretation-exercise",
+    "href": "labs/lab09_longitudinal_growth.html#b3.-re-centering-time-interpretation-exercise",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "2.3 B3. Re-centering time (interpretation exercise)",
+    "text": "2.3 B3. Re-centering time (interpretation exercise)\nChange the slope loadings to make the intercept represent wave 2.\nExample time scores: (-1, 0, 1, 2).\n\n\nCode\nlgm_center_w2 &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ -1*y_t1 + 0*y_t2 + 1*y_t3 + 2*y_t4\n\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\nfit_lgm_w2 &lt;- growth(lgm_center_w2, data = dat, missing = \"fiml\")\nparameterEstimates(fit_lgm_w2) |&gt;\n  filter(op %in% c(\"~1\",\"~~\") & lhs %in% c(\"i\",\"s\"))\n\n\n  lhs op rhs    est    se      z pvalue ci.lower ci.upper\n1   i ~~   i  0.523 0.046 11.304  0.000    0.433    0.614\n2   s ~~   s  0.049 0.016  3.123  0.002    0.018    0.079\n3   i ~~   s -0.020 0.020 -0.979  0.327   -0.060    0.020\n4   i ~1      0.236 0.032  7.295  0.000    0.172    0.299\n5   s ~1      0.206 0.013 15.866  0.000    0.180    0.231\n\n\n\n2.3.1 Question\n\nHow did the Mean(i) change relative to the previous model, and why?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#b4.-if-linear-growth-is-not-enough-quadratic-growth-optional-but-recommended",
+    "href": "labs/lab09_longitudinal_growth.html#b4.-if-linear-growth-is-not-enough-quadratic-growth-optional-but-recommended",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "2.4 B4. If linear growth is not enough: quadratic growth (optional but recommended)",
+    "text": "2.4 B4. If linear growth is not enough: quadratic growth (optional but recommended)\n\n\nCode\nlgm_quad &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\nq =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4\n\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\nfit_lgm_q &lt;- growth(lgm_quad, data = dat, missing = \"fiml\")\n# anova(fit_lgm, fit_lgm_q)\nfitMeasures(fit_lgm_q, c(\"cfi\",\"rmsea\",\"srmr\"))\n\n\n  cfi rmsea  srmr \n   NA 0.000 0.013 \n\n\n\n2.4.1 Questions\n\nDoes quadratic growth improve fit meaningfully?\nIs the quadratic factor mean/variance interpretable and substantively plausible?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#c1.-add-a-predictor",
+    "href": "labs/lab09_longitudinal_growth.html#c1.-add-a-predictor",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "3.1 C1. Add a predictor",
+    "text": "3.1 C1. Add a predictor\nCreate a predictor x (in real applications: trait, condition, demographic variable, baseline stress, etc.).\n\n\nCode\nset.seed(77)\ndat$x &lt;- rnorm(nrow(dat))\n\n\nFit conditional growth:\n\n\nCode\nlgm_cond &lt;- '\ni =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4\ns =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4\n\ni ~ x\ns ~ x\n\ny_t1 ~~ y_t2\ny_t2 ~~ y_t3\ny_t3 ~~ y_t4\n'\nfit_lgm_c &lt;- growth(lgm_cond, data = dat, missing = \"fiml\")\nsummary(fit_lgm_c, fit.measures = TRUE, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 29 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        14\n\n  Number of observations                           600\n  Number of missing patterns                         2\n\nModel Test User Model:\n                                                      \n  Test statistic                                 9.845\n  Degrees of freedom                                 4\n  P-value (Chi-square)                           0.043\n\nModel Test Baseline Model:\n\n  Test statistic                              1039.254\n  Degrees of freedom                                10\n  P-value                                        0.000\n\nUser Model versus Baseline Model:\n\n  Comparative Fit Index (CFI)                    0.994\n  Tucker-Lewis Index (TLI)                       0.986\n                                                      \n  Robust Comparative Fit Index (CFI)             0.995\n  Robust Tucker-Lewis Index (TLI)                0.987\n\nLoglikelihood and Information Criteria:\n\n  Loglikelihood user model (H0)              -2561.478\n  Loglikelihood unrestricted model (H1)      -2556.555\n                                                      \n  Akaike (AIC)                                5150.955\n  Bayesian (BIC)                              5212.512\n  Sample-size adjusted Bayesian (SABIC)       5168.066\n\nRoot Mean Square Error of Approximation:\n\n  RMSEA                                          0.049\n  90 Percent confidence interval - lower         0.008\n  90 Percent confidence interval - upper         0.089\n  P-value H_0: RMSEA &lt;= 0.050                    0.445\n  P-value H_0: RMSEA &gt;= 0.080                    0.112\n                                                      \n  Robust RMSEA                                   0.048\n  90 Percent confidence interval - lower         0.000\n  90 Percent confidence interval - upper         0.090\n  P-value H_0: Robust RMSEA &lt;= 0.050             0.458\n  P-value H_0: Robust RMSEA &gt;= 0.080             0.115\n\nStandardized Root Mean Square Residual:\n\n  SRMR                                           0.017\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Observed\n  Observed information based on                Hessian\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i =~                                                                  \n    y_t1              1.000                               0.782    0.857\n    y_t2              1.000                               0.782    0.815\n    y_t3              1.000                               0.782    0.812\n    y_t4              1.000                               0.782    0.877\n  s =~                                                                  \n    y_t1              0.000                               0.000    0.000\n    y_t2              1.000                               0.221    0.230\n    y_t3              2.000                               0.441    0.459\n    y_t4              3.000                               0.662    0.743\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  i ~                                                                   \n    x                 0.022    0.037    0.582    0.560    0.028    0.027\n  s ~                                                                   \n    x                -0.006    0.013   -0.422    0.673   -0.025   -0.025\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n .y_t1 ~~                                                               \n   .y_t2              0.020    0.048    0.420    0.675    0.020    0.068\n .y_t2 ~~                                                               \n   .y_t3              0.116    0.023    4.984    0.000    0.116    0.292\n .y_t3 ~~                                                               \n   .y_t4              0.024    0.050    0.483    0.629    0.024    0.098\n .i ~~                                                                  \n   .s                -0.068    0.030   -2.303    0.021   -0.396   -0.396\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .i                 0.029    0.037    0.778    0.437    0.037    0.037\n   .s                 0.206    0.013   15.865    0.000    0.934    0.934\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .y_t1              0.221    0.079    2.804    0.005    0.221    0.265\n   .y_t2              0.398    0.046    8.658    0.000    0.398    0.432\n   .y_t3              0.394    0.047    8.384    0.000    0.394    0.425\n   .y_t4              0.156    0.082    1.902    0.057    0.156    0.196\n   .i                 0.611    0.085    7.157    0.000    0.999    0.999\n   .s                 0.049    0.016    3.110    0.002    0.999    0.999\n\n\n\n3.1.1 Questions\n\nWhat does x → i mean? What does x → s mean?\nIf x → s is positive, how would you explain it in words?"
+  },
+  {
+    "objectID": "labs/lab09_longitudinal_growth.html#what-to-hand-in-suggested",
+    "href": "labs/lab09_longitudinal_growth.html#what-to-hand-in-suggested",
+    "title": "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth",
+    "section": "4.1 What to hand in (suggested)",
+    "text": "4.1 What to hand in (suggested)\n\nA small table with fit indices for configural, metric, scalar (and partial scalar if used).\nA brief justification (2–6 sentences) of your invariance decision.\nLinear LGM results: interpret mean(i), mean(s), var(s), cov(i,s).\nOne centering exercise: explain how time coding changes intercept meaning.\n(Optional) Quadratic growth comparison + interpretation.\nConditional growth: interpret the regression(s) of i and s on x.\n\n\n\n\n\n\n\nTip\n\n\n\nKeep it “report-ready”: always report χ²(df), CFI/TLI, RMSEA (+ CI if possible), SRMR + the key local decision you made (e.g., which intercept you freed)."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html",
+    "href": "slides/04_cfa_measurement_reliability.html",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "",
+    "text": "Specify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
   }
 ]

@@ -102,7 +102,7 @@
   </url>
   <url>
     <loc>/slides/04_cfa_measurement_reliability.html</loc>
-    <lastmod>2026-02-11T21:06:18.419Z</lastmod>
+    <lastmod>2026-02-25T10:46:17.455Z</lastmod>
   </url>
   <url>
     <loc>/labs/lab04_cfa_reliability_omegas.html</loc>
@@ -155,5 +155,13 @@
   <url>
     <loc>/slides/10_multilevel_clustered-data_robustse_twolevel-cfa22.html</loc>
     <lastmod>2026-02-16T19:40:29.947Z</lastmod>
+  </url>
+  <url>
+    <loc>/slides/09_longitudinal-sem_growth_invariance-over-time.html</loc>
+    <lastmod>2026-02-25T17:00:37.283Z</lastmod>
+  </url>
+  <url>
+    <loc>/labs/lab09_longitudinal_growth.html</loc>
+    <lastmod>2026-02-25T17:13:37.526Z</lastmod>
   </url>
 </urlset>

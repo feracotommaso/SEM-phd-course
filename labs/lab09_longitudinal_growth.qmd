@@ -1,0 +1,464 @@
+---
+title: "Lab 09: Longitudinal SEM — Invariance Over Time & Latent Growth"
+author: "Tommaso Feraco"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+  message: false
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+---
+
+## What you will do
+
+By the end of this lab you will be able to:
+
+1. Fit a **longitudinal CFA** and evaluate **configural → metric → scalar** invariance across waves.
+2. Use **global** and **local** diagnostics to motivate *disciplined* partial invariance.
+3. Fit **latent growth curve models (LGM)**: linear, (optional) quadratic, and interpret growth parameters.
+4. Extend LGM with a predictor (**conditional growth**).
+
+::: {.callout-note}
+**Two-step mindset:** (1) Measurement invariance over time → (2) Growth model.  
+If the measurement shifts, “growth” can be an artifact.
+:::
+
+---
+
+## Setup
+
+```{r}
+library(lavaan)
+library(semTools)
+library(dplyr)
+
+set.seed(1234)
+```
+
+---
+
+## Data (transparent simulation)
+
+We simulate a construct measured by 4 indicators across 4 waves:
+
+- One latent factor per wave (F1–F4)
+- Stability across waves (correlated factors)
+- Correlated residuals across adjacent waves for the same indicator (common in repeated measures)
+- Increasing factor means over time (so growth exists in the population)
+
+```{r}
+pop <- '
+# Wave 1 factor
+F1 =~ 1*y1_1 + .8*y2_1 + .9*y3_1 + .7*y4_1
+# Wave 2 factor
+F2 =~ 1*y1_2 + .8*y2_2 + .9*y3_2 + .7*y4_2
+# Wave 3 factor
+F3 =~ 1*y1_3 + .8*y2_3 + .9*y3_3 + .7*y4_3
+# Wave 4 factor
+F4 =~ 1*y1_4 + .8*y2_4 + .9*y3_4 + .7*y4_4
+
+# Factor means (0 baseline; increasing means)
+F1 ~ 0*1
+F2 ~ .2*1
+F3 ~ .5*1
+F4 ~ .8*1
+
+# Factor variances
+F1 ~~ 1*F1
+F2 ~~ 1*F2
+F3 ~~ 1*F3
+F4 ~~ 1*F4
+
+# Stability (correlations)
+F1 ~~ .70*F2
+F2 ~~ .75*F3
+F3 ~~ .80*F4
+F1 ~~ .60*F3
+F2 ~~ .65*F4
+F1 ~~ .55*F4
+
+# Residual variances (items)
+y1_1 ~~ .5*y1_1; y2_1 ~~ .6*y2_1; y3_1 ~~ .5*y3_1; y4_1 ~~ .7*y4_1
+y1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2
+y1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3
+y1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4
+
+# Correlated residuals across adjacent waves for same indicator
+y1_1 ~~ .25*y1_2
+y1_2 ~~ .25*y1_3
+y1_3 ~~ .25*y1_4
+y2_1 ~~ .20*y2_2
+y2_2 ~~ .20*y2_3
+y2_3 ~~ .20*y2_4
+'
+
+dat <- simulateData(pop, sample.nobs = 600, meanstructure = TRUE)
+```
+
+### Optional: add missingness (realistic in longitudinal studies)
+
+If you want a more realistic workflow, introduce missing data and use FIML.
+
+```{r}
+# OPTIONAL: comment out if you want complete data
+set.seed(2026)
+miss_id <- sample(seq_len(nrow(dat)), size = round(0.20*nrow(dat)))
+dat[miss_id, c("y1_4","y2_4","y3_4","y4_4")] <- NA
+```
+
+---
+
+# Part A — Longitudinal CFA invariance ladder
+
+## A1. Configural invariance
+
+Fit the configural model: same factor structure each wave, with correlated residuals for the *same* indicator across adjacent waves.
+
+```{r}
+mod_config <- '
+F1 =~ y1_1 + y2_1 + y3_1 + y4_1
+F2 =~ y1_2 + y2_2 + y3_2 + y4_2
+F3 =~ y1_3 + y2_3 + y3_3 + y4_3
+F4 =~ y1_4 + y2_4 + y3_4 + y4_4
+
+# correlated residuals across time for same indicator (adjacent waves)
+y1_1 ~~ y1_2
+y1_2 ~~ y1_3
+y1_3 ~~ y1_4
+y2_1 ~~ y2_2
+y2_2 ~~ y2_3
+y2_3 ~~ y2_4
+'
+fit_config <- cfa(mod_config, data = dat, meanstructure = TRUE, missing = "fiml")
+fitMeasures(fit_config, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+### Questions
+
+- Is the overall fit acceptable for a baseline model?
+- Do the correlated residuals feel substantively justified here? Why might they be needed in repeated-measures measurement models?
+
+---
+
+## A2. Metric invariance (equal loadings across waves)
+
+Impose equality constraints on loadings using labels (`l1`, `l2`, ...). Keep the residual correlations.
+
+```{r}
+mod_metric <- '
+F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1
+F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2
+F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3
+F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4
+
+y1_1 ~~ y1_2
+y1_2 ~~ y1_3
+y1_3 ~~ y1_4
+y2_1 ~~ y2_2
+y2_2 ~~ y2_3
+y2_3 ~~ y2_4
+'
+fit_metric <- cfa(mod_metric, data = dat, meanstructure = TRUE, missing = "fiml")
+fitMeasures(fit_metric, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+Compare configural vs metric:
+
+```{r}
+lavTestLRT(fit_config, fit_metric)
+```
+
+```{r}
+rbind(
+  config = fitMeasures(fit_config, c("cfi","rmsea","srmr")),
+  metric = fitMeasures(fit_metric, c("cfi","rmsea","srmr"))
+)
+```
+
+### Questions
+
+- Does metric invariance appear plausible (based on fit changes)?
+- If you see a meaningful fit drop, where might non-invariance be coming from?
+
+---
+
+## A3. Scalar invariance (equal intercepts across waves)
+
+Add equality constraints on intercepts as well (`i1`, `i2`, ...). This is the gateway to interpreting **latent mean change**.
+
+```{r}
+mod_scalar <- '
+F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1
+F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2
+F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3
+F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4
+
+# equal intercepts across time
+y1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1
+y2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1
+y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1
+y4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1
+
+y1_1 ~~ y1_2
+y1_2 ~~ y1_3
+y1_3 ~~ y1_4
+y2_1 ~~ y2_2
+y2_2 ~~ y2_3
+y2_3 ~~ y2_4
+'
+fit_scalar <- cfa(mod_scalar, data = dat, meanstructure = TRUE, missing = "fiml")
+fitMeasures(fit_scalar, c("chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+Compare the three models:
+
+```{r}
+lavTestLRT(fit_config, fit_metric, fit_scalar)
+```
+
+```{r}
+bind_rows(
+  config = fitMeasures(fit_config, c("cfi","rmsea","srmr")),
+  metric = fitMeasures(fit_metric, c("cfi","rmsea","srmr")),
+  scalar = fitMeasures(fit_scalar, c("cfi","rmsea","srmr")),
+  .id = "model"
+)
+```
+
+---
+
+## A4. Local diagnostics + partial scalar invariance (disciplined)
+
+Inspect modification indices (MIs) for the scalar model:
+
+```{r}
+mi <- modificationIndices(fit_scalar) |>
+  arrange(desc(mi))
+mi |> head(15)
+```
+
+### Your task
+
+1. Identify **one** intercept constraint that is strongly suggested to be freed (large MI) *and* is at least somewhat plausible substantively (e.g., an item that could drift over time).
+2. Fit a **partial scalar** model freeing that single intercept equality.
+3. Re-evaluate fit vs full scalar.
+
+::: {.callout-warning}
+Partial invariance is acceptable when:
+- you free the *minimum* needed,
+- you justify it,
+- you report it transparently,
+- you check your substantive conclusions don’t hinge on it.
+:::
+
+**Hint (how to free one intercept constraint):**  
+If you labeled all intercepts equal (e.g., `y3_1 ~ i3*1; y3_2 ~ i3*1; ...`), you can break equality for one wave by giving it a different label:
+
+```{r}
+# Example (DO NOT run blindly): make y3_4 intercept free from the others
+# y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3_4*1
+```
+
+Create your modified model below.
+
+```{r}
+# TODO: write mod_partial_scalar
+mod_partial_scalar <- mod_scalar
+
+# fit_partial_scalar <- cfa(mod_partial_scalar, data = dat, meanstructure = TRUE, missing = "fiml")
+# fitMeasures(fit_partial_scalar, c("cfi","rmsea","srmr"))
+```
+
+---
+
+# Part B — Latent Growth Curve Models (LGM)
+
+## B1. Build wave-level observed scores (teaching-friendly)
+
+To keep growth interpretation simple, we create a wave score as the mean of the four indicators.
+
+```{r}
+dat <- dat |>
+  mutate(
+    y_t1 = rowMeans(across(c(y1_1,y2_1,y3_1,y4_1)), na.rm = TRUE),
+    y_t2 = rowMeans(across(c(y1_2,y2_2,y3_2,y4_2)), na.rm = TRUE),
+    y_t3 = rowMeans(across(c(y1_3,y2_3,y3_3,y4_3)), na.rm = TRUE),
+    y_t4 = rowMeans(across(c(y1_4,y2_4,y3_4,y4_4)), na.rm = TRUE)
+  )
+```
+
+---
+
+## B2. Linear growth model
+
+Fit a linear LGM with time scores (0, 1, 2, 3).
+
+```{r}
+lgm_linear <- '
+i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4
+s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4
+
+# optional residual autocorrelation (often helpful)
+y_t1 ~~ y_t2
+y_t2 ~~ y_t3
+y_t3 ~~ y_t4
+'
+fit_lgm <- growth(lgm_linear, data = dat, missing = "fiml")
+summary(fit_lgm, fit.measures = TRUE, standardized = TRUE)
+```
+
+Extract and interpret the growth factor means/variances:
+
+```{r}
+parameterEstimates(fit_lgm) |>
+  filter(op %in% c("~1","~~") & lhs %in% c("i","s"))
+```
+
+### Questions
+
+- What is the interpretation of **Mean(i)** and **Mean(s)** with this time coding?
+- Are there individual differences in baseline and change (variances of i and s)?
+- What does **Cov(i, s)** suggest about baseline–change association?
+
+---
+
+## B3. Re-centering time (interpretation exercise)
+
+Change the slope loadings to make the intercept represent wave 2.
+
+Example time scores: (-1, 0, 1, 2).
+
+```{r}
+lgm_center_w2 <- '
+i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4
+s =~ -1*y_t1 + 0*y_t2 + 1*y_t3 + 2*y_t4
+
+y_t1 ~~ y_t2
+y_t2 ~~ y_t3
+y_t3 ~~ y_t4
+'
+fit_lgm_w2 <- growth(lgm_center_w2, data = dat, missing = "fiml")
+parameterEstimates(fit_lgm_w2) |>
+  filter(op %in% c("~1","~~") & lhs %in% c("i","s"))
+```
+
+### Question
+
+- How did the **Mean(i)** change relative to the previous model, and why?
+
+---
+
+## B4. If linear growth is not enough: quadratic growth (optional but recommended)
+
+```{r}
+lgm_quad <- '
+i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4
+s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4
+q =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4
+
+y_t1 ~~ y_t2
+y_t2 ~~ y_t3
+y_t3 ~~ y_t4
+'
+fit_lgm_q <- growth(lgm_quad, data = dat, missing = "fiml")
+# anova(fit_lgm, fit_lgm_q)
+fitMeasures(fit_lgm_q, c("cfi","rmsea","srmr"))
+```
+
+### Questions
+
+- Does quadratic growth improve fit meaningfully?
+- Is the quadratic factor mean/variance interpretable and substantively plausible?
+
+---
+
+# Part C — Conditional growth (predictors of intercept and slope)
+
+## C1. Add a predictor
+
+Create a predictor `x` (in real applications: trait, condition, demographic variable, baseline stress, etc.).
+
+```{r}
+set.seed(77)
+dat$x <- rnorm(nrow(dat))
+```
+
+Fit conditional growth:
+
+```{r}
+lgm_cond <- '
+i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4
+s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4
+
+i ~ x
+s ~ x
+
+y_t1 ~~ y_t2
+y_t2 ~~ y_t3
+y_t3 ~~ y_t4
+'
+fit_lgm_c <- growth(lgm_cond, data = dat, missing = "fiml")
+summary(fit_lgm_c, fit.measures = TRUE, standardized = TRUE)
+```
+
+### Questions
+
+- What does `x → i` mean? What does `x → s` mean?
+- If `x → s` is positive, how would you explain it in words?
+
+---
+
+# Optional extension — “Classic MG-CFA” style via long format
+
+The `group=` workflow (and `semTools::measurementInvariance()`) becomes natural if you reshape data to **long format**:
+one row per person–wave, and a `wave` grouping variable.
+
+This is **optional** and meant to connect the longitudinal invariance logic to what you did in MG-CFA.
+
+```{r}
+# OPTIONAL: reshape to long format for invariance automation
+# Requires tidyr
+library(tidyr)
+
+dat_long <- dat |>
+  mutate(id = row_number()) |>
+  pivot_longer(
+    cols = matches("^y[1-4]_[1-4]$"),
+    names_to = c(".value","wave"),
+    names_pattern = "^(y\\d)_(\\d)$"
+  ) |>
+  mutate(wave = factor(wave))
+
+head(dat_long)
+```
+
+Run invariance:
+
+```{r}
+# OPTIONAL: classic style invariance test in long data
+# model_long <- 'F =~ y1 + y2 + y3 + y4'
+# inv <- measurementInvariance(model = model_long, data = dat_long, group = "wave", strict = FALSE)
+# inv$fit.measures
+```
+
+---
+
+## What to hand in (suggested)
+
+1. A small table with fit indices for configural, metric, scalar (and partial scalar if used).
+2. A brief justification (2–6 sentences) of your invariance decision.
+3. Linear LGM results: interpret mean(i), mean(s), var(s), cov(i,s).
+4. One centering exercise: explain how time coding changes intercept meaning.
+5. (Optional) Quadratic growth comparison + interpretation.
+6. Conditional growth: interpret the regression(s) of i and s on x.
+
+::: {.callout-tip}
+Keep it “report-ready”: always report χ²(df), CFI/TLI, RMSEA (+ CI if possible), SRMR + the key local decision you made (e.g., which intercept you freed).
+:::

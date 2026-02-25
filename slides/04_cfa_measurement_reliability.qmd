@@ -2,7 +2,7 @@
 title: "CFA: measurement models, identification, reliability"
 subtitle: "From items to constructs (measurement-first)"
 author: "Tommaso Feraco"
-date: "Doctoral School in Psychological Sciences • University of Padova"
+# date: 
 format:
   revealjs:
     slide-number: c/t
