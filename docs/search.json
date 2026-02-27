@@ -4112,8 +4112,8 @@
     "objectID": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
     "href": "slides/04_cfa_measurement_reliability.html#today-in-the-workflow",
     "title": "CFA: measurement models, identification, reliability",
-    "section": "",
-    "text": "Specify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
+    "section": "Today in the workflow",
+    "text": "Today in the workflow\nSpecify → Identify → Estimate → Evaluate → Revise/Report\n\n\n\nToday: the measurement part — CFA (and reliability from CFA).\nTwo-step mindset: measure first, then relate constructs (SEM deck 05)."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#learning-objectives",
@@ -4148,7 +4148,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Confirmatory Factor Analysis (CFA)",
-    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
+    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#general-formula-your-original",
@@ -4281,7 +4281,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-where-deck-03-plugs-in",
     "title": "CFA: measurement models, identification, reliability",
     "section": "CFA evaluation (where deck 03 plugs in)",
-    "text": "CFA evaluation (where deck 03 plugs in)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\n\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
+    "text": "CFA evaluation (where deck 03 plugs in)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#a-disciplined-cfa-respecification-mindset",
@@ -4309,7 +4309,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#reliability-from-cfa-ω-family",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Reliability from CFA (ω family)",
-    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
+    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#graphical-representation",
@@ -4323,7 +4323,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example-your-original-wisc-slide",
     "title": "CFA: measurement models, identification, reliability",
     "section": "A hierarchical intelligence example (your original WISC slide)",
-    "text": "A hierarchical intelligence example (your original WISC slide)\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).\n\n\n\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
+    "text": "A hierarchical intelligence example (your original WISC slide)\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#second-order-cfa-syntax-template",
@@ -4351,7 +4351,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#bifactor-interpretation-requires-diagnostics-not-just-fit",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Bifactor: interpretation requires diagnostics (not just fit)",
-    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
+    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
