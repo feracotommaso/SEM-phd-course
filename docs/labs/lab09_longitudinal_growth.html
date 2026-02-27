@@ -296,62 +296,97 @@ If the measurement shifts, “growth” can be an artifact.</p>
 </section>
 <section id="data-transparent-simulation" class="level2" data-number="0.3">
 <h2 data-number="0.3" class="anchored" data-anchor-id="data-transparent-simulation"><span class="header-section-number">0.3</span> Data (transparent simulation)</h2>
-<p>We simulate a construct measured by 4 indicators across 4 waves:</p>
+<p>We simulate:</p>
 <ul>
-<li>One latent factor per wave (F1–F4)</li>
-<li>Stability across waves (correlated factors)</li>
-<li>Correlated residuals across adjacent waves for the same indicator (common in repeated measures)</li>
-<li>Increasing factor means over time (so growth exists in the population)</li>
+<li>4 waves, 4 indicators per wave</li>
+<li><strong>Quadratic growth</strong> in the latent state (so quadratic LGM should improve over linear)</li>
+<li>A covariate <strong>x</strong> that truly affects both <strong>intercept</strong> and <strong>slope</strong></li>
+<li>Two planned invariance violations:
+<ul>
+<li><strong>Metric violation:</strong> item 4 loading is larger at wave 4</li>
+<li><strong>Scalar violation:</strong> item 2 intercept is higher at wave 3</li>
+</ul></li>
+<li>Correlated residuals across adjacent waves for items 1 and 2</li>
 </ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 1 factor</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ 1*y1_1 + .8*y2_1 + .9*y3_1 + .7*y4_1</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 2 factor</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ 1*y1_2 + .8*y2_2 + .9*y3_2 + .7*y4_2</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 3 factor</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ 1*y1_3 + .8*y2_3 + .9*y3_3 + .7*y4_3</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 4 factor</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ 1*y1_4 + .8*y2_4 + .9*y3_4 + .7*y4_4</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st"># Factor means (0 baseline; increasing means)</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 0*1</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ .2*1</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ .5*1</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ .8*1</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st"># Factor variances</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ 1*F1</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ 1*F2</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ 1*F3</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~~ 1*F4</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st"># Stability (correlations)</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .70*F2</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ .75*F3</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ .80*F4</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .60*F3</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ .65*F4</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .55*F4</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="st"># Residual variances (items)</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .5*y1_1; y2_1 ~~ .6*y2_1; y3_1 ~~ .5*y3_1; y4_1 ~~ .7*y4_1</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves for same indicator</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .25*y1_2</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .25*y1_3</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .25*y1_4</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ .20*y2_2</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ .20*y2_3</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ .20*y2_4</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> <span class="dv">600</span>, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">600</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st"># Exogenous observed predictor</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">x ~ 0*1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">x ~~ 1*x</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st"># Latent growth factors (unmeasured: declared via variances/means/regressions)</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ 0.80*i</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">s ~~ 0.20*s</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="st">q ~~ 0.03*q</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ -0.15*s</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ 0*q</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">s ~~ 0*q</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st"># Means + effects of x (true generating values)</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">i ~ 0.00*1 + 0.50*x</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="st">s ~ 0.25*1 + 0.25*x</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">q ~ 0.05*1</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave-specific latent states (measured by items)</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="st"># Quadratic time scores: 0,1,4,9</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 1*i + 0*s + 0*q</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ 1*i + 1*s + 1*q</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ 1*i + 2*s + 4*q</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ 1*i + 3*s + 9*q</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="st"># Residual (occasion-specific) variance of latent states</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ 0.30*F1</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ 0.30*F2</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ 0.30*F3</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~~ 0.30*F4</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="st"># Measurement model (4 items per wave)</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="st"># Metric non-invariance planted: loading of y4_4 is larger</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ 1*y1_1 + 0.80*y2_1 + 0.90*y3_1 + 0.70*y4_1</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ 1*y1_2 + 0.80*y2_2 + 0.90*y3_2 + 0.70*y4_2</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ 1*y1_3 + 0.80*y2_3 + 0.90*y3_3 + 0.70*y4_3</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ 1*y1_4 + 0.80*y2_4 + 0.90*y3_4 + 0.95*y4_4   # &lt;-- metric violation (item 4 at wave 4)</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="st"># Item residual variances (constant across waves)</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ 0.50*y1_1; y2_1 ~~ 0.60*y2_1; y3_1 ~~ 0.50*y3_1; y4_1 ~~ 0.70*y4_1</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ 0.50*y1_2; y2_2 ~~ 0.60*y2_2; y3_2 ~~ 0.50*y3_2; y4_2 ~~ 0.70*y4_2</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ 0.50*y1_3; y2_3 ~~ 0.60*y2_3; y3_3 ~~ 0.50*y3_3; y4_3 ~~ 0.70*y4_3</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~~ 0.50*y1_4; y2_4 ~~ 0.60*y2_4; y3_4 ~~ 0.50*y3_4; y4_4 ~~ 0.70*y4_4</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="st"># Item intercepts (scalar non-invariance planted: y2_3 intercept is higher)</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~ 0*1; y2_1 ~ 0*1; y3_1 ~ 0*1; y4_1 ~ 0*1</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~ 0*1; y2_2 ~ 0*1; y3_2 ~ 0*1; y4_2 ~ 0*1</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~ 0*1; y2_3 ~ 0.40*1; y3_3 ~ 0*1; y4_3 ~ 0*1   # &lt;-- scalar violation (item 2 at wave 3)</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~ 0*1; y2_4 ~ 0*1; y3_4 ~ 0*1; y4_4 ~ 0*1</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves (same indicator carryover)</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ 0.25*y1_2</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ 0.25*y1_3</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ 0.25*y1_4</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ 0.20*y2_2</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ 0.20*y2_3</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ 0.20*y2_4</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> N, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(i,s,q)) <span class="co"># remove growth factors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="optional-add-missingness-realistic-in-longitudinal-studies" class="level3" data-number="0.3.1">
@@ -396,7 +431,7 @@ If the measurement shifts, “growth” can be an artifact.</p>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi    tli  rmsea   srmr 
-80.696 92.000  1.000  1.003  0.000  0.021 </code></pre>
+68.453 92.000  1.000  1.003  0.000  0.015 </code></pre>
 </div>
 </div>
 <section id="questions" class="level3" data-number="1.1.1">
@@ -432,7 +467,7 @@ If the measurement shifts, “growth” can be an artifact.</p>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  chisq      df     cfi     tli   rmsea    srmr 
- 83.889 101.000   1.000   1.004   0.000   0.026 </code></pre>
+187.694 101.000   0.990   0.989   0.038   0.054 </code></pre>
 </div>
 </div>
 <p>Compare configural vs metric:</p>
@@ -445,9 +480,11 @@ If the measurement shifts, “growth” can be an artifact.</p>
 <pre><code>
 Chi-Squared Difference Test
 
-            Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)
-fit_config  92 23287 23551 80.696                                    
-fit_metric 101 23272 23497 83.889     3.1932     0       9     0.9561</code></pre>
+            Df   AIC   BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
+fit_config  92 24794 25058  68.453                                          
+fit_metric 101 24896 25120 187.694     119.24 0.14288       9  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -459,9 +496,9 @@ fit_metric 101 23272 23497 83.889     3.1932     0       9     0.9561</code></pr
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>       cfi rmsea       srmr
-config   1     0 0.02105610
-metric   1     0 0.02550694</code></pre>
+<pre><code>             cfi      rmsea       srmr
+config 1.0000000 0.00000000 0.01522844
+metric 0.9904561 0.03782326 0.05360879</code></pre>
 </div>
 </div>
 <section id="questions-1" class="level3" data-number="1.2.1">
@@ -497,13 +534,19 @@ metric   1     0 0.02550694</code></pre>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>fit_scalar <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_scalar, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st"># </span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 0*1</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ 1</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ 1</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ 1</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>fit_scalar <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_scalar, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  chisq      df     cfi     tli   rmsea    srmr 
-323.401 113.000   0.958   0.956   0.056   0.085 </code></pre>
+342.180 110.000   0.974   0.972   0.059   0.057 </code></pre>
 </div>
 </div>
 <p>Compare the three models:</p>
@@ -517,9 +560,9 @@ metric   1     0 0.02550694</code></pre>
 Chi-Squared Difference Test
 
             Df   AIC   BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
-fit_config  92 23287 23551  80.696                                          
-fit_metric 101 23272 23497  83.889      3.193 0.00000       9     0.9561    
-fit_scalar 113 23488 23659 323.401    239.512 0.17776      12     &lt;2e-16 ***
+fit_config  92 24794 25058  68.453                                          
+fit_metric 101 24896 25120 187.694     119.24 0.14288       9  &lt; 2.2e-16 ***
+fit_scalar 110 25032 25217 342.180     154.49 0.16414       9  &lt; 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -538,9 +581,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <pre><code># A tibble: 3 × 4
   model  cfi        rmsea      srmr      
   &lt;chr&gt;  &lt;lvn.vctr&gt; &lt;lvn.vctr&gt; &lt;lvn.vctr&gt;
-1 config 1.0000000  0.00000000 0.02105610
-2 metric 1.0000000  0.00000000 0.02550694
-3 scalar 0.9583592  0.05570686 0.08531473</code></pre>
+1 config 1.0000000  0.00000000 0.01522844
+2 metric 0.9904561  0.03782326 0.05360879
+3 scalar 0.9744401  0.05931165 0.05691011</code></pre>
 </div>
 </div>
 <hr>
@@ -551,27 +594,30 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit_scalar) <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mi))</span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">lavTestScore</span>(fit_scalar)<span class="sc">$</span>uni <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(X2))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>mi <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>    lhs op  rhs     mi    epc sepc.lv sepc.all sepc.nox
-1    F4 ~1      82.053  0.331   0.325    0.325    0.325
-2    F1 ~1      58.138 -0.272  -0.267   -0.267   -0.267
-3  y2_1 ~~ y2_3  6.683 -0.067  -0.067   -0.117   -0.117
-4    F2 ~1       5.631 -0.067  -0.064   -0.064   -0.064
-5  y1_4 ~~ y2_4  5.301  0.071   0.071    0.124    0.124
-6  y1_4 ~~ y3_4  4.479 -0.068  -0.068   -0.140   -0.140
-7  y3_1 ~~ y4_3  4.282  0.062   0.062    0.099    0.099
-8  y3_1 ~~ y4_1  4.173 -0.061  -0.061   -0.109   -0.109
-9  y1_3 ~~ y4_3  3.936  0.049   0.049    0.080    0.080
-10 y3_4 ~~ y4_4  3.561  0.063   0.063    0.115    0.115
-11 y4_2 ~~ y2_4  3.419 -0.055  -0.055   -0.088   -0.088
-12 y1_2 ~~ y2_4  3.316  0.042   0.042    0.077    0.077
-13   F2 =~ y4_1  3.226  0.068   0.071    0.067    0.067
-14 y4_2 ~~ y4_4  3.083  0.060   0.060    0.089    0.089
-15   F3 =~ y4_1  2.820  0.062   0.065    0.061    0.061</code></pre>
+<pre><code>
+univariate score tests:
+
+     lhs op   rhs      X2 df p.value
+1  .p21. == .p23. 125.339  1   0.000
+2   .p4. == .p16. 122.072  1   0.000
+3   .p4. == .p12.  45.242  1   0.000
+4  .p21. == .p24.  39.036  1   0.000
+5   .p2. == .p10.  33.044  1   0.000
+6  .p17. == .p19.  31.833  1   0.000
+7   .p2. == .p14.  21.811  1   0.000
+8  .p21. == .p22.  21.571  1   0.000
+9  .p17. == .p18.  19.486  1   0.000
+10  .p4. ==  .p8.  17.777  1   0.000
+11 .p29. == .p32.  15.301  1   0.000
+12  .p3. == .p15.  12.089  1   0.001
+13 .p29. == .p31.   6.382  1   0.012
+14 .p17. == .p20.   5.888  1   0.015
+15  .p3. == .p11.   3.980  1   0.046</code></pre>
 </div>
 </div>
 <section id="your-task" class="level3" data-number="1.4.1">
@@ -591,7 +637,13 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Partial invariance is acceptable when: - you free the <em>minimum</em> needed, - you justify it, - you report it transparently, - you check your substantive conclusions don’t hinge on it.</p>
+<p>Partial invariance is acceptable when:</p>
+<ul>
+<li>you free the <em>minimum</em> needed,</li>
+<li>you justify it,</li>
+<li>you report it transparently,</li>
+<li>you check your substantive conclusions don’t hinge on it.</li>
+</ul>
 </div>
 </div>
 <p><strong>Hint (how to free one intercept constraint):</strong><br>
@@ -667,50 +719,50 @@ If you labeled all intercepts equal (e.g., <code>y3_1 ~ i3*1; y3_2 ~ i3*1; ...</
 
 Model Test User Model:
                                                       
-  Test statistic                                 7.526
+  Test statistic                                15.740
   Degrees of freedom                                 2
-  P-value (Chi-square)                           0.023
+  P-value (Chi-square)                           0.000
 
 Model Test Baseline Model:
 
-  Test statistic                              1036.573
+  Test statistic                              1387.600
   Degrees of freedom                                 6
   P-value                                        0.000
 
 User Model versus Baseline Model:
 
-  Comparative Fit Index (CFI)                    0.995
-  Tucker-Lewis Index (TLI)                       0.984
+  Comparative Fit Index (CFI)                    0.990
+  Tucker-Lewis Index (TLI)                       0.970
                                                       
-  Robust Comparative Fit Index (CFI)             0.995
-  Robust Tucker-Lewis Index (TLI)                0.985
+  Robust Comparative Fit Index (CFI)             0.991
+  Robust Tucker-Lewis Index (TLI)                0.973
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)              -2561.659
-  Loglikelihood unrestricted model (H1)      -2557.896
+  Loglikelihood user model (H0)              -3289.535
+  Loglikelihood unrestricted model (H1)      -3281.665
                                                       
-  Akaike (AIC)                                5147.318
-  Bayesian (BIC)                              5200.081
-  Sample-size adjusted Bayesian (SABIC)       5161.984
+  Akaike (AIC)                                6603.070
+  Bayesian (BIC)                              6655.834
+  Sample-size adjusted Bayesian (SABIC)       6617.737
 
 Root Mean Square Error of Approximation:
 
-  RMSEA                                          0.068
-  90 Percent confidence interval - lower         0.021
-  90 Percent confidence interval - upper         0.122
-  P-value H_0: RMSEA &lt;= 0.050                    0.219
-  P-value H_0: RMSEA &gt;= 0.080                    0.415
+  RMSEA                                          0.107
+  90 Percent confidence interval - lower         0.062
+  90 Percent confidence interval - upper         0.159
+  P-value H_0: RMSEA &lt;= 0.050                    0.020
+  P-value H_0: RMSEA &gt;= 0.080                    0.852
                                                       
-  Robust RMSEA                                   0.067
-  90 Percent confidence interval - lower         0.019
-  90 Percent confidence interval - upper         0.124
-  P-value H_0: Robust RMSEA &lt;= 0.050             0.229
-  P-value H_0: Robust RMSEA &gt;= 0.080             0.415
+  Robust RMSEA                                   0.107
+  90 Percent confidence interval - lower         0.059
+  90 Percent confidence interval - upper         0.162
+  P-value H_0: Robust RMSEA &lt;= 0.050             0.027
+  P-value H_0: Robust RMSEA &gt;= 0.080             0.838
 
 Standardized Root Mean Square Residual:
 
-  SRMR                                           0.018
+  SRMR                                           0.022
 
 Parameter Estimates:
 
@@ -721,40 +773,40 @@ Parameter Estimates:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   i =~                                                                  
-    y_t1              1.000                               0.782    0.858
-    y_t2              1.000                               0.782    0.816
-    y_t3              1.000                               0.782    0.813
-    y_t4              1.000                               0.782    0.878
+    y_t1              1.000                               0.715    0.674
+    y_t2              1.000                               0.715    0.632
+    y_t3              1.000                               0.715    0.481
+    y_t4              1.000                               0.715    0.316
   s =~                                                                  
     y_t1              0.000                               0.000    0.000
-    y_t2              1.000                               0.221    0.230
-    y_t3              2.000                               0.442    0.459
-    y_t4              3.000                               0.663    0.744
+    y_t2              1.000                               0.434    0.384
+    y_t3              2.000                               0.868    0.584
+    y_t4              3.000                               1.302    0.576
 
 Covariances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
  .y_t1 ~~                                                               
-   .y_t2              0.019    0.048    0.393    0.695    0.019    0.064
+   .y_t2              0.114    0.070    1.619    0.105    0.114    0.262
  .y_t2 ~~                                                               
-   .y_t3              0.115    0.023    4.974    0.000    0.115    0.292
+   .y_t3             -0.126    0.033   -3.879    0.000   -0.126   -0.359
  .y_t3 ~~                                                               
-   .y_t4              0.024    0.050    0.489    0.625    0.024    0.099
+   .y_t4              0.563    0.147    3.832    0.000    0.563    0.615
   i ~~                                                                  
-    s                -0.069    0.030   -2.322    0.020   -0.398   -0.398
+    s                 0.135    0.060    2.254    0.024    0.436    0.436
 
 Intercepts:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-    i                 0.030    0.037    0.814    0.416    0.038    0.038
-    s                 0.206    0.013   15.866    0.000    0.931    0.931
+    i                 0.015    0.041    0.359    0.720    0.021    0.021
+    s                 0.337    0.027   12.574    0.000    0.776    0.776
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .y_t1              0.220    0.079    2.793    0.005    0.220    0.264
-   .y_t2              0.397    0.046    8.641    0.000    0.397    0.431
-   .y_t3              0.394    0.047    8.403    0.000    0.394    0.425
-   .y_t4              0.156    0.082    1.908    0.056    0.156    0.196
-    i                 0.612    0.085    7.175    0.000    1.000    1.000
-    s                 0.049    0.016    3.123    0.002    1.000    1.000</code></pre>
+   .y_t1              0.613    0.119    5.146    0.000    0.613    0.545
+   .y_t2              0.308    0.060    5.152    0.000    0.308    0.241
+   .y_t3              0.400    0.109    3.657    0.000    0.400    0.181
+   .y_t4              2.094    0.255    8.229    0.000    2.094    0.410
+    i                 0.511    0.118    4.343    0.000    1.000    1.000
+    s                 0.188    0.041    4.623    0.000    1.000    1.000</code></pre>
 </div>
 </div>
 <p>Extract and interpret the growth factor means/variances:</p>
@@ -765,12 +817,12 @@ Variances:
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>  lhs op rhs    est    se      z pvalue ci.lower ci.upper
-1   i ~~   i  0.612 0.085  7.175  0.000    0.445    0.780
-2   s ~~   s  0.049 0.016  3.123  0.002    0.018    0.079
-3   i ~~   s -0.069 0.030 -2.322  0.020   -0.127   -0.011
-4   i ~1      0.030 0.037  0.814  0.416   -0.042    0.102
-5   s ~1      0.206 0.013 15.866  0.000    0.180    0.231</code></pre>
+<pre><code>  lhs op rhs   est    se      z pvalue ci.lower ci.upper
+1   i ~~   i 0.511 0.118  4.343  0.000    0.281    0.742
+2   s ~~   s 0.188 0.041  4.623  0.000    0.109    0.268
+3   i ~~   s 0.135 0.060  2.254  0.024    0.018    0.253
+4   i ~1     0.015 0.041  0.359  0.720   -0.066    0.096
+5   s ~1     0.337 0.027 12.574  0.000    0.284    0.390</code></pre>
 </div>
 </div>
 <section id="questions-2" class="level3" data-number="2.2.1">
@@ -803,12 +855,12 @@ Variances:
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>  lhs op rhs    est    se      z pvalue ci.lower ci.upper
-1   i ~~   i  0.523 0.046 11.304  0.000    0.433    0.614
-2   s ~~   s  0.049 0.016  3.123  0.002    0.018    0.079
-3   i ~~   s -0.020 0.020 -0.979  0.327   -0.060    0.020
-4   i ~1      0.236 0.032  7.295  0.000    0.172    0.299
-5   s ~1      0.206 0.013 15.866  0.000    0.180    0.231</code></pre>
+<pre><code>  lhs op rhs   est    se      z pvalue ci.lower ci.upper
+1   i ~~   i 0.970 0.071 13.600      0    0.831    1.110
+2   s ~~   s 0.188 0.041  4.623      0    0.109    0.268
+3   i ~~   s 0.324 0.045  7.130      0    0.235    0.413
+4   i ~1     0.352 0.043  8.157      0    0.267    0.436
+5   s ~1     0.337 0.027 12.574      0    0.284    0.390</code></pre>
 </div>
 </div>
 <section id="question" class="level3" data-number="2.3.1">
@@ -839,7 +891,7 @@ Variances:
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  cfi rmsea  srmr 
-   NA 0.000 0.013 </code></pre>
+   NA  0.00  0.02 </code></pre>
 </div>
 </div>
 <section id="questions-3" class="level3" data-number="2.4.1">
@@ -883,7 +935,7 @@ Variances:
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lgm_c, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-19 ended normally after 29 iterations
+<pre><code>lavaan 0.6-19 ended normally after 32 iterations
 
   Estimator                                         ML
   Optimization method                           NLMINB
@@ -894,50 +946,50 @@ Variances:
 
 Model Test User Model:
                                                       
-  Test statistic                                 9.845
+  Test statistic                                19.734
   Degrees of freedom                                 4
-  P-value (Chi-square)                           0.043
+  P-value (Chi-square)                           0.001
 
 Model Test Baseline Model:
 
-  Test statistic                              1039.254
+  Test statistic                              1391.891
   Degrees of freedom                                10
   P-value                                        0.000
 
 User Model versus Baseline Model:
 
-  Comparative Fit Index (CFI)                    0.994
-  Tucker-Lewis Index (TLI)                       0.986
+  Comparative Fit Index (CFI)                    0.989
+  Tucker-Lewis Index (TLI)                       0.972
                                                       
-  Robust Comparative Fit Index (CFI)             0.995
-  Robust Tucker-Lewis Index (TLI)                0.987
+  Robust Comparative Fit Index (CFI)             0.990
+  Robust Tucker-Lewis Index (TLI)                0.974
 
 Loglikelihood and Information Criteria:
 
-  Loglikelihood user model (H0)              -2561.478
-  Loglikelihood unrestricted model (H1)      -2556.555
+  Loglikelihood user model (H0)              -3289.387
+  Loglikelihood unrestricted model (H1)      -3279.520
                                                       
-  Akaike (AIC)                                5150.955
-  Bayesian (BIC)                              5212.512
-  Sample-size adjusted Bayesian (SABIC)       5168.066
+  Akaike (AIC)                                6606.774
+  Bayesian (BIC)                              6668.331
+  Sample-size adjusted Bayesian (SABIC)       6623.884
 
 Root Mean Square Error of Approximation:
 
-  RMSEA                                          0.049
-  90 Percent confidence interval - lower         0.008
-  90 Percent confidence interval - upper         0.089
-  P-value H_0: RMSEA &lt;= 0.050                    0.445
-  P-value H_0: RMSEA &gt;= 0.080                    0.112
+  RMSEA                                          0.081
+  90 Percent confidence interval - lower         0.048
+  90 Percent confidence interval - upper         0.118
+  P-value H_0: RMSEA &lt;= 0.050                    0.062
+  P-value H_0: RMSEA &gt;= 0.080                    0.564
                                                       
-  Robust RMSEA                                   0.048
-  90 Percent confidence interval - lower         0.000
-  90 Percent confidence interval - upper         0.090
-  P-value H_0: Robust RMSEA &lt;= 0.050             0.458
-  P-value H_0: Robust RMSEA &gt;= 0.080             0.115
+  Robust RMSEA                                   0.082
+  90 Percent confidence interval - lower         0.046
+  90 Percent confidence interval - upper         0.121
+  P-value H_0: Robust RMSEA &lt;= 0.050             0.068
+  P-value H_0: Robust RMSEA &gt;= 0.080             0.578
 
 Standardized Root Mean Square Residual:
 
-  SRMR                                           0.017
+  SRMR                                           0.021
 
 Parameter Estimates:
 
@@ -948,47 +1000,47 @@ Parameter Estimates:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   i =~                                                                  
-    y_t1              1.000                               0.782    0.857
-    y_t2              1.000                               0.782    0.815
-    y_t3              1.000                               0.782    0.812
-    y_t4              1.000                               0.782    0.877
+    y_t1              1.000                               0.713    0.672
+    y_t2              1.000                               0.713    0.630
+    y_t3              1.000                               0.713    0.480
+    y_t4              1.000                               0.713    0.315
   s =~                                                                  
     y_t1              0.000                               0.000    0.000
-    y_t2              1.000                               0.221    0.230
-    y_t3              2.000                               0.441    0.459
-    y_t4              3.000                               0.662    0.743
+    y_t2              1.000                               0.434    0.384
+    y_t3              2.000                               0.868    0.584
+    y_t4              3.000                               1.302    0.575
 
 Regressions:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   i ~                                                                   
-    x                 0.022    0.037    0.582    0.560    0.028    0.027
+    x                 0.018    0.042    0.440    0.660    0.026    0.025
   s ~                                                                   
-    x                -0.006    0.013   -0.422    0.673   -0.025   -0.025
+    x                 0.005    0.027    0.200    0.841    0.012    0.012
 
 Covariances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
  .y_t1 ~~                                                               
-   .y_t2              0.020    0.048    0.420    0.675    0.020    0.068
+   .y_t2              0.116    0.071    1.647    0.100    0.116    0.266
  .y_t2 ~~                                                               
-   .y_t3              0.116    0.023    4.984    0.000    0.116    0.292
+   .y_t3             -0.127    0.033   -3.895    0.000   -0.127   -0.362
  .y_t3 ~~                                                               
-   .y_t4              0.024    0.050    0.483    0.629    0.024    0.098
+   .y_t4              0.560    0.147    3.813    0.000    0.560    0.615
  .i ~~                                                                  
-   .s                -0.068    0.030   -2.303    0.021   -0.396   -0.396
+   .s                 0.137    0.060    2.273    0.023    0.442    0.442
 
 Intercepts:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .i                 0.029    0.037    0.778    0.437    0.037    0.037
-   .s                 0.206    0.013   15.865    0.000    0.934    0.934
+   .i                 0.014    0.041    0.333    0.739    0.019    0.019
+   .s                 0.337    0.027   12.543    0.000    0.776    0.776
 
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .y_t1              0.221    0.079    2.804    0.005    0.221    0.265
-   .y_t2              0.398    0.046    8.658    0.000    0.398    0.432
-   .y_t3              0.394    0.047    8.384    0.000    0.394    0.425
-   .y_t4              0.156    0.082    1.902    0.057    0.156    0.196
-   .i                 0.611    0.085    7.157    0.000    0.999    0.999
-   .s                 0.049    0.016    3.110    0.002    0.999    0.999</code></pre>
+   .y_t1              0.617    0.119    5.162    0.000    0.617    0.548
+   .y_t2              0.310    0.060    5.169    0.000    0.310    0.242
+   .y_t3              0.397    0.110    3.617    0.000    0.397    0.180
+   .y_t4              2.094    0.255    8.226    0.000    2.094    0.409
+   .i                 0.508    0.118    4.308    0.000    0.999    0.999
+   .s                 0.188    0.041    4.614    0.000    1.000    1.000</code></pre>
 </div>
 </div>
 <section id="questions-4" class="level3" data-number="3.1.1">
@@ -1025,14 +1077,14 @@ Variances:
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 11
-   y_t1  y_t2     y_t3   y_t4      x    id wave      y1     y2      y3      y4
-  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1 0.265  1.75  1.42      1.47 -0.550     1 1      0.606  0.197 -0.140   0.396 
-2 0.265  1.75  1.42      1.47 -0.550     1 2      1.67   1.76   1.72    1.86  
-3 0.265  1.75  1.42      1.47 -0.550     1 3      1.36   2.18   1.32    0.815 
-4 0.265  1.75  1.42      1.47 -0.550     1 4      2.03   1.75   2.12   -0.0138
-5 0.239 -1.04 -0.00382 NaN     1.09      2 1     -0.537  0.248  0.0388  1.21  
-6 0.239 -1.04 -0.00382 NaN     1.09      2 2     -1.19  -2.05  -0.859  -0.0503</code></pre>
+       x   y_t1  y_t2  y_t3   y_t4    id wave      y1      y2     y3     y4
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt; &lt;fct&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 -0.550  0.713 0.951 1.61    4.35     1 1      1.05   0.0293  1.29   0.485
+2 -0.550  0.713 0.951 1.61    4.35     1 2      0.970  0.939   0.365  1.53 
+3 -0.550  0.713 0.951 1.61    4.35     1 3      1.23   2.56    1.40   1.24 
+4 -0.550  0.713 0.951 1.61    4.35     1 4      4.29   4.41    4.15   4.57 
+5  1.09  -1.59  0.450 0.922 NaN        2 1     -0.574 -1.88   -2.53  -1.39 
+6  1.09  -1.59  0.450 0.922 NaN        2 2      0.725 -0.0941  0.757  0.414</code></pre>
 </div>
 </div>
 <p>Run invariance:</p>
@@ -1575,422 +1627,462 @@ Tip
 <span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data (transparent simulation)</span></span>
 <span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>We simulate a construct measured by 4 indicators across 4 waves:</span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>We simulate:</span>
 <span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>One latent factor per wave (F1–F4)</span>
-<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Stability across waves (correlated factors)</span>
-<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Correlated residuals across adjacent waves for the same indicator (common in repeated measures)</span>
-<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Increasing factor means over time (so growth exists in the population)</span>
-<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 1 factor</span></span>
-<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ 1*y1_1 + .8*y2_1 + .9*y3_1 + .7*y4_1</span></span>
-<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 2 factor</span></span>
-<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ 1*y1_2 + .8*y2_2 + .9*y3_2 + .7*y4_2</span></span>
-<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 3 factor</span></span>
-<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ 1*y1_3 + .8*y2_3 + .9*y3_3 + .7*y4_3</span></span>
-<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 4 factor</span></span>
-<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ 1*y1_4 + .8*y2_4 + .9*y3_4 + .7*y4_4</span></span>
-<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a><span class="st"># Factor means (0 baseline; increasing means)</span></span>
-<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 0*1</span></span>
-<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ .2*1</span></span>
-<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ .5*1</span></span>
-<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ .8*1</span></span>
-<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a><span class="st"># Factor variances</span></span>
-<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ 1*F1</span></span>
-<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ 1*F2</span></span>
-<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ 1*F3</span></span>
-<span id="cb37-81"><a href="#cb37-81" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~~ 1*F4</span></span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>4 waves, 4 indicators per wave</span>
+<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Quadratic growth** in the latent state (so quadratic LGM should improve over linear)</span>
+<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A covariate **x** that truly affects both **intercept** and **slope**</span>
+<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Two planned invariance violations:</span>
+<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Metric violation:** item 4 loading is larger at wave 4</span>
+<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Scalar violation:** item 2 intercept is higher at wave 3</span>
+<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Correlated residuals across adjacent waves for items 1 and 2</span>
+<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">600</span></span>
+<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a><span class="st"># Exogenous observed predictor</span></span>
+<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a><span class="st">x ~ 0*1</span></span>
+<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a><span class="st">x ~~ 1*x</span></span>
+<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a><span class="st"># Latent growth factors (unmeasured: declared via variances/means/regressions)</span></span>
+<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ 0.80*i</span></span>
+<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a><span class="st">s ~~ 0.20*s</span></span>
+<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a><span class="st">q ~~ 0.03*q</span></span>
+<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ -0.15*s</span></span>
+<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a><span class="st">i ~~ 0*q</span></span>
+<span id="cb37-81"><a href="#cb37-81" aria-hidden="true" tabindex="-1"></a><span class="st">s ~~ 0*q</span></span>
 <span id="cb37-82"><a href="#cb37-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-83"><a href="#cb37-83" aria-hidden="true" tabindex="-1"></a><span class="st"># Stability (correlations)</span></span>
-<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .70*F2</span></span>
-<span id="cb37-85"><a href="#cb37-85" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ .75*F3</span></span>
-<span id="cb37-86"><a href="#cb37-86" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ .80*F4</span></span>
-<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .60*F3</span></span>
-<span id="cb37-88"><a href="#cb37-88" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ .65*F4</span></span>
-<span id="cb37-89"><a href="#cb37-89" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ .55*F4</span></span>
-<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a><span class="st"># Residual variances (items)</span></span>
-<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .5*y1_1; y2_1 ~~ .6*y2_1; y3_1 ~~ .5*y3_1; y4_1 ~~ .7*y4_1</span></span>
-<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2</span></span>
-<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3</span></span>
-<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4</span></span>
+<span id="cb37-83"><a href="#cb37-83" aria-hidden="true" tabindex="-1"></a><span class="st"># Means + effects of x (true generating values)</span></span>
+<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a><span class="st">i ~ 0.00*1 + 0.50*x</span></span>
+<span id="cb37-85"><a href="#cb37-85" aria-hidden="true" tabindex="-1"></a><span class="st">s ~ 0.25*1 + 0.25*x</span></span>
+<span id="cb37-86"><a href="#cb37-86" aria-hidden="true" tabindex="-1"></a><span class="st">q ~ 0.05*1</span></span>
+<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-88"><a href="#cb37-88" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-89"><a href="#cb37-89" aria-hidden="true" tabindex="-1"></a><span class="st"># Wave-specific latent states (measured by items)</span></span>
+<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a><span class="st"># Quadratic time scores: 0,1,4,9</span></span>
+<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 1*i + 0*s + 0*q</span></span>
+<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ 1*i + 1*s + 1*q</span></span>
+<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ 1*i + 2*s + 4*q</span></span>
+<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ 1*i + 3*s + 9*q</span></span>
 <span id="cb37-96"><a href="#cb37-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves for same indicator</span></span>
-<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .25*y1_2</span></span>
-<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .25*y1_3</span></span>
-<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .25*y1_4</span></span>
-<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ .20*y2_2</span></span>
-<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ .20*y2_3</span></span>
-<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ .20*y2_4</span></span>
-<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> <span class="dv">600</span>, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-107"><a href="#cb37-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-108"><a href="#cb37-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a><span class="fu">### Optional: add missingness (realistic in longitudinal studies)</span></span>
-<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a>If you want a more realistic workflow, introduce missing data and use FIML.</span>
-<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: comment out if you want complete data</span></span>
-<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a>miss_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(dat)), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.20</span><span class="sc">*</span><span class="fu">nrow</span>(dat)))</span>
-<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a>dat[miss_id, <span class="fu">c</span>(<span class="st">"y1_4"</span>,<span class="st">"y2_4"</span>,<span class="st">"y3_4"</span>,<span class="st">"y4_4"</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part A — Longitudinal CFA invariance ladder</span></span>
+<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a><span class="st"># Residual (occasion-specific) variance of latent states</span></span>
+<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~~ 0.30*F1</span></span>
+<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~~ 0.30*F2</span></span>
+<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~~ 0.30*F3</span></span>
+<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~~ 0.30*F4</span></span>
+<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a><span class="st"># Measurement model (4 items per wave)</span></span>
+<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a><span class="st"># Metric non-invariance planted: loading of y4_4 is larger</span></span>
+<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-107"><a href="#cb37-107" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ 1*y1_1 + 0.80*y2_1 + 0.90*y3_1 + 0.70*y4_1</span></span>
+<span id="cb37-108"><a href="#cb37-108" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ 1*y1_2 + 0.80*y2_2 + 0.90*y3_2 + 0.70*y4_2</span></span>
+<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ 1*y1_3 + 0.80*y2_3 + 0.90*y3_3 + 0.70*y4_3</span></span>
+<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ 1*y1_4 + 0.80*y2_4 + 0.90*y3_4 + 0.95*y4_4   # &lt;-- metric violation (item 4 at wave 4)</span></span>
+<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a><span class="st"># Item residual variances (constant across waves)</span></span>
+<span id="cb37-113"><a href="#cb37-113" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ 0.50*y1_1; y2_1 ~~ 0.60*y2_1; y3_1 ~~ 0.50*y3_1; y4_1 ~~ 0.70*y4_1</span></span>
+<span id="cb37-114"><a href="#cb37-114" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ 0.50*y1_2; y2_2 ~~ 0.60*y2_2; y3_2 ~~ 0.50*y3_2; y4_2 ~~ 0.70*y4_2</span></span>
+<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ 0.50*y1_3; y2_3 ~~ 0.60*y2_3; y3_3 ~~ 0.50*y3_3; y4_3 ~~ 0.70*y4_3</span></span>
+<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~~ 0.50*y1_4; y2_4 ~~ 0.60*y2_4; y3_4 ~~ 0.50*y3_4; y4_4 ~~ 0.70*y4_4</span></span>
+<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a><span class="st"># Item intercepts (scalar non-invariance planted: y2_3 intercept is higher)</span></span>
+<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~ 0*1; y2_1 ~ 0*1; y3_1 ~ 0*1; y4_1 ~ 0*1</span></span>
+<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~ 0*1; y2_2 ~ 0*1; y3_2 ~ 0*1; y4_2 ~ 0*1</span></span>
+<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~ 0*1; y2_3 ~ 0.40*1; y3_3 ~ 0*1; y4_3 ~ 0*1   # &lt;-- scalar violation (item 2 at wave 3)</span></span>
+<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~ 0*1; y2_4 ~ 0*1; y3_4 ~ 0*1; y4_4 ~ 0*1</span></span>
 <span id="cb37-125"><a href="#cb37-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a><span class="fu">## A1. Configural invariance</span></span>
-<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a>Fit the configural model: same factor structure each wave, with correlated residuals for the *same* indicator across adjacent waves.</span>
-<span id="cb37-129"><a href="#cb37-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a>mod_config <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ y1_1 + y2_1 + y3_1 + y4_1</span></span>
-<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ y1_2 + y2_2 + y3_2 + y4_2</span></span>
-<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ y1_3 + y2_3 + y3_3 + y4_3</span></span>
-<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ y1_4 + y2_4 + y3_4 + y4_4</span></span>
-<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a><span class="st"># correlated residuals across time for same indicator (adjacent waves)</span></span>
-<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
-<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
-<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
-<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
-<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
-<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
-<span id="cb37-146"><a href="#cb37-146" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-147"><a href="#cb37-147" aria-hidden="true" tabindex="-1"></a>fit_config <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_config, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
-<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
-<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is the overall fit acceptable for a baseline model?</span>
-<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do the correlated residuals feel substantively justified here? Why might they be needed in repeated-measures measurement models?</span>
-<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a><span class="fu">## A2. Metric invariance (equal loadings across waves)</span></span>
-<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a>Impose equality constraints on loadings using labels (<span class="in">`l1`</span>, <span class="in">`l2`</span>, ...). Keep the residual correlations.</span>
-<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-164"><a href="#cb37-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a>mod_metric <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1</span></span>
-<span id="cb37-167"><a href="#cb37-167" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2</span></span>
-<span id="cb37-168"><a href="#cb37-168" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3</span></span>
-<span id="cb37-169"><a href="#cb37-169" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4</span></span>
-<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-171"><a href="#cb37-171" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
-<span id="cb37-172"><a href="#cb37-172" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
-<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
-<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
-<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
-<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
-<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a>fit_metric <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_metric, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
-<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a>Compare configural vs metric:</span>
+<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves (same indicator carryover)</span></span>
+<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a><span class="st"># ----------------------------</span></span>
+<span id="cb37-129"><a href="#cb37-129" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ 0.25*y1_2</span></span>
+<span id="cb37-130"><a href="#cb37-130" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ 0.25*y1_3</span></span>
+<span id="cb37-131"><a href="#cb37-131" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ 0.25*y1_4</span></span>
+<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ 0.20*y2_2</span></span>
+<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ 0.20*y2_3</span></span>
+<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ 0.20*y2_4</span></span>
+<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> N, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dat, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(i,s,q)) <span class="co"># remove growth factors</span></span>
+<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Optional: add missingness (realistic in longitudinal studies)</span></span>
+<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a>If you want a more realistic workflow, introduce missing data and use FIML.</span>
+<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: comment out if you want complete data</span></span>
+<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a>miss_id <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(dat)), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.20</span><span class="sc">*</span><span class="fu">nrow</span>(dat)))</span>
+<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a>dat[miss_id, <span class="fu">c</span>(<span class="st">"y1_4"</span>,<span class="st">"y2_4"</span>,<span class="st">"y3_4"</span>,<span class="st">"y4_4"</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part A — Longitudinal CFA invariance ladder</span></span>
+<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## A1. Configural invariance</span></span>
+<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a>Fit the configural model: same factor structure each wave, with correlated residuals for the *same* indicator across adjacent waves.</span>
+<span id="cb37-162"><a href="#cb37-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a>mod_config <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-167"><a href="#cb37-167" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ y1_1 + y2_1 + y3_1 + y4_1</span></span>
+<span id="cb37-168"><a href="#cb37-168" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ y1_2 + y2_2 + y3_2 + y4_2</span></span>
+<span id="cb37-169"><a href="#cb37-169" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ y1_3 + y2_3 + y3_3 + y4_3</span></span>
+<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ y1_4 + y2_4 + y3_4 + y4_4</span></span>
+<span id="cb37-171"><a href="#cb37-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-172"><a href="#cb37-172" aria-hidden="true" tabindex="-1"></a><span class="st"># correlated residuals across time for same indicator (adjacent waves)</span></span>
+<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
+<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
+<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
+<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
+<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
+<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
+<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a>fit_config <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_config, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
+<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb37-183"><a href="#cb37-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_config, fit_metric)</span>
-<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
-<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
-<span id="cb37-195"><a href="#cb37-195" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
-<span id="cb37-196"><a href="#cb37-196" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
-<span id="cb37-200"><a href="#cb37-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does metric invariance appear plausible (based on fit changes)?</span>
-<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you see a meaningful fit drop, where might non-invariance be coming from?</span>
+<span id="cb37-184"><a href="#cb37-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
+<span id="cb37-185"><a href="#cb37-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is the overall fit acceptable for a baseline model?</span>
+<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Do the correlated residuals feel substantively justified here? Why might they be needed in repeated-measures measurement models?</span>
+<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-190"><a href="#cb37-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-191"><a href="#cb37-191" aria-hidden="true" tabindex="-1"></a><span class="fu">## A2. Metric invariance (equal loadings across waves)</span></span>
+<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a>Impose equality constraints on loadings using labels (<span class="in">`l1`</span>, <span class="in">`l2`</span>, ...). Keep the residual correlations.</span>
+<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a>mod_metric <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1</span></span>
+<span id="cb37-200"><a href="#cb37-200" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2</span></span>
+<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3</span></span>
+<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4</span></span>
 <span id="cb37-203"><a href="#cb37-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a><span class="fu">## A3. Scalar invariance (equal intercepts across waves)</span></span>
-<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a>Add equality constraints on intercepts as well (<span class="in">`i1`</span>, <span class="in">`i2`</span>, ...). This is the gateway to interpreting **latent mean change**.</span>
-<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a>mod_scalar <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1</span></span>
-<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2</span></span>
-<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3</span></span>
-<span id="cb37-217"><a href="#cb37-217" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4</span></span>
-<span id="cb37-218"><a href="#cb37-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-219"><a href="#cb37-219" aria-hidden="true" tabindex="-1"></a><span class="st"># equal intercepts across time</span></span>
-<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1</span></span>
-<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1</span></span>
-<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a><span class="st">y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1</span></span>
-<span id="cb37-223"><a href="#cb37-223" aria-hidden="true" tabindex="-1"></a><span class="st">y4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1</span></span>
-<span id="cb37-224"><a href="#cb37-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
-<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
-<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
-<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
-<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
-<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
-<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a>fit_scalar <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_scalar, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
-<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a>Compare the three models:</span>
-<span id="cb37-237"><a href="#cb37-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-240"><a href="#cb37-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_config, fit_metric, fit_scalar)</span>
-<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-243"><a href="#cb37-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
-<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
-<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
-<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a>  <span class="at">scalar =</span> <span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
-<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">"model"</span></span>
-<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-253"><a href="#cb37-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-254"><a href="#cb37-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a><span class="fu">## A4. Local diagnostics + partial scalar invariance (disciplined)</span></span>
-<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a>Inspect modification indices (MIs) for the scalar model:</span>
-<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit_scalar) <span class="sc">|&gt;</span></span>
-<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mi))</span>
-<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a>mi <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">15</span>)</span>
-<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your task</span></span>
-<span id="cb37-270"><a href="#cb37-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-271"><a href="#cb37-271" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Identify **one** intercept constraint that is strongly suggested to be freed (large MI) *and* is at least somewhat plausible substantively (e.g., an item that could drift over time).</span>
-<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Fit a **partial scalar** model freeing that single intercept equality.</span>
-<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Re-evaluate fit vs full scalar.</span>
+<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
+<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
+<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
+<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
+<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
+<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
+<span id="cb37-210"><a href="#cb37-210" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-211"><a href="#cb37-211" aria-hidden="true" tabindex="-1"></a>fit_metric <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_metric, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
+<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a>Compare configural vs metric:</span>
+<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-219"><a href="#cb37-219" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_config, fit_metric)</span>
+<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
+<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
+<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
+<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does metric invariance appear plausible (based on fit changes)?</span>
+<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you see a meaningful fit drop, where might non-invariance be coming from?</span>
+<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-237"><a href="#cb37-237" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-238"><a href="#cb37-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-239"><a href="#cb37-239" aria-hidden="true" tabindex="-1"></a><span class="fu">## A3. Scalar invariance (equal intercepts across waves)</span></span>
+<span id="cb37-240"><a href="#cb37-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a>Add equality constraints on intercepts as well (<span class="in">`i1`</span>, <span class="in">`i2`</span>, ...). This is the gateway to interpreting **latent mean change**.</span>
+<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-245"><a href="#cb37-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a>mod_scalar <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a><span class="st">F1 =~ l1*y1_1 + l2*y2_1 + l3*y3_1 + l4*y4_1</span></span>
+<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a><span class="st">F2 =~ l1*y1_2 + l2*y2_2 + l3*y3_2 + l4*y4_2</span></span>
+<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a><span class="st">F3 =~ l1*y1_3 + l2*y2_3 + l3*y3_3 + l4*y4_3</span></span>
+<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a><span class="st">F4 =~ l1*y1_4 + l2*y2_4 + l3*y3_4 + l4*y4_4</span></span>
+<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a><span class="st"># equal intercepts across time</span></span>
+<span id="cb37-253"><a href="#cb37-253" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~ i1*1; y1_2 ~ i1*1; y1_3 ~ i1*1; y1_4 ~ i1*1</span></span>
+<span id="cb37-254"><a href="#cb37-254" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~ i2*1; y2_2 ~ i2*1; y2_3 ~ i2*1; y2_4 ~ i2*1</span></span>
+<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a><span class="st">y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3*1</span></span>
+<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a><span class="st">y4_1 ~ i4*1; y4_2 ~ i4*1; y4_3 ~ i4*1; y4_4 ~ i4*1</span></span>
+<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ y1_2</span></span>
+<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ y1_3</span></span>
+<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ y1_4</span></span>
+<span id="cb37-261"><a href="#cb37-261" aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ y2_2</span></span>
+<span id="cb37-262"><a href="#cb37-262" aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ y2_3</span></span>
+<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ y2_4</span></span>
+<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a><span class="st"># </span></span>
+<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a><span class="st">F1 ~ 0*1</span></span>
+<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a><span class="st">F2 ~ 1</span></span>
+<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a><span class="st">F3 ~ 1</span></span>
+<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a><span class="st">F4 ~ 1</span></span>
+<span id="cb37-270"><a href="#cb37-270" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-271"><a href="#cb37-271" aria-hidden="true" tabindex="-1"></a>fit_scalar <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_scalar, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
+<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb37-274"><a href="#cb37-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a>Partial invariance is acceptable when:</span>
-<span id="cb37-277"><a href="#cb37-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you free the *minimum* needed,</span>
-<span id="cb37-278"><a href="#cb37-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you justify it,</span>
-<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you report it transparently,</span>
-<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you check your substantive conclusions don’t hinge on it.</span>
-<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a>Compare the three models:</span>
+<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a><span class="fu">lavTestLRT</span>(fit_config, fit_metric, fit_scalar)</span>
+<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb37-282"><a href="#cb37-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-283"><a href="#cb37-283" aria-hidden="true" tabindex="-1"></a>**Hint (how to free one intercept constraint):**  </span>
-<span id="cb37-284"><a href="#cb37-284" aria-hidden="true" tabindex="-1"></a>If you labeled all intercepts equal (e.g., <span class="in">`y3_1 ~ i3*1; y3_2 ~ i3*1; ...`</span>), you can break equality for one wave by giving it a different label:</span>
-<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Example (DO NOT run blindly): make y3_4 intercept free from the others</span></span>
-<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a><span class="co"># y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3_4*1</span></span>
-<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a>Create your modified model below.</span>
-<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: write mod_partial_scalar</span></span>
-<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a>mod_partial_scalar <span class="ot">&lt;-</span> mod_scalar</span>
-<span id="cb37-300"><a href="#cb37-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-301"><a href="#cb37-301" aria-hidden="true" tabindex="-1"></a><span class="co"># fit_partial_scalar &lt;- cfa(mod_partial_scalar, data = dat, meanstructure = TRUE, missing = "fiml")</span></span>
-<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a><span class="co"># fitMeasures(fit_partial_scalar, c("cfi","rmsea","srmr"))</span></span>
-<span id="cb37-303"><a href="#cb37-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-304"><a href="#cb37-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-305"><a href="#cb37-305" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-306"><a href="#cb37-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-307"><a href="#cb37-307" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part B — Latent Growth Curve Models (LGM)</span></span>
-<span id="cb37-308"><a href="#cb37-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-309"><a href="#cb37-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## B1. Build wave-level observed scores (teaching-friendly)</span></span>
-<span id="cb37-310"><a href="#cb37-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-311"><a href="#cb37-311" aria-hidden="true" tabindex="-1"></a>To keep growth interpretation simple, we create a wave score as the mean of the four indicators.</span>
-<span id="cb37-312"><a href="#cb37-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-315"><a href="#cb37-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-316"><a href="#cb37-316" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
-<span id="cb37-317"><a href="#cb37-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb37-318"><a href="#cb37-318" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t1 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_1,y2_1,y3_1,y4_1)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-319"><a href="#cb37-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t2 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_2,y2_2,y3_2,y4_2)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-320"><a href="#cb37-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t3 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_3,y2_3,y3_3,y4_3)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-321"><a href="#cb37-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t4 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_4,y2_4,y3_4,y4_4)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-322"><a href="#cb37-322" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb37-323"><a href="#cb37-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-324"><a href="#cb37-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-325"><a href="#cb37-325" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-326"><a href="#cb37-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-327"><a href="#cb37-327" aria-hidden="true" tabindex="-1"></a><span class="fu">## B2. Linear growth model</span></span>
-<span id="cb37-328"><a href="#cb37-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-329"><a href="#cb37-329" aria-hidden="true" tabindex="-1"></a>Fit a linear LGM with time scores (0, 1, 2, 3).</span>
-<span id="cb37-330"><a href="#cb37-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-333"><a href="#cb37-333" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-334"><a href="#cb37-334" aria-hidden="true" tabindex="-1"></a>lgm_linear <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-335"><a href="#cb37-335" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
-<span id="cb37-336"><a href="#cb37-336" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
-<span id="cb37-337"><a href="#cb37-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-338"><a href="#cb37-338" aria-hidden="true" tabindex="-1"></a><span class="st"># optional residual autocorrelation (often helpful)</span></span>
-<span id="cb37-339"><a href="#cb37-339" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
-<span id="cb37-340"><a href="#cb37-340" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
-<span id="cb37-341"><a href="#cb37-341" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
-<span id="cb37-342"><a href="#cb37-342" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-343"><a href="#cb37-343" aria-hidden="true" tabindex="-1"></a>fit_lgm <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_linear, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-344"><a href="#cb37-344" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lgm, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-345"><a href="#cb37-345" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-286"><a href="#cb37-286" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb37-287"><a href="#cb37-287" aria-hidden="true" tabindex="-1"></a>  <span class="at">config =</span> <span class="fu">fitMeasures</span>(fit_config, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
+<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="fu">fitMeasures</span>(fit_metric, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
+<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a>  <span class="at">scalar =</span> <span class="fu">fitMeasures</span>(fit_scalar, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>)),</span>
+<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">"model"</span></span>
+<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-295"><a href="#cb37-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-296"><a href="#cb37-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## A4. Local diagnostics + partial scalar invariance (disciplined)</span></span>
+<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a>Inspect modification indices (MIs) for the scalar model:</span>
+<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-303"><a href="#cb37-303" aria-hidden="true" tabindex="-1"></a>mi <span class="ot">&lt;-</span> <span class="fu">lavTestScore</span>(fit_scalar)<span class="sc">$</span>uni <span class="sc">|&gt;</span></span>
+<span id="cb37-304"><a href="#cb37-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(X2))</span>
+<span id="cb37-305"><a href="#cb37-305" aria-hidden="true" tabindex="-1"></a>mi <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">15</span>)</span>
+<span id="cb37-306"><a href="#cb37-306" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-307"><a href="#cb37-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-308"><a href="#cb37-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Your task</span></span>
+<span id="cb37-309"><a href="#cb37-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-310"><a href="#cb37-310" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Identify **one** intercept constraint that is strongly suggested to be freed (large MI) *and* is at least somewhat plausible substantively (e.g., an item that could drift over time).</span>
+<span id="cb37-311"><a href="#cb37-311" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Fit a **partial scalar** model freeing that single intercept equality.</span>
+<span id="cb37-312"><a href="#cb37-312" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Re-evaluate fit vs full scalar.</span>
+<span id="cb37-313"><a href="#cb37-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-314"><a href="#cb37-314" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb37-315"><a href="#cb37-315" aria-hidden="true" tabindex="-1"></a>Partial invariance is acceptable when:</span>
+<span id="cb37-316"><a href="#cb37-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-317"><a href="#cb37-317" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you free the *minimum* needed,</span>
+<span id="cb37-318"><a href="#cb37-318" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you justify it,</span>
+<span id="cb37-319"><a href="#cb37-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you report it transparently,</span>
+<span id="cb37-320"><a href="#cb37-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>you check your substantive conclusions don’t hinge on it.</span>
+<span id="cb37-321"><a href="#cb37-321" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb37-322"><a href="#cb37-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-323"><a href="#cb37-323" aria-hidden="true" tabindex="-1"></a>**Hint (how to free one intercept constraint):**  </span>
+<span id="cb37-324"><a href="#cb37-324" aria-hidden="true" tabindex="-1"></a>If you labeled all intercepts equal (e.g., <span class="in">`y3_1 ~ i3*1; y3_2 ~ i3*1; ...`</span>), you can break equality for one wave by giving it a different label:</span>
+<span id="cb37-325"><a href="#cb37-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-328"><a href="#cb37-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-329"><a href="#cb37-329" aria-hidden="true" tabindex="-1"></a><span class="co"># Example (DO NOT run blindly): make y3_4 intercept free from the others</span></span>
+<span id="cb37-330"><a href="#cb37-330" aria-hidden="true" tabindex="-1"></a><span class="co"># y3_1 ~ i3*1; y3_2 ~ i3*1; y3_3 ~ i3*1; y3_4 ~ i3_4*1</span></span>
+<span id="cb37-331"><a href="#cb37-331" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-332"><a href="#cb37-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-333"><a href="#cb37-333" aria-hidden="true" tabindex="-1"></a>Create your modified model below.</span>
+<span id="cb37-334"><a href="#cb37-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-337"><a href="#cb37-337" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-338"><a href="#cb37-338" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: write mod_partial_scalar</span></span>
+<span id="cb37-339"><a href="#cb37-339" aria-hidden="true" tabindex="-1"></a>mod_partial_scalar <span class="ot">&lt;-</span> mod_scalar</span>
+<span id="cb37-340"><a href="#cb37-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-341"><a href="#cb37-341" aria-hidden="true" tabindex="-1"></a><span class="co"># fit_partial_scalar &lt;- cfa(mod_partial_scalar, data = dat, meanstructure = TRUE, missing = "fiml")</span></span>
+<span id="cb37-342"><a href="#cb37-342" aria-hidden="true" tabindex="-1"></a><span class="co"># fitMeasures(fit_partial_scalar, c("cfi","rmsea","srmr"))</span></span>
+<span id="cb37-343"><a href="#cb37-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-344"><a href="#cb37-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-345"><a href="#cb37-345" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb37-346"><a href="#cb37-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-347"><a href="#cb37-347" aria-hidden="true" tabindex="-1"></a>Extract and interpret the growth factor means/variances:</span>
+<span id="cb37-347"><a href="#cb37-347" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part B — Latent Growth Curve Models (LGM)</span></span>
 <span id="cb37-348"><a href="#cb37-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-351"><a href="#cb37-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-352"><a href="#cb37-352" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit_lgm) <span class="sc">|&gt;</span></span>
-<span id="cb37-353"><a href="#cb37-353" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span>
-<span id="cb37-354"><a href="#cb37-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-355"><a href="#cb37-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-356"><a href="#cb37-356" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
-<span id="cb37-357"><a href="#cb37-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-358"><a href="#cb37-358" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the interpretation of **Mean(i)** and **Mean(s)** with this time coding?</span>
-<span id="cb37-359"><a href="#cb37-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Are there individual differences in baseline and change (variances of i and s)?</span>
-<span id="cb37-360"><a href="#cb37-360" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does **Cov(i, s)** suggest about baseline–change association?</span>
-<span id="cb37-361"><a href="#cb37-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-362"><a href="#cb37-362" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-363"><a href="#cb37-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-364"><a href="#cb37-364" aria-hidden="true" tabindex="-1"></a><span class="fu">## B3. Re-centering time (interpretation exercise)</span></span>
-<span id="cb37-365"><a href="#cb37-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-366"><a href="#cb37-366" aria-hidden="true" tabindex="-1"></a>Change the slope loadings to make the intercept represent wave 2.</span>
-<span id="cb37-367"><a href="#cb37-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-368"><a href="#cb37-368" aria-hidden="true" tabindex="-1"></a>Example time scores: (-1, 0, 1, 2).</span>
-<span id="cb37-369"><a href="#cb37-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-372"><a href="#cb37-372" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-373"><a href="#cb37-373" aria-hidden="true" tabindex="-1"></a>lgm_center_w2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-374"><a href="#cb37-374" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
-<span id="cb37-375"><a href="#cb37-375" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ -1*y_t1 + 0*y_t2 + 1*y_t3 + 2*y_t4</span></span>
-<span id="cb37-376"><a href="#cb37-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-377"><a href="#cb37-377" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
-<span id="cb37-378"><a href="#cb37-378" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
-<span id="cb37-379"><a href="#cb37-379" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
-<span id="cb37-380"><a href="#cb37-380" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-381"><a href="#cb37-381" aria-hidden="true" tabindex="-1"></a>fit_lgm_w2 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_center_w2, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-382"><a href="#cb37-382" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit_lgm_w2) <span class="sc">|&gt;</span></span>
-<span id="cb37-383"><a href="#cb37-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span>
-<span id="cb37-384"><a href="#cb37-384" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-385"><a href="#cb37-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-386"><a href="#cb37-386" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question</span></span>
-<span id="cb37-387"><a href="#cb37-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-388"><a href="#cb37-388" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How did the **Mean(i)** change relative to the previous model, and why?</span>
-<span id="cb37-389"><a href="#cb37-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-390"><a href="#cb37-390" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-391"><a href="#cb37-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-392"><a href="#cb37-392" aria-hidden="true" tabindex="-1"></a><span class="fu">## B4. If linear growth is not enough: quadratic growth (optional but recommended)</span></span>
-<span id="cb37-393"><a href="#cb37-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-396"><a href="#cb37-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-397"><a href="#cb37-397" aria-hidden="true" tabindex="-1"></a>lgm_quad <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-398"><a href="#cb37-398" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
-<span id="cb37-399"><a href="#cb37-399" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
-<span id="cb37-400"><a href="#cb37-400" aria-hidden="true" tabindex="-1"></a><span class="st">q =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4</span></span>
+<span id="cb37-349"><a href="#cb37-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## B1. Build wave-level observed scores (teaching-friendly)</span></span>
+<span id="cb37-350"><a href="#cb37-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-351"><a href="#cb37-351" aria-hidden="true" tabindex="-1"></a>To keep growth interpretation simple, we create a wave score as the mean of the four indicators.</span>
+<span id="cb37-352"><a href="#cb37-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-355"><a href="#cb37-355" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-356"><a href="#cb37-356" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
+<span id="cb37-357"><a href="#cb37-357" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-358"><a href="#cb37-358" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t1 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_1,y2_1,y3_1,y4_1)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-359"><a href="#cb37-359" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t2 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_2,y2_2,y3_2,y4_2)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-360"><a href="#cb37-360" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t3 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_3,y2_3,y3_3,y4_3)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-361"><a href="#cb37-361" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_t4 =</span> <span class="fu">rowMeans</span>(<span class="fu">across</span>(<span class="fu">c</span>(y1_4,y2_4,y3_4,y4_4)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-362"><a href="#cb37-362" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-363"><a href="#cb37-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-364"><a href="#cb37-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-365"><a href="#cb37-365" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-366"><a href="#cb37-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-367"><a href="#cb37-367" aria-hidden="true" tabindex="-1"></a><span class="fu">## B2. Linear growth model</span></span>
+<span id="cb37-368"><a href="#cb37-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-369"><a href="#cb37-369" aria-hidden="true" tabindex="-1"></a>Fit a linear LGM with time scores (0, 1, 2, 3).</span>
+<span id="cb37-370"><a href="#cb37-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-373"><a href="#cb37-373" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-374"><a href="#cb37-374" aria-hidden="true" tabindex="-1"></a>lgm_linear <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-375"><a href="#cb37-375" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
+<span id="cb37-376"><a href="#cb37-376" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
+<span id="cb37-377"><a href="#cb37-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-378"><a href="#cb37-378" aria-hidden="true" tabindex="-1"></a><span class="st"># optional residual autocorrelation (often helpful)</span></span>
+<span id="cb37-379"><a href="#cb37-379" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
+<span id="cb37-380"><a href="#cb37-380" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
+<span id="cb37-381"><a href="#cb37-381" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
+<span id="cb37-382"><a href="#cb37-382" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-383"><a href="#cb37-383" aria-hidden="true" tabindex="-1"></a>fit_lgm <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_linear, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-384"><a href="#cb37-384" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lgm, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-385"><a href="#cb37-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-386"><a href="#cb37-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-387"><a href="#cb37-387" aria-hidden="true" tabindex="-1"></a>Extract and interpret the growth factor means/variances:</span>
+<span id="cb37-388"><a href="#cb37-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-391"><a href="#cb37-391" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-392"><a href="#cb37-392" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit_lgm) <span class="sc">|&gt;</span></span>
+<span id="cb37-393"><a href="#cb37-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span>
+<span id="cb37-394"><a href="#cb37-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-395"><a href="#cb37-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-396"><a href="#cb37-396" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
+<span id="cb37-397"><a href="#cb37-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-398"><a href="#cb37-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the interpretation of **Mean(i)** and **Mean(s)** with this time coding?</span>
+<span id="cb37-399"><a href="#cb37-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Are there individual differences in baseline and change (variances of i and s)?</span>
+<span id="cb37-400"><a href="#cb37-400" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does **Cov(i, s)** suggest about baseline–change association?</span>
 <span id="cb37-401"><a href="#cb37-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-402"><a href="#cb37-402" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
-<span id="cb37-403"><a href="#cb37-403" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
-<span id="cb37-404"><a href="#cb37-404" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
-<span id="cb37-405"><a href="#cb37-405" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-406"><a href="#cb37-406" aria-hidden="true" tabindex="-1"></a>fit_lgm_q <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_quad, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-407"><a href="#cb37-407" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(fit_lgm, fit_lgm_q)</span></span>
-<span id="cb37-408"><a href="#cb37-408" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_lgm_q, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
-<span id="cb37-409"><a href="#cb37-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-410"><a href="#cb37-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-411"><a href="#cb37-411" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
-<span id="cb37-412"><a href="#cb37-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-413"><a href="#cb37-413" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does quadratic growth improve fit meaningfully?</span>
-<span id="cb37-414"><a href="#cb37-414" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is the quadratic factor mean/variance interpretable and substantively plausible?</span>
-<span id="cb37-415"><a href="#cb37-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-416"><a href="#cb37-416" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-417"><a href="#cb37-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-418"><a href="#cb37-418" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part C — Conditional growth (predictors of intercept and slope)</span></span>
-<span id="cb37-419"><a href="#cb37-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-420"><a href="#cb37-420" aria-hidden="true" tabindex="-1"></a><span class="fu">## C1. Add a predictor</span></span>
-<span id="cb37-421"><a href="#cb37-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-422"><a href="#cb37-422" aria-hidden="true" tabindex="-1"></a>Create a predictor <span class="in">`x`</span> (in real applications: trait, condition, demographic variable, baseline stress, etc.).</span>
-<span id="cb37-423"><a href="#cb37-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-426"><a href="#cb37-426" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-427"><a href="#cb37-427" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">77</span>)</span>
-<span id="cb37-428"><a href="#cb37-428" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(dat))</span>
-<span id="cb37-429"><a href="#cb37-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-430"><a href="#cb37-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-431"><a href="#cb37-431" aria-hidden="true" tabindex="-1"></a>Fit conditional growth:</span>
-<span id="cb37-432"><a href="#cb37-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-435"><a href="#cb37-435" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-436"><a href="#cb37-436" aria-hidden="true" tabindex="-1"></a>lgm_cond <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="cb37-437"><a href="#cb37-437" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
-<span id="cb37-438"><a href="#cb37-438" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
-<span id="cb37-439"><a href="#cb37-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-440"><a href="#cb37-440" aria-hidden="true" tabindex="-1"></a><span class="st">i ~ x</span></span>
-<span id="cb37-441"><a href="#cb37-441" aria-hidden="true" tabindex="-1"></a><span class="st">s ~ x</span></span>
-<span id="cb37-442"><a href="#cb37-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-443"><a href="#cb37-443" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
-<span id="cb37-444"><a href="#cb37-444" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
-<span id="cb37-445"><a href="#cb37-445" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
-<span id="cb37-446"><a href="#cb37-446" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb37-447"><a href="#cb37-447" aria-hidden="true" tabindex="-1"></a>fit_lgm_c <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_cond, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb37-448"><a href="#cb37-448" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lgm_c, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-402"><a href="#cb37-402" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-403"><a href="#cb37-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-404"><a href="#cb37-404" aria-hidden="true" tabindex="-1"></a><span class="fu">## B3. Re-centering time (interpretation exercise)</span></span>
+<span id="cb37-405"><a href="#cb37-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-406"><a href="#cb37-406" aria-hidden="true" tabindex="-1"></a>Change the slope loadings to make the intercept represent wave 2.</span>
+<span id="cb37-407"><a href="#cb37-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-408"><a href="#cb37-408" aria-hidden="true" tabindex="-1"></a>Example time scores: (-1, 0, 1, 2).</span>
+<span id="cb37-409"><a href="#cb37-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-412"><a href="#cb37-412" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-413"><a href="#cb37-413" aria-hidden="true" tabindex="-1"></a>lgm_center_w2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-414"><a href="#cb37-414" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
+<span id="cb37-415"><a href="#cb37-415" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ -1*y_t1 + 0*y_t2 + 1*y_t3 + 2*y_t4</span></span>
+<span id="cb37-416"><a href="#cb37-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-417"><a href="#cb37-417" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
+<span id="cb37-418"><a href="#cb37-418" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
+<span id="cb37-419"><a href="#cb37-419" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
+<span id="cb37-420"><a href="#cb37-420" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-421"><a href="#cb37-421" aria-hidden="true" tabindex="-1"></a>fit_lgm_w2 <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_center_w2, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-422"><a href="#cb37-422" aria-hidden="true" tabindex="-1"></a><span class="fu">parameterEstimates</span>(fit_lgm_w2) <span class="sc">|&gt;</span></span>
+<span id="cb37-423"><a href="#cb37-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(op <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"~1"</span>,<span class="st">"~~"</span>) <span class="sc">&amp;</span> lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"i"</span>,<span class="st">"s"</span>))</span>
+<span id="cb37-424"><a href="#cb37-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-425"><a href="#cb37-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-426"><a href="#cb37-426" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question</span></span>
+<span id="cb37-427"><a href="#cb37-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-428"><a href="#cb37-428" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>How did the **Mean(i)** change relative to the previous model, and why?</span>
+<span id="cb37-429"><a href="#cb37-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-430"><a href="#cb37-430" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-431"><a href="#cb37-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-432"><a href="#cb37-432" aria-hidden="true" tabindex="-1"></a><span class="fu">## B4. If linear growth is not enough: quadratic growth (optional but recommended)</span></span>
+<span id="cb37-433"><a href="#cb37-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-436"><a href="#cb37-436" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-437"><a href="#cb37-437" aria-hidden="true" tabindex="-1"></a>lgm_quad <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-438"><a href="#cb37-438" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
+<span id="cb37-439"><a href="#cb37-439" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
+<span id="cb37-440"><a href="#cb37-440" aria-hidden="true" tabindex="-1"></a><span class="st">q =~ 0*y_t1 + 1*y_t2 + 4*y_t3 + 9*y_t4</span></span>
+<span id="cb37-441"><a href="#cb37-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-442"><a href="#cb37-442" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
+<span id="cb37-443"><a href="#cb37-443" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
+<span id="cb37-444"><a href="#cb37-444" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
+<span id="cb37-445"><a href="#cb37-445" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-446"><a href="#cb37-446" aria-hidden="true" tabindex="-1"></a>fit_lgm_q <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_quad, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-447"><a href="#cb37-447" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(fit_lgm, fit_lgm_q)</span></span>
+<span id="cb37-448"><a href="#cb37-448" aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit_lgm_q, <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span>
 <span id="cb37-449"><a href="#cb37-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb37-450"><a href="#cb37-450" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-451"><a href="#cb37-451" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
 <span id="cb37-452"><a href="#cb37-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-453"><a href="#cb37-453" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does <span class="in">`x → i`</span> mean? What does <span class="in">`x → s`</span> mean?</span>
-<span id="cb37-454"><a href="#cb37-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If <span class="in">`x → s`</span> is positive, how would you explain it in words?</span>
+<span id="cb37-453"><a href="#cb37-453" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Does quadratic growth improve fit meaningfully?</span>
+<span id="cb37-454"><a href="#cb37-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Is the quadratic factor mean/variance interpretable and substantively plausible?</span>
 <span id="cb37-455"><a href="#cb37-455" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-456"><a href="#cb37-456" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb37-457"><a href="#cb37-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-458"><a href="#cb37-458" aria-hidden="true" tabindex="-1"></a><span class="fu"># Optional extension — “Classic MG-CFA” style via long format</span></span>
+<span id="cb37-458"><a href="#cb37-458" aria-hidden="true" tabindex="-1"></a><span class="fu"># Part C — Conditional growth (predictors of intercept and slope)</span></span>
 <span id="cb37-459"><a href="#cb37-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-460"><a href="#cb37-460" aria-hidden="true" tabindex="-1"></a>The <span class="in">`group=`</span> workflow (and <span class="in">`semTools::measurementInvariance()`</span>) becomes natural if you reshape data to **long format**:</span>
-<span id="cb37-461"><a href="#cb37-461" aria-hidden="true" tabindex="-1"></a>one row per person–wave, and a <span class="in">`wave`</span> grouping variable.</span>
-<span id="cb37-462"><a href="#cb37-462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-463"><a href="#cb37-463" aria-hidden="true" tabindex="-1"></a>This is **optional** and meant to connect the longitudinal invariance logic to what you did in MG-CFA.</span>
-<span id="cb37-464"><a href="#cb37-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-467"><a href="#cb37-467" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-468"><a href="#cb37-468" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: reshape to long format for invariance automation</span></span>
-<span id="cb37-469"><a href="#cb37-469" aria-hidden="true" tabindex="-1"></a><span class="co"># Requires tidyr</span></span>
-<span id="cb37-470"><a href="#cb37-470" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb37-471"><a href="#cb37-471" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-472"><a href="#cb37-472" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
-<span id="cb37-473"><a href="#cb37-473" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb37-474"><a href="#cb37-474" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb37-475"><a href="#cb37-475" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^y[1-4]_[1-4]$"</span>),</span>
-<span id="cb37-476"><a href="#cb37-476" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">".value"</span>,<span class="st">"wave"</span>),</span>
-<span id="cb37-477"><a href="#cb37-477" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"^(y</span><span class="sc">\\</span><span class="st">d)_(</span><span class="sc">\\</span><span class="st">d)$"</span></span>
-<span id="cb37-478"><a href="#cb37-478" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb37-479"><a href="#cb37-479" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wave =</span> <span class="fu">factor</span>(wave))</span>
-<span id="cb37-480"><a href="#cb37-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-481"><a href="#cb37-481" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_long)</span>
-<span id="cb37-482"><a href="#cb37-482" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-483"><a href="#cb37-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-484"><a href="#cb37-484" aria-hidden="true" tabindex="-1"></a>Run invariance:</span>
-<span id="cb37-485"><a href="#cb37-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-488"><a href="#cb37-488" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-489"><a href="#cb37-489" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: classic style invariance test in long data</span></span>
-<span id="cb37-490"><a href="#cb37-490" aria-hidden="true" tabindex="-1"></a><span class="co"># model_long &lt;- 'F =~ y1 + y2 + y3 + y4'</span></span>
-<span id="cb37-491"><a href="#cb37-491" aria-hidden="true" tabindex="-1"></a><span class="co"># inv &lt;- measurementInvariance(model = model_long, data = dat_long, group = "wave", strict = FALSE)</span></span>
-<span id="cb37-492"><a href="#cb37-492" aria-hidden="true" tabindex="-1"></a><span class="co"># inv$fit.measures</span></span>
-<span id="cb37-493"><a href="#cb37-493" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-494"><a href="#cb37-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-495"><a href="#cb37-495" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb37-496"><a href="#cb37-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-497"><a href="#cb37-497" aria-hidden="true" tabindex="-1"></a><span class="fu">## What to hand in (suggested)</span></span>
-<span id="cb37-498"><a href="#cb37-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-499"><a href="#cb37-499" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A small table with fit indices for configural, metric, scalar (and partial scalar if used).</span>
-<span id="cb37-500"><a href="#cb37-500" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>A brief justification (2–6 sentences) of your invariance decision.</span>
-<span id="cb37-501"><a href="#cb37-501" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Linear LGM results: interpret mean(i), mean(s), var(s), cov(i,s).</span>
-<span id="cb37-502"><a href="#cb37-502" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>One centering exercise: explain how time coding changes intercept meaning.</span>
-<span id="cb37-503"><a href="#cb37-503" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>(Optional) Quadratic growth comparison + interpretation.</span>
-<span id="cb37-504"><a href="#cb37-504" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Conditional growth: interpret the regression(s) of i and s on x.</span>
-<span id="cb37-505"><a href="#cb37-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-506"><a href="#cb37-506" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb37-507"><a href="#cb37-507" aria-hidden="true" tabindex="-1"></a>Keep it “report-ready”: always report χ²(df), CFI/TLI, RMSEA (+ CI if possible), SRMR + the key local decision you made (e.g., which intercept you freed).</span>
-<span id="cb37-508"><a href="#cb37-508" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb37-460"><a href="#cb37-460" aria-hidden="true" tabindex="-1"></a><span class="fu">## C1. Add a predictor</span></span>
+<span id="cb37-461"><a href="#cb37-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-462"><a href="#cb37-462" aria-hidden="true" tabindex="-1"></a>Create a predictor <span class="in">`x`</span> (in real applications: trait, condition, demographic variable, baseline stress, etc.).</span>
+<span id="cb37-463"><a href="#cb37-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-466"><a href="#cb37-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-467"><a href="#cb37-467" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">77</span>)</span>
+<span id="cb37-468"><a href="#cb37-468" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(dat))</span>
+<span id="cb37-469"><a href="#cb37-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-470"><a href="#cb37-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-471"><a href="#cb37-471" aria-hidden="true" tabindex="-1"></a>Fit conditional growth:</span>
+<span id="cb37-472"><a href="#cb37-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-475"><a href="#cb37-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-476"><a href="#cb37-476" aria-hidden="true" tabindex="-1"></a>lgm_cond <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-477"><a href="#cb37-477" aria-hidden="true" tabindex="-1"></a><span class="st">i =~ 1*y_t1 + 1*y_t2 + 1*y_t3 + 1*y_t4</span></span>
+<span id="cb37-478"><a href="#cb37-478" aria-hidden="true" tabindex="-1"></a><span class="st">s =~ 0*y_t1 + 1*y_t2 + 2*y_t3 + 3*y_t4</span></span>
+<span id="cb37-479"><a href="#cb37-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-480"><a href="#cb37-480" aria-hidden="true" tabindex="-1"></a><span class="st">i ~ x</span></span>
+<span id="cb37-481"><a href="#cb37-481" aria-hidden="true" tabindex="-1"></a><span class="st">s ~ x</span></span>
+<span id="cb37-482"><a href="#cb37-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-483"><a href="#cb37-483" aria-hidden="true" tabindex="-1"></a><span class="st">y_t1 ~~ y_t2</span></span>
+<span id="cb37-484"><a href="#cb37-484" aria-hidden="true" tabindex="-1"></a><span class="st">y_t2 ~~ y_t3</span></span>
+<span id="cb37-485"><a href="#cb37-485" aria-hidden="true" tabindex="-1"></a><span class="st">y_t3 ~~ y_t4</span></span>
+<span id="cb37-486"><a href="#cb37-486" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb37-487"><a href="#cb37-487" aria-hidden="true" tabindex="-1"></a>fit_lgm_c <span class="ot">&lt;-</span> <span class="fu">growth</span>(lgm_cond, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb37-488"><a href="#cb37-488" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lgm_c, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-489"><a href="#cb37-489" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-490"><a href="#cb37-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-491"><a href="#cb37-491" aria-hidden="true" tabindex="-1"></a><span class="fu">### Questions</span></span>
+<span id="cb37-492"><a href="#cb37-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-493"><a href="#cb37-493" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What does <span class="in">`x → i`</span> mean? What does <span class="in">`x → s`</span> mean?</span>
+<span id="cb37-494"><a href="#cb37-494" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If <span class="in">`x → s`</span> is positive, how would you explain it in words?</span>
+<span id="cb37-495"><a href="#cb37-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-496"><a href="#cb37-496" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-497"><a href="#cb37-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-498"><a href="#cb37-498" aria-hidden="true" tabindex="-1"></a><span class="fu"># Optional extension — “Classic MG-CFA” style via long format</span></span>
+<span id="cb37-499"><a href="#cb37-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-500"><a href="#cb37-500" aria-hidden="true" tabindex="-1"></a>The <span class="in">`group=`</span> workflow (and <span class="in">`semTools::measurementInvariance()`</span>) becomes natural if you reshape data to **long format**:</span>
+<span id="cb37-501"><a href="#cb37-501" aria-hidden="true" tabindex="-1"></a>one row per person–wave, and a <span class="in">`wave`</span> grouping variable.</span>
+<span id="cb37-502"><a href="#cb37-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-503"><a href="#cb37-503" aria-hidden="true" tabindex="-1"></a>This is **optional** and meant to connect the longitudinal invariance logic to what you did in MG-CFA.</span>
+<span id="cb37-504"><a href="#cb37-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-507"><a href="#cb37-507" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-508"><a href="#cb37-508" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: reshape to long format for invariance automation</span></span>
+<span id="cb37-509"><a href="#cb37-509" aria-hidden="true" tabindex="-1"></a><span class="co"># Requires tidyr</span></span>
+<span id="cb37-510"><a href="#cb37-510" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb37-511"><a href="#cb37-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-512"><a href="#cb37-512" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
+<span id="cb37-513"><a href="#cb37-513" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb37-514"><a href="#cb37-514" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb37-515"><a href="#cb37-515" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">matches</span>(<span class="st">"^y[1-4]_[1-4]$"</span>),</span>
+<span id="cb37-516"><a href="#cb37-516" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">".value"</span>,<span class="st">"wave"</span>),</span>
+<span id="cb37-517"><a href="#cb37-517" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"^(y</span><span class="sc">\\</span><span class="st">d)_(</span><span class="sc">\\</span><span class="st">d)$"</span></span>
+<span id="cb37-518"><a href="#cb37-518" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb37-519"><a href="#cb37-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wave =</span> <span class="fu">factor</span>(wave))</span>
+<span id="cb37-520"><a href="#cb37-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-521"><a href="#cb37-521" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_long)</span>
+<span id="cb37-522"><a href="#cb37-522" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-523"><a href="#cb37-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-524"><a href="#cb37-524" aria-hidden="true" tabindex="-1"></a>Run invariance:</span>
+<span id="cb37-525"><a href="#cb37-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-528"><a href="#cb37-528" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-529"><a href="#cb37-529" aria-hidden="true" tabindex="-1"></a><span class="co"># OPTIONAL: classic style invariance test in long data</span></span>
+<span id="cb37-530"><a href="#cb37-530" aria-hidden="true" tabindex="-1"></a><span class="co"># model_long &lt;- 'F =~ y1 + y2 + y3 + y4'</span></span>
+<span id="cb37-531"><a href="#cb37-531" aria-hidden="true" tabindex="-1"></a><span class="co"># inv &lt;- measurementInvariance(model = model_long, data = dat_long, group = "wave", strict = FALSE)</span></span>
+<span id="cb37-532"><a href="#cb37-532" aria-hidden="true" tabindex="-1"></a><span class="co"># inv$fit.measures</span></span>
+<span id="cb37-533"><a href="#cb37-533" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-534"><a href="#cb37-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-535"><a href="#cb37-535" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb37-536"><a href="#cb37-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-537"><a href="#cb37-537" aria-hidden="true" tabindex="-1"></a><span class="fu">## What to hand in (suggested)</span></span>
+<span id="cb37-538"><a href="#cb37-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-539"><a href="#cb37-539" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A small table with fit indices for configural, metric, scalar (and partial scalar if used).</span>
+<span id="cb37-540"><a href="#cb37-540" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>A brief justification (2–6 sentences) of your invariance decision.</span>
+<span id="cb37-541"><a href="#cb37-541" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Linear LGM results: interpret mean(i), mean(s), var(s), cov(i,s).</span>
+<span id="cb37-542"><a href="#cb37-542" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>One centering exercise: explain how time coding changes intercept meaning.</span>
+<span id="cb37-543"><a href="#cb37-543" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>(Optional) Quadratic growth comparison + interpretation.</span>
+<span id="cb37-544"><a href="#cb37-544" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Conditional growth: interpret the regression(s) of i and s on x.</span>
+<span id="cb37-545"><a href="#cb37-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-546"><a href="#cb37-546" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb37-547"><a href="#cb37-547" aria-hidden="true" tabindex="-1"></a>Keep it “report-ready”: always report χ²(df), CFI/TLI, RMSEA (+ CI if possible), SRMR + the key local decision you made (e.g., which intercept you freed).</span>
+<span id="cb37-548"><a href="#cb37-548" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

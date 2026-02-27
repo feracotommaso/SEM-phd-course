@@ -79,6 +79,66 @@ RI-CLPM and LCS are linked as extras later.
 
 ---
 
+## Not a longitudinal model
+
+:::{columns}
+:::{.column width="50%"}
+```{r}
+#| echo: false
+set.seed(123)
+N = 1000
+neuroticism <- rnorm(N)
+affect <- 0.40*neuroticism + rnorm(N)
+affect_t1 <- 0.80*affect + rnorm(N)
+affect_t2 <- 0.80*affect + rnorm(N)
+d <- data.frame(neuroticism, affect_t1, affect_t2)
+m <- "
+affect_t2 ~ affect_t1 + neuroticism
+"
+fit <- sem(m, data = d)
+semPaths(
+  fit,
+  what = "std", whatLabels = "std",
+  layout = "tree2", rotation = 1,
+  residuals = FALSE, intercepts = FALSE,
+  exoCov = TRUE, nCharNodes = 0,
+
+  # B/W
+  edge.color = "black",
+  border.color = "black",
+  color = list(lat = "white", man = "white"),
+
+  weighted = FALSE,
+  asize = 0.9,
+
+  # ---- sizes ----
+  sizeMan = 10,   # observed squares
+  sizeLat = 8,   # latent circles
+  label.cex = 1.1,        # node label font size
+  edge.label.cex = 0.9,   # edge label font size
+
+  # optional: thicker borders/edges if you shrink fonts
+  border.width = 1.5,
+  edge.width = 1.2
+)
+
+```
+
+
+:::
+:::{.column width="50%"}
+::: {.callout-warning}
+
+**The intercepts problem:** Without controlling for the TRUE latent variable, variables that are associated with T1 levels will always be associated with T2 level even after accounting for T1 scores. You must account for the latent intercept of that variable. T1 scores is just an indicator of that variable + some error. Which is the same for T2.
+
+- You are **not** testing whether neuroticism predicts *changes* in affect from T1 and T2
+
+:::
+:::
+:::
+
+---
+
 ## Minimal key concept: measurement-first (two-step)
 
 **Two-step mindset**
