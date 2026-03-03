@@ -7691,5 +7691,271 @@
     "title": "Longitudinal SEM: Growth + Invariance Over Time",
     "section": "Not a longitudinal model",
     "text": "Not a longitudinal model\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\nThe intercepts problem: Without controlling for the TRUE latent variable, variables that are associated with T1 levels will always be associated with T2 level even after accounting for T1 scores. You must account for the latent intercept of that variable. T1 scores is just an indicator of that variable + some error. Which is the same for T2.\n\nYou are not testing whether neuroticism predicts changes in affect from T1 and T2"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#workflow-map",
+    "href": "extras/ex03_latent-interactions_modsem.html#workflow-map",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Workflow map",
+    "text": "Workflow map\nSpecify → Identify → Estimate → Evaluate → Revise/Report\nToday (highlight): Specify moderation in SEM → Estimate latent interactions → Evaluate without “classic fit” (LMS) → Report via probing.\n\n\n\n\n\n\nTip\n\n\nMeasurement-first reminder: validate the measurement model (CFA) before fitting any interaction."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#today",
+    "href": "extras/ex03_latent-interactions_modsem.html#today",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Today",
+    "text": "Today\n\nQuick SEM/CFA refresher (just what we need)\nObserved moderation (simulation) with lm() and lavaan\nWhy “SEM interactions” (latent interactions) are worth the trouble\nThe main technical difficulties (what breaks, why)\nOptions in practice: PI (dblcent) vs LMS/QML (and what to report)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#learning-objectives",
+    "href": "extras/ex03_latent-interactions_modsem.html#learning-objectives",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this deck, you can:\n\nSimulate a simple moderation DGP with latent variables and observed indicators\nFit observed moderation via lm() and via lavaan::sem()\nExplain why latent interactions are harder than observed ones\nFit a latent interaction in modsem using:\n\nproduct-indicator approach: method = \"dblcent\"\ndistribution-analytic approach: method = \"lms\" (and know what “qml” is)\n\nProbe and visualize the interaction (simple slopes, JN, surface)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#minimal-semcfa-refresher",
+    "href": "extras/ex03_latent-interactions_modsem.html#minimal-semcfa-refresher",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Minimal SEM/CFA refresher",
+    "text": "Minimal SEM/CFA refresher\nCore idea\n\nLatent construct \\((\\xi)\\) is measured by indicators \\((x_1, x_2, x_3)\\)\n\n\\[\nx_i = \\lambda_i\\,\\xi + \\delta_i\n\\]\n\nCFA: estimate loadings \\((\\lambda)\\) and measurement error \\((\\delta)\\)\nSEM: add structural regressions among latent variables\n\nADD IMAGE: Simple CFA path diagram (one factor, 3 indicators)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#why-measurement-first-matters-for-moderation",
+    "href": "extras/ex03_latent-interactions_modsem.html#why-measurement-first-matters-for-moderation",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Why measurement-first matters for moderation",
+    "text": "Why measurement-first matters for moderation\nObserved moderation uses measured variables.\nIf the constructs are measured with error:\n\nMain effects attenuate\nInteraction effects attenuate even more\n\nIntuition: the product term is “signal × signal” but also “error × signal” and “error × error”.\nADD IMAGE: Algebra sketch showing (x_i z_j) expansion with error cross-terms"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#simulation-setup",
+    "href": "extras/ex03_latent-interactions_modsem.html#simulation-setup",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Simulation setup",
+    "text": "Simulation setup\nWe’ll simulate:\n\nOutcome (latent): achievement (Y)\nPredictor (latent): intelligence (X)\nModerator (latent): anxiety (Z)\n\nStructural DGP:\n\\[\nY = \\beta_X X + \\beta_Z Z + \\beta_{XZ}(X\\cdot Z) + \\varepsilon\n\\]\nThen we create 3 indicators per construct."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#simulate-latent-variables-explicit-no-custom-function",
+    "href": "extras/ex03_latent-interactions_modsem.html#simulate-latent-variables-explicit-no-custom-function",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Simulate latent variables (explicit; no custom function)",
+    "text": "Simulate latent variables (explicit; no custom function)\n\n\nset.seed(123)\n\n# ----------------------\n# Design choices\n# ----------------------\nN &lt;- 500\n\n# Structural effects (interpretable):\n# - intelligence helps achievement\n# - anxiety hurts achievement\n# - anxiety reduces the benefit of intelligence (negative interaction)\nb_X  &lt;-  0.40\nb_Z  &lt;- -0.30\nb_XZ &lt;- -0.20\n\n# Correlation between X and Z (optional)\nrho_XZ &lt;- -0.20\n\n# Latent predictors (bivariate normal)\n# We'll construct Z with the desired correlation with X\nX &lt;- rnorm(N, mean = 0, sd = 1)\nE_Z &lt;- rnorm(N, mean = 0, sd = 1)\nZ &lt;- rho_XZ * X + sqrt(1 - rho_XZ^2) * E_Z\n\nXZ &lt;- X * Z\n\n# Latent outcome\nlin &lt;- b_X * X + b_Z * Z + b_XZ * XZ\nvar_lin &lt;- var(lin)\n\n# choose residual variance so that Var(Y) ~ 1 (if possible)\nvar_e &lt;- max(1e-6, 1 - var_lin)\nY &lt;- lin + rnorm(N, mean = 0, sd = sqrt(var_e))\n\nc(var_X = var(X), var_Z = var(Z), var_XZ = var(XZ), var_Y = var(Y))\n\n    var_X     var_Z    var_XZ     var_Y \n0.9462803 1.0389162 0.9744937 1.0134686"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#create-observed-indicators-3-per-construct",
+    "href": "extras/ex03_latent-interactions_modsem.html#create-observed-indicators-3-per-construct",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Create observed indicators (3+ per construct)",
+    "text": "Create observed indicators (3+ per construct)\nWe’ll use loadings \\((\\lambda)\\) around .70–.80 and choose residual variances so items are ~standardized.\n\n\n# Loadings (can be different per construct if you want)\nlambda_X &lt;- c(.80, .70, .75)\nlambda_Z &lt;- c(.80, .70, .75)\nlambda_Y &lt;- c(.80, .70, .75)\n\n# For standardized latent variables, choose residual variances so items are ~standardized\n# Var(item) ≈ lambda^2 * Var(latent) + theta; with Var(latent)=1, set theta = 1 - lambda^2\ntheta_X &lt;- 1 - lambda_X^2\ntheta_Z &lt;- 1 - lambda_Z^2\ntheta_Y &lt;- 1 - lambda_Y^2\n\n# Intelligence indicators (explicit; no helper function)\nint1 &lt;- lambda_X[1] * X + rnorm(N, 0, sqrt(theta_X[1]))\nint2 &lt;- lambda_X[2] * X + rnorm(N, 0, sqrt(theta_X[2]))\nint3 &lt;- lambda_X[3] * X + rnorm(N, 0, sqrt(theta_X[3]))\n\n# Anxiety indicators\nanx1 &lt;- lambda_Z[1] * Z + rnorm(N, 0, sqrt(theta_Z[1]))\nanx2 &lt;- lambda_Z[2] * Z + rnorm(N, 0, sqrt(theta_Z[2]))\nanx3 &lt;- lambda_Z[3] * Z + rnorm(N, 0, sqrt(theta_Z[3]))\n\n# Achievement indicators\nach1 &lt;- lambda_Y[1] * Y + rnorm(N, 0, sqrt(theta_Y[1]))\nach2 &lt;- lambda_Y[2] * Y + rnorm(N, 0, sqrt(theta_Y[2]))\nach3 &lt;- lambda_Y[3] * Y + rnorm(N, 0, sqrt(theta_Y[3]))\n\n# Data frame of observed items\ndat &lt;- data.frame(\n  int1 = int1, int2 = int2, int3 = int3,\n  anx1 = anx1, anx2 = anx2, anx3 = anx3,\n  ach1 = ach1, ach2 = ach2, ach3 = ach3\n)\n\nhead(dat)\n\n        int1         int2       int3       anx1       anx2       anx3\n1 -0.9409725 -0.757691089 -0.8693458 -0.4722941  0.7213961 -0.2282223\n2 -0.3684963  0.008083248  0.2072391 -0.9387233 -1.6539571 -0.2656803\n3  0.7057078  0.704323789  0.7030387 -0.3134607 -0.8594165  0.9645511\n4  0.4326480  0.920058572 -0.3003160  0.1590573  0.3071705 -0.3080517\n5  0.7756432  0.214859304  0.6091731  0.3554680 -0.7457860 -2.4685451\n6  2.6483801  0.761156026  0.9717048 -0.3714395 -0.3973387  1.1315075\n        ach1       ach2       ach3\n1 -0.2382528 -0.9994270 -1.5904197\n2 -0.9635583  0.3288114 -1.3655229\n3  0.9331468 -0.6899336 -0.8651609\n4 -0.8307124  0.8453788  0.3408486\n5 -0.7338772 -0.3805433 -1.9121454\n6  2.1876145  1.4931509  1.7528447"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#observed-totals-summean-scores",
+    "href": "extras/ex03_latent-interactions_modsem.html#observed-totals-summean-scores",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Observed totals (sum/mean scores)",
+    "text": "Observed totals (sum/mean scores)\nThis is what many researchers do (sometimes without realizing the cost for interactions).\n\ndat$intelligence_total &lt;- rowMeans(dat[, c(\"int1\",\"int2\",\"int3\")])\ndat$anxiety_total      &lt;- rowMeans(dat[, c(\"anx1\",\"anx2\",\"anx3\")])\ndat$achievement_total  &lt;- rowMeans(dat[, c(\"ach1\",\"ach2\",\"ach3\")])\n\n# Center for interpretability: Z = 0 means \"average anxiety\"\ndat$int_c &lt;- as.numeric(scale(dat$intelligence_total, scale = FALSE))\ndat$anx_c &lt;- as.numeric(scale(dat$anxiety_total,      scale = FALSE))\n\ndat$int_x_anx &lt;- dat$int_c * dat$anx_c\n\nsummary(dat[, c(\"intelligence_total\",\"anxiety_total\",\"achievement_total\")])\n\n intelligence_total anxiety_total        achievement_total \n Min.   :-2.43141   Min.   :-2.6564607   Min.   :-2.46318  \n 1st Qu.:-0.46922   1st Qu.:-0.5218372   1st Qu.:-0.53039  \n Median : 0.06996   Median :-0.0005894   Median : 0.05928  \n Mean   : 0.02769   Mean   :-0.0207312   Mean   : 0.07591  \n 3rd Qu.: 0.54621   3rd Qu.: 0.5289116   3rd Qu.: 0.62722  \n Max.   : 2.47346   Max.   : 2.3890175   Max.   : 2.84914"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#observed-moderation-with-lm",
+    "href": "extras/ex03_latent-interactions_modsem.html#observed-moderation-with-lm",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Observed moderation with lm()",
+    "text": "Observed moderation with lm()\n\nfit_lm &lt;- lm(achievement_total ~ int_c + anx_c + int_x_anx, data = dat)\ncoef(summary(fit_lm))\n\n               Estimate Std. Error   t value     Pr(&gt;|t|)\n(Intercept)  0.04925102 0.03396313  1.450132 1.476537e-01\nint_c        0.38302542 0.04295836  8.916203 9.268394e-18\nanx_c       -0.21927094 0.04007868 -5.471012 7.110258e-08\nint_x_anx   -0.26707651 0.05344051 -4.997641 8.059989e-07\n\n\nInterpretation:\n\nint_c: effect of intelligence when anxiety is average (0 after centering)\nanx_c: effect of anxiety when intelligence is average\nint_x_anx: moderation (how the effect of intelligence changes as anxiety increases)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#observed-moderation-with-lavaansem",
+    "href": "extras/ex03_latent-interactions_modsem.html#observed-moderation-with-lavaansem",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Observed moderation with lavaan::sem()",
+    "text": "Observed moderation with lavaan::sem()\nSame regression, but estimated with SEM syntax.\n\nlibrary(lavaan)\n\nmod_obs &lt;- '\n  achievement_total ~ b1*int_c + b2*anx_c + b3*int_x_anx\n'\n\nfit_obs &lt;- sem(mod_obs, data = dat, meanstructure = TRUE)\n\npe &lt;- parameterEstimates(fit_obs, standardized = TRUE)\npe[pe$op == \"~\", c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"pvalue\",\"std.all\")]\n\n                lhs op       rhs    est    se pvalue std.all\n1 achievement_total  ~     int_c  0.383 0.043      0   0.350\n2 achievement_total  ~     anx_c -0.219 0.040      0  -0.216\n3 achievement_total  ~ int_x_anx -0.267 0.053      0  -0.196"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#why-stop-here-observed-interaction-is-not-wrong",
+    "href": "extras/ex03_latent-interactions_modsem.html#why-stop-here-observed-interaction-is-not-wrong",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Why stop here? (Observed interaction is not “wrong”)",
+    "text": "Why stop here? (Observed interaction is not “wrong”)\nObserved moderation can be fine when:\n\nvariables are measured with high reliability\nyou’re comfortable treating totals as error-free\nyour goal is prediction, not latent construct inference\n\nBut in psychological measurement:\n\nreliability is often moderate\nmeasurement error is non-trivial\ninteraction effects are small → easily attenuated\n\nMotivation for latent interactions: estimate moderation between constructs, correcting (at least partially) for measurement error."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#sem-moderation-latent-interaction",
+    "href": "extras/ex03_latent-interactions_modsem.html#sem-moderation-latent-interaction",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "SEM moderation = latent interaction",
+    "text": "SEM moderation = latent interaction\nWe want:\n\\[\n\\eta_Y = \\beta_X\\,\\xi_X + \\beta_Z\\,\\xi_Z + \\beta_{XZ}(\\xi_X\\xi_Z) + \\zeta\n\\]\nProblem: \\((\\xi_X\\xi_Z)\\) is not observed.\nTwo main families of solutions:\n\nProduct indicators (PI): build observed products (e.g., \\((x_i z_j)\\)) and model them as indicators of a latent interaction factor.\nLMS/QML (distribution-analytic): estimate the interaction directly in the likelihood (no product indicators), but standard global fit indices typically disappear."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#the-big-three-technical-difficulties",
+    "href": "extras/ex03_latent-interactions_modsem.html#the-big-three-technical-difficulties",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "The big three technical difficulties",
+    "text": "The big three technical difficulties\n\nNonlinearity: interaction makes the model nonlinear\nNon-normality: product of normals is not normal\nFit logic changes: especially with LMS (no classical \\((\\chi^2)\\), CFI, RMSEA for the interaction model)\n\nEverything else is a consequence: identification, centering confusion, computational burden, interpretation."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-1-the-product-is-latent-not-observed",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-1-the-product-is-latent-not-observed",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 1 — The product is latent (not observed)",
+    "text": "Difficulty 1 — The product is latent (not observed)\nIn regression: compute \\((XZ)\\).\nIn SEM:\n\nX and Z are latent\nyou only have indicators\nproduct indicators contain extra error cross-terms\n\nADD IMAGE: x_i z_j expansion showing signal + nuisance terms"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-2-non-normality-of-the-product",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-2-non-normality-of-the-product",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 2 — Non-normality of the product",
+    "text": "Difficulty 2 — Non-normality of the product\nEven if \\((X)\\) and \\((Z)\\) are normal, \\((XZ)\\) is not.\n\npar(mfrow = c(1, 2))\nhist(X,  main = \"Latent X (normal)\")\nhist(XZ, main = \"Latent X*Z (non-normal)\")\n\npar(mfrow = c(1, 1))\n\nImplication: classical normal-theory SEs / tests can misbehave, especially in small N."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-3-identification-parameter-explosion-pi",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-3-identification-parameter-explosion-pi",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 3 — Identification + parameter explosion (PI)",
+    "text": "Difficulty 3 — Identification + parameter explosion (PI)\nIf X has \\((p)\\) indicators and Z has \\((q)\\) indicators:\n\n“all-pairs” product indicators: \\((pq)\\)\nmany shared components → correlated residuals are plausible\ntoo many free covariances can break identification\n\nTeaching takeaway: PI is transparent but can become a big model fast."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-4-fit-indices-disappear-lms",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-4-fit-indices-disappear-lms",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 4 — Fit indices disappear (LMS)",
+    "text": "Difficulty 4 — Fit indices disappear (LMS)\nWith LMS/QML you typically cannot report classical SEM global fit indices for the interaction model.\nSo evaluation becomes:\n\nFit baseline model (no interaction): report CFI/TLI/RMSEA/SRMR there\nAdd interaction: compare baseline vs interaction using log-likelihood difference test (or AIC/BIC)\n\nThis is a conceptual shift: fit ≠ truth, and sometimes fit ≠ available."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-5-interpretation-is-conditional-probing",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-5-interpretation-is-conditional-probing",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 5 — Interpretation is conditional (probing)",
+    "text": "Difficulty 5 — Interpretation is conditional (probing)\nThe simple slope of X depends on Z:\n\\[\n\\frac{\\partial Y}{\\partial X} = \\beta_X + \\beta_{XZ} Z\n\\]\nSo there is no single “main effect” of X.\nYou must probe:\n\nsimple slopes (e.g., Z = -1, 0, +1 SD)\nJohnson–Neyman region\nsurface plots\n\nADD IMAGE: simple slopes plot + Johnson–Neyman plot"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-6-centering-interpretation-vs-estimation",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-6-centering-interpretation-vs-estimation",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 6 — Centering: interpretation vs estimation",
+    "text": "Difficulty 6 — Centering: interpretation vs estimation\nInterpretation: \\((\\beta_X)\\) is the effect of X when \\((Z=0)\\). Centering makes “0” meaningful (often the mean).\nEstimation (PI): centering indicators/products helps separate lower-order and interaction variance and stabilizes the model.\nRule of thumb:\n\nPI methods: use double-mean centering (e.g., dblcent)\nLMS/QML: focus on interpretability (what does Z=0 mean?) and probe slopes"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#difficulty-7-computation-power",
+    "href": "extras/ex03_latent-interactions_modsem.html#difficulty-7-computation-power",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Difficulty 7 — Computation & power",
+    "text": "Difficulty 7 — Computation & power\n\ninteraction effects are typically smaller than main effects\nlarger N needed for stable detection\nPI: bigger model → more convergence problems\nLMS/QML: numerical integration / iterative routines → slower, sometimes fragile\n\nEvaluate: always report convergence, warnings, and sensitivity checks."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#option-0-observed-proxies-baseline",
+    "href": "extras/ex03_latent-interactions_modsem.html#option-0-observed-proxies-baseline",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Option 0 — “Observed proxies” (baseline)",
+    "text": "Option 0 — “Observed proxies” (baseline)\n\ntotals / sum scores\nfactor-score regression\n\nPros:\n\nsimple and familiar\n\nCons:\n\ntreats measurement error as absent or “handled” by factor scores\ninteraction often attenuates\n\nIn this deck: we used totals as baseline."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#option-1-latent-interaction-via-product-indicators-pi",
+    "href": "extras/ex03_latent-interactions_modsem.html#option-1-latent-interaction-via-product-indicators-pi",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Option 1 — Latent interaction via product indicators (PI)",
+    "text": "Option 1 — Latent interaction via product indicators (PI)\nIdea: create product indicators and treat them as indicators of a latent interaction factor.\nCommon centering tricks:\n\nmean-centering indicators\ndouble-mean centering (default for teaching/practice)\nresidual centering (advanced; changes meaning)\n\nPros:\n\nclassic SEM machinery applies (often fit indices available)\n\nCons:\n\nparameter heavy\nidentification + correlated residual decisions"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#option-2-latent-moderated-structural-equations-lms",
+    "href": "extras/ex03_latent-interactions_modsem.html#option-2-latent-moderated-structural-equations-lms",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Option 2 — Latent Moderated Structural Equations (LMS)",
+    "text": "Option 2 — Latent Moderated Structural Equations (LMS)\nIdea: estimate \\((XZ)\\) in the likelihood (no product indicators).\nPros:\n\nelegant, avoids product-indicator explosion\n\nCons:\n\nclassical global fit indices typically not available for interaction model\nmust use baseline fit + LRT / IC"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#now-fit-the-latent-interaction-with-modsem",
+    "href": "extras/ex03_latent-interactions_modsem.html#now-fit-the-latent-interaction-with-modsem",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Now: fit the latent interaction with modsem",
+    "text": "Now: fit the latent interaction with modsem\nWe fit the same SEM twice:\n\nPI dblcent (method = \"dblcent\")\nLMS (method = \"lms\") and mention QML\n\nNOTE: You need the modsem package installed."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#baseline-sem-no-interaction",
+    "href": "extras/ex03_latent-interactions_modsem.html#baseline-sem-no-interaction",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Baseline SEM (no interaction)",
+    "text": "Baseline SEM (no interaction)\n\nlibrary(modsem)\n\nmodel_base &lt;- '\n  intelligence =~ int1 + int2 + int3\n  anxiety      =~ anx1 + anx2 + anx3\n  achievement  =~ ach1 + ach2 + ach3\n\n  achievement ~ intelligence + anxiety\n'\n\nfit_base &lt;- modsem(model_base, data = dat)\nsummary(fit_base)\n\nEvaluate baseline fit (global + local) before adding interaction."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#latent-interaction-with-pi-dblcent",
+    "href": "extras/ex03_latent-interactions_modsem.html#latent-interaction-with-pi-dblcent",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Latent interaction with PI dblcent",
+    "text": "Latent interaction with PI dblcent\n\nmodel_int &lt;- '\n  intelligence =~ int1 + int2 + int3\n  anxiety      =~ anx1 + anx2 + anx3\n  achievement  =~ ach1 + ach2 + ach3\n\n  achievement ~ intelligence + anxiety + intelligence:anxiety\n'\n\nfit_dblcent &lt;- modsem(model_int, data = dat, method = \"dblcent\")\nsummary(fit_dblcent)\n\nWhat to check:\n\nconvergence\nsign/magnitude of interaction path\nwhether estimates are stable (SEs not exploding)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#latent-interaction-with-lms-and-qml",
+    "href": "extras/ex03_latent-interactions_modsem.html#latent-interaction-with-lms-and-qml",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Latent interaction with LMS (and QML)",
+    "text": "Latent interaction with LMS (and QML)\n\nfit_lms &lt;- modsem(model_int, data = dat, method = \"lms\")\nfit_qml &lt;- modsem(model_int, data = dat, method = \"qml\")\n\nsummary(fit_lms)\nsummary(fit_qml)\n\nEvaluate (LMS/QML):\n\nbaseline model: classical fit indices\ninteraction model: compare log-likelihood vs baseline (LRT) and check AIC/BIC"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#lms-evaluation-baseline-fit-lrt-conceptual-template",
+    "href": "extras/ex03_latent-interactions_modsem.html#lms-evaluation-baseline-fit-lrt-conceptual-template",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "LMS evaluation: baseline fit + LRT (conceptual template)",
+    "text": "LMS evaluation: baseline fit + LRT (conceptual template)\n\n# pseudo-code: exact methods depend on the object class and available methods\n\nll_base &lt;- logLik(fit_base)\nll_int  &lt;- logLik(fit_lms)\n\nLR &lt;- 2 * (as.numeric(ll_int) - as.numeric(ll_base))\ndf &lt;- 1  # often 1 for a single interaction path; verify in your setting\np  &lt;- pchisq(LR, df = df, lower.tail = FALSE)\n\nc(LR = LR, df = df, p_value = p)\n\n\n\n\n\n\n\nImportant\n\n\nTeaching point: don’t “evaluate fit” of the interaction model using missing CFI/RMSEA. Use baseline fit + LRT logic."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#probing-the-interaction-simple-slopes-jn-surface",
+    "href": "extras/ex03_latent-interactions_modsem.html#probing-the-interaction-simple-slopes-jn-surface",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Probing the interaction (simple slopes, JN, surface)",
+    "text": "Probing the interaction (simple slopes, JN, surface)\n\n# Probing works directly on modsem fits\n\nsimple_slopes(model = fit_lms, x = \"intelligence\", z = \"anxiety\", y = \"achievement\")\n\nplot_jn(model = fit_lms, x = \"intelligence\", z = \"anxiety\", y = \"achievement\")\n\nplot_surface(model = fit_lms, x = \"intelligence\", z = \"anxiety\", y = \"achievement\")\n\nADD IMAGE: surface plot screenshot (achievement over intelligence × anxiety)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#under-the-hood-product-indicators-with-semtools-lavaan",
+    "href": "extras/ex03_latent-interactions_modsem.html#under-the-hood-product-indicators-with-semtools-lavaan",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "“Under the hood”: product indicators with semTools + lavaan",
+    "text": "“Under the hood”: product indicators with semTools + lavaan\nThis is for transparency (and for debugging PI models).\n\n\nlibrary(semTools)\n\n# matched-pair products, double-mean centered\n# (x1*z1, x2*z2, x3*z3)\ndat_pi &lt;- indProd(\n  data = dat,\n  var1 = c(\"int1\",\"int2\",\"int3\"),\n  var2 = c(\"anx1\",\"anx2\",\"anx3\"),\n  match = TRUE,\n  meanC = TRUE,\n  doubleMC = TRUE\n)\n\nprod_names &lt;- grep(\"^int[1-3].*anx[1-3]$\", names(dat_pi), value = TRUE)\n\nmodel_pi &lt;- paste0('\n  intelligence =~ int1 + int2 + int3\n  anxiety      =~ anx1 + anx2 + anx3\n  achievement  =~ ach1 + ach2 + ach3\n\n  intxn =~ ', paste(prod_names, collapse = \" + \"), '\n\n  achievement ~ intelligence + anxiety + intxn\n')\n\nfit_pi &lt;- lavaan::sem(model_pi, data = dat_pi, meanstructure = TRUE)\nsummary(fit_pi, fit.measures = TRUE, standardized = TRUE)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#common-mistakes-pitfalls",
+    "href": "extras/ex03_latent-interactions_modsem.html#common-mistakes-pitfalls",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Common mistakes (pitfalls)",
+    "text": "Common mistakes (pitfalls)\n\n\n\n\n\n\nWarning\n\n\nPitfall: “I got a significant interaction, so my theory is right.”\n\nFit ≠ truth\nInteraction tests are power-hungry\nSmall misspecifications (measurement) can distort (_{XZ})\n\n\n\n\nOther common mistakes:\n\nskipping measurement model checks (no CFA)\ntreating factor scores as “latent” and concluding SEM-level moderation\nnot reporting the reference point for the moderator (what does Z=0 mean?)"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#reporting-checklist-minimal",
+    "href": "extras/ex03_latent-interactions_modsem.html#reporting-checklist-minimal",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Reporting checklist (minimal)",
+    "text": "Reporting checklist (minimal)\n\nMeasurement (baseline): CFA/SEM fit (CFI/TLI/RMSEA/SRMR) + key loadings\nInteraction method: PI (dblcent) or LMS/QML (and why)\nEvaluation:\n\n\nPI: report SEM fit indices (if available) + local diagnostics\nLMS/QML: baseline fit indices + LRT (ΔlogLik) or AIC/BIC\n\n\nEffect reporting: (_{XZ}), SE/CI, probing results (simple slopes / JN)\nTransparency: centering decisions and what “0” means for the moderator"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#exercise-1015-min",
+    "href": "extras/ex03_latent-interactions_modsem.html#exercise-1015-min",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Exercise (10–15 min)",
+    "text": "Exercise (10–15 min)\n\n\n\n\n\n\nImportant\n\n\nTry it:\n\nChange N from 500 → 200. What happens to SE and significance for the interaction?\nReduce loadings to ~.55. What happens to interaction detection?\nFlip (b_{XZ}) sign. Can you recover it?\nCompare totals vs latent LMS. When do they disagree the most?"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#take-home-3-things",
+    "href": "extras/ex03_latent-interactions_modsem.html#take-home-3-things",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Take-home: 3 things",
+    "text": "Take-home: 3 things\n\nLatent interactions are hard because the product term introduces nonlinearity + non-normality.\nPI dblcent is transparent (and often provides classic fit machinery) but can be heavy/fragile.\nLMS/QML are elegant for estimation, but they force a new evaluation mindset: baseline fit + LRT, plus probing for interpretation."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#further-reading-self-study-links",
+    "href": "extras/ex03_latent-interactions_modsem.html#further-reading-self-study-links",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "Further reading / self-study links",
+    "text": "Further reading / self-study links\n\nExtra module: full simulation comparisons (bias / power / convergence) across totals vs factor scores vs PI vs LMS\nmodsem documentation and vignettes (methods and fit logic)\nA classic starting point on interactions (observed regression perspective): Aiken & West"
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#references-manual",
+    "href": "extras/ex03_latent-interactions_modsem.html#references-manual",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "References (manual)",
+    "text": "References (manual)\n\nRosseel, Y. (2012). lavaan: An R package for structural equation modeling.\nmodsem R package documentation (product indicator methods; LMS/QML; probing functions)\nsemTools documentation for indProd()\nAiken, L. S., & West, S. G. (1991). Multiple regression: Testing and interpreting interactions."
+  },
+  {
+    "objectID": "extras/ex03_latent-interactions_modsem.html#references",
+    "href": "extras/ex03_latent-interactions_modsem.html#references",
+    "title": "Latent interactions (moderation) in SEM",
+    "section": "References",
+    "text": "References"
   }
 ]
