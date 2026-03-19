@@ -312,35 +312,35 @@
     "href": "extras/extras_index.html#methods-inference",
     "title": "Extras",
     "section": "Methods & inference",
-    "text": "Methods & inference\n\nex01 Power: Monte Carlo for SEM\nex02 Bayesian SEM: quickstart"
+    "text": "Methods & inference\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#advanced-sem",
     "href": "extras/extras_index.html#advanced-sem",
     "title": "Extras",
     "section": "Advanced SEM",
-    "text": "Advanced SEM\n\nex03 Latent interactions (modsem)\nex04 SAM in lavaan\nex05 MIIVs & consistent factor score regression"
+    "text": "Advanced SEM\n\nex03 Latent interactions (modsem)\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#longitudinal-deep-dives",
     "href": "extras/extras_index.html#longitudinal-deep-dives",
     "title": "Extras",
     "section": "Longitudinal deep dives",
-    "text": "Longitudinal deep dives\n\nex06 RI-CLPM vs CLPM\nex07 Latent change score models"
+    "text": "Longitudinal deep dives\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#measurement-extensions",
     "href": "extras/extras_index.html#measurement-extensions",
     "title": "Extras",
     "section": "Measurement extensions",
-    "text": "Measurement extensions\n\nex09 Alignment / approximate invariance\nex10 Bifactor / ESEM / method factors"
+    "text": "Measurement extensions\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#missing-data-sensitivity",
     "href": "extras/extras_index.html#missing-data-sensitivity",
     "title": "Extras",
     "section": "Missing data sensitivity",
-    "text": "Missing data sensitivity\n\nex08 MNAR sensitivity: conceptual + simple strategies"
+    "text": "Missing data sensitivity\n… under construction"
   },
   {
     "objectID": "index.html",
