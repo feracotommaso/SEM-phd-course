@@ -17,6 +17,7 @@ execute:
   echo: true
   warning: false
   message: false
+  cache: true
 
 bibliography: ../refs/references.bib
 csl: ../refs/apa7.csl

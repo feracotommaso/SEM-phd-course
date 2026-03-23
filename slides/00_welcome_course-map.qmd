@@ -63,6 +63,7 @@ it is key for many aspects of your research:
 -   Complex regression models
 -   Longitudinal analyses
 -   ...
+-   Understanding causality from a measurement perspective
 
 --- 
 
@@ -78,7 +79,7 @@ it is key for many aspects of your research:
 
 ---
 
-## Course contents (big picture)
+## Course contents
 
 We will (hopefully) cover:
 
@@ -128,10 +129,6 @@ Each morning is split into **two 2-hour blocks** including:
 - `/extras/` self-study (or extra) modules
 - `/R/` helper functions (fit, plots, reporting)
 
-::: {.callout-note appearance="minimal"}
-Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available.
-:::
-
 ---
 
 ## How to use materials during class
@@ -152,7 +149,7 @@ Goal: everything is “book-ready”: coherent headings, reproducible code, and 
 - Packages (minimum):
   - `lavaan`, `semTools`, `semPlot`, `tidyverse`, `quarto`
 - Optional but useful:
-  - `psych`, `MVN`, `performance`, `broom`, `parameters`
+  - `psych`, `MASS`, `MVN`, `modsem`
 
 ```{r}
 #| label: pkg-check
@@ -161,16 +158,6 @@ pkgs <- c("lavaan","semTools","semPlot","tidyverse")
 to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
 if(length(to_install)) install.packages(to_install)
 ```
-
----
-
-## Parking lot questions
-
-If your question is:
-
-- **about your own project’s model** → keep it; we’ll connect it to a module  
-- **about R/lavaan syntax** → ask immediately  
-- **about advanced variants** (Bayesian, latent interactions, MIIVs, etc.) → likely an *extra*. We can cover it if we have time.
 
 ---
 
@@ -193,8 +180,3 @@ If your question is:
 Open the repo, run the package check, and make sure Quarto renders.
 :::
 
----
-
-## References
-
-(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)

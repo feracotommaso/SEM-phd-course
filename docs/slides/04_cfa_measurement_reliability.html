@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Tommaso Feraco
 <h2>Learning objectives</h2>
 <p>By the end of this session you should be able to:</p>
 <ul>
-<li>Explain the difference between <strong>EFA</strong> and <strong>CFA</strong> (and why CFA is confirmatory)</li>
+<li>Explain the difference between <strong>EFA</strong> and <strong>CFA</strong></li>
 <li>Write the CFA measurement model in <strong>equations and matrices</strong></li>
 <li>Understand <strong>identification &amp; scaling</strong> (marker vs <code>std.lv</code>)</li>
 <li>Fit CFA models in <strong>lavaan</strong> and interpret loadings, factor correlations, and residual variances</li>
@@ -238,23 +238,48 @@ Tommaso Feraco
 <li>EFA vs CFA (confirmatory stance)</li>
 <li>CFA model: equations, matrices, implied covariance</li>
 <li>Identification and constraints (scaling + rules)</li>
-<li>CFA in R (lavaan) + interpretation</li>
+<li>CFA in R (<code>lavaan</code>) + interpretation</li>
 <li>Reliability from CFA</li>
-<li>Bifactor model (keep your guard up)</li>
+<li>Bifactor model</li>
 </ul>
 </section>
 <section id="factor-analysis" class="slide level2">
 <h2>Factor analysis</h2>
-<p>Factor analysis models the idea that <em>a small number of latent dimensions</em> explain systematic covariance among many observed variables.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Factor analysis models believe that <em>a small number of latent dimensions</em> explain systematic covariance among many observed variables.</p>
+</div>
+</div>
+</div>
 
-<img data-src="../assets/images/cfa.png" style="width:70.0%" class="r-stretch"></section>
+<img data-src="../assets/images/cfa.png" style="width:70.0%" class="r-stretch"><div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>PCA</strong> is not a factor analysis. It does not assume the ‘existence’ of any latent trait.</p>
+</div>
+</div>
+</div>
+</section>
 <section id="exploratory-factor-analysis-efa" class="slide level2">
 <h2>Exploratory Factor Analysis (EFA)</h2>
 <p>EFA: discover a plausible loading pattern.</p>
 <ul>
 <li>loadings are “free” (rotation chooses a representation)</li>
 <li>useful for exploration and item development</li>
-<li>weak theory → strong exploration</li>
+<li>weak theory → eavily exploratory</li>
 </ul>
 
 <img data-src="../assets/images/efa.png" style="width:75.0%" class="r-stretch"></section>
@@ -270,13 +295,13 @@ Tommaso Feraco
 <img data-src="../assets/images/cfa.png" style="width:75.0%" class="r-stretch"><div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>CFA is not “EFA with nicer output”: it is a <strong>confirmatory</strong> claim with theoretical commitments.</p>
+<p>CFA is not a fancy EFA: it is a <strong>confirmatory</strong> claim with theoretical assumptions and meanings.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="general-formula-your-original" class="slide level2">
-<h2>General formula (your original)</h2>
+<section id="general-formula" class="slide level2">
+<h2>General formula</h2>
 <p>The general CFA model can be written as:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -284,7 +309,7 @@ Tommaso Feraco
 \mathbf{y} &amp;= \mathbf{\Lambda}_y\,\mathbf{\eta} + \mathbf{\epsilon}
 \end{aligned}
 \]</span></p>
-<p>where () and () are observed variables, () and () are latent factors, and () and () are errors of measurement.</p>
+<p>where <span class="math inline">\((\mathbf{x})\)</span> and <span class="math inline">\((\mathbf{y})\)</span> are observed variables, <span class="math inline">\((\mathbf{\xi})\)</span> and <span class="math inline">\((\mathbf{\eta})\)</span> are latent factors, and <span class="math inline">\((\mathbf{\delta})\)</span> and <span class="math inline">\((\mathbf{\epsilon})\)</span> are errors of measurement.</p>
 </section>
 <section id="the-general-formula-explained-scalar-form" class="slide level2">
 <h2>The general formula explained (scalar form)</h2>
@@ -323,28 +348,39 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 </section>
 <section id="measurement-first-implications-reflective-realism" class="slide level2">
 <h2>Measurement-first implications (reflective realism)</h2>
-<p>When we draw () (()) from latent to observed, we assume reflective latent variables:</p>
+<p>When we draw <span class="math inline">\((\mathbf{\Lambda})\)</span> (<span class="math inline">\((\Rightarrow)\)</span>) from latent to observed, we assume reflective latent variables:</p>
 <ul>
 <li><strong>ARROWS are ARROWS</strong>: the construct affects responses</li>
 <li>“realist” interpretation: the latent variable is something that <em>exists</em> (at least as a stable attribute)</li>
 <li>observed scores = construct signal + measurement error</li>
 </ul>
 <p>Pragmatic “just a summary” interpretations are <em>not</em> neutral: they imply different measurement models (PCA/EGA/…).</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Asserting that a latent variable ‘exists’ does not imply that there is one and only one entity/factor explaining the observations. A multitude, even millions, of factors (e.g., genes, ses, environment, health) can form the latent variable</p>
+</div>
+</div>
+</div>
 </section>
 <section id="the-implied-covariance-the-single-most-important-equation" class="slide level2">
 <h2>The implied covariance (the single most important equation)</h2>
-<p>For a standard CFA with latent covariance () and residual covariance ():</p>
+<div style="font-size:0.75em; line-height:1.15;">
+<p>For a standard CFA with latent covariance <span class="math inline">\((\Phi)\)</span> and residual covariance <span class="math inline">\((\Theta)\)</span>:</p>
 <p><span class="math display">\[
 \Sigma = \Lambda \Phi \Lambda' + \Theta
 \]</span></p>
 <p>This is why:</p>
 <ul>
-<li>loadings (()) and factor correlations (()) jointly shape observed covariances</li>
-<li>correlated residuals (off-diagonal ()) are <strong>extra</strong> covariance not explained by factors</li>
+<li>loadings <span class="math inline">\((\Lambda)\)</span> and factor correlations <span class="math inline">\((\Phi)\)</span> jointly shape observed covariances</li>
+<li>correlated residuals (off-diagonal <span class="math inline">\((\Theta)\)</span>) are <strong>extra</strong> covariance not explained by factors</li>
 </ul>
-</section>
-<section id="matrices-your-original-visual-slide" class="slide level2">
-<h2>Matrices (your original visual slide)</h2>
 <div class="columns">
 <div class="column" style="width:31%;">
 <p>Lambda: matrix of loadings</p>
@@ -356,9 +392,20 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 <p>Theta: residual variance-covariance matrix</p>
 <p><img data-src="../assets/images/teta.png" style="width:100.0%"></p>
 </div></div>
+</div>
 </section>
-<section id="cfa-model-families-you-will-see-a-lot" class="slide level2">
-<h2>CFA “model families” you will see a lot</h2>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="cfa-models" class="title-slide slide level1 center">
+<h1>CFA models</h1>
+
+</section>
+<section id="cfa-model-families" class="slide level2">
+<h2>CFA “model families”</h2>
+<div class="{columns}">
+<div class="column" style="width:50%;">
 <p>Key design choices:</p>
 <ul>
 <li>one factor vs multiple factors</li>
@@ -368,10 +415,9 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 <li>bifactor structure?</li>
 </ul>
 <p>All have statistical <strong>and</strong> theoretical consequences.</p>
-
-<img data-src="../assets/images/models.png" style="width:70.0%" class="r-stretch"></section>
-<section id="a-quick-visual-tour-common-cfa-structures" class="slide level2">
-<h2>A quick visual tour: common CFA structures</h2>
+</div><div class="column" style="width:50%;">
+<p><img data-src="../assets/images/models.png" style="width:100.0%"></p>
+</div></div>
 </section>
 <section id="one-factor-model" class="slide level2">
 <h2>One-factor model</h2>
@@ -389,6 +435,14 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 <h2>Hierarchical model (second-order factor)</h2>
 
 <img data-src="04_cfa_measurement_reliability_files/figure-revealjs/unnamed-chunk-5-1.png" width="672" class="r-stretch"></section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="r" class="title-slide slide level1 center">
+<h1>R</h1>
+
+</section>
 <section id="in-r-lavaan-grammar-for-cfa" class="slide level2">
 <h2>In R (lavaan grammar for CFA)</h2>
 <p>Core operator:</p>
@@ -406,28 +460,26 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 <span id="cb1-8"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="constraints-scaling-your-original-slide" class="slide level2">
-<h2>Constraints (scaling) — your original slide</h2>
+<section id="constraints-scaling" class="slide level2">
+<h2>Constraints (scaling)</h2>
 <p>To estimate latent-variable models, you must scale each factor. Two common strategies:</p>
 <ul>
 <li>Standardize latent variables: fix factor means to 0 and factor variances to 1 (<code>std.lv = TRUE</code>).</li>
-<li>Marker method: set one loading (()) per factor to 1 (lavaan default).</li>
+<li>Marker method: set one loading (<span class="math inline">\((\lambda)\)</span>) per factor to 1 (lavaan default).</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m, <span class="at">data =</span> dat, <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m, <span class="at">data =</span> dat, <span class="at">std.lv =</span> <span class="cn">TRUE</span>) <span class="co"># Std latent variables</span></span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m, <span class="at">data =</span> dat, <span class="at">std.lv =</span> <span class="cn">FALSE</span>) <span class="co"># Marker method</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="constraints-explained-marker-vs-standardization" class="slide level2">
 <h2>Constraints explained (marker vs standardization)</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
 <p><span class="math display">\[
 \Sigma = \Lambda\Phi\Lambda' + \Theta
 \]</span></p>
+<div class="{columns}">
+<div class="column" style="width:50%;">
 <p><strong>Marker method</strong> (fix one loading to 1)</p>
-<p><strong>Standardization</strong> (fix factor variance to 1)</p>
-<p><em>(Scaling changes the <strong>metric</strong> of unstandardized loadings, not the implied covariance model.)</em></p>
-</div><div class="column" style="width:40%;">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -437,6 +489,8 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 </div>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
+<p><strong>Standardization</strong> (fix factor variance to 1)</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -447,9 +501,30 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 </div>
 </div>
 </div></div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Scaling changes the <em>metric</em> of unstandardized loadings, not the implied covariance model.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="identification-rules-your-original-framing" class="slide level2">
-<h2>Identification rules (your original framing)</h2>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="identification-evaluation" class="title-slide slide level1 center">
+<h1>Identification &amp; evaluation</h1>
+
+</section>
+<section id="identification-rules" class="slide level2">
+<h2>Identification rules</h2>
 <p>For CFA, common identification rules include:</p>
 <ul>
 <li>the <em>t</em>-rule</li>
@@ -463,19 +538,19 @@ y_1 &amp;= \tau_1 + \lambda_1\eta + \epsilon_1
 <p><span class="math display">\[
 t \leq \frac{q(q+1)}{2}
 \]</span></p>
-<p>where (t) is the number of free parameters and (q) the number of observed variables.</p>
-<p>Intuition: the number of nonredundant elements in (S) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible.</p>
+<p>where <span class="math inline">\((t)\)</span> is the number of free parameters and <span class="math inline">\((q)\)</span> the number of observed variables.</p>
+<p>Intuition: the number of nonredundant elements in <span class="math inline">\((S)\)</span> is the maximum number of “equations”; if unknowns exceed equations, identification is impossible.</p>
 </section>
 <section id="the-three-indicator-rule" class="slide level2">
 <h2>The Three-Indicator Rule</h2>
-<p>A sufficient (not necessary) condition (with diagonal ()):</p>
+<p>A sufficient (not necessary) condition (with diagonal <span class="math inline">\((\Theta)\)</span>):</p>
 <ol type="1">
 <li>One-factor model: at least <strong>three</strong> indicators with nonzero loadings.</li>
 <li>Multifactor model is identified if:
 <ol type="1">
 <li>≥ 3 indicators per factor</li>
-<li>each row of () has one and only one nonzero element (simple structure)</li>
-<li>() is diagonal</li>
+<li>each row of <span class="math inline">\((\Lambda)\)</span> has one and only one nonzero element (simple structure)</li>
+<li><span class="math inline">\((\Theta)\)</span> is diagonal</li>
 </ol></li>
 </ol>
 </section>
@@ -483,19 +558,19 @@ t \leq \frac{q(q+1)}{2}
 <h2>The Two-Indicator Rule</h2>
 <p>A sufficient (not necessary) condition for models with &gt;1 factor:</p>
 <ul>
-<li>() diagonal</li>
-<li>each factor scaled (one () fixed to 1, or <code>std.lv=TRUE</code>)</li>
+<li><span class="math inline">\((\Theta)\)</span> diagonal</li>
+<li>each factor scaled (one <span class="math inline">\((\lambda)\)</span> fixed to 1, or <code>std.lv=TRUE</code>)</li>
 <li>plus:
 <ol type="1">
 <li>≥ 2 indicators per factor</li>
-<li>each row of (): one nonzero element</li>
-<li>() diagonal</li>
-<li>each row of () has at least one nonzero off-diagonal element</li>
+<li>each row of <span class="math inline">\((\Lambda)\)</span>: one nonzero element</li>
+<li><span class="math inline">\((\Theta)\)</span> diagonal</li>
+<li>each row of <span class="math inline">\((\Phi)\)</span> has at least one nonzero off-diagonal element</li>
 </ol></li>
 </ul>
 </section>
-<section id="cfa-evaluation-where-deck-03-plugs-in" class="slide level2">
-<h2>CFA evaluation (where deck 03 plugs in)</h2>
+<section id="cfa-evaluation-see-deck-03" class="slide level2">
+<h2>CFA evaluation (see <a href="https://feracotommaso.github.io/SEM-phd-course/slides/03_model-fit_diagnostics_respecification.html#/title-slide" target="_blank">deck 03</a>)</h2>
 <p>Global indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).<br>
 What becomes <em>CFA-specific</em> is local misfit interpretation:</p>
 <ul>
@@ -507,8 +582,14 @@ What becomes <em>CFA-specific</em> is local misfit interpretation:</p>
 <li>factor covariances / (rarely) indicator-level regressions</li>
 </ul></li>
 </ul>
-<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
 <div class="callout-content">
 <p>Fit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters.</p>
 </div>
@@ -525,8 +606,8 @@ What becomes <em>CFA-specific</em> is local misfit interpretation:</p>
 <li>Report the respecification path transparently (what changed and why)</li>
 </ul>
 </section>
-<section id="live-example-lavaan-holzinger-swineford-1939" class="slide level2">
-<h2>Live example (lavaan): Holzinger &amp; Swineford (1939)</h2>
+<section id="holzinger-swineford-1939" class="slide level2">
+<h2>Holzinger &amp; Swineford (1939)</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> HolzingerSwineford1939</span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a></span>
@@ -567,20 +648,24 @@ What becomes <em>CFA-specific</em> is local misfit interpretation:</p>
 <section id="reliability-from-cfa-ω-family" class="slide level2">
 <h2>Reliability from CFA (ω family)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">reliability</span>(fit_hs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">reliability</span>(fit_hs) <span class="co"># Deprecated :(</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">compRelSEM</span>(fit_hs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       visual textual speed
-alpha   0.626   0.883 0.688
-omega   0.625   0.885 0.688
-omega2  0.625   0.885 0.688
-omega3  0.612   0.885 0.686
-avevar  0.371   0.721 0.424</code></pre>
+<pre><code> visual textual   speed 
+  0.612   0.885   0.686 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">AVE</span>(fit_hs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> visual textual   speed 
+  0.371   0.721   0.424 </code></pre>
 </div>
 </div>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>We emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case.</p>
+<p>We emphasize ω-family (omega) reliability because it aligns with the CFA model; α is a special (often unrealistic) case.</p>
 </div>
 </div>
 </div>
@@ -588,10 +673,10 @@ avevar  0.371   0.721 0.424</code></pre>
 <section id="graphical-representation" class="slide level2">
 <h2>Graphical representation</h2>
 
-<img data-src="04_cfa_measurement_reliability_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
-<section id="a-hierarchical-intelligence-example-your-original-wisc-slide" class="slide level2">
-<h2>A hierarchical intelligence example (your original WISC slide)</h2>
-<p>Theory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ((g)).</p>
+<img data-src="04_cfa_measurement_reliability_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="a-hierarchical-intelligence-example" class="slide level2">
+<h2>A hierarchical intelligence example</h2>
+<p>Theory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor (<span class="math inline">\(g\)</span>).</p>
 
 <img data-src="../assets/images/wisc.png" style="width:100.0%" class="r-stretch"><div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
@@ -603,56 +688,99 @@ avevar  0.371   0.721 0.424</code></pre>
 </section>
 <section id="second-order-cfa-syntax-template" class="slide level2">
 <h2>Second-order CFA (syntax template)</h2>
+<div style="font-size:0.78em;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">VCI =~ SI + VC + CO</span></span>
-<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">PRI =~ BD + PCn + MR</span></span>
-<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">WMI =~ DS + LN</span></span>
-<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">PSI =~ CD + SS</span></span>
-<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">g   =~ VCI + PRI + WMI + PSI</span></span>
-<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(m2, <span class="at">std.lv =</span> <span class="cn">TRUE</span>, <span class="at">sample.cov =</span> S, <span class="at">sample.nobs =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>mg <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">VCI =~ .60*SI + .60*VC + .60*CO</span></span>
+<span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">PRI =~ .60*BD + .60*PCn + .60*MR</span></span>
+<span id="cb11-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">WMI =~ .60*DS + .60*LN</span></span>
+<span id="cb11-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">PSI =~ .60*CD + .60*SS</span></span>
+<span id="cb11-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">g   =~ .70*VCI + .70*PRI + .70*WMI + .70*PSI</span></span>
+<span id="cb11-8"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb11-9"><a aria-hidden="true" tabindex="-1"></a>datg <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(mg, N)</span>
+<span id="cb11-10"><a aria-hidden="true" tabindex="-1"></a>S<span class="ot">&lt;-</span><span class="fu">cov</span>(datg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">VCI =~ SI + VC + CO</span></span>
+<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">PRI =~ BD + PCn + MR</span></span>
+<span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">WMI =~ DS + LN</span></span>
+<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">PSI =~ CD + SS</span></span>
+<span id="cb12-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">g   =~ VCI + PRI + WMI + PSI # HERE IS THE SECOND-ORDER</span></span>
+<span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb12-8"><a aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">sem</span>(m2, <span class="at">std.lv =</span> <span class="cn">TRUE</span>, <span class="at">sample.cov =</span> S, <span class="at">sample.nobs =</span> N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Note that we use <code>sample.cov</code> and <code>sample.nobs</code> arguments instead of <code>data</code>. In SEM you can fit the models from the covariance matrix and ‘ignore’ the raw data.</p>
+</div>
+</div>
+</div>
 </div>
 </section>
-<section id="a-second-theoretical-model-bifactor-your-original" class="slide level2">
-<h2>A second theoretical model: bifactor (your original)</h2>
-<p>Parallel theories: test scores are affected by a general factor ((g)) <strong>and</strong> by specific abilities that explain remaining variance.</p>
-<p>All factors are set to be orthogonal.</p>
+<section id="a-second-theoretical-model-bifactor" class="slide level2">
+<h2>A second theoretical model: bifactor</h2>
+<p>Parallel theories: test scores are affected by a general factor (<span class="math inline">\(g\)</span>) <strong>and</strong> by specific abilities that explain remaining variance.</p>
+<p><strong>All factors are set to be orthogonal.</strong></p>
 
 <img data-src="../assets/images/bifactor.png" style="width:100.0%" class="r-stretch"></section>
-<section id="bifactor-model-in-r-your-original-structure" class="slide level2">
-<h2>Bifactor model in R (your original structure)</h2>
+<section id="bifactor-model-in-r" class="slide level2">
+<h2>Bifactor model in R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">VCI =~ a*SI + a*VC + a*CO</span></span>
-<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">PRI =~ b*BD + b*PCn + b*MR</span></span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">WMI =~ c*DS + c*LN</span></span>
-<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">PSI =~ d*CD + d*SS</span></span>
-<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">g   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS</span></span>
-<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb9-8"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>fitb <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
-<span id="cb9-10"><a aria-hidden="true" tabindex="-1"></a>  mb,</span>
-<span id="cb9-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">orthogonal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb9-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb9-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov =</span> S,</span>
-<span id="cb9-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.nobs =</span> N</span>
-<span id="cb9-15"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">VCI =~ a*SI + a*VC + a*CO</span></span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">PRI =~ b*BD + b*PCn + b*MR</span></span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">WMI =~ c*DS + c*LN</span></span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">PSI =~ d*CD + d*SS</span></span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">g   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS</span></span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>fitb <span class="ot">&lt;-</span> <span class="fu">sem</span>(</span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a>  mb,</span>
+<span id="cb13-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">orthogonal =</span> <span class="cn">TRUE</span>, <span class="co">#!!!!!!</span></span>
+<span id="cb13-12"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-13"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.cov =</span> S,</span>
+<span id="cb13-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="at">sample.nobs =</span> N</span>
+<span id="cb13-15"><a aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Note that loadings in bifactor models are often costrained to be equal within the same specific factors. This is done to ease convergence but should be justified and transparently reported.</p>
+</div>
+</div>
 </div>
 </section>
 <section id="bifactor-interpretation-requires-diagnostics-not-just-fit" class="slide level2">
 <h2>Bifactor: interpretation requires diagnostics (not just fit)</h2>
-<p>Bifactor often improves fit by absorbing residual covariance. Before interpreting:</p>
+<p>Bifactor often improves fit by absorbing residual covariance.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitmeasures</span>(fitb, <span class="at">fit.measures =</span> <span class="fu">c</span>(<span class="st">"cfi"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi rmsea  srmr 
+0.985 0.026 0.025 </code></pre>
+</div>
+</div>
+<p>Before interpreting:</p>
 <ul>
 <li>is the general factor strong enough? (ECV / ωH / H)</li>
 <li>are specific factors meaningful or “junk factors”?</li>
 <li>do constraints (orthogonality, equal loadings) make sense?</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># semTools helpers for bifactor diagnostics (when you fit a bifactor model)</span></span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># bifactorIndices(fitb)</span></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># reliability(fitb)   # omega family; ωH is especially relevant</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -661,11 +789,222 @@ avevar  0.371   0.721 0.424</code></pre>
 </div>
 </div>
 </section>
+<section id="bifactor-diagnostics-is-there-a-strong-general-factor" class="slide level2">
+<h2>Bifactor diagnostics: is there a strong general factor?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BifactorIndicesCalculator)</span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>bi <span class="ot">&lt;-</span> <span class="fu">bifactorIndices</span>(fitb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<table class="caption-top">
+<caption>Model-level bifactor indices</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: right;">ECV.g</th>
+<th style="text-align: right;">PUC</th>
+<th style="text-align: right;">Omega.g</th>
+<th style="text-align: right;">OmegaH.g</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">0.822</td>
+<td style="text-align: right;">0.768</td>
+<td style="text-align: right;">0.513</td>
+</tr>
+</tbody>
+</table>
+<div style="font-size:0.78em;">
+<p>ECV.g = proportion of common variance explained by the general factor.</p>
+<p>PUC = proportion of correlations uncontaminated by overlap among specific factors.</p>
+<p>Omega.g = reliability of the observed total score.</p>
+<p>OmegaH.g = proportion of total-score variance attributable uniquely to g.</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>Interpretation</p>
+<p>These results do not support a strong general factor.</p>
+<p>ECV.g = ~0.30: g explains only about 30% of common variance; OmegaH.g ~ 0.40: only about 40% of total-score variance is uniquely due to g. PUC ~ 0.80 is fairly high, but high PUC does not rescue weak ECV.g and OmegaH.g.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="are-the-specific-factors-interpretable-beyond-g" class="slide level2">
+<h2>Are the specific factors interpretable beyond g?</h2>
+<div style="font-size:0.78em;">
+<table class="caption-top">
+<caption>Factor-level bifactor indices</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">ECV_SS</th>
+<th style="text-align: right;">ECV_GS</th>
+<th style="text-align: right;">Omega</th>
+<th style="text-align: right;">OmegaH</th>
+<th style="text-align: right;">H</th>
+<th style="text-align: right;">FD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">VCI</td>
+<td style="text-align: left;">0.656</td>
+<td style="text-align: right;">0.344</td>
+<td style="text-align: right;">0.666</td>
+<td style="text-align: right;">0.438</td>
+<td style="text-align: right;">0.516</td>
+<td style="text-align: right;">0.699</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PRI</td>
+<td style="text-align: left;">0.705</td>
+<td style="text-align: right;">0.295</td>
+<td style="text-align: right;">0.664</td>
+<td style="text-align: right;">0.472</td>
+<td style="text-align: right;">0.541</td>
+<td style="text-align: right;">0.720</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WMI</td>
+<td style="text-align: left;">0.614</td>
+<td style="text-align: right;">0.386</td>
+<td style="text-align: right;">0.575</td>
+<td style="text-align: right;">0.353</td>
+<td style="text-align: right;">0.398</td>
+<td style="text-align: right;">0.627</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PSI</td>
+<td style="text-align: left;">0.580</td>
+<td style="text-align: right;">0.420</td>
+<td style="text-align: right;">0.511</td>
+<td style="text-align: right;">0.296</td>
+<td style="text-align: right;">0.332</td>
+<td style="text-align: right;">0.573</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">g</td>
+<td style="text-align: left;">0.351</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">0.768</td>
+<td style="text-align: right;">0.513</td>
+<td style="text-align: right;">0.614</td>
+<td style="text-align: right;">0.727</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ECV_SS</strong> = proportion of common variance in a factor’s own items due to that specific factor.</p>
+<p><strong>ECV_GS</strong> = proportion of common variance in those same items due to the general factor.</p>
+<p><strong>Omega</strong> = reliability of the observed factor score, counting all modeled common variance.</p>
+<p><strong>OmegaH</strong> = reliable variance attributable to the factor itself, net of the other factors.</p>
+<p><strong>H</strong> = construct replicability.</p>
+<p><strong>FD</strong> = factor determinacy, that is, how well factor scores are defined.</p>
+<div data-appearence="minimal">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Interpretation. For all four group factors, ECV_SS &gt; ECV_GS: within each item cluster, the specific factor is stronger than g. But OmegaH, H, and FD are modest for both the group factors and g: none appears especially strong or highly replicable.</p>
+<p>Overall, the structure looks multidimensional, not essentially unidimensional.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="item-level-evidence-do-any-items-mainly-reflect-g" class="slide level2">
+<h2>Item-level evidence: do any items mainly reflect g?</h2>
+<div class="{columns}">
+<div class="column" style="width:28%;">
+<table class="caption-top">
+<caption>Item-level IECV values</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">IECV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SI</td>
+<td style="text-align: left;">0.367</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VC</td>
+<td style="text-align: left;">0.352</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CO</td>
+<td style="text-align: left;">0.309</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BD</td>
+<td style="text-align: left;">0.390</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PCn</td>
+<td style="text-align: left;">0.290</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MR</td>
+<td style="text-align: left;">0.191</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DS</td>
+<td style="text-align: left;">0.383</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LN</td>
+<td style="text-align: left;">0.388</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CD</td>
+<td style="text-align: left;">0.408</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SS</td>
+<td style="text-align: left;">0.432</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:72%;">
+<p>IECV = proportion of an item’s common variance accounted for by the general factor. High IECV means the item behaves mostly like an indicator of g. Low IECV means the item retains substantial non-general variance.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Interpretation</p>
+<p>Here, IECV values range from about 0.17 to 0.40.</p>
+<p>No item behaves mainly as an indicator of the general factor. The general factor is therefore not dominant at the item level. This reinforces the earlier conclusion: the bifactor model does not justify treating the scale as essentially unidimensional.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="exercises-lab-04" class="slide level2">
 <h2>Exercises (Lab 04)</h2>
 <p>Go to:</p>
 <ul>
-<li><strong><code>labs/lab04_cfa_reliability_omegas.qmd</code></strong></li>
+<li><strong><code>labs/lab04_cfa_reliability_omegas.qmd</code></strong> <a href="lab04_cfa_reliability_omegas.html" target="_blank">link</a></li>
 </ul>
 <p>You will practice:</p>
 <ol type="1">
@@ -688,17 +1027,24 @@ avevar  0.371   0.721 0.424</code></pre>
 <section id="further-reading-self-study" class="slide level2">
 <h2>Further reading / self-study</h2>
 <ul>
+<li><p>Classic SEM measurement chapters (CFA fundamentals; see course website reading list)</p></li>
+<li><p><strong>Maybe one day</strong></p>
+<ul>
 <li><code>extras/ex10_bifactor_esem_method-factors.qmd</code> — bifactor/ESEM/method factors (advanced)</li>
 <li><code>extras/ex05_miivs_factor-score-regression.qmd</code> — factor scores &amp; regression (later)</li>
-<li>Classic SEM measurement chapters (CFA fundamentals; see course website reading list)</li>
+</ul></li>
 </ul>
+</section>
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Massimiliano Pastore for his slides!</p>
+<p><img data-src="../assets/images/max.jpg" style="height:4.5cm"></p>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
-<p>(Add citations/keys once the course bibliography is finalized for the website.)</p>
 
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -914,6 +1260,11 @@ avevar  0.371   0.721 0.424</code></pre>
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

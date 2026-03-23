@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -246,6 +246,7 @@ Tommaso Feraco
 </section>
 <section id="sem-structural-equation-modeling" class="slide level2">
 <h2>SEM = Structural Equation Modeling</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>A family of models that lets you:</p>
 <ul>
 <li><p>represent hypotheses as a <strong>system of relations</strong></p>
@@ -272,6 +273,7 @@ Tommaso Feraco
 <div class="callout-body">
 <div class="callout-content">
 <p>network models are better if you want good paintings with no theory.</p>
+</div>
 </div>
 </div>
 </div>
@@ -308,8 +310,8 @@ y7 5.8  7.5  7.0  7.5 5.8  6.7 10.8</code></pre>
 <section id="variancecovariance-matrices-the-currency-1" class="slide level2">
 <h2>Variance–covariance matrices (the “currency”)</h2>
 <p>SEM compares what you observe (<strong>S</strong>) with what your model implies (<strong>Σ(θ)</strong>).</p>
-<p><img data-src="../assets/images/covmat.jpg" style="height:3.5cm"></p>
-</section>
+
+<img data-src="../assets/images/covmat.jpg" class="r-stretch"></section>
 <section id="classification-of-variables" class="slide level2">
 <h2>Classification of variables</h2>
 <p>Variables are the way those attributes that <strong>vary</strong> across individuals are operationalized and represented for further data processing. These can be categorized according to many criteria (e.g, <em>dependent/independent</em>…), but in SEM we classify them firstly as:</p>
@@ -381,18 +383,18 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 <section id="regression-model" class="slide level2">
 <h2>Regression model</h2>
 <p>Asymmetrical relationships are usually tested with regressions!</p>
-<p>As you remember, regression models can be written, using classical formulation, as the expression below and graphically depicted (getting closer to SEM) like this:</p>
+<p>As you remember, regression models can be written, using classical formulation and graphically depicted (getting closer to SEM) like this:</p>
 
 <img data-src="../assets/images/regression.jpg" class="r-stretch"></section>
-<section id="more-regression" class="slide level2">
-<h2>More regression?</h2>
+<section id="more-regressions" class="slide level2">
+<h2>More regressions?</h2>
 <p>But what if we have in mind a more complex pattern of relationships? What if we have more regression models in mind and need to estimate all of them contemporarily?</p>
 
 <img data-src="../assets/images/sistema1.jpg" class="r-stretch"><p>What we need is a system of equations.</p>
 </section>
-<section id="more-regression-1" class="slide level2">
-<h2>More regression?</h2>
-<p>This system can also be drawn with SEM notation, but is actually the same…just better!</p>
+<section id="more-regressions-1" class="slide level2">
+<h2>More regressions?</h2>
+<p>This system can also be drawn with SEM notation, but is actually the same…just <em>better</em>!</p>
 
 <img data-src="../assets/images/sistema2.jpg" class="r-stretch"></section>
 <section id="variables-and-errors" class="slide level2">
@@ -533,7 +535,7 @@ X_i \Leftrightarrow Y_j \quad \forall i,j
 <img data-src="../assets/images/errors.jpg" class="r-stretch"></section>
 <section id="a-full-representation" class="slide level2">
 <h2>A full representation</h2>
-<p><img data-src="../assets/images/full.png" style="width:99.0%"> img credits to dr. <a href="https://www.youtube.com/watch?v=sKVFkVoYfbs">Johnny Lin</a></p>
+<p><img data-src="../assets/images/full.png" style="width:99.0%"> img credits to dr. Johnny Lin (youtube <a href="https://www.youtube.com/watch?v=2M6VQY_OFvM">course</a>)</p>
 </section>
 <section id="graphic-relationships-1" class="slide level2">
 <h2>Graphic relationships</h2>
@@ -686,8 +688,7 @@ H_0 : \boldsymbol{\hat{\Sigma}}(\theta) = \boldsymbol{\Sigma}
 <img data-src="../assets/images/growth.jpg" class="r-stretch"></section>
 <section id="and-much-more" class="slide level2">
 <h2>And much more</h2>
-<p>…and much more</p>
-<p><code>THERE IS EVEN A JOURNAL ON SEM</code></p>
+<p><code>THERE IS EVEN A JOURNAL ONLY FOR SEM</code></p>
 <p>Structural Equation Modeling: A Multidisciplinary Journal</p>
 </section>
 <section class="slide level2">
@@ -762,6 +763,7 @@ Y = X^\ast B' + \zeta
 </div>
 </div>
 </div><div class="column" style="width:60%;">
+<div style="font-size:1.2em; line-height:1.15;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre class="code-bigger"><code>   y x1 x2 x3
@@ -769,6 +771,7 @@ y  0  1  2  3
 x1 0  0  0  0
 x2 0  0  0  0
 x3 0  0  0  0</code></pre>
+</div>
 </div>
 </div>
 </div></div>
@@ -784,6 +787,7 @@ x3 0  0  0  0</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:60%;">
+<div style="font-size:1.2em; line-height:1.15;">
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>   y x3 x2 x1
@@ -791,6 +795,7 @@ y  0  3  2  1
 x3 0  0  5  4
 x2 0  0  0  6
 x1 0  0  0  0</code></pre>
+</div>
 </div>
 </div>
 </div></div>
@@ -816,6 +821,7 @@ x1 0  0  0  0</code></pre>
 </section>
 <section id="a-first-example-with-simulated-data" class="slide level2">
 <h2>A first example with simulated data</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="columns">
 <div class="column" style="width:60%;">
 <p>Imagine you want to predict scores in the test we will do at the end of this corse (<span class="math inline">\(y\)</span>), based on your prior statistical knowledge (<span class="math inline">\(x_1\)</span>) and interest (<span class="math inline">\(x_2\)</span>):</p>
@@ -832,13 +838,14 @@ x1 0  0  0  0</code></pre>
 </div><div class="column" style="width:40%;">
 <p><strong>Second</strong> simulate the data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate knowledge and interest as predictors of Y</span></span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> .<span class="dv">35</span><span class="sc">*</span>x1 <span class="sc">+</span> .<span class="dv">20</span><span class="sc">*</span>x2 <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
-<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x1,x2,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate knowledge and interest </span></span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># as predictors of Y</span></span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> .<span class="dv">35</span><span class="sc">*</span>x1 <span class="sc">+</span> .<span class="dv">20</span><span class="sc">*</span>x2 <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x1,x2,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -857,6 +864,7 @@ y  0.364 0.129 1.19</code></pre>
 </div>
 </div>
 </div></div>
+</div>
 </section>
 <section id="lm-regression" class="slide level2">
 <h2>lm regression</h2>
@@ -1100,6 +1108,10 @@ x2 0.000 0.014 0.988</code></pre>
 <td>Show the table of the parameters of a fitted model</td>
 </tr>
 <tr class="odd">
+<td><code>standardizedSolution()</code></td>
+<td>Show the table of the standardized parameters</td>
+</tr>
+<tr class="even">
 <td><code>simulateData()</code></td>
 <td>Simulate data starting from a <code>lavaan</code> model syntax</td>
 </tr>
@@ -1110,7 +1122,7 @@ x2 0.000 0.014 0.988</code></pre>
 <h2>Exercises (Lab 01)</h2>
 <p>Go to:</p>
 <ul>
-<li><strong><code>labs/lab01_lavaan-basics.qmd</code></strong></li>
+<li><strong><code>labs/lab01_lavaan-basics.qmd</code></strong> (<a href="lab01_lavaan-basics.html" target="_blank">link</a>)</li>
 </ul>
 <p>You’ll practice:</p>
 <ul>
@@ -1133,8 +1145,14 @@ x2 0.000 0.014 0.988</code></pre>
 <h2>Further reading / self-study</h2>
 <ul>
 <li>Revisit the <strong>glossary</strong> in the repo as new terms appear</li>
+<li>Follow the course by Johnny Lin (<a href="https://www.youtube.com/watch?v=2M6VQY_OFvM">youtube course</a>)</li>
+<li>Follow Psicostat handZone meetings</li>
 </ul>
-<p>(Add materials list.)</p>
+</section>
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Massimiliano Pastore for his slides!</p>
+<p><img data-src="../assets/images/max.jpg" style="height:4.5cm"></p>
 
 
 </section></section>
@@ -1353,6 +1371,11 @@ x2 0.000 0.014 0.988</code></pre>
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

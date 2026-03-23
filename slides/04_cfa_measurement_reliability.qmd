@@ -53,7 +53,7 @@ set.seed(12)
 
 By the end of this session you should be able to:
 
-- Explain the difference between **EFA** and **CFA** (and why CFA is confirmatory)
+- Explain the difference between **EFA** and **CFA** 
 - Write the CFA measurement model in **equations and matrices**
 - Understand **identification & scaling** (marker vs `std.lv`)
 - Fit CFA models in **lavaan** and interpret loadings, factor correlations, and residual variances
@@ -68,17 +68,23 @@ By the end of this session you should be able to:
 - EFA vs CFA (confirmatory stance)
 - CFA model: equations, matrices, implied covariance
 - Identification and constraints (scaling + rules)
-- CFA in R (lavaan) + interpretation
+- CFA in R (`lavaan`) + interpretation
 - Reliability from CFA
-- Bifactor model (keep your guard up)
+- Bifactor model
 
 ---
 
 ## Factor analysis
 
-Factor analysis models the idea that *a small number of latent dimensions* explain systematic covariance among many observed variables.
+:::{.callout-important}
+Factor analysis models believe that *a small number of latent dimensions* explain systematic covariance among many observed variables.
+:::
 
 ![](../assets/images/cfa.png){width="70%"}
+
+:::{.callout-warning}
+**PCA** is not a factor analysis. It does not assume the 'existence' of any latent trait.
+:::
 
 ---
 
@@ -88,7 +94,7 @@ EFA: discover a plausible loading pattern.
 
 - loadings are “free” (rotation chooses a representation)
 - useful for exploration and item development
-- weak theory → strong exploration
+- weak theory → eavily exploratory
 
 ![](../assets/images/efa.png){width="75%"}
 
@@ -105,12 +111,12 @@ CFA: test a *specific* measurement hypothesis.
 ![](../assets/images/cfa.png){width="75%"}
 
 ::: {.callout-warning appearance="minimal"}
-CFA is not “EFA with nicer output”: it is a **confirmatory** claim with theoretical commitments.
+CFA is not a fancy EFA: it is a **confirmatory** claim with theoretical assumptions and meanings.
 :::
 
 ---
 
-## General formula (your original)
+## General formula
 
 The general CFA model can be written as:
 
@@ -121,7 +127,7 @@ $$
 \end{aligned}
 $$
 
-where \(\mathbf{x}\) and \(\mathbf{y}\) are observed variables, \(\mathbf{\xi}\) and \(\mathbf{\eta}\) are latent factors, and \(\mathbf{\delta}\) and \(\mathbf{\epsilon}\) are errors of measurement.
+where $(\mathbf{x})$ and $(\mathbf{y})$ are observed variables, $(\mathbf{\xi})$ and $(\mathbf{\eta})$ are latent factors, and $(\mathbf{\delta})$ and $(\mathbf{\epsilon})$ are errors of measurement.
 
 ---
 
@@ -165,7 +171,7 @@ $$
 
 ## Measurement-first implications (reflective realism)
 
-When we draw \(\mathbf{\Lambda}\) (\(\Rightarrow\)) from latent to observed, we assume reflective latent variables:
+When we draw $(\mathbf{\Lambda})$ ($(\Rightarrow)$) from latent to observed, we assume reflective latent variables:
 
 - **ARROWS are ARROWS**: the construct affects responses
 - “realist” interpretation: the latent variable is something that *exists* (at least as a stable attribute)
@@ -173,11 +179,17 @@ When we draw \(\mathbf{\Lambda}\) (\(\Rightarrow\)) from latent to observed, we 
 
 Pragmatic “just a summary” interpretations are *not* neutral: they imply different measurement models (PCA/EGA/…).
 
+::: {.callout-important}
+Asserting that a latent variable 'exists' does not imply that there is one and only one entity/factor explaining the observations. A multitude, even millions, of factors (e.g., genes, ses, environment, health) can form the latent variable
+:::
+
 ---
 
 ## The implied covariance (the single most important equation)
 
-For a standard CFA with latent covariance \(\Phi\) and residual covariance \(\Theta\):
+<div style="font-size:0.75em; line-height:1.15;">
+
+For a standard CFA with latent covariance $(\Phi)$ and residual covariance $(\Theta)$:
 
 $$
 \Sigma = \Lambda \Phi \Lambda' + \Theta
@@ -185,12 +197,9 @@ $$
 
 This is why:
 
-- loadings (\(\Lambda\)) and factor correlations (\(\Phi\)) jointly shape observed covariances
-- correlated residuals (off-diagonal \(\Theta\)) are **extra** covariance not explained by factors
+- loadings $(\Lambda)$ and factor correlations $(\Phi)$ jointly shape observed covariances
+- correlated residuals (off-diagonal $(\Theta)$) are **extra** covariance not explained by factors
 
----
-
-## Matrices (your original visual slide)
 
 ::: {.columns}
 ::: {.column width="31%"}
@@ -212,9 +221,18 @@ Theta: residual variance-covariance matrix
 :::
 :::
 
+</div>
+
 ---
 
-## CFA “model families” you will see a lot
+# CFA models
+
+---
+
+## CFA “model families”
+
+:::{columns}
+:::{.column width="50%"}
 
 Key design choices:
 
@@ -226,11 +244,14 @@ Key design choices:
 
 All have statistical **and** theoretical consequences.
 
-![](../assets/images/models.png){width="70%"}
+:::
+:::{.column width="50%"}
+
+![](../assets/images/models.png){width="100%"}
+:::
+:::
 
 ---
-
-## A quick visual tour: common CFA structures
 
 ```{r}
 #| echo: false
@@ -245,8 +266,6 @@ d_sim <- simulateData(
   seed = 12
 )
 ```
-
----
 
 ## One-factor model
 
@@ -294,7 +313,7 @@ fit2o <- cfa("l1 =~ x1 + x2 + x3
 semPlot::semPaths(
   fit2o, edge.label.cex = 2,
   sizeMan = 11, sizeLat = 11,
-  edge.color = "black", edge.label.color = "black"
+  edge.color = "black", edge.label.color = "black", exoCov = FALSE
 )
 ```
 
@@ -318,6 +337,10 @@ semPlot::semPaths(
 
 ---
 
+# R
+
+---
+
 ## In R (lavaan grammar for CFA)
 
 Core operator:
@@ -338,38 +361,31 @@ summary(fit, standardized = TRUE, fit.measures = TRUE)
 
 ---
 
-## Constraints (scaling) — your original slide
+## Constraints (scaling)
 
 To estimate latent-variable models, you must scale each factor. Two common strategies:
 
 - Standardize latent variables: fix factor means to 0 and factor variances to 1 (`std.lv = TRUE`).
-- Marker method: set one loading (\(\lambda\)) per factor to 1 (lavaan default).
+- Marker method: set one loading ($(\lambda)$) per factor to 1 (lavaan default).
 
 ```{r}
 #| eval: false
-fit <- cfa(m, data = dat, std.lv = TRUE)
+fit <- cfa(m, data = dat, std.lv = TRUE) # Std latent variables
+fit <- cfa(m, data = dat, std.lv = FALSE) # Marker method
 ```
 
 ---
 
 ## Constraints explained (marker vs standardization)
 
-::: {.columns}
-::: {.column width="60%"}
-
 $$
 \Sigma = \Lambda\Phi\Lambda' + \Theta
 $$
 
+::: {columns}
+::: {.column width="50%"}
+
 **Marker method** (fix one loading to 1)
-
-**Standardization** (fix factor variance to 1)
-
-*(Scaling changes the **metric** of unstandardized loadings, not the implied covariance model.)*
-
-:::
-
-::: {.column width="40%"}
 
 ```{r}
 #| echo: false
@@ -379,6 +395,11 @@ fit_m <- cfa("l1 =~ x1 + x2 + x3", data = d_sim)
 semPlot::semPaths(fit_m, edge.label.cex = 2, sizeMan = 11, sizeLat = 11,
                   edge.color = "black", edge.label.color = "black")
 ```
+
+:::
+::: {.column width="50%"}
+
+**Standardization** (fix factor variance to 1)
 
 ```{r}
 #| echo: false
@@ -392,9 +413,17 @@ semPlot::semPaths(fit_s, edge.label.cex = 2, sizeMan = 11, sizeLat = 11,
 :::
 :::
 
+:::{.callout-note}
+Scaling changes the *metric* of unstandardized loadings, not the implied covariance model.
+:::
+
 ---
 
-## Identification rules (your original framing)
+# Identification & evaluation
+
+---
+
+## Identification rules
 
 For CFA, common identification rules include:
 
@@ -412,21 +441,21 @@ $$
 t \leq \frac{q(q+1)}{2}
 $$
 
-where \(t\) is the number of free parameters and \(q\) the number of observed variables.
+where $(t)$ is the number of free parameters and $(q)$ the number of observed variables.
 
-Intuition: the number of nonredundant elements in \(S\) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible.
+Intuition: the number of nonredundant elements in $(S)$ is the maximum number of “equations”; if unknowns exceed equations, identification is impossible.
 
 ---
 
 ## The Three-Indicator Rule
 
-A sufficient (not necessary) condition (with diagonal \(\Theta\)):
+A sufficient (not necessary) condition (with diagonal $(\Theta)$):
 
 1. One-factor model: at least **three** indicators with nonzero loadings.
 2. Multifactor model is identified if:
    1. ≥ 3 indicators per factor
-   2. each row of \(\Lambda\) has one and only one nonzero element (simple structure)
-   3. \(\Theta\) is diagonal
+   2. each row of $(\Lambda)$ has one and only one nonzero element (simple structure)
+   3. $(\Theta)$ is diagonal
 
 ---
 
@@ -434,17 +463,17 @@ A sufficient (not necessary) condition (with diagonal \(\Theta\)):
 
 A sufficient (not necessary) condition for models with >1 factor:
 
-- \(\Theta\) diagonal
-- each factor scaled (one \(\lambda\) fixed to 1, or `std.lv=TRUE`)
+- $(\Theta)$ diagonal
+- each factor scaled (one $(\lambda)$ fixed to 1, or `std.lv=TRUE`)
 - plus:
   1. ≥ 2 indicators per factor
-  2. each row of \(\Lambda\): one nonzero element
-  3. \(\Theta\) diagonal
-  4. each row of \(\Phi\) has at least one nonzero off-diagonal element
+  2. each row of $(\Lambda)$: one nonzero element
+  3. $(\Theta)$ diagonal
+  4. each row of $(\Phi)$ has at least one nonzero off-diagonal element
 
 ---
 
-## CFA evaluation (where deck 03 plugs in)
+## CFA evaluation (see [deck 03](https://feracotommaso.github.io/SEM-phd-course/slides/03_model-fit_diagnostics_respecification.html#/title-slide){target="_blank"})
 
 Global indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).  
 What becomes *CFA-specific* is local misfit interpretation:
@@ -455,7 +484,7 @@ What becomes *CFA-specific* is local misfit interpretation:
   - **correlated residuals** (requires a clear justification)
   - factor covariances / (rarely) indicator-level regressions
 
-::: {.callout-warning appearance="minimal"}
+::: {.callout-warning}
 Fit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters.
 :::
 
@@ -471,7 +500,7 @@ Fit ≠ validity. “Improving fit” can destroy the meaning of a factor model 
 
 ---
 
-## Live example (lavaan): Holzinger & Swineford (1939)
+## Holzinger & Swineford (1939)
 
 ```{r}
 #| echo: true
@@ -504,12 +533,18 @@ pe[pe$op %in% c("=~","~~") & pe$lhs %in% c("visual","textual","speed"),
 
 ```{r}
 #| echo: true
-#| eval: true
-reliability(fit_hs)
+#| eval: false
+reliability(fit_hs) # Deprecated :(
 ```
 
+```{r}
+compRelSEM(fit_hs)
+AVE(fit_hs)
+```
+
+
 ::: {.callout-note appearance="minimal"}
-We emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case.
+We emphasize ω-family (omega) reliability because it aligns with the CFA model; α is a special (often unrealistic) case.
 :::
 
 ---
@@ -530,9 +565,9 @@ semPlot::semPaths(
 
 ---
 
-## A hierarchical intelligence example (your original WISC slide)
+## A hierarchical intelligence example
 
-Theory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor (\(g\)).
+Theory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor ($g$).
 
 ![](../assets/images/wisc.png){width="100%"}
 
@@ -544,34 +579,58 @@ In practice, you should validate first-order abilities before jumping to a secon
 
 ## Second-order CFA (syntax template)
 
+<div style="font-size:0.78em;">
+
 ```{r}
-#| eval: false
+#| echo: true
+N = 1000
+mg <- "
+VCI =~ .60*SI + .60*VC + .60*CO
+PRI =~ .60*BD + .60*PCn + .60*MR
+WMI =~ .60*DS + .60*LN
+PSI =~ .60*CD + .60*SS
+g   =~ .70*VCI + .70*PRI + .70*WMI + .70*PSI
+"
+datg <- simulateData(mg, N)
+S<-cov(datg)
+```
+
+
+```{r}
+#| eval: true
 m2 <- "
 VCI =~ SI + VC + CO
 PRI =~ BD + PCn + MR
 WMI =~ DS + LN
 PSI =~ CD + SS
-g   =~ VCI + PRI + WMI + PSI
+g   =~ VCI + PRI + WMI + PSI # HERE IS THE SECOND-ORDER
 "
 fit2 <- sem(m2, std.lv = TRUE, sample.cov = S, sample.nobs = N)
+
 ```
+
+::: {.callout-note}
+Note that we use `sample.cov` and `sample.nobs` arguments instead of `data`. In SEM you can fit the models from the covariance matrix and 'ignore' the raw data.
+:::
+
+</div>
 
 ---
 
-## A second theoretical model: bifactor (your original)
+## A second theoretical model: bifactor
 
-Parallel theories: test scores are affected by a general factor (\(g\)) **and** by specific abilities that explain remaining variance.
+Parallel theories: test scores are affected by a general factor ($g$) **and** by specific abilities that explain remaining variance.
 
-All factors are set to be orthogonal.
+**All factors are set to be orthogonal.**
 
 ![](../assets/images/bifactor.png){width="100%"}
 
 ---
 
-## Bifactor model in R (your original structure)
+## Bifactor model in R
 
 ```{r}
-#| eval: false
+#| eval: true
 mb <- "
 VCI =~ a*SI + a*VC + a*CO
 PRI =~ b*BD + b*PCn + b*MR
@@ -582,32 +641,180 @@ g   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS
 
 fitb <- sem(
   mb,
-  orthogonal = TRUE,
+  orthogonal = TRUE, #!!!!!!
   std.lv = TRUE,
   sample.cov = S,
   sample.nobs = N
 )
 ```
 
+:::{.callout-note}
+Note that loadings in bifactor models are often costrained to be equal within the same specific factors. This is done to ease convergence but should be justified and transparently reported.
+:::
+
 ---
 
 ## Bifactor: interpretation requires diagnostics (not just fit)
 
-Bifactor often improves fit by absorbing residual covariance. Before interpreting:
+Bifactor often improves fit by absorbing residual covariance.
+
+```{r}
+fitmeasures(fitb, fit.measures = c("cfi","rmsea","srmr"))
+```
+
+Before interpreting:
 
 - is the general factor strong enough? (ECV / ωH / H)
 - are specific factors meaningful or “junk factors”?
 - do constraints (orthogonality, equal loadings) make sense?
 
-```{r}
-#| eval: false
-# semTools helpers for bifactor diagnostics (when you fit a bifactor model)
-# bifactorIndices(fitb)
-# reliability(fitb)   # omega family; ωH is especially relevant
-```
-
 ::: {.callout-warning appearance="minimal"}
 A bifactor model that “fits” can still be a *bad measurement story*.
+:::
+
+---
+
+## Bifactor diagnostics: is there a strong general factor?
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+library(BifactorIndicesCalculator)
+bi <- bifactorIndices(fitb)
+
+```
+
+```{r}
+#| echo: false
+#| results: asis
+
+library(knitr)
+library(tibble)
+
+mod_idx <- round(
+  as.data.frame(t(bi$ModelLevelIndices)),
+  3
+)
+
+knitr::kable(
+  tibble::rownames_to_column(mod_idx, "Model"),
+  align = c("l", "r", "r", "r", "r"),
+  caption = "Model-level bifactor indices"
+)
+```
+
+<div style="font-size:0.78em;">
+
+ECV.g = proportion of common variance explained by the general factor.
+
+PUC = proportion of correlations uncontaminated by overlap among specific factors.
+
+Omega.g = reliability of the observed total score.
+
+OmegaH.g = proportion of total-score variance attributable uniquely to g.
+
+::: {.callout-warning}
+Interpretation
+
+These results do not support a strong general factor.
+
+ECV.g = ~0.30: g explains only about 30% of common variance; 
+OmegaH.g ~ 0.40: only about 40% of total-score variance is uniquely due to g.
+PUC ~ 0.80 is fairly high, but high PUC does not rescue weak ECV.g and OmegaH.g.
+:::
+
+</div>
+
+---
+
+## Are the specific factors interpretable beyond g?
+
+<div style="font-size:0.78em;">
+
+```{r}
+#| echo: false
+#| results: asis
+
+fac_idx <- round(
+  bi$FactorLevelIndices[, c("ECV_SS", "ECV_GS", "Omega", "OmegaH", "H", "FD")],
+  3
+)
+
+knitr::kable(
+  fac_idx,
+  align = c("l", rep("r", 6)),
+  caption = "Factor-level bifactor indices"
+)
+
+```
+
+
+**ECV_SS** = proportion of common variance in a factor’s own items due to that specific factor.
+
+**ECV_GS** = proportion of common variance in those same items due to the general factor.
+
+**Omega** = reliability of the observed factor score, counting all modeled common variance.
+
+**OmegaH** = reliable variance attributable to the factor itself, net of the other factors.
+
+**H** = construct replicability.
+
+**FD** = factor determinacy, that is, how well factor scores are defined.
+
+::: {.callout-note appearence = "minimal"}
+Interpretation. For all four group factors, ECV_SS > ECV_GS: within each item cluster, the specific factor is stronger than g.
+But OmegaH, H, and FD are modest for both the group factors and g: none appears especially strong or highly replicable.
+
+Overall, the structure looks multidimensional, not essentially unidimensional.
+:::
+
+</div>
+
+---
+
+## Item-level evidence: do any items mainly reflect g?
+
+:::{columns}
+:::{.column width="28%"}
+
+```{r}
+#| echo: false
+#| results: asis
+
+item_idx <- round(
+  bi$ItemLevelIndices[, "IECV", drop = FALSE],
+  3
+)
+
+knitr::kable(
+  item_idx,
+  align = c("l", "r"),
+  caption = "Item-level IECV values"
+)
+```
+
+:::
+
+:::{.column width="72%"}
+
+IECV = proportion of an item’s common variance accounted for by the general factor.
+High IECV means the item behaves mostly like an indicator of g.
+Low IECV means the item retains substantial non-general variance.
+
+::: {.callout-important}
+
+Interpretation
+
+Here, IECV values range from about 0.17 to 0.40.
+
+No item behaves mainly as an indicator of the general factor.
+The general factor is therefore not dominant at the item level.
+This reinforces the earlier conclusion: the bifactor model does not justify treating the scale as essentially unidimensional.
+:::
+
+:::
 :::
 
 ---
@@ -616,7 +823,7 @@ A bifactor model that “fits” can still be a *bad measurement story*.
 
 Go to:
 
-- **`labs/lab04_cfa_reliability_omegas.qmd`**
+- **`labs/lab04_cfa_reliability_omegas.qmd`** [link](lab04_cfa_reliability_omegas.html){target="_blank"}
 
 You will practice:
 
@@ -637,12 +844,21 @@ You will practice:
 
 ## Further reading / self-study
 
-- `extras/ex10_bifactor_esem_method-factors.qmd` — bifactor/ESEM/method factors (advanced)
-- `extras/ex05_miivs_factor-score-regression.qmd` — factor scores & regression (later)
 - Classic SEM measurement chapters (CFA fundamentals; see course website reading list)
+
+- **Maybe one day**
+
+  - `extras/ex10_bifactor_esem_method-factors.qmd` — bifactor/ESEM/method factors (advanced)
+  - `extras/ex05_miivs_factor-score-regression.qmd` — factor scores & regression (later)
+
+---
+
+## Acknowledgments
+
+Thanks to Massimiliano Pastore for his slides!
+
+![](../assets/images/max.jpg){height="4.5cm"}
 
 ---
 
 ## References
-
-(Add citations/keys once the course bibliography is finalized for the website.)

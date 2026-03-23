@@ -39,26 +39,26 @@ set.seed(12)
 
 ## Today in the workflow
 
-**Specify → Identify → Estimate → _Evaluate_ → Revise/Report**
+**Specify → Identify → Estimate → *Evaluate* → Revise/Report**
 
 ::: {.callout-note appearance="minimal"}
-**Today:** how we evaluate models: **global fit** + **local diagnostics** → disciplined respecification.  
+**Today:** how we evaluate models: **global fit** + **local diagnostics** → disciplined respecification.\
 We keep the focus on observed-variable models; CFA-specific diagnostics come in deck 04.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Learning objectives
 
 By the end of this session you should be able to:
 
-- State what “model fit” means: **S** vs **Σ̂(θ)** (exact vs approximate fit)
-- Distinguish **global fit** from **local misfit**
-- Compute and report core indices (**χ²**, **CFI/TLI**, **RMSEA + CI**, **SRMR**) in lavaan
-- Use **residuals** and **modification indices (MI + EPC/SEPC)** responsibly
-- Follow a **respecification protocol** that avoids “fit hacking”
+-   State what “model fit” means: **S** vs **Σ̂(θ)** (exact vs approximate fit)
+-   Distinguish **global fit** from **local misfit**
+-   Compute and report core indices (**χ²**, **CFI/TLI**, **RMSEA + CI**, **SRMR**) in lavaan
+-   Use **residuals** and **modification indices (MI + EPC/SEPC)** responsibly
+-   Follow a **respecification protocol** that avoids “fit hacking”
 
----
+------------------------------------------------------------------------
 
 ## The object of interest
 
@@ -68,16 +68,15 @@ $$
 H_0:\ \hat{\Sigma}(\theta) = \Sigma
 $$
 
-::: {.center}
+::: center
 ![](../assets/images/modelfit.png){width="50%"}
 :::
-
 
 ::: {.callout-note appearance="minimal"}
 Fit indices summarize “how close” the model-implied covariance structure is to the data.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Fit is a property of a *model + data + estimator*
 
@@ -85,15 +84,17 @@ Fit indices are not “truth meters”.
 
 They depend on:
 
-- sample size $(N)$
-- model degrees of freedom $(df)$
-- estimator and distributional assumptions (ML, robust ML, WLSMV, …)
-- model complexity (how constrained the model is)
+-   sample size $(N)$
+-   model degrees of freedom $(df)$
+-   estimator and distributional assumptions (ML, robust ML, WLSMV, …)
+-   model complexity (how constrained the model is)
+-   luck
 
----
+------------------------------------------------------------------------
 
 ## Quick example dataset
 
+:::: {style="font-size:0.8em; line-height:1.15;"}
 We simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.
 
 ```{r}
@@ -116,56 +117,27 @@ E2 <- simulateData(m_true, sample.nobs = N, seed = 12)
 fit <- sem(m_fit, data = E2, meanstructure = TRUE)
 ```
 
----
+::: callout-warning
+Fit indices will detect misfit only if the variable whose path is missing is included in the model
+:::
+::::
+
+------------------------------------------------------------------------
+
+# Fit indices
+
+------------------------------------------------------------------------
 
 ## Families of fit indices
 
-- **χ²-based** (exact-fit test)
-- **Comparative / incremental** (CFI, TLI, NFI)
-- **Parsimony** (RMSEA + CI; AIC/BIC)
-- **Residual-based / absolute** (SRMR, RMR; and other “standalone” indices)
+-   **χ²-based** (exact-fit test)
+-   **Comparative / incremental** (CFI, TLI, NFI)
+-   **Parsimony** (RMSEA + CI; AIC/BIC)
+-   **Residual-based / absolute** (SRMR, RMR; and other “standalone” indices)
 
 ::: {.callout-tip appearance="minimal"}
 You need *at least* one index from each of: comparative + approximate + residual-based.
 :::
-
----
-
-## χ² test: what it is (and why it annoys people)
-
-Under ML, the likelihood ratio test yields:
-
-$$
-\chi^2 = (N-1)\,F_{\mathrm{ML}}
-$$
-
-with $(df = \frac{p(p+1)}{2} - t)$ (non-redundant moments minus free parameters).
-
-**Why it rejects so often:**
-
-- with large $(N)$, tiny misspecifications become detectable
-- real data rarely satisfy “exact fit” assumptions
-
----
-
-## χ² assumptions (classical ML)
-
-The textbook χ² calibration relies on:
-
-- independent observations
-- correct model form
-- multivariate normality for endogenous observed variables (in ML)
-- sufficiently large $(N)$
-
-…and it is sensitive to:
-
-- non-normality
-- missing data handling
-- clustering (design effects)
-
-*(Robust corrections and missing-data strategies come in deck 06.)*
-
----
 
 ## lavaan: core fit measures
 
@@ -181,13 +153,54 @@ fitMeasures(fit, c("npar", "chisq", "df", "pvalue",
 We will later discuss robust variants (scaled χ², robust CFI/RMSEA) and when they matter.
 :::
 
----
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## χ² test: what it is (and why it annoys people)
+
+Under ML, the likelihood ratio test yields:
+
+$$
+\chi^2 = (N-1)\,F_{\mathrm{ML}}
+$$
+
+with $(df = \frac{p(p+1)}{2} - t)$ (non-redundant moments minus free parameters).
+
+**Why it rejects so often:**
+
+-   with large $(N)$, tiny misspecifications become detectable
+-   real data rarely satisfy “exact fit” assumptions
+
+------------------------------------------------------------------------
+
+## χ² assumptions (classical ML)
+
+The textbook χ² calibration relies on:
+
+-   independent observations
+-   correct model form
+-   multivariate normality for endogenous observed variables (in ML)
+-   sufficiently large $(N)$
+
+…and it is sensitive to:
+
+-   non-normality
+-   missing data handling
+-   clustering (design effects)
+
+*(Robust corrections and missing-data strategies come in deck 06.)*
+
+------------------------------------------------------------------------
 
 ## Comparative indices (CFI/TLI): baseline model logic
 
 Comparative indices evaluate improvement over a **baseline (independence) model**.
 
 Baseline idea: each variable has its own variance; covariances are fixed to 0.
+
+::: {columns}
+:::{.column width = "50%"}
 
 ```{r}
 #| eval: true
@@ -198,17 +211,12 @@ bm <- "
   parentalSupport ~~ parentalSupport
   attachment ~~ attachment
 "
-fit_bm <- sem(bm, data = E2, meanstructure = TRUE)
+fit_bm <- sem(bm, data = E2, 
+              meanstructure = TRUE)
 ```
+:::
 
----
-
-## Visual intuition: baseline vs user model
-
-::: {.columns}
-::: {.column width="55%"}
-**Baseline model** (no covariances)
-
+::: {.column width="50%"}
 ```{r}
 #| echo: false
 #| eval: true
@@ -220,14 +228,14 @@ fitmeasures(fit_bm,
             fit.measures = c( "chisq","df","cfi"))
 ```
 :::
-::: {.column width="45%"}
-**User model** is evaluated *relative to* baseline.
 
-CFI uses the improvement in
-$$
-\delta = \chi^2 - df
-$$
-compared to baseline (and saturated).
+:::
+
+------------------------------------------------------------------------
+
+## CFI formula (and why df matters)
+
+**User model** is evaluated *relative to* baseline.
 
 ```{r}
 #| echo: false
@@ -235,20 +243,13 @@ fitmeasures(fit,
             fit.measures = c( "chisq","df","cfi"))
 ```
 
-:::
-:::
-
----
-
-## CFI formula (and why df matters)
-
 $$
 \mathrm{CFI}=\frac{\delta(\text{Baseline})-\delta(\text{User})}{\delta(\text{Baseline})-\delta(\text{Saturated})}
 \qquad
 \text{with}\ \delta=\chi^2-df,\ \delta(\text{Saturated})=0
 $$
 
-**Implication:** $CFI$/$TLI$ are functions of both misfit **and** $df$.  
+**Implication:** $CFI$/$TLI$ are functions of both misfit **and** $df$.\
 Two models can have the same χ² but different CFI if their $df$ differ.
 
 ```{r}
@@ -260,7 +261,7 @@ fitMeasures(fit, c("cfi", "tli", "nnfi"))
 All bounded between 0.0 and 1.0, with values closer to 1 (ONE) indicating better fit.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Parsimony & approximate fit: RMSEA
 
@@ -272,8 +273,8 @@ $$
 \mathrm{RMSEA}=\sqrt{\max\left(\frac{\chi^2-df}{df(N-1)},0\right)}
 $$
 
-- prefers parsimony: penalizes low $(df)$ models less forgivingly
-- always report the **confidence interval**
+-   prefers parsimony: penalizes low $(df)$ models less forgivingly
+-   always report the **confidence interval**
 
 ```{r}
 #| eval: false
@@ -284,15 +285,14 @@ fitMeasures(fit, c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper"))
 It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.
 :::
 
-
----
+------------------------------------------------------------------------
 
 ## Residual-based fit: SRMR
 
 SRMR summarizes the average standardized residual:
 
-- compare observed correlations vs model-implied correlations
-- less sensitive to $(N)$ than χ², but sensitive to model structure
+-   compare observed correlations vs model-implied correlations
+-   less sensitive to $(N)$ than χ², but sensitive to model structure
 
 ```{r}
 #| eval: false
@@ -307,33 +307,37 @@ SRMR is often most informative when paired with **residual inspection** (next sl
 It is bounded between 0.0 and 1.0, with values closer to 0 (ZERO) indicating better fit.
 :::
 
----
+------------------------------------------------------------------------
 
 ## What to report (minimum set)
 
 In manuscripts, prefer a *consistent* minimal bundle:
 
-- estimator + missing data strategy
-- χ², $df$, $p$
-- $CFI$ and $TLI$
-- $RMSEA$ with 90% $CI$ (and $SRMR$)
-- **local diagnostics summary** (what you checked, what you changed, and why)
+-   estimator + missing data strategy
+-   χ², $df$, $p$
+-   $CFI$ and $TLI$
+-   $RMSEA$ with 90% $CI$ (and $SRMR$)
+-   **local diagnostics summary** (what you checked, what you changed, and why)
 
----
+------------------------------------------------------------------------
+
+# Local fit
+
+------------------------------------------------------------------------
 
 ## Global vs local fit
 
-- **Global fit:** one-number summaries of overall mismatch (χ², CFI/TLI, RMSEA, SRMR)
-- **Local fit:** where the mismatch lives
-  - residual covariance/correlation matrices
-  - standardized residuals
-  - MI + EPC/SEPC
+-   **Global fit:** one-number summaries of overall mismatch (χ², CFI/TLI, RMSEA, SRMR)
+-   **Local fit:** where the mismatch lives
+    -   residual covariance/correlation matrices
+    -   standardized residuals
+    -   MI + EPC/SEPC
 
 ::: {.callout-warning appearance="minimal"}
 Global fit can look “ok” while a few parameters are seriously wrong (and vice versa).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Residuals: “where does the model fail?”
 
@@ -349,10 +353,10 @@ res$cov     # residual covariance
 
 In practice you inspect:
 
-- largest residual covariances/correlations
-- patterns (blocks, specific pairs, method effects)
+-   largest residual covariances/correlations
+-   patterns (blocks, specific pairs, method effects)
 
----
+------------------------------------------------------------------------
 
 ## Standardized residuals (local z-scores)
 
@@ -364,10 +368,10 @@ res_std <- residuals(fit, type = "cor")
 res_std$cov  # standardized residual covariances
 ```
 
-Heuristic: large absolute standardized residuals flag local misfit.  
+Heuristic: large absolute standardized residuals flag local misfit.\
 (We avoid “magic cutoffs”; interpret in context + patterns, but remember, you expect each of them to be $zero$.)
 
----
+------------------------------------------------------------------------
 
 ## Step 5: model modification (the *dangerous/magic* step)
 
@@ -379,17 +383,17 @@ The goal is not “better numbers”.
 
 The goal is:
 
-- a model that is **more plausible** given theory and diagnostics
-- changes that are **transparent** and ideally **replicable**
+-   a model that is **more plausible** given theory and diagnostics
+-   changes that are **transparent** and ideally **replicable**
 
----
+------------------------------------------------------------------------
 
 ## Modification indices
 
 MI approximates how much χ² would decrease if a fixed parameter were freed.
 
-- MI is a *score test* (local improvement)
-- it does **not** tell you the direction/magnitude of the new parameter
+-   MI is a *score test* (local improvement)
+-   it does **not** tell you the direction/magnitude of the new parameter
 
 So you inspect MI **together with** EPC (expected parameter change).
 
@@ -399,89 +403,93 @@ mi <- modificationIndices(fit, sort. = TRUE)
 head(mi[, c("lhs","op","rhs","mi","epc","sepc.all")], 10)
 ```
 
----
+------------------------------------------------------------------------
 
 ## EPC vs SEPC (why you want both)
 
-- **EPC**: expected *unstandardized* change (units matter)
-- **SEPC**: expected standardized change (comparability)
+-   **EPC**: expected *unstandardized* change (units matter)
+-   **SEPC**: expected standardized change (comparability)
 
 If an MI is huge but EPC is tiny, the “improvement” may be statistically detectable but substantively trivial (especially with large $N$).
 
----
+------------------------------------------------------------------------
 
 ## A disciplined respecification protocol
 
-1. **Check admissibility**  
-   convergence, Heywood cases (negative variances), huge SE, non-identified warnings
-2. **Inspect local misfit**  
-   residuals → standardized residuals → MI/EPC
-3. **Apply theory filter**  
-   is the modification plausible and consistent with your construct/design? How can I justify it? What are the consequences on my theory/model?
-4. **Change one thing at a time**  
-   refit, re-check, document
-5. **Validate**  
-   holdout sample / replication / preregistration (when feasible)
+1.  **Check admissibility**\
+    convergence, Heywood cases (negative variances), huge SE, non-identified warnings
+2.  **Inspect local misfit**\
+    residuals → standardized residuals → MI/EPC
+3.  **Apply theory filter**\
+    is the modification plausible and consistent with your construct/design? How can I justify it? What are the consequences on my theory/model?
+4.  **Change one thing at a time**\
+    refit, re-check, document
+5.  **Validate**\
+    holdout sample / replication / preregistration (when feasible)
 
----
+------------------------------------------------------------------------
 
 ## Pitfall callout: “models that fit” are not necessarily true
 
 Remember that just because your model fits the data, you cannot conclude that your model is correct nor that the data generating process follows your hypothesized paths.
 
-- opposite arrows can imply the same covariance structure (equivalence)
-- post-hoc modifications capitalize on chance
-- measurement error in observed variables contaminates estimates
+-   opposite arrows can imply the same covariance structure (equivalence)
+-   post-hoc modifications capitalize on chance
+-   measurement error in observed variables contaminates estimates
 
 As usual *all models are false, but some are useful*.
 
----
+------------------------------------------------------------------------
 
 ## Oh NO, my *p* values!
 
 ![](../assets/images/memefit.png)
 
----
+------------------------------------------------------------------------
 
 ## Exercises (Lab 03)
 
 Go to:
 
-- **`labs/lab03_fit-diagnostics_MI_residuals.qmd`**
+-   **`labs/lab03_fit-diagnostics_MI_residuals.qmd`** [link](lab03_fit-diagnostics_MI_residuals.html){target="_blank"}
 
 You’ll practice:
 
-1. Extracting and reporting fit indices
-2. Inspecting residual matrices (raw + standardized)
-3. Using MI + EPC/SEPC to propose **theory-justified** modifications
-4. Documenting a respecification path transparently
+1.  Extracting and reporting fit indices
+2.  Inspecting residual matrices (raw + standardized)
+3.  Using MI + EPC/SEPC to propose **theory-justified** modifications
+4.  Documenting a respecification path transparently
 
----
+------------------------------------------------------------------------
 
 ## Take-home: 3 things
 
-1. Fit indices quantify mismatch between **S** and **Σ̂(θ)**; they are not “truth”  
-2. Always pair **global fit** with **local diagnostics** (residuals + MI/EPC)  
-3. Respecification is a scientific decision: **theory + transparency + validation**
+1.  Fit indices quantify mismatch between **S** and **Σ̂(θ)**; they are not “truth”\
+2.  Always pair **global fit** with **local diagnostics** (residuals + MI/EPC)\
+3.  Respecification is a scientific decision: **theory + transparency + validation**
 
----
+------------------------------------------------------------------------
 
 ## Optional: beyond fixed cutoffs
 
-Rules like “CFI > .95” or “RMSEA < .06” can be misleading because fit indices depend on:
+Rules like “CFI \> .95” or “RMSEA \< .06” can be misleading because fit indices depend on:
 
-- model structure (df, factor loadings, cross-loadings, residual correlations)
-- distributional features (non-normality, ordinal data)
-- estimation method and sample size
+-   model structure (df, factor loadings, cross-loadings, residual correlations)
+-   distributional features (non-normality, ordinal data)
+-   estimation method and sample size
 
 **Extra (later / self-study):** dynamic fit indices & simulation-informed expectations
 
-- Groskurth et al. (2023) — fit cutoffs depend on analysis characteristics
-- McNeish & Wolf (2023) — pushing against universal cutoffs
-- Dynamic fit index app (for exploring scenario-dependent thresholds)
+-   Groskurth et al. [-@groskurthWhyWeNeed2024] — fit cutoffs depend on analysis characteristics
+-   McNeish & Wolf [-@mcneishDynamicFitIndex2023] — pushing against universal cutoffs
+-   [Dynamic fit index app](https://dynamicfit.app/connect/#/welcome) for exploring scenario-dependent thresholds
 
----
+## Acknowledgments
+
+Thanks to Massimiliano Pastore for his slides!
+
+![](../assets/images/max.jpg){height="4.5cm"}
+
+------------------------------------------------------------------------
 
 ## References
-
-(We’ll finalize citations/keys in `refs/references.bib` when polishing the course website.)

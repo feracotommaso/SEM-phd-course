@@ -94,8 +94,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -253,9 +273,9 @@ Y &amp;= i_Y + c'X + bM + \varepsilon_Y
 \end{aligned}
 \]</span></p>
 <ul>
-<li>(X) exogenous (predictor)</li>
-<li>(M) mediator (endogenous)</li>
-<li>(Y) outcome (endogenous)</li>
+<li><span class="math inline">\((X)\)</span> exogenous (predictor)</li>
+<li><span class="math inline">\((M\)</span>) mediator (endogenous)</li>
+<li><span class="math inline">\((Y)\)</span> outcome (endogenous)</li>
 </ul>
 </section>
 <section id="mediation-three-effects" class="slide level2">
@@ -267,9 +287,9 @@ Y &amp;= i_Y + c'X + bM + \varepsilon_Y
 \]</span></p>
 <p>Interpretation (linear, continuous case):</p>
 <ul>
-<li>(a): expected change in (M) per unit change in (X)</li>
-<li>(b): expected change in (Y) per unit change in (M) (holding (X) fixed)</li>
-<li>(c’): remaining effect of (X) on (Y) after (M)</li>
+<li><span class="math inline">\((a)\)</span>: expected change in <span class="math inline">\((M)\)</span> per unit change in <span class="math inline">\((X)\)</span></li>
+<li><span class="math inline">\((b)\)</span>: expected change in <span class="math inline">\((Y)\)</span> per unit change in <span class="math inline">\((M)\)</span> (holding <span class="math inline">\((X)\)</span> fixed)</li>
+<li><span class="math inline">\((c')\)</span>: remaining effect of <span class="math inline">\((X)\)</span> on <span class="math inline">\((Y)\)</span> after <span class="math inline">\((M)\)</span></li>
 </ul>
 </section>
 <section id="diagram-mediation-template" class="slide level2">
@@ -314,6 +334,7 @@ z = \frac{\widehat{ab}}{\sqrt{\widehat{\mathrm{Var}}(\widehat{ab})}}
 </section>
 <section id="lavaan-mediation-as-a-model-defined-parameters" class="slide level2">
 <h2>lavaan: mediation as a model + defined parameters</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>You already know <code>~</code> and <code>~~</code>. The new piece is:</p>
 <ul>
 <li><strong>labels</strong> (<code>a*X</code>) and <strong>defined parameters</strong> (<code>ind := a*b</code>)</li>
@@ -336,6 +357,20 @@ z = \frac{\widehat{ab}}{\sqrt{\widehat{\mathrm{Var}}(\widehat{ab})}}
 <span id="cb1-15"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(mod_med, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-17"><a aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>in <code>lavaan</code> * is not an interaction term but an assignment/lableing</p>
+</div>
+</div>
 </div>
 </section>
 <section id="bootstrap-the-indirect-effect" class="slide level2">
@@ -411,7 +446,7 @@ z = \frac{\widehat{ab}}{\sqrt{\widehat{\mathrm{Var}}(\widehat{ab})}}
 <p><span class="math display">\[
 (ab)_{\text{std}} = ab \cdot \frac{\sigma_X}{\sigma_Y}
 \]</span></p>
-<p>(because the (<span class="math inline">\(\sigma_M\)</span>) cancels).</p>
+<p>(because the (<span class="math inline">\(\sigma_M\)</span>) cancels)…but <code>lavaan</code> does it for you.</p>
 </section>
 <section id="identification-fit-can-be-perfect" class="slide level2">
 <h2>Identification + “fit can be perfect”</h2>
@@ -439,8 +474,21 @@ df = \frac{p(p+1)}{2} - t
 <li><span class="math inline">\((X \rightarrow Y)\)</span></li>
 </ul></li>
 <li>correct model form (linearity, additivity, no omitted interactions unless modeled)</li>
+<li>very strong theoretical assumptions</li>
 </ul>
-<p>We will revisit causal interpretation when we discuss: - longitudinal designs (deck 09) - measurement error (decks 04–05)</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>For deep dives into causality (and many other things), follow Julia Rohrer and <a href="https://www.the100.ci/">the100CI blog</a>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="diagnostics-what-to-check-now" class="slide level2">
 <h2>Diagnostics (what to check <em>now</em>)</h2>
@@ -454,7 +502,7 @@ df = \frac{p(p+1)}{2} - t
 <div class="callout callout-tip no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>For mediation, your first diagnostic is often conceptual: <em>is this ordering defensible?</em> then statistical: <em>is <span class="math inline">\((ab)\)</span> estimated precisely?</em></p>
+<p>For mediation, your first diagnostic is often conceptual: <em>is this ordering defensible?</em> then statistical: <em>is</em> <span class="math inline">\((ab)\)</span> estimated precisely?</p>
 </div>
 </div>
 </div>
@@ -470,7 +518,7 @@ df = \frac{p(p+1)}{2} - t
 <h2>Exercises (Lab 02)</h2>
 <p>Go to:</p>
 <ul>
-<li><strong><code>labs/lab02_path-mediation.qmd</code></strong></li>
+<li><strong><code>labs/lab02_path-mediation.qmd</code></strong> <a href="lab02_path-mediation.html" target="_blank">link</a></li>
 </ul>
 <p>You will practice:</p>
 <ol type="1">
@@ -506,17 +554,23 @@ df = \frac{p(p+1)}{2} - t
 </section>
 <section id="further-reading-self-study" class="slide level2">
 <h2>Further reading / self-study</h2>
+<p>Some blogposts you may like</p>
 <ul>
-<li><strong>ex01_power_montecarlo_sem.qmd</strong> — power and precision for indirect effects via simulation<br>
-</li>
-<li>(Optional) causal inference perspective: add a short reading list in the course site resources</li>
+<li><a href="https://www.the100.ci/2025/03/20/reviewer-notes-thats-a-very-nice-mediation-analysis-you-have-there-it-would-be-a-shame-if-something-happened-to-it/">Reviewer notes: That’s a very nice mediation analysis you have there. It would be a shame if something happened to it.</a></li>
+<li><a href="https://www.the100.ci/2022/11/18/causal-inference-hypothesis-testing-all-at-once/">Causal Inference | Hypothesis Testing | All at Once</a></li>
+<li><a href="https://www.the100.ci/2019/04/16/longitudinal-data-dont-magically-solve-causal-inference/">Longitudinal data don’t magically solve causal inference</a></li>
 </ul>
+<p>A paper, still Rohrer <span class="citation" data-cites="rohrer2022">(<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span>: That’s a Lot to Process! Pitfalls of Popular Path Models <a href="https://doi.org/10.1177/25152459221095827">link</a></p>
 </section>
-<section id="references" class="slide level2">
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<p>(Add citations/keys once the course bibliography is finalized for the website.)</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-rohrer2022" class="csl-entry" role="listitem">
+Rohrer, J. M., Hünermund, P., Arslan, R. C., &amp; Elson, M. (2022). That<span>’</span>s a Lot to Process! Pitfalls of Popular Path Models. <em>Advances in Methods and Practices in Psychological Science</em>, <em>5</em>(2), 25152459221095827. <a href="https://doi.org/10.1177/25152459221095827">https://doi.org/10.1177/25152459221095827</a>
+</div>
+</div>
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -733,6 +787,11 @@ df = \frac{p(p+1)}{2} - t
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

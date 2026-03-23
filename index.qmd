@@ -17,10 +17,7 @@ Welcome! This repository contains **slides (Quarto revealjs)**, **hands-on labs*
 If you get lost: come back here. This page is the “map” for everything.
 :::
 
-## Timetable (5×4h, split into two 2-hour blocks)
-
-> Links will work after rendering the project (or if you open the pre-rendered website).
-
+## Approximate timetable (5×4h, split into two 2-hour blocks)
 
 | Day | Block A (2h) | Block B (2h) | Core lab |
 |--------------------:|-----------------|-----------------|-----------------|

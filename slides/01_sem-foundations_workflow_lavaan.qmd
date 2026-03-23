@@ -86,6 +86,8 @@ By the end of this session you should be able to:
 
 ## SEM = Structural Equation Modeling
 
+<div style="font-size:0.8em; line-height:1.15;">
+
 A family of models that lets you:
 
 -   represent hypotheses as a **system of relations**
@@ -108,6 +110,8 @@ it includes path-analysis, causal models, factorial models, measurement models, 
 ::: {.callout-tip appearance="minimal"}
 network models are better if you want good paintings with no theory.
 :::
+
+</div>
 
 ------------------------------------------------------------------------
 
@@ -140,7 +144,7 @@ SEM works with matrices
 
 SEM compares what you observe (**S**) with what your model implies (**Σ(θ)**).
 
-![](../assets/images/covmat.jpg){height="3.5cm"}
+![](../assets/images/covmat.jpg)
 
 ------------------------------------------------------------------------
 
@@ -219,21 +223,26 @@ People who have higher grades in math have higher grades in art.
 
 Asymmetrical relationships are usually tested with regressions!
 
-As you remember, regression models can be written, using classical formulation, as the expression below and graphically depicted (getting closer to SEM) like this:
+As you remember, regression models can be written, using classical
+formulation and graphically depicted (getting
+closer to SEM) like this:
 
 ![](../assets/images/regression.jpg)
 
-## More regression?
+## More regressions?
 
-But what if we have in mind a more complex pattern of relationships? What if we have more regression models in mind and need to estimate all of them contemporarily?
+But what if we have in mind a more complex pattern of relationships?
+What if we have more regression models in mind and need to estimate all
+of them contemporarily?
 
 ![](../assets/images/sistema1.jpg)
 
 What we need is a system of equations.
 
-## More regression?
+## More regressions?
 
-This system can also be drawn with SEM notation, but is actually the same...just better!
+This system can also be drawn with SEM notation, but is actually the
+same...just *better*!
 
 ![](../assets/images/sistema2.jpg)
 
@@ -375,7 +384,8 @@ NO relationship NO arrow...
 
 ## A full representation
 
-![](../assets/images/full.png){width="99%"} img credits to dr. [Johnny Lin](https://www.youtube.com/watch?v=sKVFkVoYfbs)
+![](../assets/images/full.png){width="99%"} img credits to dr. Johnny
+Lin (youtube [course](https://www.youtube.com/watch?v=2M6VQY_OFvM))
 
 ------------------------------------------------------------------------
 
@@ -543,9 +553,7 @@ At this point you are '*free*' to modify the model based on the results obtained
 
 ## And much more
 
-...and much more
-
-`THERE IS EVEN A JOURNAL ON SEM`
+`THERE IS EVEN A JOURNAL ONLY FOR SEM`
 
 Structural Equation Modeling: A Multidisciplinary Journal
 
@@ -634,12 +642,14 @@ semPaths(fit, whatLabels = "names",
 :::
 
 ::: {.column width="60%"}
+<div style="font-size:1.2em; line-height:1.15;">
 ```{r}
 #| echo: false
 #| class-source: code-bigger
 #| class-output: code-bigger
 inspect(fit)$beta
 ```
+</div>
 :::
 :::::
 
@@ -661,11 +671,13 @@ semPaths(fit2, whatLabels = "names",
 :::
 
 ::: {.column width="60%"}
+<div style="font-size:1.2em; line-height:1.15;">
 ```{r}
 #| echo: false
 #| 
 inspect(fit2)$beta
 ```
+</div>
 :::
 :::::
 
@@ -699,6 +711,8 @@ summary(fit, standardized = TRUE)
 
 ## A first example with simulated data
 
+<div style="font-size:0.8em; line-height:1.15;">
+
 ::::: columns
 ::: {.column width="60%"}
 Imagine you want to predict scores in the test we will do at the end of this corse ($y$), based on your prior statistical knowledge ($x_1$) and interest ($x_2$):
@@ -726,7 +740,8 @@ semPaths(fit2, whatLabels = "names",
 
 ```{r}
 #| eval: true
-# Simulate knowledge and interest as predictors of Y
+# Simulate knowledge and interest 
+# as predictors of Y
 set.seed(12)
 N = 100
 x1 = rnorm(N)
@@ -742,6 +757,8 @@ cov(d)
 ```
 :::
 :::::
+
+</div>
 
 ## lm regression
 
@@ -838,6 +855,7 @@ Model specification sintax:
 | `modificationIndices()` | Compute the modification indices of a model |
 | `parameterEstimates()` | Parameter estimates of a latent variable model |
 | `parameterTable()` | Show the table of the parameters of a fitted model |
+| `standardizedSolution()` | Show the table of the standardized parameters |
 | `simulateData()` | Simulate data starting from a `lavaan` model syntax |
 
 ------------------------------------------------------------------------
@@ -846,7 +864,7 @@ Model specification sintax:
 
 Go to:
 
--   **`labs/lab01_lavaan-basics.qmd`**
+-   **`labs/lab01_lavaan-basics.qmd`** ([link](lab01_lavaan-basics.html){target="_blank"})
 
 You’ll practice:
 
@@ -867,5 +885,11 @@ You’ll practice:
 ## Further reading / self-study
 
 -   Revisit the **glossary** in the repo as new terms appear
+-   Follow the course by Johnny Lin ([youtube course](https://www.youtube.com/watch?v=2M6VQY_OFvM))
+-   Follow Psicostat handZone meetings
 
-(Add materials list.)
+## Acknowledgments
+
+Thanks to Massimiliano Pastore for his slides!
+
+![](../assets/images/max.jpg){height="4.5cm"}

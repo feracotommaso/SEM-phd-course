@@ -557,21 +557,21 @@
     "href": "slides/00_introduction.html#outline",
     "title": "Introducing the introduction",
     "section": "Outline",
-    "text": "Outline\n\nCourse contents\nApproaching the course"
+    "text": "Outline\n\nBasics\nVariables and relationships\nSteps\nBasic concepts\nGraphics\nSEM world\nAppendix\nnew section"
   },
   {
     "objectID": "slides/00_introduction.html#topics-that-we-will-hopefully-cover-in-the-course",
     "href": "slides/00_introduction.html#topics-that-we-will-hopefully-cover-in-the-course",
     "title": "Introducing the introduction",
     "section": "Topics that we will (hopefully) cover in the course",
-    "text": "Topics that we will (hopefully) cover in the course\n\nlavaan\nBasic knowledge about SEM\nModels with manifest variables - path analysis\nMeasurement models with SEM - CFA\nFull SEM: measurement + structural part\nModel invariance - MG-CFA\nModels for ordinal data\nPower analysis for SEM\nOther miscellaneous topics (briefly)"
+    "text": "Topics that we will (hopefully) cover in the course\n\nlavaan\nBasic knowledge about SEM\nModels with manifest variables - path analysis\nMeasurement models with SEM - CFA\nFull SEM: measurement + structural part\nModel invariance - MG-CFA\nHandling missing data\nModels for ordinal data\nOther miscellaneous topics (interactions, power analysis, MASEM)"
   },
   {
     "objectID": "slides/00_introduction.html#why-am-i-here",
     "href": "slides/00_introduction.html#why-am-i-here",
     "title": "Introducing the introduction",
     "section": "Why am I here?",
-    "text": "Why am I here?\nI am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:\n\nMeasurement\nMultivariate analyses\nComplex regression models\nLongitudinal analyses\n…"
+    "text": "Why am I here?\nI am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:\n\nMeasurement\nMultivariate analyses\nComplex regression models\nLongitudinal analyses\n…\nUnderstanding causality from a measurement perspective"
   },
   {
     "objectID": "slides/00_introduction.html#what-you-can-expect-from-this-course",
@@ -592,7 +592,7 @@
     "href": "slides/00_introduction.html#materials-and-organization",
     "title": "Introducing the introduction",
     "section": "Materials and organization",
-    "text": "Materials and organization\n\nThe material is divided in arguments\nFor each argument you will find\nSlides\nAdditional code\nData\nWe will probably do live coding when needed. I will work on this file: LiveCode\nI also prepared this file where we can collect questions, if it is too early to answer or if you want to save it: Q doc\nIn general, live materials are in this folder"
+    "text": "Materials and organization\n\nFor each argument you will find\nSlides\nAdditional code\nData\nWe will probably do live coding when needed. I will eventually upload those data on github."
   },
   {
     "objectID": "slides/00_introduction.html#moodle",
@@ -641,7 +641,7 @@
     "href": "slides/00_introduction.html#sem-structural-equation-modeling",
     "title": "Introducing the introduction",
     "section": "SEM = Structural Equation Modeling",
-    "text": "SEM = Structural Equation Modeling\n\nSEM is a multivariate statistical modeling technique\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM.\nAll these techniques use the covariance matrix (\\(\\boldsymbol{S}\\)) for estimating target model parameters.\n\nSEM allows us to test a hypothesis/model about the data\n\nwe postulate a data-generating model\nwe evaluate whether this model fits the data or not\n\nWhat is so special about SEM?\n\nwe can model latent variables (e.g., ‘invisible constructs’)\nwe can test indirect and reciprocal effects and more\nlast but not least, we can make diagrams (or PAINTINGS if theory is weak!)"
+    "text": "SEM = Structural Equation Modeling\n\n\nSEM is a multivariate statistical modeling technique\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even simple multiple regression or ANOVA could be considered particular cases of SEM.\nAll these techniques use the covariance matrix (\\(\\boldsymbol{S}\\)) for estimating target model parameters.\n\nSEM allows us to test a hypothesis/model about the data\n\nwe postulate a data-generating model\nwe evaluate whether this model fits the data or not\n\nWhat is so special about SEM?\n\nwe can model latent variables (e.g., ‘invisible constructs’)\nwe can test indirect and reciprocal effects and more\nlast but not least, we can make diagrams (or PAINTINGS if theory is weak!)"
   },
   {
     "objectID": "slides/00_introduction.html#variance-covariance-matrices",
@@ -669,14 +669,14 @@
     "href": "slides/00_introduction.html#relationships-between-variables",
     "title": "Introducing the introduction",
     "section": "Relationships between variables",
-    "text": "Relationships between variables\n\nThe general aim of statistical analysis is to study relationship among variables\nOn the basis of the relationship among the variables, we distinguish two kind of models: symmetrical and asymmetrical."
+    "text": "Relationships between variables\n\nThe general aim of statistical analysis is to study relationship among variables\nOn the basis of the relationship among the variables, we distinguish two kind of models:\n\nsymmetrical\nasymmetrical"
   },
   {
     "objectID": "slides/00_introduction.html#asymmetrical-relationships",
     "href": "slides/00_introduction.html#asymmetrical-relationships",
     "title": "Introducing the introduction",
     "section": "Asymmetrical relationships",
-    "text": "Asymmetrical relationships\nX -&gt; Y\n\nVariables are divided into two sets: dependent or response variables and predictors or explanatory variables\nX is the set of explanatory variables, \\(Y\\) is the set of response variables, arrows represents the direction of the hypothesized relationship.\nThese models imply cause-and-effect relationships.\n\nExample\nPeople who study more obtain higher grades."
+    "text": "Asymmetrical relationships\n\\(X \\rightarrow Y\\)\n\nVariables are divided into two sets: dependent or response variables and predictors or explanatory variables\nX is the set of explanatory variables, \\(Y\\) is the set of response variables, arrows represents the direction of the hypothesized relationship.\nThese models imply cause-and-effect relationships.\n\nExample\nPeople who study more obtain higher grades."
   },
   {
     "objectID": "slides/00_introduction.html#symmetrical-relationships",
@@ -690,7 +690,7 @@
     "href": "slides/00_introduction.html#regression-model",
     "title": "Introducing the introduction",
     "section": "Regression model",
-    "text": "Regression model\nAsymmetrical relationships are usually tested with regressions!\nAs you remember, regression models can be written, using classical formulation, as the expression below and graphically depicted (getting closer to SEM) like this:"
+    "text": "Regression model\nAsymmetrical relationships are usually tested with regressions!\nAs you remember, regression models can be written, using classical formulation and graphically depicted (getting closer to SEM) like this:"
   },
   {
     "objectID": "slides/00_introduction.html#more-regression",
@@ -753,14 +753,14 @@
     "href": "slides/00_introduction.html#model-specification",
     "title": "Introducing the introduction",
     "section": "1. Model specification",
-    "text": "1. Model specification\nAim of the model\n\nWe fit models because we want to better understand the data and the process of data generation (to better understand this we will use simulation…simulate, simulate, simulate!)\n\nWhat is a model\n\nA model is a formal representation of a theory and is composed by a set of parameters that we will estimate.\n\nExamples"
+    "text": "1. Model specification\n\nAim of the model\n\nWe fit models because we want to better understand the data and the process of data generation (to better understand this we will use simulation…simulate, simulate, simulate!)\n\nWhat is a model\n\nA model is a formal representation of a theory and is composed by a set of parameters that we will estimate."
   },
   {
     "objectID": "slides/00_introduction.html#model-identification",
     "href": "slides/00_introduction.html#model-identification",
     "title": "Introducing the introduction",
     "section": "2. Model identification",
-    "text": "2. Model identification\nBasically, we want to know if there is enough information to identify a solution (aka estimate all the unknown parameters).\nA model can be:\n\nUnder-identified\nJust-identified\nOver-identified"
+    "text": "2. Model identification\nBasically, we want to know if there is enough information to identify a solution (aka estimate all the unknown parameters).\nA model can be:\n\n\n\nUnder-identified\nJust-identified\nOver-identified"
   },
   {
     "objectID": "slides/00_introduction.html#model-identification-1",
@@ -816,7 +816,7 @@
     "href": "slides/00_introduction.html#a-full-representation",
     "title": "Introducing the introduction",
     "section": "A full representation",
-    "text": "A full representation\n img credits to dr. Johnny Lin"
+    "text": "A full representation\n img credits to dr. Johnny Lin (youtube course)"
   },
   {
     "objectID": "slides/00_introduction.html#graphical-representation",
@@ -837,7 +837,7 @@
     "href": "slides/00_introduction.html#graphic-relationships",
     "title": "Introducing the introduction",
     "section": "Graphic relationships",
-    "text": "Graphic relationships\n\nAll model relationships are represented by arrows;\n NO relationship NO arrow... \n\n ...and usually NO arrow NO relationship\nEach arrow is a model parameter and has two indices (e.g., \\(\\beta_{21}\\))\nAsymmetrical relationship are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.\nSymmetrical relationships are represented by double-headed arrows and two indices, one for each variable."
+    "text": "Graphic relationships\n\nAll model relationships are represented by arrows;\n\n\n\n\n\n\n\nWarning\n\n\nNO relationship NO arrow… …and usually NO arrow NO relationship\n\n\n\n\nEach arrow is a model parameter and has two indices (e.g., \\(\\beta_{21}\\))\nAsymmetrical relationship are represented by a single headed arrow: the first index indicates the variable the arrow is pointing to, the second index indicates the variable of origin.\nSymmetrical relationships are represented by double-headed arrows and two indices, one for each variable."
   },
   {
     "objectID": "slides/00_introduction.html#graphic-relationships-1",
@@ -872,7 +872,7 @@
     "href": "slides/00_introduction.html#a-full-representation-1",
     "title": "Introducing the introduction",
     "section": "A full representation",
-    "text": "A full representation\n img credits to dr. Johnny Lin"
+    "text": "A full representation\n img credits to dr. Johnny Lin (youtube course)"
   },
   {
     "objectID": "slides/00_introduction.html#univariate-regressions",
@@ -935,7 +935,7 @@
     "href": "slides/00_introduction.html#and-much-more",
     "title": "Introducing the introduction",
     "section": "And much more",
-    "text": "And much more\n…and much more\nTHERE IS EVEN A JOURNAL ON SEM\nStructural Equation Modeling: A Multidisciplinary Journal"
+    "text": "And much more\nTHERE IS EVEN A JOURNAL ONLY FOR SEM\nStructural Equation Modeling: A Multidisciplinary Journal"
   },
   {
     "objectID": "slides/00_introduction.html#contacts-1",
@@ -2916,7 +2916,7 @@
     "href": "slides/00_welcome_course-map.html#the-repository-is-the-course",
     "title": "Welcome & course map",
     "section": "The repository is the course",
-    "text": "The repository is the course\nSEM-phd-course is a Quarto website + source files:\n\n/slides/ revealjs decks (what you see in class)\n/labs/ hands-on labs (what you do)\n/extras/ self-study (or extra) modules\n/R/ helper functions (fit, plots, reporting)\n\n\n\n\nGoal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available."
+    "text": "The repository is the course\nSEM-phd-course is a Quarto website + source files:\n\n/slides/ revealjs decks (what you see in class)\n/labs/ hands-on labs (what you do)\n/extras/ self-study (or extra) modules\n/R/ helper functions (fit, plots, reporting)"
   },
   {
     "objectID": "slides/00_welcome_course-map.html#how-to-use-materials-during-class",
@@ -2930,7 +2930,7 @@
     "href": "slides/00_welcome_course-map.html#software-checklist-do-this-before-we-start",
     "title": "Welcome & course map",
     "section": "Software checklist (do this before we start)",
-    "text": "Software checklist (do this before we start)\n\nR (recent), RStudio\nQuarto\nPackages (minimum):\n\nlavaan, semTools, semPlot, tidyverse, quarto\n\nOptional but useful:\n\npsych, MVN, performance, broom, parameters\n\n\n\npkgs &lt;- c(\"lavaan\",\"semTools\",\"semPlot\",\"tidyverse\")\nto_install &lt;- pkgs[!pkgs %in% rownames(installed.packages())]\nif(length(to_install)) install.packages(to_install)"
+    "text": "Software checklist (do this before we start)\n\nR (recent), RStudio\nQuarto\nPackages (minimum):\n\nlavaan, semTools, semPlot, tidyverse, quarto\n\nOptional but useful:\n\npsych, MASS, MVN, modsem\n\n\n\npkgs &lt;- c(\"lavaan\",\"semTools\",\"semPlot\",\"tidyverse\")\nto_install &lt;- pkgs[!pkgs %in% rownames(installed.packages())]\nif(length(to_install)) install.packages(to_install)"
   },
   {
     "objectID": "slides/00_welcome_course-map.html#ground-rules-so-this-is-actually-useful",
@@ -2979,7 +2979,7 @@
     "href": "slides/00_welcome_course-map.html#why-am-i-here",
     "title": "Welcome & course map",
     "section": "Why am I here?",
-    "text": "Why am I here?\nI am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:\n\nMeasurement\nMultivariate analyses\nComplex regression models\nLongitudinal analyses\n…"
+    "text": "Why am I here?\nI am convinced that SEM is a fundamental tool for research in psychology and most, if not all, researchers in this area should know it. Indeed, it is key for many aspects of your research:\n\nMeasurement\nMultivariate analyses\nComplex regression models\nLongitudinal analyses\n…\nUnderstanding causality from a measurement perspective"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#today-in-the-workflow",
@@ -3007,7 +3007,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#sem-structural-equation-modeling",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "SEM = Structural Equation Modeling",
-    "text": "SEM = Structural Equation Modeling\nA family of models that lets you:\n\nrepresent hypotheses as a system of relations\n\npostulate a data-generating model\nevaluate whether this model fits the data or not\n\nwork with measurement error (explicitly)\nmodel means and covariances implied by your theory\n\n\n\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even regressions, ANOVAs, t-tests could be considered particular cases of SEM.\n\n\n\n\nmodel latent variables (e.g., ‘invisible constructs’)\ntest indirect, moderated, and reciprocal effects\nmake diagrams (or PAINTINGS if theory is weak!)\n\n\n\n\nnetwork models are better if you want good paintings with no theory."
+    "text": "SEM = Structural Equation Modeling\n\nA family of models that lets you:\n\nrepresent hypotheses as a system of relations\n\npostulate a data-generating model\nevaluate whether this model fits the data or not\n\nwork with measurement error (explicitly)\nmodel means and covariances implied by your theory\n\n\n\n\nit includes path-analysis, causal models, factorial models, measurement models, Latent Growth Models, but even regressions, ANOVAs, t-tests could be considered particular cases of SEM.\n\n\n\n\nmodel latent variables (e.g., ‘invisible constructs’)\ntest indirect, moderated, and reciprocal effects\nmake diagrams (or PAINTINGS if theory is weak!)\n\n\n\n\nnetwork models are better if you want good paintings with no theory."
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#variancecovariance-matrices-the-currency",
@@ -3182,7 +3182,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#exercises-lab-01",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Exercises (Lab 01)",
-    "text": "Exercises (Lab 01)\nGo to:\n\nlabs/lab01_lavaan-basics.qmd\n\nYou’ll practice:\n\nwriting tiny models (~, ~~, =~)\nfitting with sem() / cfa()\nextracting key output (estimates, standardized, basic fit)"
+    "text": "Exercises (Lab 01)\nGo to:\n\nlabs/lab01_lavaan-basics.qmd (link)\n\nYou’ll practice:\n\nwriting tiny models (~, ~~, =~)\nfitting with sem() / cfa()\nextracting key output (estimates, standardized, basic fit)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#take-home-3-things",
@@ -3196,7 +3196,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#further-reading-self-study",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Further reading / self-study",
-    "text": "Further reading / self-study\n\nRevisit the glossary in the repo as new terms appear\n\n(Add materials list.)"
+    "text": "Further reading / self-study\n\nRevisit the glossary in the repo as new terms appear\nFollow the course by Johnny Lin (youtube course)\nFollow Psicostat handZone meetings"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#references",
@@ -3252,7 +3252,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#regression-model",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Regression model",
-    "text": "Regression model\nAsymmetrical relationships are usually tested with regressions!\nAs you remember, regression models can be written, using classical formulation, as the expression below and graphically depicted (getting closer to SEM) like this:"
+    "text": "Regression model\nAsymmetrical relationships are usually tested with regressions!\nAs you remember, regression models can be written, using classical formulation and graphically depicted (getting closer to SEM) like this:"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#more-regression",
@@ -3315,7 +3315,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#a-full-representation",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "A full representation",
-    "text": "A full representation\n img credits to dr. Johnny Lin"
+    "text": "A full representation\n img credits to dr. Johnny Lin (youtube course)"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#graphical-representation",
@@ -3441,7 +3441,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#and-much-more",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "And much more",
-    "text": "And much more\n…and much more\nTHERE IS EVEN A JOURNAL ON SEM\nStructural Equation Modeling: A Multidisciplinary Journal"
+    "text": "And much more\nTHERE IS EVEN A JOURNAL ONLY FOR SEM\nStructural Equation Modeling: A Multidisciplinary Journal"
   },
   {
     "objectID": "labs/lab01_lavaan-basics.html",
@@ -3539,14 +3539,14 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#regressions-in-matrices",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Regressions in matrices",
-    "text": "Regressions in matrices\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x1 x2 x3\ny  0  1  2  3\nx1 0  0  0  0\nx2 0  0  0  0\nx3 0  0  0  0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x3 x2 x1\ny  0  3  2  1\nx3 0  0  5  4\nx2 0  0  0  6\nx1 0  0  0  0"
+    "text": "Regressions in matrices\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x1 x2 x3\ny  0  1  2  3\nx1 0  0  0  0\nx2 0  0  0  0\nx3 0  0  0  0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   y x3 x2 x1\ny  0  3  2  1\nx3 0  0  5  4\nx2 0  0  0  6\nx1 0  0  0  0"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data",
     "href": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "A first example with simulated data",
-    "text": "A first example with simulated data\n\n\nImagine you want to predict scores in the test we will do at the end of this corse (\\(y\\)), based on your prior statistical knowledge (\\(x_1\\)) and interest (\\(x_2\\)):\nFirst define the model\n\n\n\n\n\n\n\n\n\n\nSecond simulate the data\n\n# Simulate knowledge and interest as predictors of Y\nset.seed(12)\nN = 100\nx1 = rnorm(N)\nx2 = rnorm(N)\ny = .35*x1 + .20*x2 + rnorm(N)\nd &lt;- data.frame(x1,x2,y)\n\n\ncor(d)\n\n      x1    x2    y\nx1 1.000 0.016 0.39\nx2 0.016 1.000 0.12\ny  0.386 0.118 1.00\n\ncov(d)\n\n      x1    x2    y\nx1 0.748 0.014 0.36\nx2 0.014 0.998 0.13\ny  0.364 0.129 1.19"
+    "text": "A first example with simulated data\n\n\n\nImagine you want to predict scores in the test we will do at the end of this corse (\\(y\\)), based on your prior statistical knowledge (\\(x_1\\)) and interest (\\(x_2\\)):\nFirst define the model\n\n\n\n\n\n\n\n\n\n\nSecond simulate the data\n\n# Simulate knowledge and interest \n# as predictors of Y\nset.seed(12)\nN = 100\nx1 = rnorm(N)\nx2 = rnorm(N)\ny = .35*x1 + .20*x2 + rnorm(N)\nd &lt;- data.frame(x1,x2,y)\n\n\ncor(d)\n\n      x1    x2    y\nx1 1.000 0.016 0.39\nx2 0.016 1.000 0.12\ny  0.386 0.118 1.00\n\ncov(d)\n\n      x1    x2    y\nx1 0.748 0.014 0.36\nx2 0.014 0.998 0.13\ny  0.364 0.129 1.19"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#a-first-example-with-simulated-data-1",
@@ -3609,7 +3609,7 @@
     "href": "slides/01_sem-foundations_workflow_lavaan.html#basic-lavaan-functions",
     "title": "SEM foundations: language, workflow, first lavaan steps",
     "section": "Basic lavaan functions",
-    "text": "Basic lavaan functions\n\n\n\n\n\n\n\nFunction\nCommand\n\n\n\n\nsem() / cfa()\nFit the SEM model (cfa is nested in sem…which is nested in lavaan)\n\n\nfitMeasures()\nReturn fit indices of the SEM model\n\n\ninspect()\nInspect/extract information that is stored in a fitted model\n\n\nlavPredict()\nCompute estimated latent scores\n\n\nlavTestLRT()\nCompare (nested) lavaan models\n\n\nmodificationIndices()\nCompute the modification indices of a model\n\n\nparameterEstimates()\nParameter estimates of a latent variable model\n\n\nparameterTable()\nShow the table of the parameters of a fitted model\n\n\nsimulateData()\nSimulate data starting from a lavaan model syntax"
+    "text": "Basic lavaan functions\n\n\n\n\n\n\n\nFunction\nCommand\n\n\n\n\nsem() / cfa()\nFit the SEM model (cfa is nested in sem…which is nested in lavaan)\n\n\nfitMeasures()\nReturn fit indices of the SEM model\n\n\ninspect()\nInspect/extract information that is stored in a fitted model\n\n\nlavPredict()\nCompute estimated latent scores\n\n\nlavTestLRT()\nCompare (nested) lavaan models\n\n\nmodificationIndices()\nCompute the modification indices of a model\n\n\nparameterEstimates()\nParameter estimates of a latent variable model\n\n\nparameterTable()\nShow the table of the parameters of a fitted model\n\n\nstandardizedSolution()\nShow the table of the standardized parameters\n\n\nsimulateData()\nSimulate data starting from a lavaan model syntax"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-matrices-1",
@@ -3644,14 +3644,14 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#from-effects-to-equations",
     "title": "Path analysis & mediation",
     "section": "From “effects” to equations",
-    "text": "From “effects” to equations\nA path diagram is shorthand for a system like:\n\\[\n\\begin{aligned}\nM &= i_M + aX + \\varepsilon_M\\\\\nY &= i_Y + c'X + bM + \\varepsilon_Y\n\\end{aligned}\n\\]\n\n(X) exogenous (predictor)\n(M) mediator (endogenous)\n(Y) outcome (endogenous)"
+    "text": "From “effects” to equations\nA path diagram is shorthand for a system like:\n\\[\n\\begin{aligned}\nM &= i_M + aX + \\varepsilon_M\\\\\nY &= i_Y + c'X + bM + \\varepsilon_Y\n\\end{aligned}\n\\]\n\n\\((X)\\) exogenous (predictor)\n\\((M\\)) mediator (endogenous)\n\\((Y)\\) outcome (endogenous)"
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#mediation-three-effects",
     "href": "slides/02_path-analysis_mediation_equivalence.html#mediation-three-effects",
     "title": "Path analysis & mediation",
     "section": "Mediation: three effects",
-    "text": "Mediation: three effects\n\\[\n\\text{Indirect} = ab \\qquad\n\\text{Direct} = c' \\qquad\n\\text{Total} = c = c' + ab\n\\]\nInterpretation (linear, continuous case):\n\n(a): expected change in (M) per unit change in (X)\n(b): expected change in (Y) per unit change in (M) (holding (X) fixed)\n(c’): remaining effect of (X) on (Y) after (M)"
+    "text": "Mediation: three effects\n\\[\n\\text{Indirect} = ab \\qquad\n\\text{Direct} = c' \\qquad\n\\text{Total} = c = c' + ab\n\\]\nInterpretation (linear, continuous case):\n\n\\((a)\\): expected change in \\((M)\\) per unit change in \\((X)\\)\n\\((b)\\): expected change in \\((Y)\\) per unit change in \\((M)\\) (holding \\((X)\\) fixed)\n\\((c')\\): remaining effect of \\((X)\\) on \\((Y)\\) after \\((M)\\)"
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#diagram-mediation-template",
@@ -3679,7 +3679,7 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#lavaan-mediation-as-a-model-defined-parameters",
     "title": "Path analysis & mediation",
     "section": "lavaan: mediation as a model + defined parameters",
-    "text": "lavaan: mediation as a model + defined parameters\nYou already know ~ and ~~. The new piece is:\n\nlabels (a*X) and defined parameters (ind := a*b)\n\n\nlibrary(lavaan)\n\nmod_med &lt;- '\n  # structural regressions\n  M ~ a*X\n  Y ~ cprime*X + b*M\n\n  # (optional) exogenous variance\n  X ~~ X\n\n  # defined effects\n  ind := a*b\n  tot := cprime + (a*b)\n'\n\nfit &lt;- sem(mod_med, data = dat, meanstructure = TRUE)\nsummary(fit, standardized = TRUE)"
+    "text": "lavaan: mediation as a model + defined parameters\n\nYou already know ~ and ~~. The new piece is:\n\nlabels (a*X) and defined parameters (ind := a*b)\n\n\nlibrary(lavaan)\n\nmod_med &lt;- '\n  # structural regressions\n  M ~ a*X\n  Y ~ cprime*X + b*M\n\n  # (optional) exogenous variance\n  X ~~ X\n\n  # defined effects\n  ind := a*b\n  tot := cprime + (a*b)\n'\n\nfit &lt;- sem(mod_med, data = dat, meanstructure = TRUE)\nsummary(fit, standardized = TRUE)\n\n\n\n\n\n\n\n\nNote\n\n\nin lavaan * is not an interaction term but an assignment/lableing"
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#bootstrap-the-indirect-effect",
@@ -3714,7 +3714,7 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#standardized-vs-unstandardized-effects",
     "title": "Path analysis & mediation",
     "section": "Standardized vs unstandardized effects",
-    "text": "Standardized vs unstandardized effects\n\nUnstandardized (\\(\\hat a\\), \\(\\hat b\\), \\(\\widehat{ab}\\)) are in original units → best for substantive interpretation if units matter.\nStandardized effects help compare across variables/scales.\n\nFor a simple mediation (continuous variables), a fully standardized indirect effect is:\n\\[\n(ab)_{\\text{std}} = ab \\cdot \\frac{\\sigma_X}{\\sigma_Y}\n\\]\n(because the (\\(\\sigma_M\\)) cancels)."
+    "text": "Standardized vs unstandardized effects\n\nUnstandardized (\\(\\hat a\\), \\(\\hat b\\), \\(\\widehat{ab}\\)) are in original units → best for substantive interpretation if units matter.\nStandardized effects help compare across variables/scales.\n\nFor a simple mediation (continuous variables), a fully standardized indirect effect is:\n\\[\n(ab)_{\\text{std}} = ab \\cdot \\frac{\\sigma_X}{\\sigma_Y}\n\\]\n(because the (\\(\\sigma_M\\)) cancels)…but lavaan does it for you."
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#identification-fit-can-be-perfect",
@@ -3749,7 +3749,7 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#when-can-mediation-be-interpreted-causally",
     "title": "Path analysis & mediation",
     "section": "When can mediation be interpreted causally?",
-    "text": "When can mediation be interpreted causally?\nAt minimum, you need assumptions such as:\n\ntemporal ordering (X precedes M precedes Y)\nno unmeasured confounding for:\n\n\\((X \\rightarrow M)\\)\n\\((M \\rightarrow Y)\\)\n\\((X \\rightarrow Y)\\)\n\ncorrect model form (linearity, additivity, no omitted interactions unless modeled)\n\nWe will revisit causal interpretation when we discuss: - longitudinal designs (deck 09) - measurement error (decks 04–05)"
+    "text": "When can mediation be interpreted causally?\nAt minimum, you need assumptions such as:\n\ntemporal ordering (X precedes M precedes Y)\nno unmeasured confounding for:\n\n\\((X \\rightarrow M)\\)\n\\((M \\rightarrow Y)\\)\n\\((X \\rightarrow Y)\\)\n\ncorrect model form (linearity, additivity, no omitted interactions unless modeled)\nvery strong theoretical assumptions\n\n\n\n\n\n\n\nTip\n\n\nFor deep dives into causality (and many other things), follow Julia Rohrer and the100CI blog."
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#diagnostics-what-to-check-now",
@@ -3763,7 +3763,7 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#exercises-lab-02",
     "title": "Path analysis & mediation",
     "section": "Exercises (Lab 02)",
-    "text": "Exercises (Lab 02)\nGo to:\n\nlabs/lab02_path-mediation.qmd\n\nYou will practice:\n\nFit a simple mediation with bootstrap CI for \\((ab)\\)\nAdd covariates (and observe what happens to \\((a)\\), \\((b)\\), and \\((c')\\))\nCompare partial vs “full” mediation (constraint \\((c'=0)\\))\nFit a parallel-mediator model and interpret \\((ind_1)\\), \\((ind_2)\\), \\((ind_T)\\)"
+    "text": "Exercises (Lab 02)\nGo to:\n\nlabs/lab02_path-mediation.qmd link\n\nYou will practice:\n\nFit a simple mediation with bootstrap CI for \\((ab)\\)\nAdd covariates (and observe what happens to \\((a)\\), \\((b)\\), and \\((c')\\))\nCompare partial vs “full” mediation (constraint \\((c'=0)\\))\nFit a parallel-mediator model and interpret \\((ind_1)\\), \\((ind_2)\\), \\((ind_T)\\)"
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#pitfall-callout-full-mediation-is-rarely-a-good-goal",
@@ -3784,14 +3784,14 @@
     "href": "slides/02_path-analysis_mediation_equivalence.html#further-reading-self-study",
     "title": "Path analysis & mediation",
     "section": "Further reading / self-study",
-    "text": "Further reading / self-study\n\nex01_power_montecarlo_sem.qmd — power and precision for indirect effects via simulation\n\n(Optional) causal inference perspective: add a short reading list in the course site resources"
+    "text": "Further reading / self-study\nSome blogposts you may like\n\nReviewer notes: That’s a very nice mediation analysis you have there. It would be a shame if something happened to it.\nCausal Inference | Hypothesis Testing | All at Once\nLongitudinal data don’t magically solve causal inference\n\nA paper, still Rohrer (2022): That’s a Lot to Process! Pitfalls of Popular Path Models link"
   },
   {
     "objectID": "slides/02_path-analysis_mediation_equivalence.html#references",
     "href": "slides/02_path-analysis_mediation_equivalence.html#references",
     "title": "Path analysis & mediation",
     "section": "References",
-    "text": "References\n(Add citations/keys once the course bibliography is finalized for the website.)"
+    "text": "References\n\n\n\n\nRohrer, J. M., Hünermund, P., Arslan, R. C., & Elson, M. (2022). That’s a Lot to Process! Pitfalls of Popular Path Models. Advances in Methods and Practices in Psychological Science, 5(2), 25152459221095827. https://doi.org/10.1177/25152459221095827"
   },
   {
     "objectID": "labs/lab02_path-mediation.html",
@@ -3875,7 +3875,7 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#fit-is-a-property-of-a-model-data-estimator",
     "title": "Model fit & diagnostics",
     "section": "Fit is a property of a model + data + estimator",
-    "text": "Fit is a property of a model + data + estimator\nFit indices are not “truth meters”.\nThey depend on:\n\nsample size \\((N)\\)\nmodel degrees of freedom \\((df)\\)\nestimator and distributional assumptions (ML, robust ML, WLSMV, …)\nmodel complexity (how constrained the model is)"
+    "text": "Fit is a property of a model + data + estimator\nFit indices are not “truth meters”.\nThey depend on:\n\nsample size \\((N)\\)\nmodel degrees of freedom \\((df)\\)\nestimator and distributional assumptions (ML, robust ML, WLSMV, …)\nmodel complexity (how constrained the model is)\nluck"
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#quick-example-dataset-same-structure-as-your-exercise-2",
@@ -3917,7 +3917,7 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#comparative-indices-cfitli-baseline-model-logic",
     "title": "Model fit & diagnostics",
     "section": "Comparative indices (CFI/TLI): baseline model logic",
-    "text": "Comparative indices (CFI/TLI): baseline model logic\nComparative indices evaluate improvement over a baseline (independence) model.\nBaseline idea: each variable has its own variance; covariances are fixed to 0.\n\nbm &lt;- \"\n  lifeSatisfaction ~~ lifeSatisfaction\n  selfEsteem ~~ selfEsteem\n  salary ~~ salary\n  parentalSupport ~~ parentalSupport\n  attachment ~~ attachment\n\"\nfit_bm &lt;- sem(bm, data = E2, meanstructure = TRUE)"
+    "text": "Comparative indices (CFI/TLI): baseline model logic\nComparative indices evaluate improvement over a baseline (independence) model.\nBaseline idea: each variable has its own variance; covariances are fixed to 0.\n\n\n\nbm &lt;- \"\n  lifeSatisfaction ~~ lifeSatisfaction\n  selfEsteem ~~ selfEsteem\n  salary ~~ salary\n  parentalSupport ~~ parentalSupport\n  attachment ~~ attachment\n\"\nfit_bm &lt;- sem(bm, data = E2, \n              meanstructure = TRUE)\n\n\n\n\n\n\n\n\n\n\n\nchisq    df   cfi \n  277    10     0"
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#visual-intuition-baseline-vs-user-model",
@@ -3931,7 +3931,7 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#cfi-formula-and-why-df-matters",
     "title": "Model fit & diagnostics",
     "section": "CFI formula (and why df matters)",
-    "text": "CFI formula (and why df matters)\n\\[\n\\mathrm{CFI}=\\frac{\\delta(\\text{Baseline})-\\delta(\\text{User})}{\\delta(\\text{Baseline})-\\delta(\\text{Saturated})}\n\\qquad\n\\text{with}\\ \\delta=\\chi^2-df,\\ \\delta(\\text{Saturated})=0\n\\]\nImplication: \\(CFI\\)/\\(TLI\\) are functions of both misfit and \\(df\\).\nTwo models can have the same χ² but different CFI if their \\(df\\) differ.\n\nfitMeasures(fit, c(\"cfi\", \"tli\", \"nnfi\"))\n\n\n\n\nAll bounded between 0.0 and 1.0, with values closer to 1 (ONE) indicating better fit."
+    "text": "CFI formula (and why df matters)\nUser model is evaluated relative to baseline.\n\n\n chisq     df    cfi \n62.984  3.000  0.725 \n\n\n\\[\n\\mathrm{CFI}=\\frac{\\delta(\\text{Baseline})-\\delta(\\text{User})}{\\delta(\\text{Baseline})-\\delta(\\text{Saturated})}\n\\qquad\n\\text{with}\\ \\delta=\\chi^2-df,\\ \\delta(\\text{Saturated})=0\n\\]\nImplication: \\(CFI\\)/\\(TLI\\) are functions of both misfit and \\(df\\).\nTwo models can have the same χ² but different CFI if their \\(df\\) differ.\n\nfitMeasures(fit, c(\"cfi\", \"tli\", \"nnfi\"))\n\n\n\n\nAll bounded between 0.0 and 1.0, with values closer to 1 (ONE) indicating better fit."
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#parsimony-approximate-fit-rmsea",
@@ -4015,7 +4015,7 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#exercises-lab-03",
     "title": "Model fit & diagnostics",
     "section": "Exercises (Lab 03)",
-    "text": "Exercises (Lab 03)\nGo to:\n\nlabs/lab03_fit-diagnostics_MI_residuals.qmd\n\nYou’ll practice:\n\nExtracting and reporting fit indices\nInspecting residual matrices (raw + standardized)\nUsing MI + EPC/SEPC to propose theory-justified modifications\nDocumenting a respecification path transparently"
+    "text": "Exercises (Lab 03)\nGo to:\n\nlabs/lab03_fit-diagnostics_MI_residuals.qmd link\n\nYou’ll practice:\n\nExtracting and reporting fit indices\nInspecting residual matrices (raw + standardized)\nUsing MI + EPC/SEPC to propose theory-justified modifications\nDocumenting a respecification path transparently"
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#take-home-3-things",
@@ -4029,14 +4029,14 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#optional-beyond-fixed-cutoffs",
     "title": "Model fit & diagnostics",
     "section": "Optional: beyond fixed cutoffs",
-    "text": "Optional: beyond fixed cutoffs\nRules like “CFI &gt; .95” or “RMSEA &lt; .06” can be misleading because fit indices depend on:\n\nmodel structure (df, factor loadings, cross-loadings, residual correlations)\ndistributional features (non-normality, ordinal data)\nestimation method and sample size\n\nExtra (later / self-study): dynamic fit indices & simulation-informed expectations\n\nGroskurth et al. (2023) — fit cutoffs depend on analysis characteristics\nMcNeish & Wolf (2023) — pushing against universal cutoffs\nDynamic fit index app (for exploring scenario-dependent thresholds)"
+    "text": "Optional: beyond fixed cutoffs\nRules like “CFI &gt; .95” or “RMSEA &lt; .06” can be misleading because fit indices depend on:\n\nmodel structure (df, factor loadings, cross-loadings, residual correlations)\ndistributional features (non-normality, ordinal data)\nestimation method and sample size\n\nExtra (later / self-study): dynamic fit indices & simulation-informed expectations\n\nGroskurth et al. (2024) — fit cutoffs depend on analysis characteristics\nMcNeish & Wolf (2023) — pushing against universal cutoffs\nDynamic fit index app for exploring scenario-dependent thresholds"
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#references",
     "href": "slides/03_model-fit_diagnostics_respecification.html#references",
     "title": "Model fit & diagnostics",
     "section": "References",
-    "text": "References\n(We’ll finalize citations/keys in refs/references.bib when polishing the course website.)"
+    "text": "References\n\n\n\n\nGroskurth, K., Bluemke, M., & Lechner, C. M. (2024). Why we need to abandon fixed cutoffs for goodness-of-fit indices: An extensive simulation and possible solutions. Behavior Research Methods, 56(4), 3891–3914. https://doi.org/10.3758/s13428-023-02193-3\n\n\nMcNeish, D., & Wolf, M. G. (2023). Dynamic fit index cutoffs for confirmatory factor analysis models. Psychological Methods, 28(1), 61–88. https://doi.org/10.1037/met0000425"
   },
   {
     "objectID": "labs/lab03_fit-diagnostics_MI_residuals.html",
@@ -4120,35 +4120,35 @@
     "href": "slides/04_cfa_measurement_reliability.html#learning-objectives",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Learning objectives",
-    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nExplain the difference between EFA and CFA (and why CFA is confirmatory)\nWrite the CFA measurement model in equations and matrices\nUnderstand identification & scaling (marker vs std.lv)\nFit CFA models in lavaan and interpret loadings, factor correlations, and residual variances\nUse local diagnostics in CFA (residuals, MI/EPC) without “fit hacking”\nCompute and report reliability from CFA (ω-family; and (briefly) bifactor implications)"
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nExplain the difference between EFA and CFA\nWrite the CFA measurement model in equations and matrices\nUnderstand identification & scaling (marker vs std.lv)\nFit CFA models in lavaan and interpret loadings, factor correlations, and residual variances\nUse local diagnostics in CFA (residuals, MI/EPC) without “fit hacking”\nCompute and report reliability from CFA (ω-family; and (briefly) bifactor implications)"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#outline",
     "href": "slides/04_cfa_measurement_reliability.html#outline",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Outline",
-    "text": "Outline\n\nFactor analysis: what problem are we solving?\nEFA vs CFA (confirmatory stance)\nCFA model: equations, matrices, implied covariance\nIdentification and constraints (scaling + rules)\nCFA in R (lavaan) + interpretation\nReliability from CFA\nBifactor model (keep your guard up)"
+    "text": "Outline\n\nFactor analysis: what problem are we solving?\nEFA vs CFA (confirmatory stance)\nCFA model: equations, matrices, implied covariance\nIdentification and constraints (scaling + rules)\nCFA in R (lavaan) + interpretation\nReliability from CFA\nBifactor model"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#factor-analysis",
     "href": "slides/04_cfa_measurement_reliability.html#factor-analysis",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Factor analysis",
-    "text": "Factor analysis\nFactor analysis models the idea that a small number of latent dimensions explain systematic covariance among many observed variables."
+    "text": "Factor analysis\n\n\n\n\n\n\nImportant\n\n\nFactor analysis models believe that a small number of latent dimensions explain systematic covariance among many observed variables.\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\nPCA is not a factor analysis. It does not assume the ‘existence’ of any latent trait."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#exploratory-factor-analysis-efa",
     "href": "slides/04_cfa_measurement_reliability.html#exploratory-factor-analysis-efa",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Exploratory Factor Analysis (EFA)",
-    "text": "Exploratory Factor Analysis (EFA)\nEFA: discover a plausible loading pattern.\n\nloadings are “free” (rotation chooses a representation)\nuseful for exploration and item development\nweak theory → strong exploration"
+    "text": "Exploratory Factor Analysis (EFA)\nEFA: discover a plausible loading pattern.\n\nloadings are “free” (rotation chooses a representation)\nuseful for exploration and item development\nweak theory → eavily exploratory"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
     "href": "slides/04_cfa_measurement_reliability.html#confirmatory-factor-analysis-cfa",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Confirmatory Factor Analysis (CFA)",
-    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\nCFA is not “EFA with nicer output”: it is a confirmatory claim with theoretical commitments."
+    "text": "Confirmatory Factor Analysis (CFA)\nCFA: test a specific measurement hypothesis.\n\nyou specify which loadings are zero vs free\nyou can impose constraints (equal loadings, orthogonality, hierarchies)\nfit and diagnostics evaluate a theoretically constrained model\n\n\n\n\n\nCFA is not a fancy EFA: it is a confirmatory claim with theoretical assumptions and meanings."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#general-formula-your-original",
@@ -4169,14 +4169,14 @@
     "href": "slides/04_cfa_measurement_reliability.html#measurement-first-implications-reflective-realism",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Measurement-first implications (reflective realism)",
-    "text": "Measurement-first implications (reflective realism)\nWhen we draw () (()) from latent to observed, we assume reflective latent variables:\n\nARROWS are ARROWS: the construct affects responses\n“realist” interpretation: the latent variable is something that exists (at least as a stable attribute)\nobserved scores = construct signal + measurement error\n\nPragmatic “just a summary” interpretations are not neutral: they imply different measurement models (PCA/EGA/…)."
+    "text": "Measurement-first implications (reflective realism)\nWhen we draw \\((\\mathbf{\\Lambda})\\) (\\((\\Rightarrow)\\)) from latent to observed, we assume reflective latent variables:\n\nARROWS are ARROWS: the construct affects responses\n“realist” interpretation: the latent variable is something that exists (at least as a stable attribute)\nobserved scores = construct signal + measurement error\n\nPragmatic “just a summary” interpretations are not neutral: they imply different measurement models (PCA/EGA/…).\n\n\n\n\n\n\nImportant\n\n\nAsserting that a latent variable ‘exists’ does not imply that there is one and only one entity/factor explaining the observations. A multitude, even millions, of factors (e.g., genes, ses, environment, health) can form the latent variable"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#the-implied-covariance-the-single-most-important-equation",
     "href": "slides/04_cfa_measurement_reliability.html#the-implied-covariance-the-single-most-important-equation",
     "title": "CFA: measurement models, identification, reliability",
     "section": "The implied covariance (the single most important equation)",
-    "text": "The implied covariance (the single most important equation)\nFor a standard CFA with latent covariance () and residual covariance ():\n\\[\n\\Sigma = \\Lambda \\Phi \\Lambda' + \\Theta\n\\]\nThis is why:\n\nloadings (()) and factor correlations (()) jointly shape observed covariances\ncorrelated residuals (off-diagonal ()) are extra covariance not explained by factors"
+    "text": "The implied covariance (the single most important equation)\n\nFor a standard CFA with latent covariance \\((\\Phi)\\) and residual covariance \\((\\Theta)\\):\n\\[\n\\Sigma = \\Lambda \\Phi \\Lambda' + \\Theta\n\\]\nThis is why:\n\nloadings \\((\\Lambda)\\) and factor correlations \\((\\Phi)\\) jointly shape observed covariances\ncorrelated residuals (off-diagonal \\((\\Theta)\\)) are extra covariance not explained by factors\n\n\n\nLambda: matrix of loadings\n\n\nPhi: latent variance-covariance matrix\n\n\nTheta: residual variance-covariance matrix"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#matrices-your-original-visual-slide",
@@ -4190,7 +4190,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#cfa-model-families-you-will-see-a-lot",
     "title": "CFA: measurement models, identification, reliability",
     "section": "CFA “model families” you will see a lot",
-    "text": "CFA “model families” you will see a lot\nKey design choices:\n\none factor vs multiple factors\nare factors correlated?\northogonal vs oblique\nhierarchical / second-order?\nbifactor structure?\n\nAll have statistical and theoretical consequences."
+    "text": "CFA “model families” you will see a lot\n\n\nKey design choices:\n\none factor vs multiple factors\nare factors correlated?\northogonal vs oblique\nhierarchical / second-order?\nbifactor structure?\n\nAll have statistical and theoretical consequences."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#a-quick-visual-tour-common-cfa-structures",
@@ -4246,7 +4246,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#constraints-explained-marker-vs-standardization",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Constraints explained (marker vs standardization)",
-    "text": "Constraints explained (marker vs standardization)\n\n\n\\[\n\\Sigma = \\Lambda\\Phi\\Lambda' + \\Theta\n\\]\nMarker method (fix one loading to 1)\nStandardization (fix factor variance to 1)\n(Scaling changes the metric of unstandardized loadings, not the implied covariance model.)"
+    "text": "Constraints explained (marker vs standardization)\n\\[\n\\Sigma = \\Lambda\\Phi\\Lambda' + \\Theta\n\\]\n\n\nMarker method (fix one loading to 1)\n\n\n\n\n\n\n\n\n\n\nStandardization (fix factor variance to 1)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\nScaling changes the metric of unstandardized loadings, not the implied covariance model."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#identification-rules-your-original-framing",
@@ -4260,21 +4260,21 @@
     "href": "slides/04_cfa_measurement_reliability.html#the-t-rule",
     "title": "CFA: measurement models, identification, reliability",
     "section": "The t-rule",
-    "text": "The t-rule\nNecessary but not sufficient:\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\nwhere (t) is the number of free parameters and (q) the number of observed variables.\nIntuition: the number of nonredundant elements in (S) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible."
+    "text": "The t-rule\nNecessary but not sufficient:\n\\[\nt \\leq \\frac{q(q+1)}{2}\n\\]\nwhere \\((t)\\) is the number of free parameters and \\((q)\\) the number of observed variables.\nIntuition: the number of nonredundant elements in \\((S)\\) is the maximum number of “equations”; if unknowns exceed equations, identification is impossible."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#the-three-indicator-rule",
     "href": "slides/04_cfa_measurement_reliability.html#the-three-indicator-rule",
     "title": "CFA: measurement models, identification, reliability",
     "section": "The Three-Indicator Rule",
-    "text": "The Three-Indicator Rule\nA sufficient (not necessary) condition (with diagonal ()):\n\nOne-factor model: at least three indicators with nonzero loadings.\nMultifactor model is identified if:\n\n≥ 3 indicators per factor\neach row of () has one and only one nonzero element (simple structure)\n() is diagonal"
+    "text": "The Three-Indicator Rule\nA sufficient (not necessary) condition (with diagonal \\((\\Theta)\\)):\n\nOne-factor model: at least three indicators with nonzero loadings.\nMultifactor model is identified if:\n\n≥ 3 indicators per factor\neach row of \\((\\Lambda)\\) has one and only one nonzero element (simple structure)\n\\((\\Theta)\\) is diagonal"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#the-two-indicator-rule",
     "href": "slides/04_cfa_measurement_reliability.html#the-two-indicator-rule",
     "title": "CFA: measurement models, identification, reliability",
     "section": "The Two-Indicator Rule",
-    "text": "The Two-Indicator Rule\nA sufficient (not necessary) condition for models with &gt;1 factor:\n\n() diagonal\neach factor scaled (one () fixed to 1, or std.lv=TRUE)\nplus:\n\n≥ 2 indicators per factor\neach row of (): one nonzero element\n() diagonal\neach row of () has at least one nonzero off-diagonal element"
+    "text": "The Two-Indicator Rule\nA sufficient (not necessary) condition for models with &gt;1 factor:\n\n\\((\\Theta)\\) diagonal\neach factor scaled (one \\((\\lambda)\\) fixed to 1, or std.lv=TRUE)\nplus:\n\n≥ 2 indicators per factor\neach row of \\((\\Lambda)\\): one nonzero element\n\\((\\Theta)\\) diagonal\neach row of \\((\\Phi)\\) has at least one nonzero off-diagonal element"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-where-deck-03-plugs-in",
@@ -4309,7 +4309,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#reliability-from-cfa-ω-family",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Reliability from CFA (ω family)",
-    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs)\n\n       visual textual speed\nalpha   0.626   0.883 0.688\nomega   0.625   0.885 0.688\nomega2  0.625   0.885 0.688\nomega3  0.612   0.885 0.686\navevar  0.371   0.721 0.424\n\n\n\n\n\nWe emphasize ω-family reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
+    "text": "Reliability from CFA (ω family)\n\nreliability(fit_hs) # Deprecated :(\n\n\ncompRelSEM(fit_hs)\n\n visual textual   speed \n  0.612   0.885   0.686 \n\nAVE(fit_hs)\n\n visual textual   speed \n  0.371   0.721   0.424 \n\n\n\n\n\nWe emphasize ω-family (omega) reliability because it aligns with the CFA model; α is a special (often unrealistic) case."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#graphical-representation",
@@ -4330,7 +4330,7 @@
     "href": "slides/04_cfa_measurement_reliability.html#second-order-cfa-syntax-template",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Second-order CFA (syntax template)",
-    "text": "Second-order CFA (syntax template)\n\nm2 &lt;- \"\nVCI =~ SI + VC + CO\nPRI =~ BD + PCn + MR\nWMI =~ DS + LN\nPSI =~ CD + SS\ng   =~ VCI + PRI + WMI + PSI\n\"\nfit2 &lt;- sem(m2, std.lv = TRUE, sample.cov = S, sample.nobs = N)"
+    "text": "Second-order CFA (syntax template)\n\n\nN = 1000\nmg &lt;- \"\nVCI =~ .60*SI + .60*VC + .60*CO\nPRI =~ .60*BD + .60*PCn + .60*MR\nWMI =~ .60*DS + .60*LN\nPSI =~ .60*CD + .60*SS\ng   =~ .70*VCI + .70*PRI + .70*WMI + .70*PSI\n\"\ndatg &lt;- simulateData(mg, N)\nS&lt;-cov(datg)\n\n\nm2 &lt;- \"\nVCI =~ SI + VC + CO\nPRI =~ BD + PCn + MR\nWMI =~ DS + LN\nPSI =~ CD + SS\ng   =~ VCI + PRI + WMI + PSI # HERE IS THE SECOND-ORDER\n\"\nfit2 &lt;- sem(m2, std.lv = TRUE, sample.cov = S, sample.nobs = N)\n\n\n\n\n\n\n\nNote\n\n\nNote that we use sample.cov and sample.nobs arguments instead of data. In SEM you can fit the models from the covariance matrix and ‘ignore’ the raw data."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#a-second-theoretical-model-bifactor-your-original",
@@ -4351,14 +4351,14 @@
     "href": "slides/04_cfa_measurement_reliability.html#bifactor-interpretation-requires-diagnostics-not-just-fit",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Bifactor: interpretation requires diagnostics (not just fit)",
-    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance. Before interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n# semTools helpers for bifactor diagnostics (when you fit a bifactor model)\n# bifactorIndices(fitb)\n# reliability(fitb)   # omega family; ωH is especially relevant\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
+    "text": "Bifactor: interpretation requires diagnostics (not just fit)\nBifactor often improves fit by absorbing residual covariance.\n\nfitmeasures(fitb, fit.measures = c(\"cfi\",\"rmsea\",\"srmr\"))\n\n  cfi rmsea  srmr \n0.985 0.026 0.025 \n\n\nBefore interpreting:\n\nis the general factor strong enough? (ECV / ωH / H)\nare specific factors meaningful or “junk factors”?\ndo constraints (orthogonality, equal loadings) make sense?\n\n\n\n\nA bifactor model that “fits” can still be a bad measurement story."
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
     "href": "slides/04_cfa_measurement_reliability.html#exercises-lab-04",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Exercises (Lab 04)",
-    "text": "Exercises (Lab 04)\nGo to:\n\nlabs/lab04_cfa_reliability_omegas.qmd\n\nYou will practice:\n\nFit and compare 1-factor vs correlated-factors CFA\nInspect local misfit (residual correlations + MI/EPC) with a theory filter\nCompute reliability (ω) from CFA and report it\n(Optional) Fit a bifactor model and evaluate interpretability (ωH / ECV)"
+    "text": "Exercises (Lab 04)\nGo to:\n\nlabs/lab04_cfa_reliability_omegas.qmd link\n\nYou will practice:\n\nFit and compare 1-factor vs correlated-factors CFA\nInspect local misfit (residual correlations + MI/EPC) with a theory filter\nCompute reliability (ω) from CFA and report it\n(Optional) Fit a bifactor model and evaluate interpretability (ωH / ECV)"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#take-home-3-things",
@@ -4372,14 +4372,14 @@
     "href": "slides/04_cfa_measurement_reliability.html#further-reading-self-study",
     "title": "CFA: measurement models, identification, reliability",
     "section": "Further reading / self-study",
-    "text": "Further reading / self-study\n\nextras/ex10_bifactor_esem_method-factors.qmd — bifactor/ESEM/method factors (advanced)\nextras/ex05_miivs_factor-score-regression.qmd — factor scores & regression (later)\nClassic SEM measurement chapters (CFA fundamentals; see course website reading list)"
+    "text": "Further reading / self-study\n\nClassic SEM measurement chapters (CFA fundamentals; see course website reading list)\nMaybe one day\n\nextras/ex10_bifactor_esem_method-factors.qmd — bifactor/ESEM/method factors (advanced)\nextras/ex05_miivs_factor-score-regression.qmd — factor scores & regression (later)"
   },
   {
     "objectID": "slides/04_cfa_measurement_reliability.html#references",
     "href": "slides/04_cfa_measurement_reliability.html#references",
     "title": "CFA: measurement models, identification, reliability",
     "section": "References",
-    "text": "References\n(Add citations/keys once the course bibliography is finalized for the website.)"
+    "text": "References"
   },
   {
     "objectID": "labs/lab04_cfa_reliability_omegas.html",
@@ -4848,7 +4848,7 @@
     "href": "slides/03_model-fit_diagnostics_respecification.html#quick-example-dataset",
     "title": "Model fit & diagnostics",
     "section": "Quick example dataset",
-    "text": "Quick example dataset\nWe simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.\n\nN &lt;- 483\n\nm_true &lt;- \"\n  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary\n  selfEsteem       ~ .40*parentalSupport + .20*attachment\n  attachment ~~ .30*parentalSupport\n\"\n\nm_fit &lt;- \"\n  lifeSatisfaction ~ selfEsteem + salary     # omits some true predictors\n  selfEsteem       ~ parentalSupport + attachment\n  # attachment ~~ parentalSupport            # (omitted on purpose)\n\"\n\nE2 &lt;- simulateData(m_true, sample.nobs = N, seed = 12)\nfit &lt;- sem(m_fit, data = E2, meanstructure = TRUE)"
+    "text": "Quick example dataset\n\nWe simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.\n\nN &lt;- 483\n\nm_true &lt;- \"\n  lifeSatisfaction ~ .05*attachment + .25*selfEsteem + .40*parentalSupport + .30*salary\n  selfEsteem       ~ .40*parentalSupport + .20*attachment\n  attachment ~~ .30*parentalSupport\n\"\n\nm_fit &lt;- \"\n  lifeSatisfaction ~ selfEsteem + salary     # omits some true predictors\n  selfEsteem       ~ parentalSupport + attachment\n  # attachment ~~ parentalSupport            # (omitted on purpose)\n\"\n\nE2 &lt;- simulateData(m_true, sample.nobs = N, seed = 12)\nfit &lt;- sem(m_fit, data = E2, meanstructure = TRUE)\n\n\n\n\n\n\n\nWarning\n\n\nFit indices will detect misfit only if the variable whose path is missing is included in the model"
   },
   {
     "objectID": "slides/03_model-fit_diagnostics_respecification.html#step-5-model-modification-the-dangerousmagic-step",
@@ -8041,5 +8041,166 @@
     "title": "Latent interactions (moderation) in SEM",
     "section": "LMS evaluation: baseline fit + LRT",
     "text": "LMS evaluation: baseline fit + LRT\n\n# pseudo-code: exact methods depend on the object class and available methods\n\nfit_lms &lt;- modsem(model_int, data = dat, method = \"lms\")\nfit_base &lt;- estimate_h0(fit_lms, calc.se = FALSE)\n\ncompare_fit(est_h1 = fit_lms, est_h0 = fit_base)\n\n$D\n[1] 23.78654\n\n$df\n[1] 1\n\n$p\n[1] 1.076325e-06\n\n$diff.loglik\n[1] 11.89327\n\n\n\n\n\n\n\n\nImportant\n\n\nTeaching point: don’t “evaluate fit” of the interaction model using missing CFI/RMSEA. Use baseline fit (this should be good) + LRT logic."
+  },
+  {
+    "objectID": "index.html#approximate-timetable-54h-split-into-two-2-hour-blocks",
+    "href": "index.html#approximate-timetable-54h-split-into-two-2-hour-blocks",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "Approximate timetable (5×4h, split into two 2-hour blocks)",
+    "text": "Approximate timetable (5×4h, split into two 2-hour blocks)\n\n\n\nDay\nBlock A (2h)\nBlock B (2h)\nCore lab\n\n\n\n\n1\n00 Course map + 01 Foundations\n02 Path analysis\nLab 01 + Lab 02\n\n\n2\n03 Fit & diagnostics\n04 CFA\nLab 03 + Lab 04\n\n\n3\n05 SEM capstone\n06 Missing/robust/reporting\nLab 05 + Lab 06\n\n\n4\n07 Invariance (MG-CFA)\n08 Ordinal SEM\nLab 07 + Lab 08\n\n\n5\n09 Longitudinal on-ramp\n10 Multilevel/clustered\nLab 09 + Lab 10"
+  },
+  {
+    "objectID": "slides/00_introduction.html#what-you-need",
+    "href": "slides/00_introduction.html#what-you-need",
+    "title": "Introducing the introduction",
+    "section": "What you need",
+    "text": "What you need\n\nA PC (optional)\nBasic R knowledge\nSome packages installed\n\n\ninstall.packages(c(\"lavaan\", \"semTools\", \"semPlot\", # IMPORTANT\n                   \"modsem\", \"MASS\")) # FACULTATIVE"
+  },
+  {
+    "objectID": "slides/00_introduction.html#more-regressions",
+    "href": "slides/00_introduction.html#more-regressions",
+    "title": "Introducing the introduction",
+    "section": "More regressions?",
+    "text": "More regressions?\nBut what if we have in mind a more complex pattern of relationships? What if we have more regression models in mind and need to estimate all of them contemporarily?\n\nWhat we need is a system of equations."
+  },
+  {
+    "objectID": "slides/00_introduction.html#more-regressions-1",
+    "href": "slides/00_introduction.html#more-regressions-1",
+    "title": "Introducing the introduction",
+    "section": "More regressions?",
+    "text": "More regressions?\nThis system can also be drawn with SEM notation, but is actually the same…just better!"
+  },
+  {
+    "objectID": "slides/00_introduction.html#acknowledgments",
+    "href": "slides/00_introduction.html#acknowledgments",
+    "title": "Introducing the introduction",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "slides/00_welcome_course-map.html#course-contents",
+    "href": "slides/00_welcome_course-map.html#course-contents",
+    "title": "Welcome & course map",
+    "section": "Course contents",
+    "text": "Course contents\nWe will (hopefully) cover:\n\nlavaan workflow + foundations\n\nPath analysis & mediation (equivalence and interpretation)\n\nModel fit & diagnostics (global vs local; disciplined respecification)\n\nCFA (measurement first; reliability/validity)\n\nFull SEM (measurement + structural part; capstone)\n\nMeasurement invariance (MG-CFA; partial invariance)\n\nOrdinal SEM (thresholds; WLSMV/ULS; ordinal invariance)\n\nMissing/robustness/reporting (FIML/MI; robust SE; write-up)\n\nLongitudinal SEM (growth + invariance over time)\n\nClustered/multilevel strategies (robust SE; two-level CFA)"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#more-regressions",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#more-regressions",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "More regressions?",
+    "text": "More regressions?\nBut what if we have in mind a more complex pattern of relationships? What if we have more regression models in mind and need to estimate all of them contemporarily?\n\nWhat we need is a system of equations."
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#more-regressions-1",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#more-regressions-1",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "More regressions?",
+    "text": "More regressions?\nThis system can also be drawn with SEM notation, but is actually the same…just better!"
+  },
+  {
+    "objectID": "slides/01_sem-foundations_workflow_lavaan.html#acknowledgments",
+    "href": "slides/01_sem-foundations_workflow_lavaan.html#acknowledgments",
+    "title": "SEM foundations: language, workflow, first lavaan steps",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "slides/03_model-fit_diagnostics_respecification.html#acknowledgments",
+    "href": "slides/03_model-fit_diagnostics_respecification.html#acknowledgments",
+    "title": "Model fit & diagnostics",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#acknowledgments",
+    "href": "slides/04_cfa_measurement_reliability.html#acknowledgments",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#general-formula",
+    "href": "slides/04_cfa_measurement_reliability.html#general-formula",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "General formula",
+    "text": "General formula\nThe general CFA model can be written as:\n\\[\n\\begin{aligned}\n\\mathbf{x} &= \\mathbf{\\Lambda}_x\\,\\mathbf{\\xi} + \\mathbf{\\delta} \\\\\n\\mathbf{y} &= \\mathbf{\\Lambda}_y\\,\\mathbf{\\eta} + \\mathbf{\\epsilon}\n\\end{aligned}\n\\]\nwhere \\((\\mathbf{x})\\) and \\((\\mathbf{y})\\) are observed variables, \\((\\mathbf{\\xi})\\) and \\((\\mathbf{\\eta})\\) are latent factors, and \\((\\mathbf{\\delta})\\) and \\((\\mathbf{\\epsilon})\\) are errors of measurement."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#cfa-model-families",
+    "href": "slides/04_cfa_measurement_reliability.html#cfa-model-families",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "CFA “model families”",
+    "text": "CFA “model families”\n\n\nKey design choices:\n\none factor vs multiple factors\nare factors correlated?\northogonal vs oblique\nhierarchical / second-order?\nbifactor structure?\n\nAll have statistical and theoretical consequences."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#constraints-scaling",
+    "href": "slides/04_cfa_measurement_reliability.html#constraints-scaling",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Constraints (scaling)",
+    "text": "Constraints (scaling)\nTo estimate latent-variable models, you must scale each factor. Two common strategies:\n\nStandardize latent variables: fix factor means to 0 and factor variances to 1 (std.lv = TRUE).\nMarker method: set one loading (\\((\\lambda)\\)) per factor to 1 (lavaan default).\n\n\nfit &lt;- cfa(m, data = dat, std.lv = TRUE) # Std latent variables\nfit &lt;- cfa(m, data = dat, std.lv = FALSE) # Marker method"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#identification-rules",
+    "href": "slides/04_cfa_measurement_reliability.html#identification-rules",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Identification rules",
+    "text": "Identification rules\nFor CFA, common identification rules include:\n\nthe t-rule\nthe Three-Indicator Rule\nthe Two-Indicator Rule"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-see-deck-03",
+    "href": "slides/04_cfa_measurement_reliability.html#cfa-evaluation-see-deck-03",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "CFA evaluation (see deck 03)",
+    "text": "CFA evaluation (see deck 03)\nGlobal indices are the same as in deck 03 (χ², CFI/TLI, RMSEA+CI, SRMR).\nWhat becomes CFA-specific is local misfit interpretation:\n\nbig residual correlations → local dependence / method effects / cross-loadings\nMI/EPC candidates typically propose:\n\ncross-loadings (theory-threatening)\ncorrelated residuals (requires a clear justification)\nfactor covariances / (rarely) indicator-level regressions\n\n\n\n\n\n\n\n\nWarning\n\n\nFit ≠ validity. “Improving fit” can destroy the meaning of a factor model if you add substantively implausible parameters."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#holzinger-swineford-1939",
+    "href": "slides/04_cfa_measurement_reliability.html#holzinger-swineford-1939",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Holzinger & Swineford (1939)",
+    "text": "Holzinger & Swineford (1939)\n\ndat &lt;- HolzingerSwineford1939\n\nm_hs &lt;- '\n  visual  =~ x1 + x2 + x3\n  textual =~ x4 + x5 + x6\n  speed   =~ x7 + x8 + x9\n'\nfit_hs &lt;- cfa(m_hs, data = dat, std.lv = TRUE)"
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example",
+    "href": "slides/04_cfa_measurement_reliability.html#a-hierarchical-intelligence-example",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A hierarchical intelligence example",
+    "text": "A hierarchical intelligence example\nTheory: test scores are affected by specific abilities (e.g., processing speed) that are influenced by an overarching factor (\\(g\\)).\n\n\n\n\nIn practice, you should validate first-order abilities before jumping to a second-order model."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#a-second-theoretical-model-bifactor",
+    "href": "slides/04_cfa_measurement_reliability.html#a-second-theoretical-model-bifactor",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "A second theoretical model: bifactor",
+    "text": "A second theoretical model: bifactor\nParallel theories: test scores are affected by a general factor (\\(g\\)) and by specific abilities that explain remaining variance.\nAll factors are set to be orthogonal."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#bifactor-model-in-r",
+    "href": "slides/04_cfa_measurement_reliability.html#bifactor-model-in-r",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Bifactor model in R",
+    "text": "Bifactor model in R\n\nmb &lt;- \"\nVCI =~ a*SI + a*VC + a*CO\nPRI =~ b*BD + b*PCn + b*MR\nWMI =~ c*DS + c*LN\nPSI =~ d*CD + d*SS\ng   =~ SI + VC + CO + BD + PCn + MR + DS + LN + CD + SS\n\"\n\nfitb &lt;- sem(\n  mb,\n  orthogonal = TRUE, #!!!!!!\n  std.lv = TRUE,\n  sample.cov = S,\n  sample.nobs = N\n)\n\n\n\n\n\n\n\nNote\n\n\nNote that loadings in bifactor models are often costrained to be equal within the same specific factors. This is done to ease convergence but should be justified and transparently reported."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#bifactor-diagnostics-is-there-a-strong-general-factor",
+    "href": "slides/04_cfa_measurement_reliability.html#bifactor-diagnostics-is-there-a-strong-general-factor",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Bifactor diagnostics: is there a strong general factor?",
+    "text": "Bifactor diagnostics: is there a strong general factor?\n\nlibrary(BifactorIndicesCalculator)\nbi &lt;- bifactorIndices(fitb)\n\n\nModel-level bifactor indices\n\n\nModel\nECV.g\nPUC\nOmega.g\nOmegaH.g\n\n\n\n\n1\n0.351\n0.822\n0.768\n0.513\n\n\n\n\nECV.g = proportion of common variance explained by the general factor.\nPUC = proportion of correlations uncontaminated by overlap among specific factors.\nOmega.g = reliability of the observed total score.\nOmegaH.g = proportion of total-score variance attributable uniquely to g.\n\n\n\n\n\n\nWarning\n\n\nInterpretation\nThese results do not support a strong general factor.\nECV.g = ~0.30: g explains only about 30% of common variance; OmegaH.g ~ 0.40: only about 40% of total-score variance is uniquely due to g. PUC ~ 0.80 is fairly high, but high PUC does not rescue weak ECV.g and OmegaH.g."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#are-the-specific-factors-interpretable-beyond-g",
+    "href": "slides/04_cfa_measurement_reliability.html#are-the-specific-factors-interpretable-beyond-g",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Are the specific factors interpretable beyond g?",
+    "text": "Are the specific factors interpretable beyond g?\n\n\nFactor-level bifactor indices\n\n\n\nECV_SS\nECV_GS\nOmega\nOmegaH\nH\nFD\n\n\n\n\nVCI\n0.656\n0.344\n0.666\n0.438\n0.516\n0.699\n\n\nPRI\n0.705\n0.295\n0.664\n0.472\n0.541\n0.720\n\n\nWMI\n0.614\n0.386\n0.575\n0.353\n0.398\n0.627\n\n\nPSI\n0.580\n0.420\n0.511\n0.296\n0.332\n0.573\n\n\ng\n0.351\n0.351\n0.768\n0.513\n0.614\n0.727\n\n\n\nECV_SS = proportion of common variance in a factor’s own items due to that specific factor.\nECV_GS = proportion of common variance in those same items due to the general factor.\nOmega = reliability of the observed factor score, counting all modeled common variance.\nOmegaH = reliable variance attributable to the factor itself, net of the other factors.\nH = construct replicability.\nFD = factor determinacy, that is, how well factor scores are defined.\n\n\n\n\n\n\n\nNote\n\n\nInterpretation. For all four group factors, ECV_SS &gt; ECV_GS: within each item cluster, the specific factor is stronger than g. But OmegaH, H, and FD are modest for both the group factors and g: none appears especially strong or highly replicable.\nOverall, the structure looks multidimensional, not essentially unidimensional."
+  },
+  {
+    "objectID": "slides/04_cfa_measurement_reliability.html#item-level-evidence-do-any-items-mainly-reflect-g",
+    "href": "slides/04_cfa_measurement_reliability.html#item-level-evidence-do-any-items-mainly-reflect-g",
+    "title": "CFA: measurement models, identification, reliability",
+    "section": "Item-level evidence: do any items mainly reflect g?",
+    "text": "Item-level evidence: do any items mainly reflect g?\n\n\n\nItem-level IECV values\n\n\n\nIECV\n\n\n\n\nSI\n0.367\n\n\nVC\n0.352\n\n\nCO\n0.309\n\n\nBD\n0.390\n\n\nPCn\n0.290\n\n\nMR\n0.191\n\n\nDS\n0.383\n\n\nLN\n0.388\n\n\nCD\n0.408\n\n\nSS\n0.432\n\n\n\n\nIECV = proportion of an item’s common variance accounted for by the general factor. High IECV means the item behaves mostly like an indicator of g. Low IECV means the item retains substantial non-general variance.\n\n\n\n\n\n\nImportant\n\n\nInterpretation\nHere, IECV values range from about 0.17 to 0.40.\nNo item behaves mainly as an indicator of the general factor. The general factor is therefore not dominant at the item level. This reinforces the earlier conclusion: the bifactor model does not justify treating the scale as essentially unidimensional."
   }
 ]

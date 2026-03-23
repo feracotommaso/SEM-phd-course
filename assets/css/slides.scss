@@ -127,3 +127,24 @@ $callout-border-width: 0.20rem;
 
 .code-bigger pre,
 .code-bigger pre code { font-size: 2.90em; }
+
+
+
+.course-site-badge {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 40;
+  display: block;
+}
+
+.course-site-badge img {
+  height: 34px;
+  width: auto;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.course-site-badge:hover img {
+  opacity: 1;
+}

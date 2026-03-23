@@ -40,25 +40,25 @@ options(digits = 3)
 **Specify → Identify → Estimate → Evaluate → Revise/Report**
 
 ::: {.callout-note appearance="minimal"}
-**Today:** observed-variable **path models** and **mediation** (direct, indirect, total effects) + equivalence/pitfalls.  
+**Today:** observed-variable **path models** and **mediation** (direct, indirect, total effects) + equivalence/pitfalls.\
 **Next (03):** model fit & diagnostics (global vs local, residuals, MI, disciplined respecification).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Learning objectives
 
 By the end of this session you should be able to:
 
-- Write a path model as a **system of regressions**
-- Define **direct**, **indirect**, and **total** effects (and compute them in lavaan)
-- Explain why indirect effects have **non-normal sampling distributions**
-- Recognize **just-identified** path models (why “fit” can be uninformative)
-- Explain (and fear, a little) **model equivalence** and causal interpretation limits
+-   Write a path model as a **system of regressions**
+-   Define **direct**, **indirect**, and **total** effects (and compute them in lavaan)
+-   Explain why indirect effects have **non-normal sampling distributions**
+-   Recognize **just-identified** path models (why “fit” can be uninformative)
+-   Explain (and fear, a little) **model equivalence** and causal interpretation limits
 
----
+------------------------------------------------------------------------
 
-## Path analysis 
+## Path analysis
 
 A **path model** is a set of linear regressions estimated *jointly*, with an explicit covariance structure and with at least one variable working as **mediator**.
 
@@ -70,7 +70,7 @@ As usual, depicting the models is always the best way to understand our models.
 Actually, this looks like a full SEM. Why? And why it isn't, given the way latent variables should be represented?.
 :::
 
----
+------------------------------------------------------------------------
 
 ## From “effects” to equations
 
@@ -83,14 +83,13 @@ Y &= i_Y + c'X + bM + \varepsilon_Y
 \end{aligned}
 $$
 
-- \(X\) exogenous (predictor)
-- \(M\) mediator (endogenous)
-- \(Y\) outcome (endogenous)
+-   $(X)$ exogenous (predictor)
+-   $(M$) mediator (endogenous)
+-   $(Y)$ outcome (endogenous)
 
----
+------------------------------------------------------------------------
 
 ## Mediation: three effects
-
 
 $$
 \text{Indirect} = ab \qquad
@@ -100,11 +99,11 @@ $$
 
 Interpretation (linear, continuous case):
 
-- \(a\): expected change in \(M\) per unit change in \(X\)
-- \(b\): expected change in \(Y\) per unit change in \(M\) (holding \(X\) fixed)
-- \(c'\): remaining effect of \(X\) on \(Y\) after \(M\)
+-   $(a)$: expected change in $(M)$ per unit change in $(X)$
+-   $(b)$: expected change in $(Y)$ per unit change in $(M)$ (holding $(X)$ fixed)
+-   $(c')$: remaining effect of $(X)$ on $(Y)$ after $(M)$
 
----
+------------------------------------------------------------------------
 
 ## Diagram: mediation template
 
@@ -114,18 +113,17 @@ Interpretation (linear, continuous case):
 
 ![](../assets/images/mediation.jpg)
 
-
----
+------------------------------------------------------------------------
 
 ## Why SEM for mediation?
 
 SEM makes it easy to:
 
-- estimate the system **jointly** (including residual covariance if justified)
-- compute **functions of parameters** (e.g., $(ab)$, totals, contrasts)
-- add **covariates**, multiple mediators, constraints, and (later) measurement models
+-   estimate the system **jointly** (including residual covariance if justified)
+-   compute **functions of parameters** (e.g., $(ab)$, totals, contrasts)
+-   add **covariates**, multiple mediators, constraints, and (later) measurement models
 
----
+------------------------------------------------------------------------
 
 ## Indirect effects are just products
 
@@ -148,13 +146,14 @@ $$
 In practice, **bootstrap** is often preferred for indirect effects (especially with small–moderate $N$).
 :::
 
----
+------------------------------------------------------------------------
 
 ## lavaan: mediation as a model + defined parameters
 
+::: {style="font-size:0.8em; line-height:1.15;"}
 You already know `~` and `~~`. The new piece is:
 
-- **labels** (`a*X`) and **defined parameters** (`ind := a*b`)
+-   **labels** (`a*X`) and **defined parameters** (`ind := a*b`)
 
 ```{r}
 #| eval: false
@@ -176,8 +175,13 @@ mod_med <- '
 fit <- sem(mod_med, data = dat, meanstructure = TRUE)
 summary(fit, standardized = TRUE)
 ```
+:::
 
----
+::: callout-note
+in `lavaan` \* is not an interaction term but an assignment/lableing
+:::
+
+------------------------------------------------------------------------
 
 ## Bootstrap the indirect effect
 
@@ -196,17 +200,16 @@ parameterEstimates(fit_b, ci = TRUE, level = .95,
 
 Interpretation:
 
-- focus on $(ab)$ estimate **and its CI**
-- bootstrap CI is not magic; it’s still conditional on model assumptions
+-   focus on $(ab)$ estimate **and its CI**
+-   bootstrap CI is not magic; it’s still conditional on model assumptions
 
----
+------------------------------------------------------------------------
 
 ## A richer example: multiple indirect paths
 
 Sometimes the theory implies *more than one* mediated route.
 
 (Example structure; your variables will differ.)
-
 
 ![](../assets/images/pathE2.png){height="5.6cm"}
 
@@ -222,7 +225,7 @@ $$
 
 You can define each and test/CI them separately.
 
----
+------------------------------------------------------------------------
 
 ## lavaan: multiple indirect effects (template)
 
@@ -251,12 +254,12 @@ summary(fit, standardized = TRUE)
 Parallel mediators are easy to write; the hard part is **interpretation** (confounding, causal ordering, measurement).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Standardized vs unstandardized effects
 
-- **Unstandardized** ($\hat a$, $\hat b$, $\widehat{ab}$) are in original units → best for substantive interpretation if units matter.
-- **Standardized** effects help compare across variables/scales.
+-   **Unstandardized** ($\hat a$, $\hat b$, $\widehat{ab}$) are in original units → best for substantive interpretation if units matter.
+-   **Standardized** effects help compare across variables/scales.
 
 For a simple mediation (continuous variables), a fully standardized indirect effect is:
 
@@ -264,17 +267,17 @@ $$
 (ab)_{\text{std}} = ab \cdot \frac{\sigma_X}{\sigma_Y}
 $$
 
-(because the ($\sigma_M$) cancels).
+(because the ($\sigma_M$) cancels)...but `lavaan` does it for you.
 
----
+------------------------------------------------------------------------
 
 ## Identification + “fit can be perfect”
 
 Many basic path/mediation models are **just-identified**:
 
-- no degrees of freedom $(df = 0)$
-- the model reproduces the sample covariance matrix exactly
-- fit indices will look “perfect” even if the causal story is wrong
+-   no degrees of freedom $(df = 0)$
+-   the model reproduces the sample covariance matrix exactly
+-   fit indices will look “perfect” even if the causal story is wrong
 
 A useful counting rule:
 
@@ -284,89 +287,91 @@ $$
 
 where $(p)$ = observed variables, $(t)$ = free parameters.
 
----
+------------------------------------------------------------------------
 
 ## When can mediation be interpreted causally?
 
 **At minimum**, you need assumptions such as:
 
-- temporal ordering (X precedes M precedes Y)
-- no unmeasured confounding for:
-  - $(X \rightarrow M)$
-  - $(M \rightarrow Y)$
-  - $(X \rightarrow Y)$
-- correct model form (linearity, additivity, no omitted interactions unless modeled)
+-   temporal ordering (X precedes M precedes Y)
+-   no unmeasured confounding for:
+    -   $(X \rightarrow M)$
+    -   $(M \rightarrow Y)$
+    -   $(X \rightarrow Y)$
+-   correct model form (linearity, additivity, no omitted interactions unless modeled)
+-   very strong theoretical assumptions
 
-We will revisit causal interpretation when we discuss:
-- longitudinal designs (deck 09)
-- measurement error (decks 04–05)
+::: {.callout-tip}
+For deep dives into causality (and many other things), follow Julia Rohrer and [the100CI blog](https://www.the100.ci/).
+:::
 
----
+------------------------------------------------------------------------
 
 ## Diagnostics (what to check *now*)
 
 Even before learning “fit”, you should check:
 
-- **sign** and **magnitude** of parameters (are they plausible?)
-- **standard errors / CIs** (especially for $ab$)
-- **residual variances** (negative? huge? suspiciously tiny?)
-- **collinearity** among predictors/mediators (unstable estimates)
+-   **sign** and **magnitude** of parameters (are they plausible?)
+-   **standard errors / CIs** (especially for $ab$)
+-   **residual variances** (negative? huge? suspiciously tiny?)
+-   **collinearity** among predictors/mediators (unstable estimates)
 
 ::: {.callout-tip appearance="minimal"}
-For mediation, your first diagnostic is often conceptual: *is this ordering defensible?* then statistical: *is $(ab)$ estimated precisely?*
+For mediation, your first diagnostic is often conceptual: *is this ordering defensible?* then statistical: *is* $(ab)$ estimated precisely?
 :::
 
 ::: {.callout-warning appearance="minimal"}
 Can 'sex' be a mediator?!
 :::
 
----
+------------------------------------------------------------------------
 
 ## Exercises (Lab 02)
 
 Go to:
 
-- **`labs/lab02_path-mediation.qmd`**
+-   **`labs/lab02_path-mediation.qmd`** [link](lab02_path-mediation.html){target="_blank"}
 
 You will practice:
 
-1. Fit a simple mediation with bootstrap CI for $(ab)$
-2. Add covariates (and observe what happens to $(a)$, $(b)$, and $(c')$)
-3. Compare partial vs “full” mediation (constraint $(c'=0)$)
-4. Fit a parallel-mediator model and interpret $(ind_1)$, $(ind_2)$, $(ind_T)$
+1.  Fit a simple mediation with bootstrap CI for $(ab)$
+2.  Add covariates (and observe what happens to $(a)$, $(b)$, and $(c')$)
+3.  Compare partial vs “full” mediation (constraint $(c'=0)$)
+4.  Fit a parallel-mediator model and interpret $(ind_1)$, $(ind_2)$, $(ind_T)$
 
----
+------------------------------------------------------------------------
 
 ## Pitfall callout: “full mediation” is rarely a good goal
 
 Even if $(c')$ is small/non-significant:
 
-- it does **not** prove the direct path is zero
-- power and measurement error can make $(c')$ hard to detect
-- the direct effect can be suppressed or masked by omitted paths
+-   it does **not** prove the direct path is zero
+-   power and measurement error can make $(c')$ hard to detect
+-   the direct effect can be suppressed or masked by omitted paths
 
 Better framing:
 
-- focus on effect sizes + uncertainty
-- test theoretically motivated constraints (and report them transparently)
+-   focus on effect sizes + uncertainty
+-   test theoretically motivated constraints (and report them transparently)
 
----
+------------------------------------------------------------------------
 
 ## Take-home: 3 things
 
-1. Mediation effects are **functions of parameters** ($(ab)$, $(c'+ab)$) → compute them explicitly  
-2. The indirect effect’s sampling distribution is **non-normal** → bootstrap is often sensible  
-3. Path models are vulnerable to **equivalence** → fit alone cannot justify causal stories
+1.  Mediation effects are **functions of parameters** ($(ab)$, $(c'+ab)$) → compute them explicitly\
+2.  The indirect effect’s sampling distribution is **non-normal** → bootstrap is often sensible\
+3.  Path models are vulnerable to **equivalence** → fit alone cannot justify causal stories
 
----
+------------------------------------------------------------------------
 
 ## Further reading / self-study
 
-- **ex01_power_montecarlo_sem.qmd** — power and precision for indirect effects via simulation  
-- (Optional) causal inference perspective: add a short reading list in the course site resources
+Some blogposts you may like
 
----
+-   [Reviewer notes: That’s a very nice mediation analysis you have there. It would be a shame if something happened to it.](https://www.the100.ci/2025/03/20/reviewer-notes-thats-a-very-nice-mediation-analysis-you-have-there-it-would-be-a-shame-if-something-happened-to-it/)
+-   [Causal Inference \| Hypothesis Testing \| All at Once](https://www.the100.ci/2022/11/18/causal-inference-hypothesis-testing-all-at-once/)
+-   [Longitudinal data don’t magically solve causal inference](https://www.the100.ci/2019/04/16/longitudinal-data-dont-magically-solve-causal-inference/)
+
+A paper, still Rohrer [-@rohrer2022]: That’s a Lot to Process! Pitfalls of Popular Path Models [link](https://doi.org/10.1177/25152459221095827)
 
 ## References
-
-(Add citations/keys once the course bibliography is finalized for the website.)

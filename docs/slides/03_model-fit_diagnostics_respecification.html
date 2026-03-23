@@ -94,8 +94,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -256,10 +276,12 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <li>model degrees of freedom <span class="math inline">\((df)\)</span></li>
 <li>estimator and distributional assumptions (ML, robust ML, WLSMV, …)</li>
 <li>model complexity (how constrained the model is)</li>
+<li>luck</li>
 </ul>
 </section>
 <section id="quick-example-dataset" class="slide level2">
 <h2>Quick example dataset</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>We simulate data from a “true” structural model and then fit a simplified (misspecified) model to create misfit.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">483</span></span>
@@ -279,6 +301,28 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <span id="cb1-15"><a aria-hidden="true" tabindex="-1"></a>E2 <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(m_true, <span class="at">sample.nobs =</span> N, <span class="at">seed =</span> <span class="dv">12</span>)</span>
 <span id="cb1-16"><a aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">sem</span>(m_fit, <span class="at">data =</span> E2, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>Fit indices will detect misfit only if the variable whose path is missing is included in the model</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="fit-indices" class="title-slide slide level1 center">
+<h1>Fit indices</h1>
+
 </section>
 <section id="families-of-fit-indices" class="slide level2">
 <h2>Families of fit indices</h2>
@@ -295,6 +339,25 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 </div>
 </div>
 </div>
+</section>
+<section id="lavaan-core-fit-measures" class="slide level2">
+<h2>lavaan: core fit measures</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"npar"</span>, <span class="st">"chisq"</span>, <span class="st">"df"</span>, <span class="st">"pvalue"</span>,</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"cfi"</span>, <span class="st">"tli"</span>,</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>,</span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>We will later discuss robust variants (scaled χ², robust CFI/RMSEA) and when they matter.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
 </section>
 <section id="χ²-test-what-it-is-and-why-it-annoys-people" class="slide level2">
 <h2>χ² test: what it is (and why it annoys people)</h2>
@@ -326,26 +389,12 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 </ul>
 <p><em>(Robust corrections and missing-data strategies come in deck 06.)</em></p>
 </section>
-<section id="lavaan-core-fit-measures" class="slide level2">
-<h2>lavaan: core fit measures</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitMeasures</span>(fit, <span class="fu">c</span>(<span class="st">"npar"</span>, <span class="st">"chisq"</span>, <span class="st">"df"</span>, <span class="st">"pvalue"</span>,</span>
-<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"cfi"</span>, <span class="st">"tli"</span>,</span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"rmsea"</span>, <span class="st">"rmsea.ci.lower"</span>, <span class="st">"rmsea.ci.upper"</span>,</span>
-<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>                   <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>We will later discuss robust variants (scaled χ², robust CFI/RMSEA) and when they matter.</p>
-</div>
-</div>
-</div>
-</section>
 <section id="comparative-indices-cfitli-baseline-model-logic" class="slide level2">
 <h2>Comparative indices (CFI/TLI): baseline model logic</h2>
 <p>Comparative indices evaluate improvement over a <strong>baseline (independence) model</strong>.</p>
 <p>Baseline idea: each variable has its own variance; covariances are fixed to 0.</p>
+<div class="{columns}">
+<div class="column" style="width:50%;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>bm <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">  lifeSatisfaction ~~ lifeSatisfaction</span></span>
@@ -354,14 +403,10 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">  parentalSupport ~~ parentalSupport</span></span>
 <span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">  attachment ~~ attachment</span></span>
 <span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a>fit_bm <span class="ot">&lt;-</span> <span class="fu">sem</span>(bm, <span class="at">data =</span> E2, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a>fit_bm <span class="ot">&lt;-</span> <span class="fu">sem</span>(bm, <span class="at">data =</span> E2, </span>
+<span id="cb3-9"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="visual-intuition-baseline-vs-user-model" class="slide level2">
-<h2>Visual intuition: baseline vs user model</h2>
-<div class="columns">
-<div class="column" style="width:55%;">
-<p><strong>Baseline model</strong> (no covariances)</p>
+</div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -375,21 +420,17 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
   277    10     0 </code></pre>
 </div>
 </div>
-</div><div class="column" style="width:45%;">
+</div></div>
+</section>
+<section id="cfi-formula-and-why-df-matters" class="slide level2">
+<h2>CFI formula (and why df matters)</h2>
 <p><strong>User model</strong> is evaluated <em>relative to</em> baseline.</p>
-<p>CFI uses the improvement in <span class="math display">\[
-\delta = \chi^2 - df
-\]</span> compared to baseline (and saturated).</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi 
 62.984  3.000  0.725 </code></pre>
 </div>
 </div>
-</div></div>
-</section>
-<section id="cfi-formula-and-why-df-matters" class="slide level2">
-<h2>CFI formula (and why df matters)</h2>
 <p><span class="math display">\[
 \mathrm{CFI}=\frac{\delta(\text{Baseline})-\delta(\text{User})}{\delta(\text{Baseline})-\delta(\text{Saturated})}
 \qquad
@@ -465,6 +506,14 @@ Two models can have the same χ² but different CFI if their <span class="math i
 <li><span class="math inline">\(RMSEA\)</span> with 90% <span class="math inline">\(CI\)</span> (and <span class="math inline">\(SRMR\)</span>)</li>
 <li><strong>local diagnostics summary</strong> (what you checked, what you changed, and why)</li>
 </ul>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="local-fit" class="title-slide slide level1 center">
+<h1>Local fit</h1>
+
 </section>
 <section id="global-vs-local-fit" class="slide level2">
 <h2>Global vs local fit</h2>
@@ -611,7 +660,7 @@ holdout sample / replication / preregistration (when feasible)</li>
 <h2>Exercises (Lab 03)</h2>
 <p>Go to:</p>
 <ul>
-<li><strong><code>labs/lab03_fit-diagnostics_MI_residuals.qmd</code></strong></li>
+<li><strong><code>labs/lab03_fit-diagnostics_MI_residuals.qmd</code></strong> <a href="lab03_fit-diagnostics_MI_residuals.html" target="_blank">link</a></li>
 </ul>
 <p>You’ll practice:</p>
 <ol type="1">
@@ -641,17 +690,29 @@ holdout sample / replication / preregistration (when feasible)</li>
 </ul>
 <p><strong>Extra (later / self-study):</strong> dynamic fit indices &amp; simulation-informed expectations</p>
 <ul>
-<li>Groskurth et al.&nbsp;(2023) — fit cutoffs depend on analysis characteristics</li>
-<li>McNeish &amp; Wolf (2023) — pushing against universal cutoffs</li>
-<li>Dynamic fit index app (for exploring scenario-dependent thresholds)</li>
+<li>Groskurth et al. <span class="citation" data-cites="groskurthWhyWeNeed2024">(<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span> — fit cutoffs depend on analysis characteristics</li>
+<li>McNeish &amp; Wolf <span class="citation" data-cites="mcneishDynamicFitIndex2023">(<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span> — pushing against universal cutoffs</li>
+<li><a href="https://dynamicfit.app/connect/#/welcome">Dynamic fit index app</a> for exploring scenario-dependent thresholds</li>
 </ul>
 </section>
-<section id="references" class="slide level2">
-<h2>References</h2>
-<p>(We’ll finalize citations/keys in <code>refs/references.bib</code> when polishing the course website.)</p>
-
-
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Massimiliano Pastore for his slides!</p>
+<p><img data-src="../assets/images/max.jpg" style="height:4.5cm"></p>
 </section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-groskurthWhyWeNeed2024" class="csl-entry" role="listitem">
+Groskurth, K., Bluemke, M., &amp; Lechner, C. M. (2024). Why we need to abandon fixed cutoffs for goodness-of-fit indices: An extensive simulation and possible solutions. <em>Behavior Research Methods</em>, <em>56</em>(4), 3891–3914. <a href="https://doi.org/10.3758/s13428-023-02193-3">https://doi.org/10.3758/s13428-023-02193-3</a>
+</div>
+<div id="ref-mcneishDynamicFitIndex2023" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2023). Dynamic fit index cutoffs for confirmatory factor analysis models. <em>Psychological Methods</em>, <em>28</em>(1), 61–88. <a href="https://doi.org/10.1037/met0000425">https://doi.org/10.1037/met0000425</a>
+</div>
+</div>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -867,6 +928,11 @@ holdout sample / replication / preregistration (when feasible)</li>
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

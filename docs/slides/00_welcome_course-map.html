@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -235,6 +235,7 @@ Tommaso Feraco
 <li>Complex regression models</li>
 <li>Longitudinal analyses</li>
 <li>…</li>
+<li>Understanding causality from a measurement perspective</li>
 </ul>
 </section>
 <section id="what-youll-be-able-to-do-by-the-end" class="slide level2">
@@ -251,8 +252,8 @@ Tommaso Feraco
 <li>Produce <strong>reproducible reports</strong> (Quarto + a reporting checklist)</li>
 </ul>
 </section>
-<section id="course-contents-big-picture" class="slide level2">
-<h2>Course contents (big picture)</h2>
+<section id="course-contents" class="slide level2">
+<h2>Course contents</h2>
 <p>We will (hopefully) cover:</p>
 <ol type="1">
 <li>lavaan workflow + foundations<br>
@@ -311,13 +312,6 @@ Tommaso Feraco
 <li><code>/extras/</code> self-study (or extra) modules</li>
 <li><code>/R/</code> helper functions (fit, plots, reporting)</li>
 </ul>
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Goal: everything is “book-ready”: coherent headings, reproducible code, and consistent reporting. At some point, a discursive content might be available.</p>
-</div>
-</div>
-</div>
 </section>
 <section id="how-to-use-materials-during-class" class="slide level2">
 <h2>How to use materials during class</h2>
@@ -343,7 +337,7 @@ Tommaso Feraco
 </ul></li>
 <li>Optional but useful:
 <ul>
-<li><code>psych</code>, <code>MVN</code>, <code>performance</code>, <code>broom</code>, <code>parameters</code></li>
+<li><code>psych</code>, <code>MASS</code>, <code>MVN</code>, <code>modsem</code></li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -351,17 +345,6 @@ Tommaso Feraco
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">length</span>(to_install)) <span class="fu">install.packages</span>(to_install)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="parking-lot-questions" class="slide level2">
-<h2>Parking lot questions</h2>
-<p>If your question is:</p>
-<ul>
-<li><strong>about your own project’s model</strong> → keep it; we’ll connect it to a module<br>
-</li>
-<li><strong>about R/lavaan syntax</strong> → ask immediately<br>
-</li>
-<li><strong>about advanced variants</strong> (Bayesian, latent interactions, MIIVs, etc.) → likely an <em>extra</em>. We can cover it if we have time.</li>
-</ul>
 </section>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
@@ -386,10 +369,6 @@ Tommaso Feraco
 </div>
 </div>
 </div>
-</section>
-<section id="references" class="slide level2">
-<h2>References</h2>
-<p>(References for this welcome deck are mostly course materials; substantive citations start in the next modules.)</p>
 
 
 </section>
@@ -608,6 +587,11 @@ Tommaso Feraco
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

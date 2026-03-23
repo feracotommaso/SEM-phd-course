@@ -41,11 +41,6 @@ options(digits = 2)
 data("PoliticalDemocracy")
 ```
 
-## Outline
-
--   Course contents
--   Approaching the course
-
 ## Topics that we will (hopefully) cover in the course
 
 1.  `lavaan`
@@ -54,9 +49,9 @@ data("PoliticalDemocracy")
 4.  Measurement models with SEM - CFA
 5.  Full SEM: measurement + structural part
 6.  Model invariance - MG-CFA
-7.  Models for ordinal data
-8.  Power analysis for SEM
-9.  Other miscellaneous topics (briefly)
+7.  Handling missing data
+8.  Models for ordinal data
+9.  Other miscellaneous topics (interactions, power analysis, MASEM)
 
 ## Why am I here?
 
@@ -69,6 +64,7 @@ it is key for many aspects of your research:
 -   Complex regression models
 -   Longitudinal analyses
 -   ...
+-   Understanding causality from a measurement perspective
 
 ## What you can expect from this course
 
@@ -82,53 +78,29 @@ practical and psychology-based examples and experiences.
 -   Open discussions
 -   Hands-on your data
 
-## What I need from you
+## What you need 
 
 -   A PC (optional)
 -   Basic R knowledge
--   '`for`' loops knowledge
 -   Some packages installed
 
 ```{r}
 #| eval: false
-install.packages(c("lavaan", "semTools", 
-                   "semPlot", "MASS"))
+install.packages(c("lavaan", "semTools", "semPlot", # IMPORTANT
+                   "modsem", "MASS")) # FACULTATIVE
 ```
 
 ## Materials and organization
 
--   The material is divided in arguments
-
 -   For each argument you will find
 
--   Slides
+  -   Slides
 
--   Additional code
+  -   Additional code
 
--   Data
+  -   Data
 
--   We will probably do live coding when needed. I will work on this
-    file: LiveCode
-
--   I also prepared this file where we can collect questions, if it is
-    too early to answer or if you want to save it: Q doc
-
--   In general, live materials are in this folder
-
-## Moodle
-
-Slides and materials are in the Moodle page of the course
-
-![](../assets/images/qr.png){width="50%"}
-
-OR moodle psicologia unipd \> Formazione Post Lauream \> Corsi di
-Dottorato \> Psychological Sciences aa 2023/2024 \> Structural Equations
-
-## Registro didattico
-
-logbook: Please fill the logbook everyday.
-
-![](../assets/images/registro.png){width="50%"}
+-   We will probably do live coding when needed. I will eventually upload those data on github.
 
 # Introduction
 
@@ -159,6 +131,8 @@ logbook: Please fill the logbook everyday.
 
 ## SEM = Structural Equation Modeling
 
+<div style="font-size:0.8em; line-height:1.15;">
+
 -   SEM is a multivariate statistical modeling technique
 
     -   it includes path-analysis, causal models, factorial models,
@@ -179,6 +153,8 @@ logbook: Please fill the logbook everyday.
     -   we can test indirect and reciprocal effects and more
     -   last but not least, we can make diagrams (or PAINTINGS if theory
         is weak!)
+
+</div>
 
 ## Variance-covariance matrices
 
@@ -257,11 +233,14 @@ This brings us to deepen the relationships between variables.
     among variables
 
 -   On the basis of the relationship among the variables, we distinguish
-    two kind of models: symmetrical and asymmetrical.
+    two kind of models:
+    
+    - symmetrical 
+    - asymmetrical
 
 ## Asymmetrical relationships
 
-X -\> Y
+$X \rightarrow Y$
 
 -   Variables are divided into two sets: dependent or response variables
     and predictors or explanatory variables
@@ -297,12 +276,12 @@ People who have higher grades in math have higher grades in art.
 Asymmetrical relationships are usually tested with regressions!
 
 As you remember, regression models can be written, using classical
-formulation, as the expression below and graphically depicted (getting
+formulation and graphically depicted (getting
 closer to SEM) like this:
 
 ![](../assets/images/regression.jpg)
 
-## More regression?
+## More regressions?
 
 But what if we have in mind a more complex pattern of relationships?
 What if we have more regression models in mind and need to estimate all
@@ -312,10 +291,10 @@ of them contemporarily?
 
 What we need is a system of equations.
 
-## More regression?
+## More regressions?
 
 This system can also be drawn with SEM notation, but is actually the
-same...just better!
+same...just *better*!
 
 ![](../assets/images/sistema2.jpg)
 
@@ -421,6 +400,8 @@ can always come back to step 1.
 
 ## 1. Model specification
 
+<div style="font-size:0.8em; line-height:1.15;">
+
 **Aim of the model**
 
 -   We fit models because we want to better understand the data and the
@@ -432,9 +413,9 @@ can always come back to step 1.
 -   A model is a formal representation of a theory and is composed by a
     set of parameters that we will estimate.
 
-\color{red}**Examples**
+</div>
 
-![](../assets/images/Models.jpg){height="2cm"}
+![](../assets/images/Models.jpg)
 
 ## 2. Model identification
 
@@ -443,11 +424,19 @@ solution (aka estimate all the unknown parameters).
 
 A model can be:
 
+:::{columns}
+:::{.column width = "35%"}
+
 -   **Under-identified**
 -   **Just-identified**
 -   **Over-identified**
 
+:::
+:::{.column width = "65%"}
+
 ![](../assets/images/just.png){width="85%"}
+:::
+:::
 
 ```{r}
 #| echo: false
@@ -559,7 +548,7 @@ obtained...**AND THE THEORY!**
 ## A full representation
 
 ![](../assets/images/full.png){width="99%"} img credits to dr. Johnny
-Lin
+Lin (youtube [course](https://www.youtube.com/watch?v=2M6VQY_OFvM))
 
 ## Graphical representation
 
@@ -597,11 +586,10 @@ $$
 
 -   All model relationships are represented by arrows;
 
-    ```         
-     NO relationship NO arrow... 
-
-     ...and usually NO arrow NO relationship
-    ```
+::: {.callout-warning}
+NO relationship NO arrow... 
+...and usually NO arrow NO relationship
+:::
 
 -   Each arrow is a model parameter and has two indices (e.g.,
     $\beta_{21}$)
@@ -639,7 +627,9 @@ $$
 ## A full representation
 
 ![](../assets/images/full.png){width="99%"} img credits to dr. Johnny
-Lin
+Lin (youtube [course](https://www.youtube.com/watch?v=2M6VQY_OFvM))
+
+# SEM exemplars
 
 ## Univariate regressions
 
@@ -675,8 +665,13 @@ Lin
 
 ## And much more
 
-...and much more
-
-`THERE IS EVEN A JOURNAL ON SEM`
+`THERE IS EVEN A JOURNAL ONLY FOR SEM`
 
 Structural Equation Modeling: A Multidisciplinary Journal
+
+
+## Acknowledgments
+
+Thanks to Massimiliano Pastore for his slides!
+
+![](../assets/images/max.jpg){height="4.5cm"}
