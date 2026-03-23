@@ -32,7 +32,10 @@ Extras' slides are optimized for live teaching.
 
 ## Measurement extensions
 
+- [ex PCA-EFA-CFA comparison and overview](ex_pca-efa-cfa_overview.html)
+
 ... under construction
+
 <!-- - [ex09 Alignment / approximate invariance](ex09_alignment_approximate-invariance.html) -->
 <!-- - [ex10 Bifactor / ESEM / method factors](ex10_bifactor_esem_method-factors.html) -->
 

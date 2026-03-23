@@ -1,0 +1,525 @@
+---
+title: "PCA, EFA, and CFA"
+subtitle: "Different tools for different 'measurement' questions"
+author: "Tommaso Feraco"
+format:
+  revealjs:
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+    slide-number: c/t
+    code-overflow: wrap
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Stop treating **PCA**, **EFA**, and **CFA** as interchangeable.
+
+---
+
+## Why students often confuse them
+
+You can take the **same questionnaire** and run:
+
+- a **PCA**,
+- an **EFA**,
+- or a **CFA**.
+
+But you are **not asking the same question**.
+
+::: {.callout-important}
+The same items do **not** imply the same model, the same assumptions, or the same interpretation.
+:::
+
+---
+
+## Learning objectives
+
+By the end of this extra, you should be able to:
+
+- distinguish the main goal of **PCA**, **EFA**, and **CFA**;
+- recognize what each approach is trying to estimate;
+- choose the method that matches a research aim;
+- describe the main pros, cons, and common misuses of each approach.
+
+---
+
+## One running example
+
+Imagine you created a 9-item questionnaire on **academic self-regulation**.
+
+You suspect three facets:
+
+- **planning**,
+- **persistence**,
+- **impulse control**.
+
+Now ask three different questions:
+
+1. Can I summarize the 9 items with a few composite dimensions?
+2. What latent structure seems plausible in these data?
+3. Does my hypothesized 3-factor measurement model fit the data?
+
+These questions lead to **different methods**.
+
+---
+
+## The big idea in one slide
+
+| Approach | Main aim | Typical output |
+|---|---|---|
+| **PCA** | Summarize many observed variables efficiently | **Components** |
+| **EFA** | Explore which latent dimensions may underlie the data | **Exploratory factors** |
+| **CFA** | Test a theory-driven measurement model | **Confirmatory factors + fit** |
+
+::: {.callout-tip}
+A useful shorthand: **PCA reduces variables; EFA explores structure; CFA tests structure.**
+:::
+
+---
+
+## Observed summaries vs latent variables
+
+:::{columns}
+:::{.column width="50%"}
+### PCA
+
+- works on the variance of the **observed variables**;
+- creates weighted summaries of the variables;
+- does **not** require a reflective latent-variable interpretation.
+:::
+
+:::{.column width="50%"}
+### EFA / CFA
+
+- aim to model **common variance** among items;
+- treat factors as latent dimensions behind the responses;
+- separate shared variance from item-specific or residual variance.
+:::
+:::
+
+::: {.callout-important}
+If your substantive claim is **"I measured a latent construct"**, PCA is usually not enough.
+:::
+
+---
+
+## PCA: what is it for?
+
+**Principal Component Analysis** searches for linear combinations of variables that capture as much variance as possible.
+
+The first component explains the largest amount of variance,
+the second explains the next largest amount,
+and so on.
+
+Typical goal:
+
+- **data reduction**,
+- simpler composite summaries,
+- fewer variables for later analyses.
+
+---
+
+## PCA: how it works, intuitively
+
+- Start from a set of correlated observed variables.
+- Build a new variable that captures as much total variance as possible.
+- Build a second component that captures additional variance.
+- Continue until the remaining components add little value.
+
+::: {.callout-note}
+A component is a **weighted sum of observed variables**. It is not automatically a psychological construct.
+:::
+
+---
+
+## PCA: strengths and limitations
+
+:::{columns}
+:::{.column width="50%"}
+### Strengths
+
+- simple and fast;
+- useful for summarizing many variables;
+- helpful for descriptive work and preprocessing;
+- often easy to communicate.
+:::
+
+:::{.column width="50%"}
+### Limitations
+
+- does not separate common from unique variance;
+- components are not necessarily latent traits;
+- easy to over-interpret as "factors";
+- less appropriate for theory-based measurement claims.
+:::
+:::
+
+---
+
+## When PCA is a reasonable choice
+
+Use PCA when your main goal is:
+
+- to **compress** many correlated measures,
+- to create a smaller set of observed summaries,
+- to explore patterns descriptively,
+- to reduce dimensionality before a later model.
+
+Do **not** choose PCA just because it is convenient if your real aim is construct measurement.
+
+---
+
+## EFA: what is it for?
+
+**Exploratory Factor Analysis** asks:
+
+> What latent structure seems plausible in these data?
+
+In EFA:
+
+- the factor structure is **not fully fixed in advance**;
+- items can, in principle, relate to multiple factors;
+- you are looking for a **plausible pattern**, not testing a strict theory yet.
+
+---
+
+## EFA: how it works, intuitively
+
+- Estimate a small set of latent factors from the correlations among items.
+- Decide how many factors to retain.
+- Rotate the solution to improve interpretability.
+- Look for a pattern close to **simple structure**.
+
+A good EFA solution is usually:
+
+- interpretable,
+- theoretically sensible,
+- and not dominated by messy cross-loadings.
+
+---
+
+## A note on rotation
+
+Rotation does **not** change the overall information in the solution.
+It changes the **orientation** of the factors to make the pattern easier to interpret.
+
+:::{columns}
+:::{.column width="50%"}
+### Orthogonal rotation
+
+- factors constrained to be uncorrelated;
+- often unrealistic in psychology.
+:::
+
+:::{.column width="50%"}
+### Oblique rotation
+
+- factors allowed to correlate;
+- often more realistic for psychological constructs.
+:::
+:::
+
+---
+
+## EFA: strengths and limitations
+
+:::{columns}
+:::{.column width="50%"}
+### Strengths
+
+- useful early in scale development;
+- can reveal unexpected structure;
+- allows cross-loadings during exploration;
+- often a good starting point when theory is still weak.
+:::
+
+:::{.column width="50%"}
+### Limitations
+
+- many researcher decisions affect the result;
+- solutions can vary across samples;
+- exploratory results are not final proof;
+- easy to mistake a neat pattern for confirmation.
+:::
+:::
+
+---
+
+## Good use of EFA
+
+EFA is most useful when you want to:
+
+- generate a **candidate measurement structure**,
+- refine items,
+- identify problematic indicators,
+- prepare for a later **confirmatory** stage.
+
+::: {.callout-tip}
+A strong workflow is often: **theory + item writing → EFA → revise → CFA → validity / invariance / SEM**.
+:::
+
+---
+
+## CFA: what is it for?
+
+**Confirmatory Factor Analysis** asks:
+
+> Does a theoretically specified measurement model reproduce the observed covariance structure reasonably well?
+
+In CFA:
+
+- you decide **in advance** which items load on which factor;
+- cross-loadings are usually fixed to zero unless theory says otherwise;
+- fit is evaluated explicitly.
+
+---
+
+## CFA: how it works, intuitively
+
+A CFA model specifies:
+
+- which items belong to each latent factor,
+- the size of the factor loadings,
+- residual variances,
+- factor covariances,
+- and, when justified, selected residual correlations or other constraints.
+
+This makes CFA a **measurement model**, not just a descriptive summary.
+
+---
+
+## A measurement-first reminder
+
+::: {.callout-important}
+In CFA, you are not just saying that items "go together".
+You are making a stronger claim: the responses are treated as indicators of a latent construct.
+:::
+
+That is why CFA belongs naturally in an SEM workflow:
+
+- it supports a **measurement-first / two-step mindset**;
+- it makes assumptions explicit;
+- it lets you evaluate fit before moving to structural relations.
+
+---
+
+## CFA: what do we inspect?
+
+:::{columns}
+:::{.column width="50%"}
+### Global fit
+
+- $\chi^2$
+- CFI / TLI
+- RMSEA (+ CI)
+- SRMR
+
+These tell you whether the whole model reproduces the covariance pattern reasonably well.
+:::
+
+:::{.column width="50%"}
+### Local diagnostics
+
+- standardized residuals,
+- modification indices,
+- size and plausibility of loadings,
+- residual variances and factor correlations.
+
+These tell you **where** strain or misspecification may be located.
+:::
+:::
+
+---
+
+## CFA: strengths and limitations
+
+:::{columns}
+:::{.column width="50%"}
+### Strengths
+
+- theory-driven;
+- explicit and testable;
+- handles measurement error;
+- integrates naturally with reliability, validity, and invariance work.
+:::
+
+:::{.column width="50%"}
+### Limitations
+
+- requires stronger assumptions;
+- can be too rigid if the theory is poor (*is this actually a limit?*);
+- fit does not prove the model is "true";
+- easy to misuse as post-hoc model cleaning.
+:::
+:::
+
+---
+
+## One important caution about fit
+
+::: {.callout-warning}
+Good fit is **not** the same as truth.
+:::
+
+A CFA model may fit well because:
+
+- it is substantively reasonable,
+- it is flexible enough,
+- or it was tuned too closely to one sample.
+
+So in this course we keep the same rule as elsewhere:
+
+- use **global fit**,
+- inspect **local diagnostics**,
+- revise only when changes are **theory-justified**,
+- report decisions transparently.
+
+---
+
+## Head-to-head comparison
+
+| Question | PCA | EFA | CFA |
+|---|---|---|---|
+| Main goal | Reduce observed variables | Explore latent structure | Test latent structure |
+| Theory needed beforehand | Low | Moderate | High |
+| Latent-variable claim | Usually no | Usually yes | Yes |
+| Cross-loadings | Not relevant in the same way | Allowed | Usually fixed unless justified |
+| Measurement error modeled explicitly | No | Partly / yes in factor logic | Yes |
+| Model fit in SEM sense | No | Limited / different traditions | Yes |
+| Best use | Summaries and reduction | Structure discovery | Measurement testing |
+| Common misuse | Calling components "constructs" | Treating exploration as confirmation | Chasing fit without theory |
+
+---
+
+## A simple decision tree
+
+Choose the tool that matches your question.
+
+- **I want fewer observed summaries** → **PCA**
+- **I think latent dimensions exist, but I am not yet sure how items organize** → **EFA**
+- **I have a measurement theory and want to test it explicitly** → **CFA**
+
+::: {.callout-tip}
+In psychology, the best answer is often not "which one is best?" but **"which one fits my current research stage?"**
+:::
+
+---
+
+## Common mistakes in applied psychology
+
+- Calling **PCA** a "factor analysis" and then claiming construct validity.
+- Treating an **EFA** solution as if it were already confirmatory evidence.
+- Using **CFA** only because it looks more advanced.
+- Ignoring theory and choosing the model that gives cleaner output.
+- Thinking that good CFA fit proves the construct is real.
+- Forgetting that scale development and model testing are iterative.
+
+---
+
+## Minimal R orientation
+
+```{r}
+#| eval: false
+# same item set, different tools
+items <- dat[, paste0("sr", 1:9)]
+
+# PCA: observed summaries
+pca_fit <- psych::principal(items, nfactors = 3, rotate = "none")
+
+# EFA: exploratory latent structure
+efa_fit <- psych::fa(items, nfactors = 3, fm = "ml", rotate = "oblimin")
+
+# CFA: confirmatory measurement model
+mod_cfa <- '
+Planning =~ sr1 + sr2 + sr3
+Persistence =~ sr4 + sr5 + sr6
+ImpulseCtrl =~ sr7 + sr8 + sr9
+'
+
+cfa_fit <- lavaan::cfa(mod_cfa, data = dat)
+```
+
+---
+
+## What you typically inspect in each output
+
+:::{columns}
+:::{.column width="33%"}
+### PCA
+
+- explained variance,
+- scree pattern,
+- component loadings,
+- component scores.
+:::
+
+:::{.column width="33%"}
+### EFA
+
+- number of factors,
+- loading pattern,
+- communalities,
+- cross-loadings,
+- rotated solution.
+:::
+
+:::{.column width="34%"}
+### CFA
+
+- standardized loadings,
+- factor correlations,
+- global fit,
+- local diagnostics,
+- reliability / validity evidence.
+:::
+:::
+
+---
+
+## Exercises
+
+1. For each research aim below, decide whether **PCA**, **EFA**, or **CFA** is the best starting point.
+2. Justify your answer in one sentence.
+
+Research aims:
+
+- "I need a few summary scores from 24 highly redundant items."
+- "I developed a new scale and do not yet know how many dimensions are present."
+- "I hypothesized three correlated factors based on theory and want to test them."
+- "I want to move to SEM, but first I need to check whether my indicators measure the intended latent variables."
+
+For hands-on follow-up, see the **CFA lab**: [lab04_cfa_reliability_omegas.qmd](../labs/lab04_cfa_reliability_omegas.qmd)
+
+---
+
+## Three things to remember
+
+1. **PCA, EFA, and CFA answer different questions.**
+2. **PCA is mainly about reducing observed variables, not testing a latent measurement model.**
+3. **CFA is strongest when theory is clear and fit is interpreted with discipline, not as proof of truth.**
+
+---
+
+## References / suggested readings
+
+<!-- - Brown, T. A. *Confirmatory Factor Analysis for Applied Research*. -->
+<!-- - Fabrigar, L. R., & Wegener, D. T. *Exploratory Factor Analysis*. -->
+<!-- - Jolliffe, I. T., & Cadima, J. *Principal component analysis: a review and recent developments*. -->
+<!-- - Costello, A. B., & Osborne, J. W. Best practices in exploratory factor analysis. -->
+
+
+---
+
+## Final message
+
+Do not ask:
+
+> Which method is best?
+
+Ask instead:
+
+> Which method answers **my** question at **this** stage of the research process?

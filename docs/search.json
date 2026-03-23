@@ -305,7 +305,7 @@
     "href": "extras/extras_index.html",
     "title": "Extras",
     "section": "",
-    "text": "These are optional, self-contained modules you can read when relevant. Each module should include: - a short concept note (why/when) - minimal reproducible example (R code) - exercises (+ solutions if provided)"
+    "text": "These are optional, self-contained modules you can read when relevant."
   },
   {
     "objectID": "extras/extras_index.html#methods-inference",
@@ -333,7 +333,7 @@
     "href": "extras/extras_index.html#measurement-extensions",
     "title": "Extras",
     "section": "Measurement extensions",
-    "text": "Measurement extensions\n… under construction"
+    "text": "Measurement extensions\n\nex PCA-EFA-CFA comparison and overview\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#missing-data-sensitivity",
@@ -8202,5 +8202,215 @@
     "title": "CFA: measurement models, identification, reliability",
     "section": "Item-level evidence: do any items mainly reflect g?",
     "text": "Item-level evidence: do any items mainly reflect g?\n\n\n\nItem-level IECV values\n\n\n\nIECV\n\n\n\n\nSI\n0.367\n\n\nVC\n0.352\n\n\nCO\n0.309\n\n\nBD\n0.390\n\n\nPCn\n0.290\n\n\nMR\n0.191\n\n\nDS\n0.383\n\n\nLN\n0.388\n\n\nCD\n0.408\n\n\nSS\n0.432\n\n\n\n\nIECV = proportion of an item’s common variance accounted for by the general factor. High IECV means the item behaves mostly like an indicator of g. Low IECV means the item retains substantial non-general variance.\n\n\n\n\n\n\nImportant\n\n\nInterpretation\nHere, IECV values range from about 0.17 to 0.40.\nNo item behaves mainly as an indicator of the general factor. The general factor is therefore not dominant at the item level. This reinforces the earlier conclusion: the bifactor model does not justify treating the scale as essentially unidimensional."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#where-this-extra-fits",
+    "href": "extras/ex_pca-efa-cfa_overview.html#where-this-extra-fits",
+    "title": "PCA, EFA, and CFA",
+    "section": "Where this extra fits",
+    "text": "Where this extra fits\n\nSpecify → Identify → Estimate → Evaluate → Revise / Report\n\n\nToday: choosing the right measurement tool before modeling\n\n\n\n\n\n\n\nNote\n\n\nThis is a bridge deck. Its goal is not to make you an expert in psychometrics, but to help you stop treating PCA, EFA, and CFA as interchangeable."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#why-students-often-confuse-them",
+    "href": "extras/ex_pca-efa-cfa_overview.html#why-students-often-confuse-them",
+    "title": "PCA, EFA, and CFA",
+    "section": "Why students often confuse them",
+    "text": "Why students often confuse them\nYou can take the same questionnaire and run:\n\na PCA,\nan EFA,\nor a CFA.\n\nBut you are not asking the same question.\n\n\n\n\n\n\nImportant\n\n\nThe same items do not imply the same model, the same assumptions, or the same interpretation."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#learning-objectives",
+    "href": "extras/ex_pca-efa-cfa_overview.html#learning-objectives",
+    "title": "PCA, EFA, and CFA",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this extra, you should be able to:\n\ndistinguish the main goal of PCA, EFA, and CFA;\nrecognize what each approach is trying to estimate;\nchoose the method that matches a research aim;\ndescribe the main pros, cons, and common misuses of each approach."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#one-running-example",
+    "href": "extras/ex_pca-efa-cfa_overview.html#one-running-example",
+    "title": "PCA, EFA, and CFA",
+    "section": "One running example",
+    "text": "One running example\nImagine you created a 9-item questionnaire on academic self-regulation.\nYou suspect three facets:\n\nplanning,\npersistence,\nimpulse control.\n\nNow ask three different questions:\n\nCan I summarize the 9 items with a few composite dimensions?\nWhat latent structure seems plausible in these data?\nDoes my hypothesized 3-factor measurement model fit the data?\n\nThese questions lead to different methods."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#the-big-idea-in-one-slide",
+    "href": "extras/ex_pca-efa-cfa_overview.html#the-big-idea-in-one-slide",
+    "title": "PCA, EFA, and CFA",
+    "section": "The big idea in one slide",
+    "text": "The big idea in one slide\n\n\n\n\n\n\n\n\nApproach\nMain aim\nTypical output\n\n\n\n\nPCA\nSummarize many observed variables efficiently\nComponents\n\n\nEFA\nExplore which latent dimensions may underlie the data\nExploratory factors\n\n\nCFA\nTest a theory-driven measurement model\nConfirmatory factors + fit\n\n\n\n\n\n\n\n\n\nTip\n\n\nA useful shorthand: PCA reduces variables; EFA explores structure; CFA tests structure."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#observed-summaries-vs-latent-variables",
+    "href": "extras/ex_pca-efa-cfa_overview.html#observed-summaries-vs-latent-variables",
+    "title": "PCA, EFA, and CFA",
+    "section": "Observed summaries vs latent variables",
+    "text": "Observed summaries vs latent variables\n\n\nPCA\n\nworks on the variance of the observed variables;\ncreates weighted summaries of the variables;\ndoes not require a reflective latent-variable interpretation.\n\n\nEFA / CFA\n\naim to model common variance among items;\ntreat factors as latent dimensions behind the responses;\nseparate shared variance from item-specific or residual variance.\n\n\n\n\n\n\n\n\nImportant\n\n\nIf your substantive claim is “I measured a latent construct”, PCA is usually not enough."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#pca-what-is-it-for",
+    "href": "extras/ex_pca-efa-cfa_overview.html#pca-what-is-it-for",
+    "title": "PCA, EFA, and CFA",
+    "section": "PCA: what is it for?",
+    "text": "PCA: what is it for?\nPrincipal Component Analysis searches for linear combinations of variables that capture as much variance as possible.\nThe first component explains the largest amount of variance, the second explains the next largest amount, and so on.\nTypical goal:\n\ndata reduction,\nsimpler composite summaries,\nfewer variables for later analyses."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#pca-how-it-works-intuitively",
+    "href": "extras/ex_pca-efa-cfa_overview.html#pca-how-it-works-intuitively",
+    "title": "PCA, EFA, and CFA",
+    "section": "PCA: how it works, intuitively",
+    "text": "PCA: how it works, intuitively\n\nStart from a set of correlated observed variables.\nBuild a new variable that captures as much total variance as possible.\nBuild a second component that captures additional variance.\nContinue until the remaining components add little value.\n\n\n\n\n\n\n\nNote\n\n\nA component is a weighted sum of observed variables. It is not automatically a psychological construct."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#pca-strengths-and-limitations",
+    "href": "extras/ex_pca-efa-cfa_overview.html#pca-strengths-and-limitations",
+    "title": "PCA, EFA, and CFA",
+    "section": "PCA: strengths and limitations",
+    "text": "PCA: strengths and limitations\n\n\nStrengths\n\nsimple and fast;\nuseful for summarizing many variables;\nhelpful for descriptive work and preprocessing;\noften easy to communicate.\n\n\nLimitations\n\ndoes not separate common from unique variance;\ncomponents are not necessarily latent traits;\neasy to over-interpret as “factors”;\nless appropriate for theory-based measurement claims."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#when-pca-is-a-reasonable-choice",
+    "href": "extras/ex_pca-efa-cfa_overview.html#when-pca-is-a-reasonable-choice",
+    "title": "PCA, EFA, and CFA",
+    "section": "When PCA is a reasonable choice",
+    "text": "When PCA is a reasonable choice\nUse PCA when your main goal is:\n\nto compress many correlated measures,\nto create a smaller set of observed summaries,\nto explore patterns descriptively,\nto reduce dimensionality before a later model.\n\nDo not choose PCA just because it is convenient if your real aim is construct measurement."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#efa-what-is-it-for",
+    "href": "extras/ex_pca-efa-cfa_overview.html#efa-what-is-it-for",
+    "title": "PCA, EFA, and CFA",
+    "section": "EFA: what is it for?",
+    "text": "EFA: what is it for?\nExploratory Factor Analysis asks:\n\nWhat latent structure seems plausible in these data?\n\nIn EFA:\n\nthe factor structure is not fully fixed in advance;\nitems can, in principle, relate to multiple factors;\nyou are looking for a plausible pattern, not testing a strict theory yet."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#efa-how-it-works-intuitively",
+    "href": "extras/ex_pca-efa-cfa_overview.html#efa-how-it-works-intuitively",
+    "title": "PCA, EFA, and CFA",
+    "section": "EFA: how it works, intuitively",
+    "text": "EFA: how it works, intuitively\n\nEstimate a small set of latent factors from the correlations among items.\nDecide how many factors to retain.\nRotate the solution to improve interpretability.\nLook for a pattern close to simple structure.\n\nA good EFA solution is usually:\n\ninterpretable,\ntheoretically sensible,\nand not dominated by messy cross-loadings."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#a-note-on-rotation",
+    "href": "extras/ex_pca-efa-cfa_overview.html#a-note-on-rotation",
+    "title": "PCA, EFA, and CFA",
+    "section": "A note on rotation",
+    "text": "A note on rotation\nRotation does not change the overall information in the solution. It changes the orientation of the factors to make the pattern easier to interpret.\n\n\nOrthogonal rotation\n\nfactors constrained to be uncorrelated;\noften unrealistic in psychology.\n\n\nOblique rotation\n\nfactors allowed to correlate;\noften more realistic for psychological constructs."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#efa-strengths-and-limitations",
+    "href": "extras/ex_pca-efa-cfa_overview.html#efa-strengths-and-limitations",
+    "title": "PCA, EFA, and CFA",
+    "section": "EFA: strengths and limitations",
+    "text": "EFA: strengths and limitations\n\n\nStrengths\n\nuseful early in scale development;\ncan reveal unexpected structure;\nallows cross-loadings during exploration;\noften a good starting point when theory is still weak.\n\n\nLimitations\n\nmany researcher decisions affect the result;\nsolutions can vary across samples;\nexploratory results are not final proof;\neasy to mistake a neat pattern for confirmation."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#good-use-of-efa",
+    "href": "extras/ex_pca-efa-cfa_overview.html#good-use-of-efa",
+    "title": "PCA, EFA, and CFA",
+    "section": "Good use of EFA",
+    "text": "Good use of EFA\nEFA is most useful when you want to:\n\ngenerate a candidate measurement structure,\nrefine items,\nidentify problematic indicators,\nprepare for a later confirmatory stage.\n\n\n\n\n\n\n\nTip\n\n\nA strong workflow is often: theory + item writing → EFA → revise → CFA → validity / invariance / SEM."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#cfa-what-is-it-for",
+    "href": "extras/ex_pca-efa-cfa_overview.html#cfa-what-is-it-for",
+    "title": "PCA, EFA, and CFA",
+    "section": "CFA: what is it for?",
+    "text": "CFA: what is it for?\nConfirmatory Factor Analysis asks:\n\nDoes a theoretically specified measurement model reproduce the observed covariance structure reasonably well?\n\nIn CFA:\n\nyou decide in advance which items load on which factor;\ncross-loadings are usually fixed to zero unless theory says otherwise;\nfit is evaluated explicitly."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#cfa-how-it-works-intuitively",
+    "href": "extras/ex_pca-efa-cfa_overview.html#cfa-how-it-works-intuitively",
+    "title": "PCA, EFA, and CFA",
+    "section": "CFA: how it works, intuitively",
+    "text": "CFA: how it works, intuitively\nA CFA model specifies:\n\nwhich items belong to each latent factor,\nthe size of the factor loadings,\nresidual variances,\nfactor covariances,\nand, when justified, selected residual correlations or other constraints.\n\nThis makes CFA a measurement model, not just a descriptive summary."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#a-measurement-first-reminder",
+    "href": "extras/ex_pca-efa-cfa_overview.html#a-measurement-first-reminder",
+    "title": "PCA, EFA, and CFA",
+    "section": "A measurement-first reminder",
+    "text": "A measurement-first reminder\n\n\n\n\n\n\nImportant\n\n\nIn CFA, you are not just saying that items “go together”. You are making a stronger claim: the responses are treated as indicators of a latent construct.\n\n\n\nThat is why CFA belongs naturally in an SEM workflow:\n\nit supports a measurement-first / two-step mindset;\nit makes assumptions explicit;\nit lets you evaluate fit before moving to structural relations."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#cfa-what-do-we-inspect",
+    "href": "extras/ex_pca-efa-cfa_overview.html#cfa-what-do-we-inspect",
+    "title": "PCA, EFA, and CFA",
+    "section": "CFA: what do we inspect?",
+    "text": "CFA: what do we inspect?\n\n\nGlobal fit\n\n\\(\\chi^2\\)\nCFI / TLI\nRMSEA (+ CI)\nSRMR\n\nThese tell you whether the whole model reproduces the covariance pattern reasonably well.\n\nLocal diagnostics\n\nstandardized residuals,\nmodification indices,\nsize and plausibility of loadings,\nresidual variances and factor correlations.\n\nThese tell you where strain or misspecification may be located."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#cfa-strengths-and-limitations",
+    "href": "extras/ex_pca-efa-cfa_overview.html#cfa-strengths-and-limitations",
+    "title": "PCA, EFA, and CFA",
+    "section": "CFA: strengths and limitations",
+    "text": "CFA: strengths and limitations\n\n\nStrengths\n\ntheory-driven;\nexplicit and testable;\nhandles measurement error;\nintegrates naturally with reliability, validity, and invariance work.\n\n\nLimitations\n\nrequires stronger assumptions;\ncan be too rigid if the theory is poor (is this actually a limit?);\nfit does not prove the model is “true”;\neasy to misuse as post-hoc model cleaning."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#one-important-caution-about-fit",
+    "href": "extras/ex_pca-efa-cfa_overview.html#one-important-caution-about-fit",
+    "title": "PCA, EFA, and CFA",
+    "section": "One important caution about fit",
+    "text": "One important caution about fit\n\n\n\n\n\n\nWarning\n\n\nGood fit is not the same as truth.\n\n\n\nA CFA model may fit well because:\n\nit is substantively reasonable,\nit is flexible enough,\nor it was tuned too closely to one sample.\n\nSo in this course we keep the same rule as elsewhere:\n\nuse global fit,\ninspect local diagnostics,\nrevise only when changes are theory-justified,\nreport decisions transparently."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#head-to-head-comparison",
+    "href": "extras/ex_pca-efa-cfa_overview.html#head-to-head-comparison",
+    "title": "PCA, EFA, and CFA",
+    "section": "Head-to-head comparison",
+    "text": "Head-to-head comparison\n\n\n\n\n\n\n\n\n\nQuestion\nPCA\nEFA\nCFA\n\n\n\n\nMain goal\nReduce observed variables\nExplore latent structure\nTest latent structure\n\n\nTheory needed beforehand\nLow\nModerate\nHigh\n\n\nLatent-variable claim\nUsually no\nUsually yes\nYes\n\n\nCross-loadings\nNot relevant in the same way\nAllowed\nUsually fixed unless justified\n\n\nMeasurement error modeled explicitly\nNo\nPartly / yes in factor logic\nYes\n\n\nModel fit in SEM sense\nNo\nLimited / different traditions\nYes\n\n\nBest use\nSummaries and reduction\nStructure discovery\nMeasurement testing\n\n\nCommon misuse\nCalling components “constructs”\nTreating exploration as confirmation\nChasing fit without theory"
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#a-simple-decision-tree",
+    "href": "extras/ex_pca-efa-cfa_overview.html#a-simple-decision-tree",
+    "title": "PCA, EFA, and CFA",
+    "section": "A simple decision tree",
+    "text": "A simple decision tree\nChoose the tool that matches your question.\n\nI want fewer observed summaries → PCA\nI think latent dimensions exist, but I am not yet sure how items organize → EFA\nI have a measurement theory and want to test it explicitly → CFA\n\n\n\n\n\n\n\nTip\n\n\nIn psychology, the best answer is often not “which one is best?” but “which one fits my current research stage?”"
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#common-mistakes-in-applied-psychology",
+    "href": "extras/ex_pca-efa-cfa_overview.html#common-mistakes-in-applied-psychology",
+    "title": "PCA, EFA, and CFA",
+    "section": "Common mistakes in applied psychology",
+    "text": "Common mistakes in applied psychology\n\nCalling PCA a “factor analysis” and then claiming construct validity.\nTreating an EFA solution as if it were already confirmatory evidence.\nUsing CFA only because it looks more advanced.\nIgnoring theory and choosing the model that gives cleaner output.\nThinking that good CFA fit proves the construct is real.\nForgetting that scale development and model testing are iterative."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#minimal-r-orientation",
+    "href": "extras/ex_pca-efa-cfa_overview.html#minimal-r-orientation",
+    "title": "PCA, EFA, and CFA",
+    "section": "Minimal R orientation",
+    "text": "Minimal R orientation\n\n# same item set, different tools\nitems &lt;- dat[, paste0(\"sr\", 1:9)]\n\n# PCA: observed summaries\npca_fit &lt;- psych::principal(items, nfactors = 3, rotate = \"none\")\n\n# EFA: exploratory latent structure\nefa_fit &lt;- psych::fa(items, nfactors = 3, fm = \"ml\", rotate = \"oblimin\")\n\n# CFA: confirmatory measurement model\nmod_cfa &lt;- '\nPlanning =~ sr1 + sr2 + sr3\nPersistence =~ sr4 + sr5 + sr6\nImpulseCtrl =~ sr7 + sr8 + sr9\n'\n\ncfa_fit &lt;- lavaan::cfa(mod_cfa, data = dat)"
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#what-you-typically-inspect-in-each-output",
+    "href": "extras/ex_pca-efa-cfa_overview.html#what-you-typically-inspect-in-each-output",
+    "title": "PCA, EFA, and CFA",
+    "section": "What you typically inspect in each output",
+    "text": "What you typically inspect in each output\n\n\nPCA\n\nexplained variance,\nscree pattern,\ncomponent loadings,\ncomponent scores.\n\n\nEFA\n\nnumber of factors,\nloading pattern,\ncommunalities,\ncross-loadings,\nrotated solution.\n\n\nCFA\n\nstandardized loadings,\nfactor correlations,\nglobal fit,\nlocal diagnostics,\nreliability / validity evidence."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#exercises",
+    "href": "extras/ex_pca-efa-cfa_overview.html#exercises",
+    "title": "PCA, EFA, and CFA",
+    "section": "Exercises",
+    "text": "Exercises\n\nFor each research aim below, decide whether PCA, EFA, or CFA is the best starting point.\nJustify your answer in one sentence.\n\nResearch aims:\n\n“I need a few summary scores from 24 highly redundant items.”\n“I developed a new scale and do not yet know how many dimensions are present.”\n“I hypothesized three correlated factors based on theory and want to test them.”\n“I want to move to SEM, but first I need to check whether my indicators measure the intended latent variables.”\n\nFor hands-on follow-up, see the CFA lab: lab04_cfa_reliability_omegas.qmd"
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#three-things-to-remember",
+    "href": "extras/ex_pca-efa-cfa_overview.html#three-things-to-remember",
+    "title": "PCA, EFA, and CFA",
+    "section": "Three things to remember",
+    "text": "Three things to remember\n\nPCA, EFA, and CFA answer different questions.\nPCA is mainly about reducing observed variables, not testing a latent measurement model.\nCFA is strongest when theory is clear and fit is interpreted with discipline, not as proof of truth."
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#references-suggested-readings",
+    "href": "extras/ex_pca-efa-cfa_overview.html#references-suggested-readings",
+    "title": "PCA, EFA, and CFA",
+    "section": "References / suggested readings",
+    "text": "References / suggested readings"
+  },
+  {
+    "objectID": "extras/ex_pca-efa-cfa_overview.html#final-message",
+    "href": "extras/ex_pca-efa-cfa_overview.html#final-message",
+    "title": "PCA, EFA, and CFA",
+    "section": "Final message",
+    "text": "Final message\nDo not ask:\n\nWhich method is best?\n\nAsk instead:\n\nWhich method answers my question at this stage of the research process?"
   }
 ]
