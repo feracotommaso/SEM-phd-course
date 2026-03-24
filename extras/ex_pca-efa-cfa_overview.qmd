@@ -2,14 +2,17 @@
 title: "PCA, EFA, and CFA"
 subtitle: "Different tools for different 'measurement' questions"
 author: "Tommaso Feraco"
+
 format:
   revealjs:
     theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
     include-in-header: ../assets/slidesheader.html
     slide-number: c/t
     code-overflow: wrap
+
 bibliography: ../refs/references.bib
 csl: ../refs/apa7.csl
+
 execute:
   echo: true
   warning: false

@@ -1,0 +1,7 @@
+format:
+  revealjs:
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+    include-after-body: ../assets/course-site-badge.html
+    slide-number: c/t
+    code-overflow: wrap
