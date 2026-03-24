@@ -13,33 +13,33 @@ Extras' slides are optimized for live teaching.
 ## Methods & inference
 
 ... under construction
-<!-- - [ex01 Power: Monte Carlo for SEM](ex01_power_montecarlo_sem.html) -->
-<!-- - [ex02 Bayesian SEM: quickstart](ex02_bayesian-sem_quickstart.html) -->
+<!-- - [ex01 Power: Monte Carlo for SEM](ex01_power_montecarlo_sem.html){target="_blank"} -->
+<!-- - [ex02 Bayesian SEM: quickstart](ex02_bayesian-sem_quickstart.html){target="_blank"} -->
 
 ## Advanced SEM
 
-- [ex03 Latent interactions (modsem)](ex03_latent-interactions_modsem.html)
+- [ex03 Latent interactions (modsem)](ex03_latent-interactions_modsem.html){target="_blank"}
 
 ... under construction
-<!-- - [ex04 SAM in lavaan](ex04_sam_lavaan.html) -->
-<!-- - [ex05 MIIVs & consistent factor score regression](ex05_miivs_factor-score-regression.html) -->
+<!-- - [ex04 SAM in lavaan](ex04_sam_lavaan.html){target="_blank"} -->
+<!-- - [ex05 MIIVs & consistent factor score regression](ex05_miivs_factor-score-regression.html){target="_blank"} -->
 
 ## Longitudinal deep dives
 
 ... under construction
-<!-- - [ex06 RI-CLPM vs CLPM](ex06_riclpm_vs_clpm.html) -->
-<!-- - [ex07 Latent change score models](ex07_latent-change-score_models.html) -->
+<!-- - [ex06 RI-CLPM vs CLPM](ex06_riclpm_vs_clpm.html){target="_blank"} -->
+<!-- - [ex07 Latent change score models](ex07_latent-change-score_models.html){target="_blank"} -->
 
 ## Measurement extensions
 
-- [ex PCA-EFA-CFA comparison and overview](ex_pca-efa-cfa_overview.html)
+- [ex PCA-EFA-CFA comparison and overview](ex_pca-efa-cfa_overview.html){target="_blank"}
 
 ... under construction
 
-<!-- - [ex09 Alignment / approximate invariance](ex09_alignment_approximate-invariance.html) -->
-<!-- - [ex10 Bifactor / ESEM / method factors](ex10_bifactor_esem_method-factors.html) -->
+<!-- - [ex09 Alignment / approximate invariance](ex09_alignment_approximate-invariance.html){target="_blank"} -->
+<!-- - [ex10 Bifactor / ESEM / method factors](ex10_bifactor_esem_method-factors.html){target="_blank"} -->
 
 ## Missing data sensitivity
 
 ... under construction
-<!-- - [ex08 MNAR sensitivity: conceptual + simple strategies](ex08_missing-mnar_sensitivity.html) -->
+<!-- - [ex08 MNAR sensitivity: conceptual + simple strategies](ex08_missing-mnar_sensitivity.html){target="_blank"} -->
