@@ -1,0 +1,546 @@
+---
+title: "Indicator Indifference, Indicator Sampling, and Structural Robustness"
+subtitle: "Why reflective indicators are not the construct — and why indicator choice still matters"
+author: "SEM PhD Course"
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+format:
+  revealjs:
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    slide-number: c/t
+    code-overflow: wrap
+include-in-header: ../assets/slidesheader.html
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(lavaan)
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(ggplot2)
+```
+
+## Why this extra?
+
+<div style="font-size:0.8em; line-height:1.15;">
+
+The core SEM assumptions:
+
+- latent paths are only as meaningful as the measurement model behind them
+- fit does not guarantee construct validity
+- structural interpretation should follow a defensible measurement model
+
+This extra slows down on one deeper question:
+
+> If reflective indicators are meant to be **manifestations** of a construct, how much should the exact indicator set matter?
+
+**Here**
+
+- what **indicator indifference** means
+- why it is a **strong** idea in psychology
+- why it matters for **structural relations**
+- an intelligence example
+- simulations on **number of indicators** and **loading quality**
+
+</div>
+
+## Learning objectives
+
+By the end of this extra, you should be able to:
+
+1. explain the basic idea of **indicator indifference** under a reflective model
+2. distinguish **indicator indifference** from **measurement precision**
+3. explain why finite indicator choice can affect the **stability of latent relations**
+4. interpret a simple simulation showing how **number of indicators** and **loading size** affect structural recovery
+5. articulate why some indicators may be more **central**, more **contaminated**, or more **auxiliary** than others
+
+## The core idea
+
+### Reflective assumption
+
+In a reflective measurement model:
+
+- the latent variable is conceptually prior to the indicators
+- item responses are treated as **effects** or **manifestations** of the latent variable
+- the construct is **not identical** to any one observed item
+
+This is what makes latent-variable SEM more than a weighted sum-score exercise. It makes SEM theory-builder!
+
+## Indicator indifference: the strong reading
+
+### Strong interpretation
+
+A strong reflective reading suggests:
+
+> If indicators are valid manifestations of the same latent variable, then the precise indicator set should not be the essence of the construct.
+
+So, in principle different *good* indicators of the same construct
+
+- should support similar inferences about the latent variable
+- and should not radically change the substantive structural story
+
+## But psychology rarely gives us strict indifference
+
+<div style="font-size:0.8em; line-height:1.15;">
+
+In applied psychology, indicators often differ in:
+
+- facet coverage
+- wording and method variance
+- task demands
+- contextual contamination
+- closeness to the construct of interest
+
+So the practical question is usually **not**:
+
+> "Are indicators literally interchangeable?"
+
+It is more often:
+
+> "How much do my conclusions depend on this particular sample of indicators?"
+
+:::{.callout-note}
+In many areas, the facets included are directly used to define/label the upper-level constructs.
+When starting with an EFA this is necessary, but poses many limits...
+:::
+
+</div>
+
+## Important distinction
+
+### Two nearby ideas
+
+**Indicator indifference**
+: concerns whether the construct is conceptually tied to a particular indicator set
+
+**Measurement precision / indicator sampling**
+: concerns how well a finite set of indicators helps us recover the latent variable and its relations
+
+These are related, but they are **not identical**.
+
+## Why this matters for SEM
+
+### Structural relations are latent-level claims
+
+In SEM, the substantive claim is usually about a relation such as:
+
+$$
+\eta_2 = \beta \eta_1 + \zeta
+$$
+
+The claim is **not** primarily about one exact questionnaire form, but about a **construct**.
+
+But in practice we only observe a **finite, imperfect sample of indicators**.
+
+So structural estimates can depend on:
+
+- how many indicators we have
+- how strongly they load
+- whether one is weak or contaminated
+- whether the indicator set covers the construct well
+
+## Better wording than "good latent score"
+
+### SEM-friendly phrasing
+
+Instead of asking:
+
+> "How many items do I need for a satisfying latent score?"
+
+ask:
+
+> "How many and which indicators are needed to define the latent variable well enough that structural relations are estimated precisely and interpreted confidently?"
+
+This is closer to how latent SEM actually works.
+
+## What would a robust result look like?
+
+<div style="font-size:0.8em; line-height:1.15;">
+
+### A practical criterion
+
+If a reflective model is defensible, then:
+
+- swapping one reasonable indicator subset for another
+- or adding a few more good indicators
+
+should not wildly change the **latent regression** or **latent correlation**.
+
+If conclusions shift a lot, possibilities include:
+
+- weak measurement
+- too few indicators
+- multidimensionality
+- local dependence
+- cross-loadings
+- an underdefined construct
+
+</div>
+
+## The case of 'Intelligence' (the *g* factor)
+
+Intelligence research is a good illustration because:
+
+- many batteries aim to measure a broader construct such as **general cognitive ability**
+- but they include **different mixtures** of more central and more auxiliary tasks
+- and not all indicators look equally "close" to what people often mean by *general reasoning*
+
+This makes it a useful teaching case for **indicator centrality vs indicator contamination**.
+
+## Intelligence example: central vs auxiliary indicators
+
+<div style="font-size:0.8em; line-height:1.15;">
+
+::: {.columns}
+::: {.column width="50%"}
+### Often treated as more central to reasoning
+
+- **Matrix Reasoning**
+- analogical / relational reasoning tasks
+- problem solving
+- tasks with strong fluid-reasoning content
+:::
+
+::: {.column width="50%"}
+### Often more auxiliary or more contaminated
+
+- **Processing speed** tasks
+- tasks with strong motor demands
+- highly timed symbol substitution tasks
+- tasks where peripheral demands may contribute more strongly
+:::
+:::
+
+</div>
+
+### The point
+
+This does **not** mean processing speed is useless.
+
+It means:
+
+- different indicators may not be equally pure manifestations of the same construct
+- batteries can still target "IQ" while mixing indicators with different degrees of centrality
+
+
+# Simulation section
+
+## Simulation plan
+
+### What we want to show
+
+We simulate a simple SEM with a true latent relation:
+
+$$
+\eta_2 = 0.50 \eta_1 + \zeta
+$$
+
+Then we vary:
+
+1. the **number of indicators** per factor
+2. the **average loading strength**
+3. one **problematic indicator**
+
+And we examine:
+
+- bias in the estimated path
+- standard errors / confidence intervals
+- stability across different indicator sets
+
+## Simulation 1: number of indicators
+
+### Design
+
+- two latent variables: `eta1` and `eta2`
+- true path: `beta = 0.50`
+- equal loadings within a condition
+- sample size fixed, e.g. `N = 400`
+- number of indicators per factor: `2`, `4`, `8`
+
+Expectation:
+
+- with more good indicators, the structural estimate should usually become **more precise**
+- but "more" only helps if indicators are genuinely informative
+
+## Simulation code: one data-generating model
+
+```{r}
+make_pop_model <- function(p = 4, lambda = 0.70, beta = 0.50) {
+
+  x_names <- paste0("x", seq_len(p))
+  y_names <- paste0("y", seq_len(p))
+
+  x_load <- paste0(lambda, "*", x_names, collapse = " + ")
+  y_load <- paste0(lambda, "*", y_names, collapse = " + ")
+
+  resid_eta2 <- round(1 - beta^2, 3)
+
+  paste(
+    "eta1 =~", x_load,
+    "\neta2 =~", y_load,
+    "\neta2 ~", beta, "*eta1",
+    "\neta1 ~~ 1*eta1",
+    "\neta2 ~~", resid_eta2, "*eta2"
+  )
+}
+
+make_fit_model <- function(p = 4) {
+  x_names <- paste0("x", seq_len(p))
+  y_names <- paste0("y", seq_len(p))
+
+  paste(
+    "eta1 =~", paste(x_names, collapse = " + "),
+    "\neta2 =~", paste(y_names, collapse = " + "),
+    "\neta2 ~ eta1"
+  )
+}
+```
+
+## Simulation code: one replication
+
+```{r}
+sim_once <- function(n = 400, p = 4, lambda = 0.70, beta = 0.50) {
+
+  pop_model <- make_pop_model(p = p, lambda = lambda, beta = beta)
+  fit_model <- make_fit_model(p = p)
+
+  dat <- simulateData(pop_model, sample.nobs = n)
+  fit <- sem(fit_model, data = dat)
+
+  pe <- parameterEstimates(fit)
+
+  out <- pe |>
+    filter(lhs == "eta2", op == "~", rhs == "eta1") |>
+    transmute(
+      est = est,
+      se = se,
+      ci_low = ci.lower,
+      ci_high = ci.upper
+    )
+
+  tibble(
+    n = n,
+    p = p,
+    lambda = lambda,
+    beta_true = beta,
+    converged = lavInspect(fit, "converged"),
+    est = out$est,
+    se = out$se,
+    ci_low = out$ci_low,
+    ci_high = out$ci_high
+  )
+}
+```
+
+## Simulation code: many replications
+
+<div style="font-size:0.8em; line-height:1.15;">
+
+```{r}
+run_condition <- function(reps = 200, n = 400, p = 4, lambda = 0.70, beta = 0.50) {
+  map_dfr(seq_len(reps), ~sim_once(n = n, p = p, lambda = lambda, beta = beta))
+}
+
+sim_n_indicators <- bind_rows(
+  run_condition(reps = 1000, n = 400, p = 2, lambda = 0.70, beta = 0.50),
+  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.70, beta = 0.50),
+  run_condition(reps = 1000, n = 400, p = 8, lambda = 0.70, beta = 0.50)
+)
+```
+
+:::{columns}
+:::{.column width = "50%"}
+
+```{r}
+#| echo: false
+kableExtra::kbl(sim_n_indicators |>
+  group_by(p) |>
+  summarise(
+    mean_est = mean(est, na.rm = TRUE),
+    sd_est = sd(est, na.rm = TRUE),
+    mean_se = mean(se, na.rm = TRUE),
+    coverage = mean(ci_low <= beta_true & ci_high >= beta_true, na.rm = TRUE)
+  ))%>% 
+   kableExtra::kable_styling(latex_options="scale_down") %>% 
+   kableExtra::row_spec(0,bold=TRUE)
+```
+
+:::
+:::{.column width = "50%"}
+```{r}
+#| echo: false
+ggplot(sim_n_indicators, aes(x = est, fill = factor(p))) +
+  geom_density(alpha = .35) +
+  geom_vline(xintercept = 0.50, linetype = 2) +
+  labs(
+    x = "Estimated latent path",
+    y = "Density",
+    fill = "Indicators per factor",
+    title = "Recovery of the latent path across indicator conditions"
+  )
+```
+:::
+:::
+
+
+> 
+- **mean estimate**: is it centered around the true path? (yes, all)
+- **sampling variability**: how much does the estimate move across replications? (less with more)
+- **average SE / CI width**: how precisely is the path estimated? (better with more)
+:::
+
+</div>
+
+## Simulation 2: loading strength
+
+### Design
+
+Now hold the number of indicators constant and vary loading quality:
+
+- `p = 4`
+- loadings = `.40`, `.60`, `.80`
+
+Expectation:
+
+- stronger loadings should generally improve the precision of the latent path estimate
+- the issue is not just *how many* indicators we have, but *how informative* they are
+
+## Simulation code: varying loading size
+
+```{r}
+sim_loading <- bind_rows(
+  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.40, beta = 0.50),
+  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.60, beta = 0.50),
+  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.80, beta = 0.50)
+)
+
+```
+
+:::{columns}
+:::{.column width = "50%"}
+
+```{r}
+#| echo: false
+kableExtra::kbl(sim_loading |>
+  group_by(lambda) |>
+  summarise(
+    m_est = round(mean(est, na.rm = TRUE),2),
+    sd_est = round(sd(est, na.rm = TRUE),2),
+    m_se = round(mean(se, na.rm = TRUE),2),
+    coverage = round(mean(ci_low <= beta_true & ci_high >= beta_true, na.rm = TRUE),2)
+  ))%>% 
+   kableExtra::kable_styling(latex_options="scale_down") %>% 
+   kableExtra::row_spec(0,bold=TRUE)
+```
+
+:::
+:::{.column width = "50%"}
+```{r}
+#| echo: false
+ggplot(sim_loading, aes(x = est, fill = factor(lambda))) +
+  geom_density(alpha = .35) +
+  geom_vline(xintercept = 0.50, linetype = 2) +
+  labs(
+    x = "Estimated latent path",
+    y = "Density",
+    fill = "Loading",
+    title = "Stronger indicators yield more precise structural recovery"
+  )
+```
+:::
+:::
+
+## Why "more items" is not the whole story
+
+### Quantity vs quality
+
+Ten indicators are not automatically better than three.
+
+More items only help when they are:
+
+- relevant to the construct
+- sufficiently strong
+- not dominated by method effects
+- not merely redundant clones
+- not obviously contaminated by different latent causes
+
+So the practical lesson is:
+
+> **More good indicators** help.  
+> **More weak or contaminated indicators** may not.
+
+## Optional extension: one problematic indicator
+
+### A simple extension
+
+You can extend the simulation by making one indicator weaker or contaminated.
+
+Examples:
+
+- one item with loading `.20`
+- one cross-loading indicator
+- one pair of locally dependent indicators
+
+Question:
+
+> Does the latent path stay stable when one problematic indicator enters the measurement model?
+
+That is often more interesting than asking only whether the overall fit stays acceptable.
+
+## Pitfall callout
+
+::: {.callout-important}
+## Pitfall
+
+Do **not** conclude:
+
+- "two indicators are always enough"
+- "more items always solve the problem"
+- "good fit proves indicator indifference"
+- "a latent variable is automatically transportable across item sets"
+
+The bigger lesson is about **robustness of interpretation**, not just identification or model fit.
+:::
+
+## Exercises
+
+### Suggested short tasks
+
+1. Run Simulation 1 with `N = 200`, `400`, and `800`.  
+   How much does sample size interact with number of indicators?
+
+2. Repeat Simulation 2 with unequal loadings, e.g. `.80, .80, .50, .30`.  
+   What happens to the path estimate and its standard error?
+
+3. Add one weak or cross-loading indicator.  
+   Does the latent path change meaningfully?
+
+4. Try a sum-score regression using the same generated indicators.  
+   Compare it with the latent SEM estimate.
+
+## Three things to remember
+
+### 3 take-home messages
+
+1. **Indicator indifference is a strong reflective idea**, not a routine empirical fact in psychology.
+
+2. **Finite indicator choice still matters** because structural recovery depends on indicator quality, quantity, and construct coverage.
+
+3. **Robust latent relations should not be overly item-bound**: if a reasonable indicator swap changes the story, revisit the measurement model before interpreting the path.
+
+## Further reading
+
+### Suggested follow-up
+
+- return to the **CFA measurement** deck for the reflective-model assumptions
+- revisit the **SEM capstone** deck for the two-step mindset
+- optional follow-up extra: power / Monte Carlo for SEM
+
+## References

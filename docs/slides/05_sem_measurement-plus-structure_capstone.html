@@ -94,8 +94,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -228,83 +248,87 @@ We will <strong>repeat fit/diagnostics on purpose</strong>: by now it should bec
 <p>By the end of this session you should be able to:</p>
 <ul>
 <li>Connect the CFA measurement model to the SEM structural model (two-step mindset)</li>
-<li>Understand how SEM is represented in matrices (Λ, B, Γ, Φ, Ψ, Θ)</li>
+<li>Understand how SEM is represented in matrices (<span class="math inline">\(Λ\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(Γ\)</span>, <span class="math inline">\(Φ\)</span>, <span class="math inline">\(Ψ\)</span>, <span class="math inline">\(Θ\)</span>)</li>
 <li>Fit a full SEM in lavaan and interpret parameters + <strong>fit indices + diagnostics</strong></li>
 <li>Compare plausible SEMs (nested comparisons) and justify modifications transparently</li>
-</ul>
-</section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-<ul>
-<li>Introduction</li>
-<li>Identification</li>
-<li>Example</li>
-<li>Exercise</li>
-<li>Results</li>
 </ul>
 </section>
 <section id="structural-equation-models" class="slide level2">
 <h2>Structural equation models</h2>
 <p>Up to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.</p>
-<p>A complete SEM takes both of these things and put them together</p>
+<p>A complete SEM takes both of these things and put them together.</p>
 </section>
 <section id="the-two-parts-of-a-sem" class="slide level2">
 <h2>The two parts of a SEM</h2>
 <ul>
-<li><strong>The measurement model</strong> <span class="math display">\[
-\begin{aligned}
-x = \Lambda_x\xi + \delta
-y =\Lambda_y\eta + \epsilon
-\end{aligned}
-\]</span></li>
-<li><strong>The structural model</strong> <span class="math display">\[
-\begin{aligned}
-\eta = B\eta + \Gamma\xi + \zeta
-\end{aligned}
-\]</span></li>
+<li><p><strong>The measurement model</strong></p>
+<ul>
+<li><p><span class="math inline">\(x = \Lambda_x\xi + \delta\)</span></p></li>
+<li><p><span class="math inline">\(y = \Lambda_y\eta + \epsilon\)</span></p></li>
+</ul></li>
+<li><p><strong>The structural model</strong></p>
+<ul>
+<li><span class="math inline">\(\eta = B\eta + \Gamma\xi + \zeta\)</span></li>
+</ul></li>
 </ul>
-<p>already seen in the first slides</p>
+<p>already seen in the first <a href="slides/01_sem-foundations_workflow_lavaan.html" target="_blank">slides</a></p>
 </section>
 <section id="matrices" class="slide level2">
 <h2>Matrices</h2>
-<p>These models (can) have all the possible matrices: - <strong>Loadings and coefficients matrices</strong> <span class="math display">\[
-\begin{aligned}
-\Lambda^x &amp;  - relation among  \xi  and  x
-    \Lambda^y &amp;  - relation among  \eta  and  y
-    B &amp;  - relation among  \eta  and  \eta
-    \Gamma &amp;  - relation among  \xi  and  \eta
-\end{aligned}
-\]</span> - <strong>Covariance matrices</strong> <span class="math display">\[
-\begin{aligned}
-\Theta^\delta &amp;  -  x  errors
-    \Theta^\epsilon &amp;  -  y  errors
-    \Psi &amp;  -  \eta  errors
-    \Phi &amp;  - relations among  \eta
-\end{aligned}
-\]</span> Different models are allowew based on the way we define relationships among variables</p>
+<div style="font-size:0.8em; line-height:1.15;">
+<p>These models (can) have all the possible matrices:</p>
+<ul>
+<li><p><strong>Loadings and coefficients matrices</strong></p>
+<ul>
+<li><span class="math inline">\(\Lambda^x\)</span> - relation among <span class="math inline">\(\xi\)</span> and <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(\Lambda^y\)</span> - relation among <span class="math inline">\(\eta\)</span> and <span class="math inline">\(y\)</span></li>
+<li><span class="math inline">\(B\)</span> - relation among <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\eta\)</span></li>
+<li><span class="math inline">\(\Gamma\)</span> - relation among <span class="math inline">\(\xi\)</span> and <span class="math inline">\(\eta\)</span></li>
+</ul></li>
+<li><p><strong>Covariance matrices</strong></p>
+<ul>
+<li><span class="math inline">\(\Theta^\delta\)</span> - <span class="math inline">\(x\)</span> errors</li>
+<li><span class="math inline">\(\Theta^\epsilon\)</span> - <span class="math inline">\(y\)</span> errors</li>
+<li><span class="math inline">\(\Psi\)</span> - <span class="math inline">\(\eta\)</span> errors</li>
+<li><span class="math inline">\(\Phi\)</span> - relations among <span class="math inline">\(\eta\)</span></li>
+</ul></li>
+</ul>
+<p>Different models are allowed based on the way we define relationships among variables</p>
+</div>
 </section>
 <section id="lavaan-matrices" class="slide level2">
 <h2>… <code>lavaan</code> matrices</h2>
-<p><code>lavaan</code> does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only: 1. <span class="math inline">\(\Lambda\)</span> factor loadings matrix <span class="math inline">\([p x m]\)</span> 1. <span class="math inline">\(\Theta\)</span> measurement residual errors covariance matrix <span class="math inline">\([p x p]\)</span> 1. <span class="math inline">\(B\)</span> regression coefficients matrix <span class="math inline">\([m x m]\)</span> 1. <span class="math inline">\(\Psi\)</span> residual structural errors covariance matrix <span class="math inline">\([m x m]\)</span> With <em>p</em> being the number of manifest variables and <em>m</em> being the number of latent variables.</p>
+<p><code>lavaan</code> does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only:</p>
+<ul>
+<li><span class="math inline">\(\Lambda\)</span> factor loadings matrix <span class="math inline">\([p x m]\)</span></li>
+<li><span class="math inline">\(\Theta\)</span> measurement residual errors covariance matrix <span class="math inline">\([p x p]\)</span></li>
+<li><span class="math inline">\(B\)</span> regression coefficients matrix <span class="math inline">\([m x m]\)</span></li>
+<li><span class="math inline">\(\Psi\)</span> residual structural errors covariance matrix <span class="math inline">\([m x m]\)</span></li>
+</ul>
+<p>With <em>p</em> being the number of manifest variables and <em>m</em> being the number of latent variables.</p>
 </section>
 <section id="the-lavaan-matrices" class="slide level2">
 <h2>The <code>lavaan</code> matrices</h2>
-<p>{Lambda: matrix of loadings}</p>
-<p><img data-src="../assets/images/lambda.png" style="width:75.0%"></p>
-<p>{Beta: regression coefficients}</p>
-<p><img data-src="../assets/images/beta.png" style="width:75.0%"></p>
-<p>{Psi: residual structural errors matrix}</p>
+<div class="{columns}">
+<div class="column" style="width:50%;">
+<p><strong>Lambda: matrix of loadings</strong></p>
+<p><img data-src="../assets/images/lambda.png" style="width:55.0%"></p>
+<p><strong>Beta: regression coefficients</strong></p>
+<p><img data-src="../assets/images/beta.png" style="width:55.0%"></p>
+</div><div class="column" style="width:50%;">
+<p><strong>Psi: residual structural errors matrix</strong></p>
 <p><img data-src="../assets/images/psi.png" style="width:70.0%"></p>
-<p>{Theta: observed variance-covariance matrix}</p>
+<p><strong>Theta: observed variance-covariance matrix</strong></p>
 <p><img data-src="../assets/images/teta.png"></p>
+</div></div>
 </section>
 <section id="a-sem-example---simulation" class="slide level2">
 <h2>A SEM example - simulation</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>dSEM <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(<span class="st">"xi =~ .74*x1 + .65*x2</span></span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>dSEM <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(<span class="st">"xi =~ .74*x1 + .65*x2 # note the =~</span></span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">                      eta =~ .56*y1 + .75*y2</span></span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">                      eta ~ .30*xi</span></span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">                      eta ~ .30*xi # and the ~ only</span></span>
 <span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">                     "</span>, <span class="at">sample.nobs =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
@@ -317,7 +341,11 @@ y =\Lambda_y\eta + \epsilon
 <span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">                     eta ~ xi"</span>, <span class="at">data =</span> dSEM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Constraints</strong></p>
-<p>To estimate the model we need to set constraints: - the <code>sem</code> or <code>cfa</code> functions default is setting to 1 one loading for each latent variable - an alternative is to standardized latent variables using the <code>std.lv = TRUE</code> option</p>
+<p>To estimate the model we need to set constraints:</p>
+<ul>
+<li>the <code>sem</code> or <code>cfa</code> functions default is setting to 1 one loading for each latent variable</li>
+<li>an alternative is to standardized latent variables using the <code>std.lv = TRUE</code> option</li>
+</ul>
 </section>
 <section id="constraints-default" class="slide level2">
 <h2>Constraints: <code>default</code></h2>
@@ -327,21 +355,21 @@ y =\Lambda_y\eta + \epsilon
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   xi =~                                                                 
-    x1                1.000                               0.727    0.570
-    x2                1.004    0.304    3.297    0.001    0.730    0.602
+    x1                1.000                               0.606    0.493
+    x2                1.164    0.542    2.146    0.032    0.706    0.589
   eta =~                                                                
-    y1                1.000                               0.440    0.372
-    y2                2.324    1.063    2.186    0.029    1.021    0.799
+    y1                1.000                               0.488    0.435
+    y2                1.692    0.868    1.949    0.051    0.825    0.656
 
 [...]
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .x1                1.102    0.168    6.570    0.000    1.102    0.676
-   .x2                0.937    0.167    5.613    0.000    0.937    0.637
-   .y1                1.204    0.103   11.701    0.000    1.204    0.862
-   .y2                0.592    0.474    1.249    0.212    0.592    0.362
-    xi                0.529    0.169    3.129    0.002    1.000    1.000
-   .eta               0.181    0.083    2.173    0.030    0.937    0.937
+   .x1                1.147    0.179    6.402    0.000    1.147    0.757
+   .x2                0.938    0.236    3.972    0.000    0.938    0.653
+   .y1                1.018    0.130    7.821    0.000    1.018    0.811
+   .y2                0.900    0.352    2.559    0.011    0.900    0.569
+    xi                0.368    0.177    2.074    0.038    1.000    1.000
+   .eta               0.227    0.118    1.923    0.055    0.954    0.954
 
 [...]</code></pre>
 </div>
@@ -355,21 +383,21 @@ Variances:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   xi =~                                                                 
-    x1                0.727    0.116    6.258    0.000    0.727    0.570
-    x2                0.730    0.116    6.298    0.000    0.730    0.602
+    x1                0.606    0.146    4.148    0.000    0.606    0.493
+    x2                0.706    0.168    4.193    0.000    0.706    0.589
   eta =~                                                                
-    y1                0.425    0.098    4.346    0.000    0.440    0.372
-    y2                0.988    0.239    4.127    0.000    1.021    0.799
+    y1                0.476    0.124    3.845    0.000    0.488    0.435
+    y2                0.806    0.215    3.746    0.000    0.825    0.656
 
 [...]
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .x1                1.102    0.168    6.570    0.000    1.102    0.676
-   .x2                0.937    0.167    5.613    0.000    0.937    0.637
-   .y1                1.204    0.103   11.701    0.000    1.204    0.862
-   .y2                0.592    0.474    1.249    0.212    0.592    0.362
+   .x1                1.147    0.179    6.402    0.000    1.147    0.757
+   .x2                0.938    0.236    3.972    0.000    0.938    0.653
+   .y1                1.018    0.130    7.821    0.000    1.018    0.811
+   .y2                0.900    0.352    2.559    0.011    0.900    0.569
     xi                1.000                               1.000    1.000
-   .eta               1.000                               0.937    0.937
+   .eta               1.000                               0.954    0.954
 
 [...]</code></pre>
 </div>
@@ -384,17 +412,17 @@ Variances:
 <div class="cell-output cell-output-stdout">
 <pre><code>$lambda
       xi   eta
-x1 0.570 0.000
-x2 0.602 0.000
-y1 0.000 0.372
-y2 0.000 0.799
+x1 0.493 0.000
+x2 0.589 0.000
+y1 0.000 0.435
+y2 0.000 0.656
 
 $theta
       x1    x2    y1    y2
-x1 0.676                  
-x2 0.000 0.637            
-y1 0.000 0.000 0.862      
-y2 0.000 0.000 0.000 0.362</code></pre>
+x1 0.757                  
+x2 0.000 0.653            
+y1 0.000 0.000 0.811      
+y2 0.000 0.000 0.000 0.569</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -402,12 +430,12 @@ y2 0.000 0.000 0.000 0.362</code></pre>
 <pre><code>$psi
        xi   eta
 xi  1.000      
-eta 0.000 0.937
+eta 0.000 0.954
 
 $beta
        xi eta
 xi  0.000   0
-eta 0.252   0</code></pre>
+eta 0.215   0</code></pre>
 </div>
 </div>
 </section>
@@ -415,7 +443,11 @@ eta 0.252   0</code></pre>
 <h2>SEM identification</h2>
 <p>Once again, remember that identification is a topic relevant to all structural equation models.</p>
 <p>If an unknown parameter in <span class="math inline">\(\theta\)</span> can be written as a function of one or more elements of <span class="math inline">\(\Sigma\)</span>, that parameter is identified.</p>
-<p>If all unknown parameters in <span class="math inline">\(\theta\)</span> are identified, the model is identified. - the <em>t</em>-rule (again) - the <em>Two-Steps</em> rule</p>
+<p>If all unknown parameters in <span class="math inline">\(\theta\)</span> are identified, the model is identified.</p>
+<ul>
+<li>the <em>t</em>-rule (again)</li>
+<li>the <em>Two-Steps</em> rule</li>
+</ul>
 </section>
 <section id="two-steps-rule" class="slide level2">
 <h2><em>Two-Steps</em> rule</h2>
@@ -759,12 +791,12 @@ Regressions:
 </section>
 <section id="why-sum-scores-can-mislead-measurement-error-attenuation" class="slide level2">
 <h2>Why sum scores can mislead (measurement error → attenuation)</h2>
-<p>If an observed score (X) is a noisy measure of a latent (X^*), measurement error tends to <strong>attenuate</strong> associations.</p>
+<p>If an observed score <span class="math inline">\((X)\)</span> is a noisy measure of a latent variable, measurement error tends to <strong>attenuate</strong> associations.</p>
 <p>A classic intuition (simple linear setting):</p>
 <p><span class="math display">\[
 \hat\beta_{\text{observed}} \approx \hat\beta_{\text{latent}} \times \rho_{xx}
 \]</span></p>
-<p>where (_{xx}) is reliability of (X).</p>
+<p>where <span class="math inline">\((\rho_{xx})\)</span> is reliability of <span class="math inline">\((X)\)</span>.</p>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -793,23 +825,6 @@ Regressions:
 </div>
 </div>
 </section>
-<section id="sum-scores-vs-latent-scores" class="slide level2">
-<h2>Sum scores VS latent scores</h2>
-<p>However, the debate is still open:</p>
-<ul>
-<li>Thinking twice about sum scores<br>
-</li>
-<li>Thinking thrice about sum scores, and then some more about measurement and analysis<br>
-</li>
-<li>Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle<br>
-</li>
-<li>Or some more Schimmack:
-<ul>
-<li>Schimmack vs Gelman 1</li>
-<li>Schimmack vs Gelman 2</li>
-</ul></li>
-</ul>
-</section>
 <section id="the-ground-truth" class="slide level2">
 <h2>The ground truth</h2>
 <div class="cell">
@@ -833,30 +848,47 @@ Regressions:
 <span id="cb36-18"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sum-scores-vs-latent-scores-1" class="slide level2">
+<section id="sum-scores-vs-latent-scores" class="slide level2">
 <h2>Sum scores VS latent scores</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>However, the debate is still open:</p>
 <ul>
-<li>Thinking twice about sum scores<br>
-</li>
-<li>Thinking thrice about sum scores, and then some more about measurement and analysis<br>
-</li>
-<li>Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle<br>
-</li>
-<li>Or some more Schimmack:
+<li><p>Thinking twice about sum scores <span class="citation" data-cites="mcneishThinkingTwiceSum2020">(<a href="#/references" role="doc-biblioref" onclick="">McNeish &amp; Wolf, 2020</a>)</span></p></li>
+<li><p>Thinking thrice about sum scores, and then some more about measurement and analysis <span class="citation" data-cites="widamanThinkingThriceSum2022">(<a href="#/references" role="doc-biblioref" onclick="">Widaman &amp; Revelle, 2022</a>)</span></p></li>
+<li><p>Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle <span class="citation" data-cites="mcneishPsychometricPropertiesSum2023">(<a href="#/references" role="doc-biblioref" onclick="">McNeish, 2023</a>)</span></p></li>
+<li><p>Thinking About Sum Scores Yet Again, Maybe the Last Time, We Don’t Know, Oh No <span class="citation" data-cites="widamanThinkingSumScores2024">(<a href="#/references" role="doc-biblioref" onclick="">Widaman &amp; Revelle, 2024</a>)</span></p></li>
+<li><p>Or some more Schimmack:</p>
 <ul>
-<li>Schimmack vs Gelman 1</li>
-<li>Schimmack vs Gelman 2</li>
+<li>Schimmack vs Gelman 1 (<a href="https://replicationindex.com/2023/11/17/loken-and-gelman-are-still-wrong/" class="uri">https://replicationindex.com/2023/11/17/loken-and-gelman-are-still-wrong/</a>)</li>
+<li>Schimmack vs Gelman 2 (<a href="https://replicationindex.com/2023/11/25/loken-and-gelmans-simulation-is-not-a-fair-comparison/" class="uri">https://replicationindex.com/2023/11/25/loken-and-gelmans-simulation-is-not-a-fair-comparison/</a>)</li>
 </ul></li>
 </ul>
+</div>
 </section>
-<section id="the-indifference-of-the-indicator" class="slide level2">
-<h2>The indifference of the indicator</h2>
+<section id="indicator-indifference-a-measurement-question-with-structural-consequences" class="slide level2">
+<h2>Indicator indifference: a measurement question with structural consequences</h2>
 <ul>
-<li>How many indicators do we need?</li>
-<li>How should I select them?</li>
-<li>… <code>LET'S SEE THE ADDITIONAL CODE</code></li>
+<li>How much should our conclusions depend on the <strong>specific items</strong> we happened to include?</li>
+<li>How many indicators are enough to recover a latent relation <strong>with reasonable precision</strong>?</li>
+<li>Is it better to have <strong>more indicators</strong>, or <strong>fewer but stronger and more central</strong> indicators?</li>
+<li>What happens when indicators differ in <strong>loading strength</strong>, <strong>construct centrality</strong>, or <strong>contamination</strong>?</li>
+<li>If the structural path changes a lot when we swap reasonable indicators, are we estimating a robust latent relation — or an <strong>item-bound result</strong>?</li>
 </ul>
+<p>See the <a href="../extras/ex_indicator-indifference_measurement-robustness.html">extra module</a></p>
+</section>
+<section id="exercises-lab-05" class="slide level2">
+<h2>Exercises (Lab 05)</h2>
+<p>Go to:</p>
+<ul>
+<li><strong><code>labs/labs/lab05_sem_capstone_eat.qmd</code></strong> <a href="https://feracotommaso.github.io/SEM-phd-course/labs/lab05_sem_capstone_eat.html" target="_blank">link</a></li>
+</ul>
+<p>You will practice:</p>
+<ol type="1">
+<li>Apply the Two-Step rule (identify/fit measurement first, then structure)</li>
+<li>Evaluate the model using fit indices + diagnostics (global + local)</li>
+<li>Use MI + EPC/SEPC to propose a theory-justified modification</li>
+<li>Compare a latent SEM vs a sum-score path model</li>
+</ol>
 </section>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
@@ -868,10 +900,29 @@ Regressions:
 <li>Comparing models is scientific: <strong>theory → constraints → estimation → evaluation → transparent revision</strong></li>
 </ol>
 </section>
-<section id="references" class="slide level2">
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Massimiliano Pastore for his slides!</p>
+<p><img data-src="../assets/images/max.jpg" style="height:4.5cm"></p>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-mcneishPsychometricPropertiesSum2023" class="csl-entry" role="listitem">
+McNeish, D. (2023). Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle. <em>Behavior Research Methods</em>, <em>55</em>(8), 4269–4290. <a href="https://doi.org/10.3758/s13428-022-02016-x">https://doi.org/10.3758/s13428-022-02016-x</a>
+</div>
+<div id="ref-mcneishThinkingTwiceSum2020" class="csl-entry" role="listitem">
+McNeish, D., &amp; Wolf, M. G. (2020). Thinking twice about sum scores. <em>Behavior Research Methods</em>, <em>52</em>(6), 2287–2305. <a href="https://doi.org/10.3758/s13428-020-01398-0">https://doi.org/10.3758/s13428-020-01398-0</a>
+</div>
+<div id="ref-widamanThinkingThriceSum2022" class="csl-entry" role="listitem">
+Widaman, K. F., &amp; Revelle, W. (2022). Thinking thrice about sum scores, and then some more about measurement and analysis. <em>Behavior Research Methods</em>. <a href="https://doi.org/10.3758/s13428-022-01849-w">https://doi.org/10.3758/s13428-022-01849-w</a>
+</div>
+<div id="ref-widamanThinkingSumScores2024" class="csl-entry" role="listitem">
+Widaman, K. F., &amp; Revelle, W. (2024). Thinking About Sum Scores Yet Again, Maybe the Last Time, We Don<span>’</span>t Know, Oh No . . .1: A Comment on McNeish (2023). <em>Educational and Psychological Measurement</em>, <em>84</em>(4), 637–659. <a href="https://doi.org/10.1177/00131644231205310">https://doi.org/10.1177/00131644231205310</a>
+</div>
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -1088,6 +1139,11 @@ Regressions:
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

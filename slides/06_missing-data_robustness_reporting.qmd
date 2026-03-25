@@ -16,8 +16,6 @@ bibliography: ../refs/references.bib
 csl: ../refs/apa7.csl
 ---
 
-## Workflow map
-
 ## Today in the workflow
 
 Specify → Identify → **Estimate → Evaluate** → Revise/Report
@@ -35,7 +33,7 @@ By the end of today you can:
 
 - Distinguish **MCAR / MAR / MNAR** and what FIML assumes
 - Explain what **MLR** corrects (robust SE + scaled test statistic)
-- Decide when **bootstrap CIs** are needed (and when they’re overkill)
+- Decide when **bootstrap CIs** are needed 
 - Combine **global + local** diagnostics without fishing
 - Write a **defensible reporting paragraph**
 
@@ -48,7 +46,7 @@ By the end of today you can:
 3) Compare conclusions (parameters, SE, CIs, fit, local misfit)  
 4) Turn results into reporting decisions
 
-> <span style="color:red">Add figure: one pipeline diagram showing “Same model → different estimation choices → compare conclusions”.</span>
+![](../assets/images/forks.png)
 
 ---
 

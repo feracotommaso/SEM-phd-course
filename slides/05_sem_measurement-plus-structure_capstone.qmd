@@ -29,121 +29,120 @@ execute:
   message: false
 ---
 
-
 ## Today in the workflow
 
 **Specify → Identify → Estimate → Evaluate → Revise/Report**
 
 ::: {.callout-note appearance="minimal"}
-**Today:** *full SEM* = **measurement model (CFA)** + **structural model (paths among latent variables)**.  
+**Today:** *full SEM* = **measurement model (CFA)** + **structural model (paths among latent variables)**.\
 We will **repeat fit/diagnostics on purpose**: by now it should become a habit (global + local).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Learning objectives
 
 By the end of this session you should be able to:
 
-- Connect the CFA measurement model to the SEM structural model (two-step mindset)
-- Understand how SEM is represented in matrices (Λ, B, Γ, Φ, Ψ, Θ)
-- Fit a full SEM in lavaan and interpret parameters + **fit indices + diagnostics**
-- Compare plausible SEMs (nested comparisons) and justify modifications transparently
+-   Connect the CFA measurement model to the SEM structural model (two-step mindset)
+-   Understand how SEM is represented in matrices ($Λ$, $B$, $Γ$, $Φ$, $Ψ$, $Θ$)
+-   Fit a full SEM in lavaan and interpret parameters + **fit indices + diagnostics**
+-   Compare plausible SEMs (nested comparisons) and justify modifications transparently
 
----
-
-
-
-## Outline
-
-- Introduction
-- Identification
-- Example
-- Exercise
-- Results
+------------------------------------------------------------------------
 
 ## Structural equation models
 
 Up to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.
 
-A complete SEM takes both of these things and put them together
+A complete SEM takes both of these things and put them together.
+
+------------------------------------------------------------------------
 
 ## The two parts of a SEM
 
-- **The measurement model**
-  $$
-\begin{aligned}
-x = \Lambda_x\xi + \delta
-  y =\Lambda_y\eta + \epsilon
-\end{aligned}
-$$
-- **The structural model**
-  $$
-\begin{aligned}
-\eta = B\eta + \Gamma\xi + \zeta
-\end{aligned}
-$$
+-   **The measurement model**
 
- already seen in the first slides
+    -   $x = \Lambda_x\xi + \delta$
+
+    -   $y = \Lambda_y\eta + \epsilon$
+
+-   **The structural model**
+
+    -   $\eta = B\eta + \Gamma\xi + \zeta$
+
+already seen in the first [slides](slides/01_sem-foundations_workflow_lavaan.html){target="_blank"}
 
 ## Matrices
 
+<div style="font-size:0.8em; line-height:1.15;">
+
 These models (can) have all the possible matrices:
-- **Loadings and coefficients matrices**
-  $$
-\begin{aligned}
-\Lambda^x &  - relation among  \xi  and  x
-    \Lambda^y &  - relation among  \eta  and  y
-    B &  - relation among  \eta  and  \eta
-    \Gamma &  - relation among  \xi  and  \eta
-\end{aligned}
-$$
-- **Covariance matrices**
-  $$
-\begin{aligned}
-\Theta^\delta &  -  x  errors
-    \Theta^\epsilon &  -  y  errors
-    \Psi &  -  \eta  errors
-    \Phi &  - relations among  \eta
-\end{aligned}
-$$
-Different models are allowew based on the way we define relationships among variables
+
+-   **Loadings and coefficients matrices**
+
+    -   $\Lambda^x$ - relation among $\xi$ and $x$
+    -   $\Lambda^y$ - relation among $\eta$ and $y$
+    -   $B$ - relation among $\eta$ and $\eta$
+    -   $\Gamma$ - relation among $\xi$ and $\eta$
+
+-   **Covariance matrices**
+
+    -   $\Theta^\delta$ - $x$ errors
+    -   $\Theta^\epsilon$ - $y$ errors
+    -   $\Psi$ - $\eta$ errors
+    -   $\Phi$ - relations among $\eta$
+
+Different models are allowed based on the way we define relationships among variables
+
+</div>
 
 ## ... `lavaan` matrices
 
 `lavaan` does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only:
-1. $\Lambda$ factor loadings matrix $[p x m]$
-1. $\Theta$ measurement residual errors covariance matrix $[p x p]$
-1. $B$ regression coefficients matrix $[m x m]$
-1. $\Psi$ residual structural errors covariance matrix $[m x m]$
+
+-   $\Lambda$ factor loadings matrix $[p x m]$
+-   $\Theta$ measurement residual errors covariance matrix $[p x p]$
+-   $B$ regression coefficients matrix $[m x m]$
+-   $\Psi$ residual structural errors covariance matrix $[m x m]$
+
 With *p* being the number of manifest variables and *m* being the number of latent variables.
 
 ## The `lavaan` matrices
 
-{Lambda: matrix of loadings}
+::: {columns}
+:::{.column width = "50%"}
 
-![](../assets/images/lambda.png){width="75%"}
+**Lambda: matrix of loadings**
 
-{Beta: regression coefficients}
+![](../assets/images/lambda.png){width="55%"}
 
-![](../assets/images/beta.png){width="75%"}
+**Beta: regression coefficients**
 
-{Psi: residual structural errors matrix}
+![](../assets/images/beta.png){width="55%"}
+
+:::
+:::{.column width = "50%"}
+
+**Psi: residual structural errors matrix**
 
 ![](../assets/images/psi.png){width="70%"}
 
-{Theta: observed variance-covariance matrix}
+**Theta: observed variance-covariance matrix**
 
-![](../assets/images/teta.png)
+![](../assets/images/teta.png) 
+
+:::
+:::
 
 ## A SEM example - simulation
 
 ```{r}
 #| message: false
 library(lavaan)
-dSEM <- simulateData("xi =~ .74*x1 + .65*x2
+dSEM <- simulateData("xi =~ .74*x1 + .65*x2 # note the =~
                       eta =~ .56*y1 + .75*y2
-                      eta ~ .30*xi
+                      eta ~ .30*xi # and the ~ only
                      ", sample.nobs = 1000)
 ```
 
@@ -177,9 +176,10 @@ fit <- sem(model = "xi =~ x1 + x2
 
 **Constraints**
 
- To estimate the model we need to set constraints:
- - the `sem` or `cfa` functions default is setting to 1 one loading for each latent variable
-- an alternative is to standardized latent variables using the `std.lv = TRUE` option
+To estimate the model we need to set constraints:
+
+-   the `sem` or `cfa` functions default is setting to 1 one loading for each latent variable
+-   an alternative is to standardized latent variables using the `std.lv = TRUE` option
 
 ## Constraints: `default`
 
@@ -226,15 +226,17 @@ Once again, remember that identification is a topic relevant to all structural e
 If an unknown parameter in $\theta$ can be written as a function of one or more elements of $\Sigma$, that parameter is identified.
 
 If all unknown parameters in $\theta$ are identified, the model is identified.
-- the *t*-rule (again)
-- the *Two-Steps* rule
+
+-   the *t*-rule (again)
+-   the *Two-Steps* rule
 
 ## *Two-Steps* rule
 
-- *Step 1*. Treat the model as a confirmatory factor analysis: view the original $x$ and $y$ as $x$ variables and the original $\xi$ and $\eta$ as $\xi$ variables. The only relationship between latent variables of interest are their variance and covariance $Phi$. That is, ignore the $B$, $\Gamma$, and $\Psi$ elements.
+-   *Step 1*. Treat the model as a confirmatory factor analysis: view the original $x$ and $y$ as $x$ variables and the original $\xi$ and $\eta$ as $\xi$ variables. The only relationship between latent variables of interest are their variance and covariance $Phi$. That is, ignore the $B$, $\Gamma$, and $\Psi$ elements.
 
-  $\rightarrow$ apply CFA identification rules
-- *Step 2*. Examine the latent variable equation of the original model ($\eta = B\eta + \Gamma\xi + \zeta$), assuming that each latent variable is an observed variable that is perfectly measured.
+    $\rightarrow$ apply CFA identification rules
+
+-   *Step 2*. Examine the latent variable equation of the original model ($\eta = B\eta + \Gamma\xi + \zeta$), assuming that each latent variable is an observed variable that is perfectly measured.
 
 ## *Two-Steps* rule
 
@@ -527,15 +529,15 @@ semPlot::semPaths(fitE4_1, style = "lisrel",
 
 ## The exercise
 
-1. Apply the two-step rule:
-   1. Test the CFA model
-   2. Test the structural model
-2. Inspect model results and fit indices
-   - Are the hypotheses confirmed?
-   - Does the model fit the data well?
-3. If the model is not satisfactory, understand why and change it
-4. Draw the model (in `R`, ppt, or with a pencil)
-5. Try to fit a simple path model using sum scores instead of latent scores
+1.  Apply the two-step rule:
+    1.  Test the CFA model
+    2.  Test the structural model
+2.  Inspect model results and fit indices
+    -   Are the hypotheses confirmed?
+    -   Does the model fit the data well?
+3.  If the model is not satisfactory, understand why and change it
+4.  Draw the model (in `R`, ppt, or with a pencil)
+5.  Try to fit a simple path model using sum scores instead of latent scores
 
 ## Model specification
 
@@ -610,8 +612,7 @@ fitmeasures(fit2.1,
 
 ## Why sum scores can mislead (measurement error → attenuation)
 
-If an observed score \(X\) is a noisy measure of a latent \(X^\*\),
-measurement error tends to **attenuate** associations.
+If an observed score $(X)$ is a noisy measure of a latent variable, measurement error tends to **attenuate** associations.
 
 A classic intuition (simple linear setting):
 
@@ -619,13 +620,14 @@ $$
 \hat\beta_{\text{observed}} \approx \hat\beta_{\text{latent}} \times \rho_{xx}
 $$
 
-where \(\rho_{xx}\) is reliability of \(X\).
+where $(\rho_{xx})$ is reliability of $(X)$.
 
 ::: {.callout-note appearance="minimal"}
 This is exactly why latent-variable SEM can change “structural” conclusions even when factor scores correlate highly with sum scores.
 :::
 
----
+------------------------------------------------------------------------
+
 ## Sum scores
 
 ```{r}
@@ -642,17 +644,6 @@ fitP <- sem(path, d2)
 fitmeasures(fitP, fit.measures = 
               c("cfi", "tli", "srmr", "rmsea"))
 ```
-
-## Sum scores VS latent scores
-
-However, the debate is still open:
-
-- Thinking twice about sum scores  
-- Thinking thrice about sum scores, and then some more about measurement and analysis  
-- Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle  
-- Or some more Schimmack:
-  - Schimmack vs Gelman 1
-  - Schimmack vs Gelman 2
 
 ## The ground truth
 
@@ -678,33 +669,60 @@ mE4_1 <- "
 "
 ```
 
-
 ## Sum scores VS latent scores
+
+<div style="font-size:0.8em; line-height:1.15;">
 
 However, the debate is still open:
 
-- Thinking twice about sum scores  
-- Thinking thrice about sum scores, and then some more about measurement and analysis  
-- Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle  
-- Or some more Schimmack:
-  - Schimmack vs Gelman 1
-  - Schimmack vs Gelman 2
+-   Thinking twice about sum scores [@mcneishThinkingTwiceSum2020]
 
+-   Thinking thrice about sum scores, and then some more about measurement and analysis [@widamanThinkingThriceSum2022]
 
-## The indifference of the indicator
+-   Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle [@mcneishPsychometricPropertiesSum2023]
 
-- How many indicators do we need?
-- How should I select them?
-- ...
-`LET'S SEE THE ADDITIONAL CODE`
+-   Thinking About Sum Scores Yet Again, Maybe the Last Time, We Don’t Know, Oh No [@widamanThinkingSumScores2024]
 
+-   Or some more Schimmack:
+
+    -   Schimmack vs Gelman 1 (<https://replicationindex.com/2023/11/17/loken-and-gelman-are-still-wrong/>)
+    -   Schimmack vs Gelman 2 (<https://replicationindex.com/2023/11/25/loken-and-gelmans-simulation-is-not-a-fair-comparison/>)
+
+</div>
+
+## Indicator indifference: a measurement question with structural consequences
+
+- How much should our conclusions depend on the **specific items** we happened to include?
+- How many indicators are enough to recover a latent relation **with reasonable precision**?
+- Is it better to have **more indicators**, or **fewer but stronger and more central** indicators?
+- What happens when indicators differ in **loading strength**, **construct centrality**, or **contamination**?
+- If the structural path changes a lot when we swap reasonable indicators, are we estimating a robust latent relation — or an **item-bound result**?
+
+See the [extra module](../extras/ex_indicator-indifference_measurement-robustness.html)
+
+## Exercises (Lab 05)
+
+Go to:
+
+-   **`labs/labs/lab05_sem_capstone_eat.qmd`** [link](https://feracotommaso.github.io/SEM-phd-course/labs/lab05_sem_capstone_eat.html){target="_blank"}
+
+You will practice:
+
+1.  Apply the Two-Step rule (identify/fit measurement first, then structure)
+2.  Evaluate the model using fit indices + diagnostics (global + local)
+3.  Use MI + EPC/SEPC to propose a theory-justified modification
+4.  Compare a latent SEM vs a sum-score path model
 
 ## Take-home: 3 things
 
-1. SEM is **measurement + structure** — structural paths do not rescue poor measurement  
-2. Treat fit indices and diagnostics as **routine checks** (global + local), not as a one-time hurdle  
-3. Comparing models is scientific: **theory → constraints → estimation → evaluation → transparent revision**
+1.  SEM is **measurement + structure** — structural paths do not rescue poor measurement\
+2.  Treat fit indices and diagnostics as **routine checks** (global + local), not as a one-time hurdle\
+3.  Comparing models is scientific: **theory → constraints → estimation → evaluation → transparent revision**
 
+## Acknowledgments
+
+Thanks to Massimiliano Pastore for his slides!
+
+![](../assets/images/max.jpg){height="4.5cm"}
 
 ## References
-

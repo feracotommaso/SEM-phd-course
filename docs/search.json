@@ -312,14 +312,14 @@
     "href": "extras/extras_index.html#methods-inference",
     "title": "Extras",
     "section": "Methods & inference",
-    "text": "Methods & inference\n… under construction"
+    "text": "Methods & inference\nIndifference of the indicators and implications\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#advanced-sem",
     "href": "extras/extras_index.html#advanced-sem",
     "title": "Extras",
     "section": "Advanced SEM",
-    "text": "Advanced SEM\n\nex03 Latent interactions (modsem)\n\n… under construction"
+    "text": "Advanced SEM\n\nLatent interactions (modsem)\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#longitudinal-deep-dives",
@@ -333,7 +333,7 @@
     "href": "extras/extras_index.html#measurement-extensions",
     "title": "Extras",
     "section": "Measurement extensions",
-    "text": "Measurement extensions\n\nex PCA-EFA-CFA comparison and overview\n\n… under construction"
+    "text": "Measurement extensions\n\nPCA-EFA-CFA comparison and overview\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#missing-data-sensitivity",
@@ -4554,7 +4554,7 @@
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#learning-objectives",
     "title": "Structural Equation Models",
     "section": "Learning objectives",
-    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nConnect the CFA measurement model to the SEM structural model (two-step mindset)\nUnderstand how SEM is represented in matrices (Λ, B, Γ, Φ, Ψ, Θ)\nFit a full SEM in lavaan and interpret parameters + fit indices + diagnostics\nCompare plausible SEMs (nested comparisons) and justify modifications transparently"
+    "text": "Learning objectives\nBy the end of this session you should be able to:\n\nConnect the CFA measurement model to the SEM structural model (two-step mindset)\nUnderstand how SEM is represented in matrices (\\(Λ\\), \\(B\\), \\(Γ\\), \\(Φ\\), \\(Ψ\\), \\(Θ\\))\nFit a full SEM in lavaan and interpret parameters + fit indices + diagnostics\nCompare plausible SEMs (nested comparisons) and justify modifications transparently"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#outline",
@@ -4568,77 +4568,77 @@
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#structural-equation-models",
     "title": "Structural Equation Models",
     "section": "Structural equation models",
-    "text": "Structural equation models\nUp to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.\nA complete SEM takes both of these things and put them together"
+    "text": "Structural equation models\nUp to now, we have seen how to model the relationship between different variables/constructs at the same time (path analysis) and how to build a measurement model with one or more latent variables.\nA complete SEM takes both of these things and put them together."
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-two-parts-of-a-sem",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-two-parts-of-a-sem",
     "title": "Structural Equation Models",
     "section": "The two parts of a SEM",
-    "text": "The two parts of a SEM\n\nThe measurement model \\[\n\\begin{aligned}\nx = \\Lambda_x\\xi + \\delta\ny =\\Lambda_y\\eta + \\epsilon\n\\end{aligned}\n\\]\nThe structural model \\[\n\\begin{aligned}\n\\eta = B\\eta + \\Gamma\\xi + \\zeta\n\\end{aligned}\n\\]\n\nalready seen in the first slides"
+    "text": "The two parts of a SEM\n\nThe measurement model\n\n\\(x = \\Lambda_x\\xi + \\delta\\)\n\\(y = \\Lambda_y\\eta + \\epsilon\\)\n\nThe structural model\n\n\\(\\eta = B\\eta + \\Gamma\\xi + \\zeta\\)\n\n\nalready seen in the first slides"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#matrices",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#matrices",
     "title": "Structural Equation Models",
     "section": "Matrices",
-    "text": "Matrices\nThese models (can) have all the possible matrices: - Loadings and coefficients matrices \\[\n\\begin{aligned}\n\\Lambda^x &  - relation among  \\xi  and  x\n    \\Lambda^y &  - relation among  \\eta  and  y\n    B &  - relation among  \\eta  and  \\eta\n    \\Gamma &  - relation among  \\xi  and  \\eta\n\\end{aligned}\n\\] - Covariance matrices \\[\n\\begin{aligned}\n\\Theta^\\delta &  -  x  errors\n    \\Theta^\\epsilon &  -  y  errors\n    \\Psi &  -  \\eta  errors\n    \\Phi &  - relations among  \\eta\n\\end{aligned}\n\\] Different models are allowew based on the way we define relationships among variables"
+    "text": "Matrices\n\nThese models (can) have all the possible matrices:\n\nLoadings and coefficients matrices\n\n\\(\\Lambda^x\\) - relation among \\(\\xi\\) and \\(x\\)\n\\(\\Lambda^y\\) - relation among \\(\\eta\\) and \\(y\\)\n\\(B\\) - relation among \\(\\eta\\) and \\(\\eta\\)\n\\(\\Gamma\\) - relation among \\(\\xi\\) and \\(\\eta\\)\n\nCovariance matrices\n\n\\(\\Theta^\\delta\\) - \\(x\\) errors\n\\(\\Theta^\\epsilon\\) - \\(y\\) errors\n\\(\\Psi\\) - \\(\\eta\\) errors\n\\(\\Phi\\) - relations among \\(\\eta\\)\n\n\nDifferent models are allowed based on the way we define relationships among variables"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices",
     "title": "Structural Equation Models",
     "section": "… lavaan matrices",
-    "text": "… lavaan matrices\nlavaan does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only: 1. \\(\\Lambda\\) factor loadings matrix \\([p x m]\\) 1. \\(\\Theta\\) measurement residual errors covariance matrix \\([p x p]\\) 1. \\(B\\) regression coefficients matrix \\([m x m]\\) 1. \\(\\Psi\\) residual structural errors covariance matrix \\([m x m]\\) With p being the number of manifest variables and m being the number of latent variables."
+    "text": "… lavaan matrices\nlavaan does not distinguish between endogenous and exogenous variables. This leads to an easier parametrization and to four matrices only:\n\n\\(\\Lambda\\) factor loadings matrix \\([p x m]\\)\n\\(\\Theta\\) measurement residual errors covariance matrix \\([p x p]\\)\n\\(B\\) regression coefficients matrix \\([m x m]\\)\n\\(\\Psi\\) residual structural errors covariance matrix \\([m x m]\\)\n\nWith p being the number of manifest variables and m being the number of latent variables."
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-lavaan-matrices",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#the-lavaan-matrices",
     "title": "Structural Equation Models",
     "section": "The lavaan matrices",
-    "text": "The lavaan matrices\n{Lambda: matrix of loadings}\n\n{Beta: regression coefficients}\n\n{Psi: residual structural errors matrix}\n\n{Theta: observed variance-covariance matrix}"
+    "text": "The lavaan matrices\n\n\nLambda: matrix of loadings\n\nBeta: regression coefficients\n\n\nPsi: residual structural errors matrix\n\nTheta: observed variance-covariance matrix"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---simulation",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---simulation",
     "title": "Structural Equation Models",
     "section": "A SEM example - simulation",
-    "text": "A SEM example - simulation\n\nlibrary(lavaan)\ndSEM &lt;- simulateData(\"xi =~ .74*x1 + .65*x2\n                      eta =~ .56*y1 + .75*y2\n                      eta ~ .30*xi\n                     \", sample.nobs = 1000)"
+    "text": "A SEM example - simulation\n\nlibrary(lavaan)\ndSEM &lt;- simulateData(\"xi =~ .74*x1 + .65*x2 # note the =~\n                      eta =~ .56*y1 + .75*y2\n                      eta ~ .30*xi # and the ~ only\n                     \", sample.nobs = 1000)"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---specification-and-constraints",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#a-sem-example---specification-and-constraints",
     "title": "Structural Equation Models",
     "section": "A SEM example - specification and constraints",
-    "text": "A SEM example - specification and constraints\n\nfit &lt;- sem(model = \"xi =~ x1 + x2\n                     eta =~ y1 + y2\n                     eta ~ xi\", data = dSEM)\n\nConstraints\nTo estimate the model we need to set constraints: - the sem or cfa functions default is setting to 1 one loading for each latent variable - an alternative is to standardized latent variables using the std.lv = TRUE option"
+    "text": "A SEM example - specification and constraints\n\nfit &lt;- sem(model = \"xi =~ x1 + x2\n                     eta =~ y1 + y2\n                     eta ~ xi\", data = dSEM)\n\nConstraints\nTo estimate the model we need to set constraints:\n\nthe sem or cfa functions default is setting to 1 one loading for each latent variable\nan alternative is to standardized latent variables using the std.lv = TRUE option"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-default",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-default",
     "title": "Structural Equation Models",
     "section": "Constraints: default",
-    "text": "Constraints: default\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                1.000                               0.727    0.570\n    x2                1.004    0.304    3.297    0.001    0.730    0.602\n  eta =~                                                                \n    y1                1.000                               0.440    0.372\n    y2                2.324    1.063    2.186    0.029    1.021    0.799\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.102    0.168    6.570    0.000    1.102    0.676\n   .x2                0.937    0.167    5.613    0.000    0.937    0.637\n   .y1                1.204    0.103   11.701    0.000    1.204    0.862\n   .y2                0.592    0.474    1.249    0.212    0.592    0.362\n    xi                0.529    0.169    3.129    0.002    1.000    1.000\n   .eta               0.181    0.083    2.173    0.030    0.937    0.937\n\n[...]"
+    "text": "Constraints: default\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                1.000                               0.606    0.493\n    x2                1.164    0.542    2.146    0.032    0.706    0.589\n  eta =~                                                                \n    y1                1.000                               0.488    0.435\n    y2                1.692    0.868    1.949    0.051    0.825    0.656\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.147    0.179    6.402    0.000    1.147    0.757\n   .x2                0.938    0.236    3.972    0.000    0.938    0.653\n   .y1                1.018    0.130    7.821    0.000    1.018    0.811\n   .y2                0.900    0.352    2.559    0.011    0.900    0.569\n    xi                0.368    0.177    2.074    0.038    1.000    1.000\n   .eta               0.227    0.118    1.923    0.055    0.954    0.954\n\n[...]"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-std.lvt",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#constraints-std.lvt",
     "title": "Structural Equation Models",
     "section": "Constraints: std.lv=T",
-    "text": "Constraints: std.lv=T\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                0.727    0.116    6.258    0.000    0.727    0.570\n    x2                0.730    0.116    6.298    0.000    0.730    0.602\n  eta =~                                                                \n    y1                0.425    0.098    4.346    0.000    0.440    0.372\n    y2                0.988    0.239    4.127    0.000    1.021    0.799\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.102    0.168    6.570    0.000    1.102    0.676\n   .x2                0.937    0.167    5.613    0.000    0.937    0.637\n   .y1                1.204    0.103   11.701    0.000    1.204    0.862\n   .y2                0.592    0.474    1.249    0.212    0.592    0.362\n    xi                1.000                               1.000    1.000\n   .eta               1.000                               0.937    0.937\n\n[...]"
+    "text": "Constraints: std.lv=T\n\n\n[...]\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  xi =~                                                                 \n    x1                0.606    0.146    4.148    0.000    0.606    0.493\n    x2                0.706    0.168    4.193    0.000    0.706    0.589\n  eta =~                                                                \n    y1                0.476    0.124    3.845    0.000    0.488    0.435\n    y2                0.806    0.215    3.746    0.000    0.825    0.656\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .x1                1.147    0.179    6.402    0.000    1.147    0.757\n   .x2                0.938    0.236    3.972    0.000    0.938    0.653\n   .y1                1.018    0.130    7.821    0.000    1.018    0.811\n   .y2                0.900    0.352    2.559    0.011    0.900    0.569\n    xi                1.000                               1.000    1.000\n   .eta               1.000                               0.954    0.954\n\n[...]"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices-1",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#lavaan-matrices-1",
     "title": "Structural Equation Models",
     "section": "lavaan matrices",
-    "text": "lavaan matrices\n\ninspect(fit, \"std\") # OR \"est\"\n\n\n\n$lambda\n      xi   eta\nx1 0.570 0.000\nx2 0.602 0.000\ny1 0.000 0.372\ny2 0.000 0.799\n\n$theta\n      x1    x2    y1    y2\nx1 0.676                  \nx2 0.000 0.637            \ny1 0.000 0.000 0.862      \ny2 0.000 0.000 0.000 0.362\n\n\n\n\n$psi\n       xi   eta\nxi  1.000      \neta 0.000 0.937\n\n$beta\n       xi eta\nxi  0.000   0\neta 0.252   0"
+    "text": "lavaan matrices\n\ninspect(fit, \"std\") # OR \"est\"\n\n\n\n$lambda\n      xi   eta\nx1 0.493 0.000\nx2 0.589 0.000\ny1 0.000 0.435\ny2 0.000 0.656\n\n$theta\n      x1    x2    y1    y2\nx1 0.757                  \nx2 0.000 0.653            \ny1 0.000 0.000 0.811      \ny2 0.000 0.000 0.000 0.569\n\n\n\n\n$psi\n       xi   eta\nxi  1.000      \neta 0.000 0.954\n\n$beta\n       xi eta\nxi  0.000   0\neta 0.215   0"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sem-identification",
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#sem-identification",
     "title": "Structural Equation Models",
     "section": "SEM identification",
-    "text": "SEM identification\nOnce again, remember that identification is a topic relevant to all structural equation models.\nIf an unknown parameter in \\(\\theta\\) can be written as a function of one or more elements of \\(\\Sigma\\), that parameter is identified.\nIf all unknown parameters in \\(\\theta\\) are identified, the model is identified. - the t-rule (again) - the Two-Steps rule"
+    "text": "SEM identification\nOnce again, remember that identification is a topic relevant to all structural equation models.\nIf an unknown parameter in \\(\\theta\\) can be written as a function of one or more elements of \\(\\Sigma\\), that parameter is identified.\nIf all unknown parameters in \\(\\theta\\) are identified, the model is identified.\n\nthe t-rule (again)\nthe Two-Steps rule"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#two-steps-rule",
@@ -4771,7 +4771,7 @@
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#why-sum-scores-can-mislead-measurement-error-attenuation",
     "title": "Structural Equation Models",
     "section": "Why sum scores can mislead (measurement error → attenuation)",
-    "text": "Why sum scores can mislead (measurement error → attenuation)\nIf an observed score (X) is a noisy measure of a latent (X^*), measurement error tends to attenuate associations.\nA classic intuition (simple linear setting):\n\\[\n\\hat\\beta_{\\text{observed}} \\approx \\hat\\beta_{\\text{latent}} \\times \\rho_{xx}\n\\]\nwhere (_{xx}) is reliability of (X).\n\n\n\nThis is exactly why latent-variable SEM can change “structural” conclusions even when factor scores correlate highly with sum scores."
+    "text": "Why sum scores can mislead (measurement error → attenuation)\nIf an observed score \\((X)\\) is a noisy measure of a latent variable, measurement error tends to attenuate associations.\nA classic intuition (simple linear setting):\n\\[\n\\hat\\beta_{\\text{observed}} \\approx \\hat\\beta_{\\text{latent}} \\times \\rho_{xx}\n\\]\nwhere \\((\\rho_{xx})\\) is reliability of \\((X)\\).\n\n\n\nThis is exactly why latent-variable SEM can change “structural” conclusions even when factor scores correlate highly with sum scores."
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores",
@@ -4785,7 +4785,7 @@
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#sum-scores-vs-latent-scores",
     "title": "Structural Equation Models",
     "section": "Sum scores VS latent scores",
-    "text": "Sum scores VS latent scores\nHowever, the debate is still open:\n\nThinking twice about sum scores\n\nThinking thrice about sum scores, and then some more about measurement and analysis\n\nPsychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle\n\nOr some more Schimmack:\n\nSchimmack vs Gelman 1\nSchimmack vs Gelman 2"
+    "text": "Sum scores VS latent scores\n\nHowever, the debate is still open:\n\nThinking twice about sum scores (McNeish & Wolf, 2020)\nThinking thrice about sum scores, and then some more about measurement and analysis (Widaman & Revelle, 2022)\nPsychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle (McNeish, 2023)\nThinking About Sum Scores Yet Again, Maybe the Last Time, We Don’t Know, Oh No (Widaman & Revelle, 2024)\nOr some more Schimmack:\n\nSchimmack vs Gelman 1 (https://replicationindex.com/2023/11/17/loken-and-gelman-are-still-wrong/)\nSchimmack vs Gelman 2 (https://replicationindex.com/2023/11/25/loken-and-gelmans-simulation-is-not-a-fair-comparison/)"
   },
   {
     "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#the-ground-truth",
@@ -4820,7 +4820,7 @@
     "href": "slides/05_sem_measurement-plus-structure_capstone.html#references",
     "title": "Structural Equation Models",
     "section": "References",
-    "text": "References"
+    "text": "References\n\n\n\n\nMcNeish, D. (2023). Psychometric properties of sum scores and factor scores differ even when their correlation is 0.98: A response to Widaman and Revelle. Behavior Research Methods, 55(8), 4269–4290. https://doi.org/10.3758/s13428-022-02016-x\n\n\nMcNeish, D., & Wolf, M. G. (2020). Thinking twice about sum scores. Behavior Research Methods, 52(6), 2287–2305. https://doi.org/10.3758/s13428-020-01398-0\n\n\nWidaman, K. F., & Revelle, W. (2022). Thinking thrice about sum scores, and then some more about measurement and analysis. Behavior Research Methods. https://doi.org/10.3758/s13428-022-01849-w\n\n\nWidaman, K. F., & Revelle, W. (2024). Thinking About Sum Scores Yet Again, Maybe the Last Time, We Don’t Know, Oh No . . .1: A Comment on McNeish (2023). Educational and Psychological Measurement, 84(4), 637–659. https://doi.org/10.1177/00131644231205310"
   },
   {
     "objectID": "slides/01_sem-foundations_workflow_lavaan.html#model-evaluation",
@@ -5128,14 +5128,14 @@
     "href": "slides/06_missing-data_robustness_reporting.html#learning-objectives",
     "title": "Lesson 6 — When SEM Goes Wrong",
     "section": "Learning objectives",
-    "text": "Learning objectives\nBy the end of today you can:\n\nDistinguish MCAR / MAR / MNAR and what FIML assumes\nExplain what MLR corrects (robust SE + scaled test statistic)\nDecide when bootstrap CIs are needed (and when they’re overkill)\nCombine global + local diagnostics without fishing\nWrite a defensible reporting paragraph"
+    "text": "Learning objectives\nBy the end of today you can:\n\nDistinguish MCAR / MAR / MNAR and what FIML assumes\nExplain what MLR corrects (robust SE + scaled test statistic)\nDecide when bootstrap CIs are needed\nCombine global + local diagnostics without fishing\nWrite a defensible reporting paragraph"
   },
   {
     "objectID": "slides/06_missing-data_robustness_reporting.html#plan-for-today",
     "href": "slides/06_missing-data_robustness_reporting.html#plan-for-today",
     "title": "Lesson 6 — When SEM Goes Wrong",
     "section": "Plan for today",
-    "text": "Plan for today\n\nSimulate a “realistic messy” dataset (skewness + MAR missingness)\n\nFit the same SEM under different choices\n\nCompare conclusions (parameters, SE, CIs, fit, local misfit)\n\nTurn results into reporting decisions\n\n\nAdd figure: one pipeline diagram showing “Same model → different estimation choices → compare conclusions”."
+    "text": "Plan for today\n\nSimulate a “realistic messy” dataset (skewness + MAR missingness)\n\nFit the same SEM under different choices\n\nCompare conclusions (parameters, SE, CIs, fit, local misfit)\n\nTurn results into reporting decisions"
   },
   {
     "objectID": "slides/06_missing-data_robustness_reporting.html#why-simulate",
@@ -8047,7 +8047,7 @@
     "href": "index.html#approximate-timetable-54h-split-into-two-2-hour-blocks",
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "Approximate timetable (5×4h, split into two 2-hour blocks)",
-    "text": "Approximate timetable (5×4h, split into two 2-hour blocks)\n\n\n\nDay\nBlock A (2h)\nBlock B (2h)\nCore lab\n\n\n\n\n1\n00 Course map + 01 Foundations\n02 Path analysis\nLab 01 + Lab 02\n\n\n2\n03 Fit & diagnostics\n04 CFA\nLab 03 + Lab 04\n\n\n3\n05 SEM capstone\n06 Missing/robust/reporting\nLab 05 + Lab 06\n\n\n4\n07 Invariance (MG-CFA)\n08 Ordinal SEM\nLab 07 + Lab 08\n\n\n5\n09 Longitudinal on-ramp\n10 Multilevel/clustered\nLab 09 + Lab 10"
+    "text": "Approximate timetable (5×4h, split into two 2-hour blocks)\n\n\n\nDay\nBlock A (2h)\nBlock B (2h)\nCore lab\n\n\n\n\n1\n00 Course map + 01 Foundations\n02 Path analysis\nLab 01 + Lab 02\n\n\n2\n03 Fit & diagnostics\n04 CFA\nLab 03 + Lab 04\n\n\n3\n05 SEM\n06 Missing/robust/reporting\nLab 05 + Lab 06\n\n\n4\n07 Invariance (MG-CFA)\n08 Ordinal SEM\nLab 07 + Lab 08\n\n\n5\n09 Longitudinal on-ramp\n10 Multilevel/clustered\nLab 09 + Lab 10"
   },
   {
     "objectID": "slides/00_introduction.html#what-you-need",
@@ -8412,5 +8412,243 @@
     "title": "PCA, EFA, and CFA",
     "section": "Final message",
     "text": "Final message\nDo not ask:\n\nWhich method is best?\n\nAsk instead:\n\nWhich method answers my question at this stage of the research process?"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#exercises-lab-05",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#exercises-lab-05",
+    "title": "Structural Equation Models",
+    "section": "Exercises (Lab 05)",
+    "text": "Exercises (Lab 05)\nGo to:\n\nlabs/labs/lab05_sem_capstone_eat.qmd link\n\nYou will practice:\n\nApply the Two-Step rule (identify/fit measurement first, then structure)\nEvaluate the model using fit indices + diagnostics (global + local)\nUse MI + EPC/SEPC to propose a theory-justified modification\nCompare a latent SEM vs a sum-score path model"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#indicator-indifference-a-measurement-question-with-structural-consequences",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#indicator-indifference-a-measurement-question-with-structural-consequences",
+    "title": "Structural Equation Models",
+    "section": "Indicator indifference: a measurement question with structural consequences",
+    "text": "Indicator indifference: a measurement question with structural consequences\n\nHow much should our conclusions depend on the specific items we happened to include?\nHow many indicators are enough to recover a latent relation with reasonable precision?\nIs it better to have more indicators, or fewer but stronger and more central indicators?\nWhat happens when indicators differ in loading strength, construct centrality, or contamination?\nIf the structural path changes a lot when we swap reasonable indicators, are we estimating a robust latent relation — or an item-bound result?\n\nSee the extra module"
+  },
+  {
+    "objectID": "slides/05_sem_measurement-plus-structure_capstone.html#acknowledgments",
+    "href": "slides/05_sem_measurement-plus-structure_capstone.html#acknowledgments",
+    "title": "Structural Equation Models",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#why-this-extra",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#why-this-extra",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Why this extra?",
+    "text": "Why this extra?\n\nThe core SEM assumptions:\n\nlatent paths are only as meaningful as the measurement model behind them\nfit does not guarantee construct validity\nstructural interpretation should follow a defensible measurement model\n\nThis extra slows down on one deeper question:\n\nIf reflective indicators are meant to be manifestations of a construct, how much should the exact indicator set matter?\n\nHere\n\nwhat indicator indifference means\nwhy it is a strong idea in psychology\nwhy it matters for structural relations\nan intelligence example\nsimulations on number of indicators and loading quality"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#workflow-map",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#workflow-map",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Workflow map",
+    "text": "Workflow map\n\n\nSpecify\n\nIdentify\n\nEstimate\n\nEvaluate\n\nRevise / Interpret\n\nFocus of this extra\nWe are mostly in the Specify → Evaluate → Interpret part of the SEM workflow:\n\nWhat does a reflective factor model imply about the relation between a construct and its indicators?\nWhen do structural results look robust across reasonable indicator choices?\nWhen do they look item-bound?"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#learning-objectives",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#learning-objectives",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of this extra, you should be able to:\n\nexplain the basic idea of indicator indifference under a reflective model\ndistinguish indicator indifference from measurement precision\nexplain why finite indicator choice can affect the stability of latent relations\ninterpret a simple simulation showing how number of indicators and loading size affect structural recovery\narticulate why some indicators may be more central, more contaminated, or more auxiliary than others"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#the-core-idea",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#the-core-idea",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "The core idea",
+    "text": "The core idea\nReflective assumption\nIn a reflective measurement model:\n\nthe latent variable is conceptually prior to the indicators\nitem responses are treated as effects or manifestations of the latent variable\nthe construct is not identical to any one observed item\n\nThis is what makes latent-variable SEM more than a weighted sum-score exercise. It makes SEM theory-builder!"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#indicator-indifference-the-strong-reading",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#indicator-indifference-the-strong-reading",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Indicator indifference: the strong reading",
+    "text": "Indicator indifference: the strong reading\nStrong interpretation\nA strong reflective reading suggests:\n\nIf indicators are valid manifestations of the same latent variable, then the precise indicator set should not be the essence of the construct.\n\nSo, in principle different good indicators of the same construct\n\nshould support similar inferences about the latent variable\nand should not radically change the substantive structural story"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#but-psychology-rarely-gives-us-strict-indifference",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#but-psychology-rarely-gives-us-strict-indifference",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "But psychology rarely gives us strict indifference",
+    "text": "But psychology rarely gives us strict indifference\n\nIn applied psychology, indicators often differ in:\n\nfacet coverage\nwording and method variance\ntask demands\ncontextual contamination\ncloseness to the construct of interest\n\nSo the practical question is usually not:\n\n“Are indicators literally interchangeable?”\n\nIt is more often:\n\n“How much do my conclusions depend on this particular sample of indicators?”\n\n\n\n\n\n\n\nNote\n\n\nIn many areas, the facets included are directly used to define/label the upper-level constructs. When starting with an EFA this is necessary, but poses many limits…"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#important-distinction",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#important-distinction",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Important distinction",
+    "text": "Important distinction\nTwo nearby ideas\n\nIndicator indifference\n\nconcerns whether the construct is conceptually tied to a particular indicator set\n\nMeasurement precision / indicator sampling\n\nconcerns how well a finite set of indicators helps us recover the latent variable and its relations\n\n\nThese are related, but they are not identical."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#why-this-matters-for-sem",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#why-this-matters-for-sem",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Why this matters for SEM",
+    "text": "Why this matters for SEM\nStructural relations are latent-level claims\nIn SEM, the substantive claim is usually about a relation such as:\n\\[\n\\eta_2 = \\beta \\eta_1 + \\zeta\n\\]\nThe claim is not primarily about one exact questionnaire form, but about a construct.\nBut in practice we only observe a finite, imperfect sample of indicators.\nSo structural estimates can depend on:\n\nhow many indicators we have\nhow strongly they load\nwhether one is weak or contaminated\nwhether the indicator set covers the construct well"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#better-wording-than-good-latent-score",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#better-wording-than-good-latent-score",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Better wording than “good latent score”",
+    "text": "Better wording than “good latent score”\nSEM-friendly phrasing\nInstead of asking:\n\n“How many items do I need for a satisfying latent score?”\n\nask:\n\n“How many and which indicators are needed to define the latent variable well enough that structural relations are estimated precisely and interpreted confidently?”\n\nThis is closer to how latent SEM actually works."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#what-would-a-robust-result-look-like",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#what-would-a-robust-result-look-like",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "What would a robust result look like?",
+    "text": "What would a robust result look like?\n\nA practical criterion\nIf a reflective model is defensible, then:\n\nswapping one reasonable indicator subset for another\nor adding a few more good indicators\n\nshould not wildly change the latent regression or latent correlation.\nIf conclusions shift a lot, possibilities include:\n\nweak measurement\ntoo few indicators\nmultidimensionality\nlocal dependence\ncross-loadings\nan underdefined construct"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#intelligence-as-a-classroom-example",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#intelligence-as-a-classroom-example",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Intelligence as a classroom example",
+    "text": "Intelligence as a classroom example\nWhy intelligence is useful here\nIntelligence research is a good illustration because:\n\nmany batteries aim to measure a broader construct such as general cognitive ability\nbut they include different mixtures of more central and more auxiliary tasks\nand not all indicators look equally “close” to what people often mean by general reasoning\n\nThis makes it a useful teaching case for indicator centrality vs indicator contamination."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#intelligence-example-central-vs-auxiliary-indicators",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#intelligence-example-central-vs-auxiliary-indicators",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Intelligence example: central vs auxiliary indicators",
+    "text": "Intelligence example: central vs auxiliary indicators\n\n\n\nOften treated as more central to reasoning\n\nMatrix Reasoning\nanalogical / relational reasoning tasks\nproblem solving\ntasks with strong fluid-reasoning content\n\n\nOften more auxiliary or more contaminated\n\nProcessing speed tasks\ntasks with strong motor demands\nhighly timed symbol substitution tasks\ntasks where peripheral demands may contribute more strongly\n\n\n\nThe point\nThis does not mean processing speed is useless.\nIt means:\n\ndifferent indicators may not be equally pure manifestations of the same construct\nbatteries can still target “IQ” while mixing indicators with different degrees of centrality"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#caution-on-overclaiming",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#caution-on-overclaiming",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Caution on overclaiming",
+    "text": "Caution on overclaiming\nDo not teach this as “some items are objectively better”\nA better claim is:\n\nsome indicators may be more central to the target construct\nsome may be more vulnerable to auxiliary processes\nsome may broaden the construct rather than purify it\n\nSo this is partly a substantive theory question, not only a psychometric one."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-plan",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-plan",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation plan",
+    "text": "Simulation plan\nWhat we want to show\nWe simulate a simple SEM with a true latent relation:\n\\[\n\\eta_2 = 0.50 \\eta_1 + \\zeta\n\\]\nThen we vary:\n\nthe number of indicators per factor\nthe average loading strength\none problematic indicator\n\nAnd we examine:\n\nbias in the estimated path\nstandard errors / confidence intervals\nstability across different indicator sets"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-number-of-indicators",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-number-of-indicators",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation 1: number of indicators",
+    "text": "Simulation 1: number of indicators\nDesign\n\ntwo latent variables: eta1 and eta2\ntrue path: beta = 0.50\nequal loadings within a condition\nsample size fixed, e.g. N = 400\nnumber of indicators per factor: 2, 4, 8\n\nExpectation:\n\nwith more good indicators, the structural estimate should usually become more precise\nbut “more” only helps if indicators are genuinely informative"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-one-data-generating-model",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-one-data-generating-model",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation code: one data-generating model",
+    "text": "Simulation code: one data-generating model\n\nmake_pop_model &lt;- function(p = 4, lambda = 0.70, beta = 0.50) {\n\n  x_names &lt;- paste0(\"x\", seq_len(p))\n  y_names &lt;- paste0(\"y\", seq_len(p))\n\n  x_load &lt;- paste0(lambda, \"*\", x_names, collapse = \" + \")\n  y_load &lt;- paste0(lambda, \"*\", y_names, collapse = \" + \")\n\n  resid_eta2 &lt;- round(1 - beta^2, 3)\n\n  paste(\n    \"eta1 =~\", x_load,\n    \"\\neta2 =~\", y_load,\n    \"\\neta2 ~\", beta, \"*eta1\",\n    \"\\neta1 ~~ 1*eta1\",\n    \"\\neta2 ~~\", resid_eta2, \"*eta2\"\n  )\n}\n\nmake_fit_model &lt;- function(p = 4) {\n  x_names &lt;- paste0(\"x\", seq_len(p))\n  y_names &lt;- paste0(\"y\", seq_len(p))\n\n  paste(\n    \"eta1 =~\", paste(x_names, collapse = \" + \"),\n    \"\\neta2 =~\", paste(y_names, collapse = \" + \"),\n    \"\\neta2 ~ eta1\"\n  )\n}"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-one-replication",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-one-replication",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation code: one replication",
+    "text": "Simulation code: one replication\n\nsim_once &lt;- function(n = 400, p = 4, lambda = 0.70, beta = 0.50) {\n\n  pop_model &lt;- make_pop_model(p = p, lambda = lambda, beta = beta)\n  fit_model &lt;- make_fit_model(p = p)\n\n  dat &lt;- simulateData(pop_model, sample.nobs = n)\n  fit &lt;- sem(fit_model, data = dat)\n\n  pe &lt;- parameterEstimates(fit)\n\n  out &lt;- pe |&gt;\n    filter(lhs == \"eta2\", op == \"~\", rhs == \"eta1\") |&gt;\n    transmute(\n      est = est,\n      se = se,\n      ci_low = ci.lower,\n      ci_high = ci.upper\n    )\n\n  tibble(\n    n = n,\n    p = p,\n    lambda = lambda,\n    beta_true = beta,\n    converged = lavInspect(fit, \"converged\"),\n    est = out$est,\n    se = out$se,\n    ci_low = out$ci_low,\n    ci_high = out$ci_high\n  )\n}"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-many-replications",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-many-replications",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation code: many replications",
+    "text": "Simulation code: many replications\n\n\nrun_condition &lt;- function(reps = 200, n = 400, p = 4, lambda = 0.70, beta = 0.50) {\n  map_dfr(seq_len(reps), ~sim_once(n = n, p = p, lambda = lambda, beta = beta))\n}\n\nsim_n_indicators &lt;- bind_rows(\n  run_condition(reps = 1000, n = 400, p = 2, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 8, lambda = 0.70, beta = 0.50)\n)\n\n\n\n\n\n\n\n\np\nmean_est\nsd_est\nmean_se\ncoverage\n\n\n\n\n2\n0.5077023\n0.1565695\n0.1548884\n0.925\n\n\n4\n0.4979402\n0.0940654\n0.0954821\n0.940\n\n\n8\n0.5007732\n0.0773124\n0.0799038\n0.950\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmean estimate: is it centered around the true path? (yes, all)\nsampling variability: how much does the estimate move across replications? (less with more)\naverage SE / CI width: how precisely is the path estimated? (better with more) :::"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-expected-interpretation",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-expected-interpretation",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation 1: expected interpretation",
+    "text": "Simulation 1: expected interpretation\nWhat to look for\nFocus on three quantities:\n\nmean estimate: is it centered around the true path?\nsampling variability: how much does the estimate move across replications?\naverage SE / CI width: how precisely is the path estimated?\n\nA typical pattern is:\n\nall conditions may recover the path reasonably well\nbut conditions with more good indicators often yield narrower uncertainty\nespecially when loadings are decent"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#optional-plot",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#optional-plot",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Optional plot",
+    "text": "Optional plot\n\nggplot(sim_n_indicators, aes(x = est, fill = factor(p))) +\n  geom_density(alpha = .35) +\n  geom_vline(xintercept = 0.50, linetype = 2) +\n  labs(\n    x = \"Estimated latent path\",\n    y = \"Density\",\n    fill = \"Indicators per factor\",\n    title = \"Recovery of the latent path across indicator conditions\"\n  )"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-2-loading-strength",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-2-loading-strength",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation 2: loading strength",
+    "text": "Simulation 2: loading strength\nDesign\nNow hold the number of indicators constant and vary loading quality:\n\np = 4\nloadings = .40, .60, .80\n\nExpectation:\n\nstronger loadings should generally improve the precision of the latent path estimate\nthe issue is not just how many indicators we have, but how informative they are"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-varying-loading-size",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-varying-loading-size",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Simulation code: varying loading size",
+    "text": "Simulation code: varying loading size\n\nsim_loading &lt;- bind_rows(\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.40, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.60, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.80, beta = 0.50)\n)\n\n\n\n\n\n\n\n\nlambda\nm_est\nsd_est\nm_se\ncoverage\n\n\n\n\n0.4\n0.54\n0.24\n0.22\n0.90\n\n\n0.6\n0.50\n0.12\n0.12\n0.92\n\n\n0.8\n0.50\n0.09\n0.08\n0.94"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#optional-plot-loading-strength",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#optional-plot-loading-strength",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Optional plot: loading strength",
+    "text": "Optional plot: loading strength\n\nsim_loading |&gt;\n  ggplot(aes(x = factor(lambda), y = est)) +\n  geom_boxplot() +\n  geom_hline(yintercept = 0.50, linetype = 2) +\n  labs(\n    x = \"Common loading value\",\n    y = \"Estimated latent path\",\n    title = \"Stronger indicators usually support more precise structural recovery\"\n  )"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#why-more-items-is-not-the-whole-story",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#why-more-items-is-not-the-whole-story",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Why “more items” is not the whole story",
+    "text": "Why “more items” is not the whole story\nQuantity vs quality\nTen indicators are not automatically better than three.\nMore items only help when they are:\n\nrelevant to the construct\nsufficiently strong\nnot dominated by method effects\nnot merely redundant clones\nnot obviously contaminated by different latent causes\n\nSo the practical lesson is:\n\nMore good indicators help.\nMore weak or contaminated indicators may not."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#optional-extension-one-problematic-indicator",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#optional-extension-one-problematic-indicator",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Optional extension: one problematic indicator",
+    "text": "Optional extension: one problematic indicator\nA simple extension\nYou can extend the simulation by making one indicator weaker or contaminated.\nExamples:\n\none item with loading .20\none cross-loading indicator\none pair of locally dependent indicators\n\nQuestion:\n\nDoes the latent path stay stable when one problematic indicator enters the measurement model?\n\nThat is often more interesting than asking only whether the overall fit stays acceptable."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#pitfall-callout",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#pitfall-callout",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Pitfall callout",
+    "text": "Pitfall callout\n\n\n\n\n\n\nPitfall\n\n\nDo not conclude:\n\n“two indicators are always enough”\n“more items always solve the problem”\n“good fit proves indicator indifference”\n“a latent variable is automatically transportable across item sets”\n\nThe bigger lesson is about robustness of interpretation, not just identification or model fit."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#exercises",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#exercises",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Exercises",
+    "text": "Exercises\nSuggested short tasks\n\nRun Simulation 1 with N = 200, 400, and 800.\nHow much does sample size interact with number of indicators?\nRepeat Simulation 2 with unequal loadings, e.g. .80, .80, .50, .30.\nWhat happens to the path estimate and its standard error?\nAdd one weak or cross-loading indicator.\nDoes the latent path change meaningfully?\nTry a sum-score regression using the same generated indicators.\nCompare it with the latent SEM estimate."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#three-things-to-remember",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#three-things-to-remember",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Three things to remember",
+    "text": "Three things to remember\n3 take-home messages\n\nIndicator indifference is a strong reflective idea, not a routine empirical fact in psychology.\nFinite indicator choice still matters because structural recovery depends on indicator quality, quantity, and construct coverage.\nRobust latent relations should not be overly item-bound: if a reasonable indicator swap changes the story, revisit the measurement model before interpreting the path."
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#further-reading",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#further-reading",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "Further reading",
+    "text": "Further reading\nSuggested follow-up\n\nreturn to the CFA measurement deck for the reflective-model assumptions\nrevisit the SEM capstone deck for the two-step mindset\noptional follow-up extra: power / Monte Carlo for SEM"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#references",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#references",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#the-case-of-intelligence-the-g-factor",
+    "href": "extras/ex_indicator-indifference_measurement-robustness.html#the-case-of-intelligence-the-g-factor",
+    "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
+    "section": "The case of ‘Intelligence’ (the g factor)",
+    "text": "The case of ‘Intelligence’ (the g factor)\nIntelligence research is a good illustration because:\n\nmany batteries aim to measure a broader construct such as general cognitive ability\nbut they include different mixtures of more central and more auxiliary tasks\nand not all indicators look equally “close” to what people often mean by general reasoning\n\nThis makes it a useful teaching case for indicator centrality vs indicator contamination."
   }
 ]

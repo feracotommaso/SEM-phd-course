@@ -12,13 +12,15 @@ Extras' slides are optimized for live teaching.
 
 ## Methods & inference
 
+[Indifference of the indicators and implications](../extras/ex_indicator-indifference_measurement-robustness.html)
+
 ... under construction
 <!-- - [ex01 Power: Monte Carlo for SEM](ex01_power_montecarlo_sem.html){target="_blank"} -->
 <!-- - [ex02 Bayesian SEM: quickstart](ex02_bayesian-sem_quickstart.html){target="_blank"} -->
 
 ## Advanced SEM
 
-- [ex03 Latent interactions (modsem)](ex03_latent-interactions_modsem.html){target="_blank"}
+- [Latent interactions (modsem)](ex03_latent-interactions_modsem.html){target="_blank"}
 
 ... under construction
 <!-- - [ex04 SAM in lavaan](ex04_sam_lavaan.html){target="_blank"} -->
@@ -32,7 +34,7 @@ Extras' slides are optimized for live teaching.
 
 ## Measurement extensions
 
-- [ex PCA-EFA-CFA comparison and overview](ex_pca-efa-cfa_overview.html){target="_blank"}
+- [PCA-EFA-CFA comparison and overview](ex_pca-efa-cfa_overview.html){target="_blank"}
 
 ... under construction
 
