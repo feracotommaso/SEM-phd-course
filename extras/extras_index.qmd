@@ -12,7 +12,7 @@ Extras' slides are optimized for live teaching.
 
 ## Methods & inference
 
-[Indifference of the indicators and implications](../extras/ex_indicator-indifference_measurement-robustness.html)
+- [Indifference of the indicators and implications](../extras/ex_indicator-indifference_measurement-robustness.html){target="_blank"}
 
 ... under construction
 <!-- - [ex01 Power: Monte Carlo for SEM](ex01_power_montecarlo_sem.html){target="_blank"} -->

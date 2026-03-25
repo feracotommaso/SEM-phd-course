@@ -312,7 +312,7 @@
     "href": "extras/extras_index.html#methods-inference",
     "title": "Extras",
     "section": "Methods & inference",
-    "text": "Methods & inference\nIndifference of the indicators and implications\n… under construction"
+    "text": "Methods & inference\n\nIndifference of the indicators and implications\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#advanced-sem",
@@ -8516,7 +8516,7 @@
     "href": "extras/ex_indicator-indifference_measurement-robustness.html#intelligence-example-central-vs-auxiliary-indicators",
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "Intelligence example: central vs auxiliary indicators",
-    "text": "Intelligence example: central vs auxiliary indicators\n\n\n\nOften treated as more central to reasoning\n\nMatrix Reasoning\nanalogical / relational reasoning tasks\nproblem solving\ntasks with strong fluid-reasoning content\n\n\nOften more auxiliary or more contaminated\n\nProcessing speed tasks\ntasks with strong motor demands\nhighly timed symbol substitution tasks\ntasks where peripheral demands may contribute more strongly\n\n\n\nThe point\nThis does not mean processing speed is useless.\nIt means:\n\ndifferent indicators may not be equally pure manifestations of the same construct\nbatteries can still target “IQ” while mixing indicators with different degrees of centrality"
+    "text": "Intelligence example: central vs auxiliary indicators\n\n\n\nOften treated as more central to reasoning\n\nMatrix Reasoning\nanalogical / relational reasoning tasks\nproblem solving\ntasks with strong fluid-reasoning content\n\n\nOften more auxiliary or more contaminated\n\nProcessing speed tasks\ntasks with strong motor demands\nhighly timed symbol substitution tasks\ntasks where peripheral demands may contribute more strongly\n\n\nThe point\nThis does not mean processing speed is useless.\nIt means:\n\ndifferent indicators may not be equally pure manifestations of the same construct\nbatteries can still target “IQ” while mixing indicators with different degrees of centrality"
   },
   {
     "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#caution-on-overclaiming",
@@ -8530,7 +8530,7 @@
     "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-plan",
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "Simulation plan",
-    "text": "Simulation plan\nWhat we want to show\nWe simulate a simple SEM with a true latent relation:\n\\[\n\\eta_2 = 0.50 \\eta_1 + \\zeta\n\\]\nThen we vary:\n\nthe number of indicators per factor\nthe average loading strength\none problematic indicator\n\nAnd we examine:\n\nbias in the estimated path\nstandard errors / confidence intervals\nstability across different indicator sets"
+    "text": "Simulation plan\nWe simulate a simple SEM with a true latent relation:\n\\[\n\\eta_2 = 0.50 \\eta_1 + \\zeta\n\\]\nThen we vary:\n\nthe number of indicators per factor\nthe average loading strength\none problematic indicator\n\nAnd we examine:\n\nbias in the estimated path\nstandard errors / confidence intervals\nstability across different indicator sets"
   },
   {
     "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-number-of-indicators",
@@ -8558,7 +8558,7 @@
     "href": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-code-many-replications",
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "Simulation code: many replications",
-    "text": "Simulation code: many replications\n\n\nrun_condition &lt;- function(reps = 200, n = 400, p = 4, lambda = 0.70, beta = 0.50) {\n  map_dfr(seq_len(reps), ~sim_once(n = n, p = p, lambda = lambda, beta = beta))\n}\n\nsim_n_indicators &lt;- bind_rows(\n  run_condition(reps = 1000, n = 400, p = 2, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 8, lambda = 0.70, beta = 0.50)\n)\n\n\n\n\n\n\n\n\np\nmean_est\nsd_est\nmean_se\ncoverage\n\n\n\n\n2\n0.5077023\n0.1565695\n0.1548884\n0.925\n\n\n4\n0.4979402\n0.0940654\n0.0954821\n0.940\n\n\n8\n0.5007732\n0.0773124\n0.0799038\n0.950\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmean estimate: is it centered around the true path? (yes, all)\nsampling variability: how much does the estimate move across replications? (less with more)\naverage SE / CI width: how precisely is the path estimated? (better with more) :::"
+    "text": "Simulation code: many replications\n\n\nrun_condition &lt;- function(reps = 200, n = 400, p = 4, lambda = 0.70, beta = 0.50) {\n  map_dfr(seq_len(reps), ~sim_once(n = n, p = p, lambda = lambda, beta = beta))\n}\n\nsim_n_indicators &lt;- bind_rows(\n  run_condition(reps = 1000, n = 400, p = 2, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 4, lambda = 0.70, beta = 0.50),\n  run_condition(reps = 1000, n = 400, p = 8, lambda = 0.70, beta = 0.50)\n)\n\n\n\n\n\n\n\n\np\nmean_est\nsd_est\nmean_se\ncoverage\n\n\n\n\n2\n0.5077023\n0.1565695\n0.1548884\n0.925\n\n\n4\n0.4979402\n0.0940654\n0.0954821\n0.940\n\n\n8\n0.5007732\n0.0773124\n0.0799038\n0.950\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmean estimate: is it centered around the true path? (yes, all)\nsampling variability: how much does the estimate move across replications? (less with more)\naverage SE / CI width: how precisely is the path estimated? (better with more)"
   },
   {
     "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#simulation-1-expected-interpretation",
@@ -8600,14 +8600,14 @@
     "href": "extras/ex_indicator-indifference_measurement-robustness.html#why-more-items-is-not-the-whole-story",
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "Why “more items” is not the whole story",
-    "text": "Why “more items” is not the whole story\nQuantity vs quality\nTen indicators are not automatically better than three.\nMore items only help when they are:\n\nrelevant to the construct\nsufficiently strong\nnot dominated by method effects\nnot merely redundant clones\nnot obviously contaminated by different latent causes\n\nSo the practical lesson is:\n\nMore good indicators help.\nMore weak or contaminated indicators may not."
+    "text": "Why “more items” is not the whole story\n\nQuantity vs quality\nTen indicators are not automatically better than three.\nMore items only help when they are:\n\nrelevant to the construct\nsufficiently strong\nnot dominated by method effects\nnot merely redundant clones\nnot obviously contaminated by different latent causes\n\nSo the practical lesson is:\n\nMore good indicators help.\nMore weak or contaminated indicators may not."
   },
   {
     "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#optional-extension-one-problematic-indicator",
     "href": "extras/ex_indicator-indifference_measurement-robustness.html#optional-extension-one-problematic-indicator",
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "Optional extension: one problematic indicator",
-    "text": "Optional extension: one problematic indicator\nA simple extension\nYou can extend the simulation by making one indicator weaker or contaminated.\nExamples:\n\none item with loading .20\none cross-loading indicator\none pair of locally dependent indicators\n\nQuestion:\n\nDoes the latent path stay stable when one problematic indicator enters the measurement model?\n\nThat is often more interesting than asking only whether the overall fit stays acceptable."
+    "text": "Optional extension: one problematic indicator\n\nA simple extension\nYou can extend the simulation by making one indicator weaker or contaminated.\nExamples:\n\none item with loading .20\none cross-loading indicator\none pair of locally dependent indicators\n\nQuestion:\n\nDoes the latent path stay stable when one problematic indicator enters the measurement model?\n\nThat is often more interesting than asking only whether the overall fit stays acceptable."
   },
   {
     "objectID": "extras/ex_indicator-indifference_measurement-robustness.html#pitfall-callout",

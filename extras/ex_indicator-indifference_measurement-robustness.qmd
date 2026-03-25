@@ -1,7 +1,7 @@
 ---
 title: "Indicator Indifference, Indicator Sampling, and Structural Robustness"
 subtitle: "Why reflective indicators are not the construct — and why indicator choice still matters"
-author: "SEM PhD Course"
+author: "Tommaso Feraco"
 bibliography: ../refs/references.bib
 csl: ../refs/apa7.csl
 format:
@@ -218,8 +218,6 @@ This makes it a useful teaching case for **indicator centrality vs indicator con
 :::
 :::
 
-</div>
-
 ### The point
 
 This does **not** mean processing speed is useless.
@@ -229,12 +227,11 @@ It means:
 - different indicators may not be equally pure manifestations of the same construct
 - batteries can still target "IQ" while mixing indicators with different degrees of centrality
 
+</div>
 
 # Simulation section
 
 ## Simulation plan
-
-### What we want to show
 
 We simulate a simple SEM with a true latent relation:
 
@@ -341,7 +338,7 @@ sim_once <- function(n = 400, p = 4, lambda = 0.70, beta = 0.50) {
 
 ## Simulation code: many replications
 
-<div style="font-size:0.8em; line-height:1.15;">
+<div style="font-size:0.75em; line-height:1.15;">
 
 ```{r}
 run_condition <- function(reps = 200, n = 400, p = 4, lambda = 0.70, beta = 0.50) {
@@ -389,12 +386,10 @@ ggplot(sim_n_indicators, aes(x = est, fill = factor(p))) +
 :::
 :::
 
-
 > 
 - **mean estimate**: is it centered around the true path? (yes, all)
 - **sampling variability**: how much does the estimate move across replications? (less with more)
 - **average SE / CI width**: how precisely is the path estimated? (better with more)
-:::
 
 </div>
 
@@ -459,7 +454,9 @@ ggplot(sim_loading, aes(x = est, fill = factor(lambda))) +
 
 ## Why "more items" is not the whole story
 
-### Quantity vs quality
+<div style="font-size:0.8em; line-height:1.15;">
+
+**Quantity vs quality**
 
 Ten indicators are not automatically better than three.
 
@@ -476,9 +473,13 @@ So the practical lesson is:
 > **More good indicators** help.  
 > **More weak or contaminated indicators** may not.
 
+</div>
+
 ## Optional extension: one problematic indicator
 
-### A simple extension
+<div style="font-size:0.8em; line-height:1.15;">
+
+**A simple extension**
 
 You can extend the simulation by making one indicator weaker or contaminated.
 
@@ -493,6 +494,8 @@ Question:
 > Does the latent path stay stable when one problematic indicator enters the measurement model?
 
 That is often more interesting than asking only whether the overall fit stays acceptable.
+
+</div>
 
 ## Pitfall callout
 

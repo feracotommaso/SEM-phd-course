@@ -9,7 +9,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.32">
 
-  <meta name="author" content="SEM PhD Course">
+  <meta name="author" content="Tommaso Feraco">
   <title>SEM-PhD – Indicator Indifference, Indicator Sampling, and Structural Robustness</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -205,7 +205,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-SEM PhD Course 
+Tommaso Feraco 
 </div>
 </div>
 </div>
@@ -400,7 +400,6 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 <li>tasks where peripheral demands may contribute more strongly</li>
 </ul>
 </div></div>
-</div>
 <h3 id="the-point">The point</h3>
 <p>This does <strong>not</strong> mean processing speed is useless.</p>
 <p>It means:</p>
@@ -408,6 +407,7 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 <li>different indicators may not be equally pure manifestations of the same construct</li>
 <li>batteries can still target “IQ” while mixing indicators with different degrees of centrality</li>
 </ul>
+</div>
 </section>
 <section>
 <section id="simulation-section" class="title-slide slide level1 center">
@@ -416,7 +416,6 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 </section>
 <section id="simulation-plan" class="slide level2">
 <h2>Simulation plan</h2>
-<h3 id="what-we-want-to-show">What we want to show</h3>
 <p>We simulate a simple SEM with a true latent relation:</p>
 <p><span class="math display">\[
 \eta_2 = 0.50 \eta_1 + \zeta
@@ -522,7 +521,7 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 </section>
 <section id="simulation-code-many-replications" class="slide level2">
 <h2>Simulation code: many replications</h2>
-<div style="font-size:0.8em; line-height:1.15;">
+<div style="font-size:0.75em; line-height:1.15;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>run_condition <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">reps =</span> <span class="dv">200</span>, <span class="at">n =</span> <span class="dv">400</span>, <span class="at">p =</span> <span class="dv">4</span>, <span class="at">lambda =</span> <span class="fl">0.70</span>, <span class="at">beta =</span> <span class="fl">0.50</span>) {</span>
 <span id="cb3-2"><a></a>  <span class="fu">map_dfr</span>(<span class="fu">seq_len</span>(reps), <span class="sc">~</span><span class="fu">sim_once</span>(<span class="at">n =</span> n, <span class="at">p =</span> p, <span class="at">lambda =</span> lambda, <span class="at">beta =</span> beta))</span>
@@ -590,7 +589,7 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 <ul>
 <li><strong>mean estimate</strong>: is it centered around the true path? (yes, all)</li>
 <li><strong>sampling variability</strong>: how much does the estimate move across replications? (less with more)</li>
-<li><strong>average SE / CI width</strong>: how precisely is the path estimated? (better with more) :::</li>
+<li><strong>average SE / CI width</strong>: how precisely is the path estimated? (better with more)</li>
 </ul>
 
 </blockquote>
@@ -673,7 +672,8 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 </section>
 <section id="why-more-items-is-not-the-whole-story" class="slide level2">
 <h2>Why “more items” is not the whole story</h2>
-<h3 id="quantity-vs-quality">Quantity vs quality</h3>
+<div style="font-size:0.8em; line-height:1.15;">
+<p><strong>Quantity vs quality</strong></p>
 <p>Ten indicators are not automatically better than three.</p>
 <p>More items only help when they are:</p>
 <ul>
@@ -688,10 +688,12 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 <p><strong>More good indicators</strong> help.<br>
 <strong>More weak or contaminated indicators</strong> may not.</p>
 </blockquote>
+</div>
 </section>
 <section id="optional-extension-one-problematic-indicator" class="slide level2">
 <h2>Optional extension: one problematic indicator</h2>
-<h3 id="a-simple-extension">A simple extension</h3>
+<div style="font-size:0.8em; line-height:1.15;">
+<p><strong>A simple extension</strong></p>
 <p>You can extend the simulation by making one indicator weaker or contaminated.</p>
 <p>Examples:</p>
 <ul>
@@ -704,6 +706,7 @@ concerns how well a finite set of indicators helps us recover the latent variabl
 <p>Does the latent path stay stable when one problematic indicator enters the measurement model?</p>
 </blockquote>
 <p>That is often more interesting than asking only whether the overall fit stays acceptable.</p>
+</div>
 </section>
 <section id="pitfall-callout" class="slide level2">
 <h2>Pitfall callout</h2>
