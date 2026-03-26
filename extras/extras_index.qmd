@@ -13,6 +13,7 @@ Extras' slides are optimized for live teaching.
 ## Methods & inference
 
 - [Indifference of the indicators and implications](../extras/ex_indicator-indifference_measurement-robustness.html){target="_blank"}
+- [Specific factors: Distinctiveness, interpretability, and predictive validity](ex_specific-factors_validity_incremental-predictive-validity){target="_blank"}
 
 ... under construction
 <!-- - [ex01 Power: Monte Carlo for SEM](ex01_power_montecarlo_sem.html){target="_blank"} -->

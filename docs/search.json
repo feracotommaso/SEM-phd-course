@@ -312,7 +312,7 @@
     "href": "extras/extras_index.html#methods-inference",
     "title": "Extras",
     "section": "Methods & inference",
-    "text": "Methods & inference\n\nIndifference of the indicators and implications\n\n… under construction"
+    "text": "Methods & inference\n\nIndifference of the indicators and implications\nSpecific factors: Distinctiveness, interpretability, and predictive validity\n\n… under construction"
   },
   {
     "objectID": "extras/extras_index.html#advanced-sem",
@@ -8650,5 +8650,348 @@
     "title": "Indicator Indifference, Indicator Sampling, and Structural Robustness",
     "section": "The case of ‘Intelligence’ (the g factor)",
     "text": "The case of ‘Intelligence’ (the g factor)\nIntelligence research is a good illustration because:\n\nmany batteries aim to measure a broader construct such as general cognitive ability\nbut they include different mixtures of more central and more auxiliary tasks\nand not all indicators look equally “close” to what people often mean by general reasoning\n\nThis makes it a useful teaching case for indicator centrality vs indicator contamination."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#why-this-extra",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#why-this-extra",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Why this extra?",
+    "text": "Why this extra?\n\nMany papers claim a specific factor or subscale is meaningful simply because a multidimensional model fits.\nBut once a broader factor exists, the real question becomes:\n\n\nIs the narrow factor still interpretable and useful after the broad/common variance is modeled?\n\n\nThis deck focuses on that neglected question.\n\n\n\n\n\n\n\nWarning\n\n\nThis deck of slides possibly invalidates many specific findings in the literature. BUT not being able to validate/measure a construct reliably, does not mean your theory is wrong, don’t worry…you just can’t test or study it."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#workflow-map",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#workflow-map",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Workflow map",
+    "text": "Workflow map\n\n\n\nSpecify\n\nIdentify\n\nEstimate\n\nEvaluate\n\nRevise / Report\n\n\nToday\n\nmeasurement-first\nmodel comparison\ncriterion relations\ndisciplined claims about subscales"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#learning-objectives",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#learning-objectives",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end, students should be able to:\n\ndistinguish broad-factor validity from specific-factor validity\nexplain why fit alone does not justify subscale interpretation\ncompare correlated-factor, higher-order, bifactor, and bifactor(S-1) logic\nevaluate whether a specific factor is well-defined, reliable/determinate, and predictively useful\navoid overstated claims from residualized or observed-score analyses"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#the-motivating-problem",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#the-motivating-problem",
+    "title": "Specific factors beyond broad constructs",
+    "section": "The motivating problem",
+    "text": "The motivating problem\nExamples you will see in applied work:\n\nanxiety vs math anxiety\nintelligence vs executive functions\nneuroticism vs depression\ngeneral psychopathology vs specific symptom dimensions\ngeneral vs domain-specific self-efficacy\nmindset vs domain-specific mindset\n\nThese are not just “more factors”.\nThey are claims that a narrow construct remains meaningful (identifiable) once broader variance is present."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-useful-reframe",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-useful-reframe",
+    "title": "Specific factors beyond broad constructs",
+    "section": "A useful reframe",
+    "text": "A useful reframe\n\nInstead of asking:\n\n“Does the subscale exist?”\n\nAsk three separate questions:\n\nStructural distinctiveness\nIs there evidence for separable narrow variance once the broad factor is modeled?\nInterpretability\nIs that narrow factor well-defined enough to discuss substantively?\nCriterion validity\nDoes it predict anything important above the broad factor?\n\n\n\n\n\n\n\n\n\nNote\n\n\nWe’ll see that above the broad factor is not such an easy question to tackle, if you really want to tackle it."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#running-example",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#running-example",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Running example",
+    "text": "Running example\n\nDoes math anxiety predict math performance above general anxiety?\n\nThat single sentence hides several different models and several different validity claims.\nWe need to ask:\n\nIs math anxiety psychometrically separable from general anxiety?\nIs the “specific” part reliable or mostly leftover noise?\nDoes prediction survive latent modeling?\nIs the conclusion robust across plausible models?"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-usually-goes-wrong",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-usually-goes-wrong",
+    "title": "Specific factors beyond broad constructs",
+    "section": "What usually goes wrong",
+    "text": "What usually goes wrong\n\nCommon shortcut\n\nFit a CFA with several related factors\nNote that the model fits “well enough”\nUse subscale scores in regression\nClaim “incremental validity”\n\nThe problem\nThat workflow often confuses:\n\ncorrelated constructs\nresidualized variance\nmeasurement error\npredictive utility\npractical utility"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#fit-truth",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#fit-truth",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Fit != truth",
+    "text": "Fit != truth\nA model can fit well and still fail the question that matters here:\n\nIs the specific factor interpretable and worth using?\n\nFor this topic, always separate:\n\nglobal fit (CFI/TLI/RMSEA/SRMR)\nlocal diagnostics (residuals, strain, improper estimates)\nfactor quality (loadings, determinacy, H, omega-type indices)\ncriterion usefulness (effect sizes, uncertainty, robustness, practical gain)"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#four-common-model-families",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#four-common-model-families",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Four common model families",
+    "text": "Four common model families\n1. Correlated first-order factors\nBroad overlap is represented through factor correlations.\n2. Higher-order model\nA broad factor explains the correlations among first-order factors.\n3. Symmetrical bifactor model\nAll items load on a general factor and on one group factor.\n4. Bifactor(S-1)\nA theoretically chosen reference domain defines the general factor; other domains become specific residual factors."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#conceptual-map",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#conceptual-map",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Conceptual map",
+    "text": "Conceptual map\n\n\n\n\n\n\n\n\n\n\nModel\nBroad variance\nNarrow variance\nTypical attraction\nMain danger\n\n\n\n\nCorrelated factors\nfactor correlations\nfirst-order factors\nsimple, familiar\n“unique” meaning may be overstated\n\n\nHigher-order\nhigher-order factor\nfirst-order residualized on higher-order\nbroad vs domains\nfirst-order meaning changes after higher-order layer\n\n\nBifactor\ngeneral factor on all items\northogonal group factors\ndirect separation of common vs specific\noverinterpretation, instability, identifiability problems\n\n\nBifactor(S-1)\nreference-domain-defined general factor\nresidual domains\noften more interpretable\nrequires strong theory and explicit reference choice"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-would-count-as-evidence-for-a-specific-factor",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-would-count-as-evidence-for-a-specific-factor",
+    "title": "Specific factors beyond broad constructs",
+    "section": "What would count as evidence for a specific factor?",
+    "text": "What would count as evidence for a specific factor?\nA defensible specific factor usually needs all of the following:\n\nplausible theory for why narrow variance should remain after common variance is modeled\na model that also models the general factor in which the specific factor is statistically admissible and meaningfully defined\nadequate factor quality (not just significant loadings)\ncriterion relations that are stable and not artifacts of scoring/measurement error\nreporting that makes clear what the factor means in that parameterization"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#the-key-warning",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#the-key-warning",
+    "title": "Specific factors beyond broad constructs",
+    "section": "The key warning",
+    "text": "The key warning\nA “specific factor” is often residualized variance.\nThat can be scientifically meaningful.\nBut it can also be:\n\nmethod variance\nwording variance\nnuisance variance\ninstability created by a difficult parameterization\na narrow remainder with weak reliability\n\nSo the substantive question is not “is it significant?”\nIt is “what does this remainder represent?”"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#pitfall-callout",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#pitfall-callout",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Pitfall callout",
+    "text": "Pitfall callout\n\n\n\n\n\n\nPitfall\n\n\nDo not move from:\n\n“the bifactor model fit best”\n\nto\n\n“the specific factor is valid and should be used”\n\nwithout checking whether the specific factor is actually well determined, interpretable, and useful."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#observed-score-incremental-validity-is-especially-risky",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#observed-score-incremental-validity-is-especially-risky",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Observed-score incremental validity is especially risky",
+    "text": "Observed-score incremental validity is especially risky\nA common workflow is:\nlm(outcome ~ broad_score + narrow_score, data = dat)\nThis looks intuitive, but it can be misleading when:\n\nboth predictors contain measurement error\nthey are strongly correlated\n“controlling for” one construct changes the meaning of the other\n“controlling for” is not what you are really doing\n\n\n\n\n\n\n\nImportant\n\n\nAll specific factors are strongly correlated with general factors and share common variance that can be explained by the broader factor."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#why-sem-helps",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#why-sem-helps",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Why SEM helps",
+    "text": "Why SEM helps\nLatent-variable models can help because they allow you to:\n\nmodel measurement error explicitly\ndefine what “broad” and “specific” mean\ncompare alternative structures\ntest criterion relations at the latent level\ninspect instability/improper solutions directly\nreally “control for” the broader factor\n\nBut SEM does not magically solve poor theory or weak indicators."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-minimal-decision-sequence",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-minimal-decision-sequence",
+    "title": "Specific factors beyond broad constructs",
+    "section": "A minimal decision sequence",
+    "text": "A minimal decision sequence\n\nStart with theory\nFit defensible measurement models (these should already model both factors)\nCompare broad+narrow representations\nCheck local admissibility\nInspect factor quality\nOnly then test criterion relations\nAssess robustness and practical value\nReport cautiously"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#suggested-reporting-language",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#suggested-reporting-language",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Suggested reporting language",
+    "text": "Suggested reporting language\nPrefer:\n\n“The residual narrow factor showed limited support and should be interpreted cautiously.”\n\nor\n\n“After modeling the broad factor, the specific factor retained interpretable variance and showed a modest latent association with the criterion.”\n\nAvoid:\n\n“The subscale demonstrated clear unique validity.”\n\nunless the evidence is unusually strong and consistent."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#live-coding-setup",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#live-coding-setup",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Live coding setup",
+    "text": "Live coding setup\n\nlibrary(lavaan)\nlibrary(semTools)\nlibrary(dplyr)\nlibrary(ggplot2)\n\nset.seed(1234)\nN = 1000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#live-coding-idea-simulate-a-broad-narrow-case",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#live-coding-idea-simulate-a-broad-narrow-case",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Live coding idea: simulate a broad + narrow case",
+    "text": "Live coding idea: simulate a broad + narrow case\n\n# The latent factors (structural truth)\nN = 1000\ngeneral_anxiety &lt;- rnorm(N)\nmath_anxiety &lt;- .30*general_anxiety + rnorm(N)\nmath_performance &lt;- .30*general_anxiety + 0*math_anxiety + rnorm(N)\n\n\n# Observed items\nanx1 = .80*general_anxiety + rnorm(N)\nanx2 = .80*general_anxiety + rnorm(N)\nanx3 = .80*general_anxiety + rnorm(N)\n\nmanx1 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\nmanx2 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\nmanx3 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\n\n\ndat &lt;- data.frame(\n  anx1,anx2,anx3,\n  manx1,manx2,manx3,\n  math_performance\n)\n# Sum scores\ndat$anxiety &lt;- rowMeans(cbind(anx1,anx2,anx3))\ndat$mat_anx &lt;- rowMeans(cbind(manx1,manx2,manx3))"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-1-correlated-factors",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-1-correlated-factors",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 1: correlated factors",
+    "text": "Competing model 1: correlated factors\n\n\nmod_cf &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4\n  math_anx ~~ gen_anx\n'\nfit_cf &lt;- sem(mod_cf, data = dat)\nfitmeasures(fit_cf, fit.measures = c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n  cfi   tli rmsea  srmr \n0.999 0.999 0.011 0.015 \n\n\n\nparameterestimates(fit_cf,standardized = T)[,c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"std.lv\",\"std.all\")]\n\n        lhs op      rhs   est    se std.lv std.all\n1  math_anx =~    manx1 1.000 0.000  0.839   0.635\n2  math_anx =~    manx2 0.978 0.061  0.821   0.639\n3  math_anx =~    manx3 1.032 0.061  0.865   0.679\n4  math_anx =~    manx4 0.992 0.062  0.832   0.640\n5   gen_anx =~     anx1 1.000 0.000  0.822   0.646\n6   gen_anx =~     anx2 0.927 0.059  0.762   0.618\n7   gen_anx =~     anx3 0.994 0.061  0.817   0.643\n8   gen_anx =~     anx4 0.906 0.060  0.745   0.586\n9  math_anx ~~  gen_anx 0.636 0.049  0.922   0.922\n10    manx1 ~~    manx1 1.044 0.055  1.044   0.597\n11    manx2 ~~    manx2 0.974 0.052  0.974   0.591\n12    manx3 ~~    manx3 0.877 0.049  0.877   0.539\n13    manx4 ~~    manx4 1.000 0.053  1.000   0.591\n14     anx1 ~~     anx1 0.942 0.051  0.942   0.582\n15     anx2 ~~     anx2 0.940 0.049  0.940   0.618\n16     anx3 ~~     anx3 0.949 0.051  0.949   0.587\n17     anx4 ~~     anx4 1.063 0.054  1.063   0.657\n18 math_anx ~~ math_anx 0.704 0.069  1.000   1.000\n19  gen_anx ~~  gen_anx 0.676 0.066  1.000   1.000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-2-higher-order-representation",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-2-higher-order-representation",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 2: higher-order representation",
+    "text": "Competing model 2: higher-order representation\n\n\nmod_ho &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4 + math_anx\n'\nfit_ho &lt;- sem(mod_ho, data = dat)\nfitmeasures(fit_ho, fit.measures = c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n  cfi   tli rmsea  srmr \n0.999 0.999 0.011 0.015 \n\n\n\nparameterestimates(fit_ho,standardized = T)[,c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"std.lv\",\"std.all\")]\n\n        lhs op      rhs   est    se std.lv std.all\n1  math_anx =~    manx1 1.000 0.000  0.839   0.635\n2  math_anx =~    manx2 0.978 0.061  0.821   0.639\n3  math_anx =~    manx3 1.032 0.061  0.865   0.679\n4  math_anx =~    manx4 0.992 0.062  0.832   0.640\n5   gen_anx =~     anx1 1.000 0.000  0.822   0.646\n6   gen_anx =~     anx2 0.927 0.059  0.762   0.618\n7   gen_anx =~     anx3 0.994 0.061  0.817   0.643\n8   gen_anx =~     anx4 0.906 0.060  0.745   0.586\n9   gen_anx =~ math_anx 0.941 0.063  0.922   0.922\n10    manx1 ~~    manx1 1.044 0.055  1.044   0.597\n11    manx2 ~~    manx2 0.974 0.052  0.974   0.591\n12    manx3 ~~    manx3 0.877 0.049  0.877   0.539\n13    manx4 ~~    manx4 1.000 0.053  1.000   0.591\n14     anx1 ~~     anx1 0.942 0.051  0.942   0.582\n15     anx2 ~~     anx2 0.940 0.049  0.940   0.618\n16     anx3 ~~     anx3 0.949 0.051  0.949   0.587\n17     anx4 ~~     anx4 1.063 0.054  1.063   0.657\n18 math_anx ~~ math_anx 0.105 0.029  0.149   0.149\n19  gen_anx ~~  gen_anx 0.676 0.066  1.000   1.000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-3-bifactor-representation",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-3-bifactor-representation",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 3: bifactor representation",
+    "text": "Competing model 3: bifactor representation\n\n\nmod_bi &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4\n  \n  gen_anx ~~ 0*math_anx\n'\nfit_bi &lt;- sem(mod_bi, data = dat)\nfitmeasures(fit_bi, fit.measures = c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n  cfi   tli rmsea  srmr \n1.000 1.000 0.000 0.012 \n\n\n\nparameterestimates(fit_bi,standardized = T)[,c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"std.lv\",\"std.all\")]\n\n        lhs op      rhs   est    se std.lv std.all\n1  math_anx =~    manx1 1.000 0.000  0.352   0.266\n2  math_anx =~    manx2 0.467 0.231  0.165   0.128\n3  math_anx =~    manx3 1.002 0.328  0.353   0.277\n4  math_anx =~    manx4 1.230 0.438  0.433   0.333\n5   gen_anx =~     anx1 1.000 0.000  0.824   0.647\n6   gen_anx =~     anx2 0.925 0.059  0.762   0.618\n7   gen_anx =~     anx3 0.988 0.061  0.814   0.640\n8   gen_anx =~     anx4 0.906 0.060  0.746   0.586\n9   gen_anx =~    manx1 0.931 0.065  0.767   0.580\n10  gen_anx =~    manx2 0.960 0.064  0.791   0.616\n11  gen_anx =~    manx3 0.964 0.063  0.794   0.622\n12  gen_anx =~    manx4 0.910 0.064  0.749   0.576\n13 math_anx ~~  gen_anx 0.000 0.000  0.000   0.000\n14    manx1 ~~    manx1 1.036 0.063  1.036   0.593\n15    manx2 ~~    manx2 0.995 0.051  0.995   0.604\n16    manx3 ~~    manx3 0.871 0.058  0.871   0.536\n17    manx4 ~~    manx4 0.943 0.078  0.943   0.557\n18     anx1 ~~     anx1 0.940 0.051  0.940   0.581\n19     anx2 ~~     anx2 0.940 0.049  0.940   0.618\n20     anx3 ~~     anx3 0.954 0.051  0.954   0.590\n21     anx4 ~~     anx4 1.061 0.054  1.061   0.656\n22 math_anx ~~ math_anx 0.124 0.060  1.000   1.000\n23  gen_anx ~~  gen_anx 0.678 0.066  1.000   1.000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-to-compare-across-models",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-to-compare-across-models",
+    "title": "Specific factors beyond broad constructs",
+    "section": "What to compare across models",
+    "text": "What to compare across models\nDo not ask only “which model fits best?”\nAlso compare:\n\nwhether parameter estimates are admissible\nwhether the specific factor has meaningful loadings\nwhether the narrow factor is determinate/reliable enough\nwhether conclusions change under plausible reparameterizations"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#factor-quality-matters",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#factor-quality-matters",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Factor quality matters",
+    "text": "Factor quality matters\nFor broad vs specific claims, add checks such as:\n\nsalient standardized loadings\nfactor determinacy\nconstruct replicability / (H)\nomega-based indices\nexplained common variance (for bifactor contexts)\n\nA specific factor with low determinacy or weak replicability is hard to interpret, even if global fit looks good."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#optional-indices-for-bifactor-models",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#optional-indices-for-bifactor-models",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Optional indices for bifactor models",
+    "text": "Optional indices for bifactor models\n\n# After extracting standardized loadings / residual variances,\n# inspect indices such as omega hierarchical, omega subscale,\n# ECV, PUC, H, and factor determinacy.\nlibrary(BifactorIndicesCalculator)\nbifactorIndices(fit_bi)\n\n$ModelLevelIndices\n   ECV.gen_anx            PUC  Omega.gen_anx OmegaH.gen_anx \n     0.9157073      0.7857143      0.8401305      0.8060378 \n\n$FactorLevelIndices\n            ECV_SS     ECV_SG    ECV_GS     Omega    OmegaH         H        FD\nmath_anx 0.1609079 0.08429275 0.8390921 0.7465064 0.1117941 0.2314392 0.4835506\ngen_anx  0.9157073 0.91570725 0.9157073 0.8401305 0.8060378 0.8277219 0.9011336\n\n$ItemLevelIndices\n           IECV\nmanx1 0.8256587\nmanx2 0.9584576\nmanx3 0.8347653\nmanx4 0.7492171\nanx1  1.0000000\nanx2  1.0000000\nanx3  1.0000000\nanx4  1.0000000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-practical-rubric",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#a-practical-rubric",
+    "title": "Specific factors beyond broad constructs",
+    "section": "A practical rubric",
+    "text": "A practical rubric\n\n\n\n\n\n\n\n\nQuestion\nIf “no”\nConsequence\n\n\n\n\nIs the specific factor theoretically motivated?\nweak theory\ndo not over-interpret\n\n\nAre estimates admissible and stable?\nimproper / unstable\nstop and rethink model\n\n\nIs the specific factor well-defined?\nweak loadings / low determinacy\navoid strong substantive claims\n\n\nDoes it add latent predictive information?\nnull / fragile effects\nno evidence for unique criterion value\n\n\nIs the gain practically meaningful?\ntrivial improvement\nprobably not worth using"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#predictive-validity-outside-sem",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#predictive-validity-outside-sem",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Predictive validity outside SEM",
+    "text": "Predictive validity outside SEM\nSometimes the research question is mostly predictive rather than explanatory.\nIf you are not using SEM:\n\nbe explicit that observed-score regression ignores measurement error\nprefer out-of-sample assessment over purely in-sample claims\nreport the actual predictive gain, not only (R^2) or (p)-values\navoid calling a tiny gain “important” just because it is statistically significant"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#in-sample-vs-out-of-sample-thinking",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#in-sample-vs-out-of-sample-thinking",
+    "title": "Specific factors beyond broad constructs",
+    "section": "In-sample vs out-of-sample thinking",
+    "text": "In-sample vs out-of-sample thinking\nA narrow score can look useful within sample but offer little real gain out of sample.\nFor teaching purposes, that is a powerful contrast:\n\nexplanatory uniqueness\nlatent distinctiveness\npredictive improvement\npractical decision value\n\nThese are related, but they are not identical."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#small-cross-validation-sketch",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#small-cross-validation-sketch",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Small cross-validation sketch",
+    "text": "Small cross-validation sketch\n#| eval: false\nlibrary(rsample)\nlibrary(purrr)\nlibrary(yardstick)\n\nset.seed(123)\n\nfolds &lt;- vfold_cv(dat, v = 10)\n\n# Compare baseline model vs broad + narrow model out-of-sample\n# using RMSE / MSE rather than only in-sample R^2"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#three-take-home-messages",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#three-take-home-messages",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Three take-home messages",
+    "text": "Three take-home messages\n\nSpecific factors are not automatically meaningful\nGood fit is not enough.\nInterpretability comes before prediction claims\nFirst ask whether the factor is well-defined.\nIncremental validity must be modeled carefully\nMeasurement error, parameterization, and out-of-sample performance all matter."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#self-study-exercises",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#self-study-exercises",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Self-study exercises",
+    "text": "Self-study exercises\n\nTake a scale with a plausible broad+narrow structure from your own area.\nWrite down what the “specific factor” would mean after broad variance is removed.\nFit at least two plausible measurement models.\nCompare not just fit, but the meaning of the narrow factor.\nTest one criterion relation.\nAsk whether the conclusion is robust across models.\nIf you use observed scores, add a cross-validated prediction comparison."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#link-back-to-existing-course-materials",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#link-back-to-existing-course-materials",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Link back to existing course materials",
+    "text": "Link back to existing course materials\nThis extra connects most directly to:\n\nlab04_cfa_reliability_omegas.qmd\nlab05_sem_capstone_eat.qmd\nex10_bifactor_esem_method-factors.qmd\nex01_power_montecarlo_sem.qmd\n\nA short optional companion lab could be created later, but this topic works well as a self-study extra first."
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-i-would-report-in-a-paper",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-i-would-report-in-a-paper",
+    "title": "Specific factors beyond broad constructs",
+    "section": "What I would report in a paper",
+    "text": "What I would report in a paper\nMinimum reporting before claiming “specific-factor validity”:\n\nwhy a broad+narrow representation is theoretically expected\nwhich competing measurement models were tested\nglobal fit + local diagnostics\nfactor quality indices for the specific factor\nthe exact criterion model\nrobustness of the criterion conclusion across plausible specifications\nwhether the predictive gain is practically meaningful"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#further-reading",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#further-reading",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Further reading",
+    "text": "Further reading\n\nWestfall & Yarkoni (2016). Statistically controlling for confounding constructs is harder than you think.\nEid et al. (2018). Bifactor models for predicting criteria by general and specific factors: Problems of nonidentifiability and alternative solutions.\nRodriguez, Reise, & Haviland (2016). Evaluating bifactor models: Calculating and interpreting statistical indices.\nBlogposts:\n\nJulia Rohrer’s blogpost\nMy own blogpost about IAT incremental validity\nEnrico Toffalini’s blogpost in italiano"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#references",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#references",
+    "title": "Specific factors beyond broad constructs",
+    "section": "References",
+    "text": "References\n\n\n\n\nEid, M., Krumm, S., Koch, T., & Schulze, J. (2018). Bifactor Models for Predicting Criteria by General and Specific Factors: Problems of Nonidentifiability and Alternative Solutions. Journal of Intelligence, 6(3), 42. https://doi.org/10.3390/jintelligence6030042\n\n\nRodriguez, A., Reise, S. P., & Haviland, M. G. (2016). Evaluating bifactor models: Calculating and interpreting statistical indices. Psychological Methods, 21(2), 137–150. https://doi.org/10.1037/met0000045\n\n\nWestfall, J., & Yarkoni, T. (2016). Statistically Controlling for Confounding Constructs Is Harder than You Think. PLOS ONE, 11(3), e0152719. https://doi.org/10.1371/journal.pone.0152719"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#appendix-optional-instructor-note",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#appendix-optional-instructor-note",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Appendix: optional instructor note",
+    "text": "Appendix: optional instructor note\nThis deck is best framed as an advanced measurement extra, not as a blanket endorsement of bifactor models.\nRecommended instructor emphasis:\n\nstart from the substantive meaning of the narrow construct\ncompare alternative parameterizations before interpreting “specific” variance\ntreat predictive gain as one piece of evidence, not the whole validation argument"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulate-a-broad-narrow-factor",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulate-a-broad-narrow-factor",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Simulate a broad + narrow factor",
+    "text": "Simulate a broad + narrow factor\n\n# The latent factors (structural truth)\ngeneral_anxiety &lt;- rnorm(N)\nmath_anxiety &lt;- .30*general_anxiety + rnorm(N)\nmath_performance &lt;- .30*general_anxiety + 0*math_anxiety + rnorm(N)\n\n\n# Observed items\nanx1 = .80*general_anxiety + rnorm(N)\nanx2 = .80*general_anxiety + rnorm(N)\nanx3 = .80*general_anxiety + rnorm(N)\nanx4 = .80*general_anxiety + rnorm(N)\nmanx1 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\nmanx2 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\nmanx3 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\nmanx4 = .65*general_anxiety + .35*math_anxiety + rnorm(N)\n\n\ndat &lt;- data.frame(\n  anx1,anx2,anx3,anx4,\n  manx1,manx2,manx3,manx4,\n  math_performance\n)\n# Sum scores\ndat$anxiety &lt;- rowMeans(cbind(anx1,anx2,anx3,anx4))\ndat$mat_anx &lt;- rowMeans(cbind(manx1,manx2,manx3,manx4))"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-factor-analysis",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-factor-analysis",
+    "title": "Specific factors beyond broad constructs",
+    "section": "‘Classical’ factor analysis",
+    "text": "‘Classical’ factor analysis\n\n\nmod_class &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n'\nfit &lt;- cfa(mod_class, data = dat)\nfitmeasures(fit, fit.measures = c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n  cfi   tli rmsea  srmr \n1.000 1.001 0.000 0.008 \n\n\n\nparameterestimates(fit,standardized = T)[,c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"std.lv\",\"std.all\")]\n\n       lhs op      rhs   est    se std.lv std.all\n1 math_anx =~    manx1 1.000 0.000  0.849   0.642\n2 math_anx =~    manx2 0.926 0.065  0.786   0.612\n3 math_anx =~    manx3 1.029 0.069  0.873   0.685\n4 math_anx =~    manx4 1.001 0.068  0.850   0.653\n5    manx1 ~~    manx1 1.028 0.061  1.028   0.588\n6    manx2 ~~    manx2 1.031 0.059  1.031   0.625\n7    manx3 ~~    manx3 0.863 0.057  0.863   0.531\n8    manx4 ~~    manx4 0.970 0.059  0.970   0.573\n9 math_anx ~~ math_anx 0.720 0.075  1.000   1.000\n\n\n\nWe would conclude our measure is valid as it shows perfect fit indices and high and equal loadings across all items\n\nBUT WE ALSO COLLECTED DATA ON ‘ANXIETY’ IN GENERAL…a higher-order factor!"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-factor-analysis-1",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-factor-analysis-1",
+    "title": "Specific factors beyond broad constructs",
+    "section": "‘Classical’ factor analysis",
+    "text": "‘Classical’ factor analysis\n\n\nmod_class &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  math_performance ~ math_anx\n'\nfit &lt;- cfa(mod_class, data = dat)\n\n\n\n               lhs op      rhs   est    se std.lv std.all\n5 math_performance  ~ math_anx 0.342 0.047  0.288   0.272\n\n\n\nWe would conclude our measure is a good predictor of math performance, but is it for real?\n\n**WE ALSO COLLECTED DATA ON ‘ANXIETY’ IN GENERAL…and we know from the data generating model that it should not be!\n\nsummary(lm(math_performance~math_anxiety,dat))\n\n\nCall:\nlm(formula = math_performance ~ math_anxiety, data = dat)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-3.1965 -0.7448  0.0296  0.7135  2.9545 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)  \n(Intercept)   0.02051    0.03346   0.613    0.540  \nmath_anxiety  0.07027    0.03213   2.187    0.029 *\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.058 on 998 degrees of freedom\nMultiple R-squared:  0.004769,  Adjusted R-squared:  0.003772 \nF-statistic: 4.783 on 1 and 998 DF,  p-value: 0.02898"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-1-correlated-factors-1",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-1-correlated-factors-1",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 1: correlated factors",
+    "text": "Competing model 1: correlated factors\n\n\nmod_cf &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4\n  math_anx ~~ gen_anx\n  math_performance ~ math_anx+gen_anx\n'\nfit_cf &lt;- sem(mod_cf, data = dat)\n\n\n\n                lhs op      rhs    est    se std.lv std.all\n10 math_performance  ~ math_anx -0.126 0.246 -0.105  -0.100\n11 math_performance  ~  gen_anx  0.519 0.254  0.425   0.401\n\n\n\nsummary(lm(math_performance~mat_anx+anxiety,dat))\n\n\nCall:\nlm(formula = math_performance ~ mat_anx + anxiety, data = dat)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-3.15389 -0.72012  0.01263  0.71534  2.85762 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  0.02606    0.03230   0.807   0.4199    \nmat_anx      0.10840    0.04486   2.416   0.0159 *  \nanxiety      0.22371    0.04704   4.756 2.26e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.021 on 997 degrees of freedom\nMultiple R-squared:  0.07466,   Adjusted R-squared:  0.0728 \nF-statistic: 40.22 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\n\nWhat’s going on here Why do sum scores suggest both factors have an effect?"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-2-higher-order-representation-1",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-2-higher-order-representation-1",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 2: higher-order representation",
+    "text": "Competing model 2: higher-order representation\n\n\nmod_ho &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4 + math_anx\n'\nfit_ho &lt;- sem(mod_ho, data = dat)\nfitmeasures(fit_ho, fit.measures = c(\"cfi\",\"tli\",\"rmsea\",\"srmr\"))\n\n  cfi   tli rmsea  srmr \n0.999 0.999 0.011 0.015 \n\n\n\nparameterestimates(fit_ho,standardized = T)[,c(\"lhs\",\"op\",\"rhs\",\"est\",\"se\",\"std.lv\",\"std.all\")]\n\n        lhs op      rhs   est    se std.lv std.all\n1  math_anx =~    manx1 1.000 0.000  0.839   0.635\n2  math_anx =~    manx2 0.978 0.061  0.821   0.639\n3  math_anx =~    manx3 1.032 0.061  0.865   0.679\n4  math_anx =~    manx4 0.992 0.062  0.832   0.640\n5   gen_anx =~     anx1 1.000 0.000  0.822   0.646\n6   gen_anx =~     anx2 0.927 0.059  0.762   0.618\n7   gen_anx =~     anx3 0.994 0.061  0.817   0.643\n8   gen_anx =~     anx4 0.906 0.060  0.745   0.586\n9   gen_anx =~ math_anx 0.941 0.063  0.922   0.922\n10    manx1 ~~    manx1 1.044 0.055  1.044   0.597\n11    manx2 ~~    manx2 0.974 0.052  0.974   0.591\n12    manx3 ~~    manx3 0.877 0.049  0.877   0.539\n13    manx4 ~~    manx4 1.000 0.053  1.000   0.591\n14     anx1 ~~     anx1 0.942 0.051  0.942   0.582\n15     anx2 ~~     anx2 0.940 0.049  0.940   0.618\n16     anx3 ~~     anx3 0.949 0.051  0.949   0.587\n17     anx4 ~~     anx4 1.063 0.054  1.063   0.657\n18 math_anx ~~ math_anx 0.105 0.029  0.149   0.149\n19  gen_anx ~~  gen_anx 0.676 0.066  1.000   1.000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-3-bifactor-representation-1",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#competing-model-3-bifactor-representation-1",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Competing model 3: bifactor representation",
+    "text": "Competing model 3: bifactor representation\n\n\nmod_bi &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4\n  \n  gen_anx ~~ 0*math_anx\n  math_performance ~ math_anx+gen_anx\n'\nfit_bi &lt;- sem(mod_bi, data = dat)\n\n\n\n                lhs op      rhs   est    se std.lv std.all\n14 math_performance  ~ math_anx 0.064 0.197  0.023   0.022\n15 math_performance  ~  gen_anx 0.383 0.049  0.314   0.297"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-to-compare-across-models-1",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#what-to-compare-across-models-1",
+    "title": "Specific factors beyond broad constructs",
+    "section": "What to compare across models",
+    "text": "What to compare across models\n\nwhether criterion relations are stable in sign and magnitude"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-approach",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#classical-approach",
+    "title": "Specific factors beyond broad constructs",
+    "section": "‘Classical’ approach",
+    "text": "‘Classical’ approach\n\n\nmod_class &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  math_performance ~ math_anx\n'\nfit &lt;- cfa(mod_class, data = dat)\n\n\n\n               lhs op      rhs   est    se std.lv std.all\n5 math_performance  ~ math_anx 0.342 0.047  0.288   0.272\n\n\n\nsummary(lm(math_performance~mat_anx,dat))\n\n\nCall:\nlm(formula = math_performance ~ mat_anx, data = dat)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-3.15021 -0.72446  0.01687  0.70175  3.01907 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  0.02053    0.03263   0.629    0.529    \nmat_anx      0.25212    0.03351   7.523 1.19e-13 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.032 on 998 degrees of freedom\nMultiple R-squared:  0.05366,   Adjusted R-squared:  0.05271 \nF-statistic: 56.59 on 1 and 998 DF,  p-value: 1.194e-13\n\n\n\nWe would conclude our measure is a good predictor of math performance, but is it for real?\n\n…we know from the data generating model that it should not be! Isn’t it?"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#sem-with-correlated-factors",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#sem-with-correlated-factors",
+    "title": "Specific factors beyond broad constructs",
+    "section": "SEM with correlated factors",
+    "text": "SEM with correlated factors\n\n\nmod_cf &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4\n  math_anx ~~ gen_anx\n  math_performance ~ math_anx+gen_anx\n'\nfit_cf &lt;- sem(mod_cf, data = dat)\n\n\n\n                lhs op      rhs    est    se std.lv std.all\n10 math_performance  ~ math_anx -0.126 0.246 -0.105  -0.100\n11 math_performance  ~  gen_anx  0.519 0.254  0.425   0.401\n\n\n\nsummary(lm(math_performance~mat_anx+anxiety,dat))\n\n\nCall:\nlm(formula = math_performance ~ mat_anx + anxiety, data = dat)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-3.15389 -0.72012  0.01263  0.71534  2.85762 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  0.02606    0.03230   0.807   0.4199    \nmat_anx      0.10840    0.04486   2.416   0.0159 *  \nanxiety      0.22371    0.04704   4.756 2.26e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.021 on 997 degrees of freedom\nMultiple R-squared:  0.07466,   Adjusted R-squared:  0.0728 \nF-statistic: 40.22 on 2 and 997 DF,  p-value: &lt; 2.2e-16\n\n\nWhat’s going on here? Why do sum scores suggest both factors have an effect?"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#bifactor-representation",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#bifactor-representation",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Bifactor representation",
+    "text": "Bifactor representation\n\nmod_bi &lt;- '\n  math_anx =~ manx1 + manx2 + manx3 + manx4\n  gen_anx =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4\n  \n  gen_anx ~~ 0*math_anx\n  math_performance ~ math_anx+gen_anx\n'\nfit_bi &lt;- sem(mod_bi, data = dat)\n\n\n\n                lhs op      rhs   est    se std.lv std.all\n14 math_performance  ~ math_anx 0.064 0.197  0.023   0.022\n15 math_performance  ~  gen_anx 0.383 0.049  0.314   0.297"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulation-results",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulation-results",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Simulation results",
+    "text": "Simulation results\n\n\n\n\n\n\n\n\n\n\n\n\nmodel\nmean_estimate\nsd_estimate\nprop_significant\nusable_solutions\n\n\n\n\nBifactor specific path\n-0.007\n0.071\n0.068\n1\n\n\nSpecific + general sums\n0.088\n0.075\n0.232\n1\n\n\nSpecific sum only\n0.258\n0.041\n1.000\n1"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulation-results-bg.40-bs0-rgs.40",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#simulation-results-bg.40-bs0-rgs.40",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Simulation results (bg=.40; bs=0; rgs=.40)",
+    "text": "Simulation results (bg=.40; bs=0; rgs=.40)\n\n\n\n\n\nmodel\nmean_estimate\nsd_estimate\nprop_significant\n\n\n\n\nBifactor specific path\n-0.004\n0.068\n0.059\n\n\nSpecific + general sums\n0.137\n0.073\n0.452\n\n\nSpecific sum only\n0.354\n0.039\n1.000"
+  },
+  {
+    "objectID": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#implications-for-non-validation-results",
+    "href": "extras/ex_specific-factors_validity_incremental-predictive-validity.html#implications-for-non-validation-results",
+    "title": "Specific factors beyond broad constructs",
+    "section": "Implications for non-validation results",
+    "text": "Implications for non-validation results\n\nWell, everything applies to all contexts. You cannot just control for intelligence using the Raven matrices…you should model intelligence as a general latent factor and test whether your specific executive funtion measures, visuo-spatial abilities, creative skills predict the desired outcome beyond the latent g factor.\n\nThis is well known in literature…but we always ignore it (Westfall & Yarkoni, 2016)"
   }
 ]

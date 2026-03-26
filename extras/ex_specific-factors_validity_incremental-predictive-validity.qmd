@@ -1,0 +1,726 @@
+---
+title: "Specific factors beyond broad constructs"
+subtitle: "Distinctiveness, interpretability, and predictive validity"
+format:
+  revealjs:
+    theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
+    include-in-header: ../assets/slidesheader.html
+    slide-number: c/t
+    code-overflow: wrap
+    transition: fade
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.08"
+editor: visual
+bibliography: ../refs/references.bib
+csl: ../refs/apa7.csl
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Why this extra?
+
+-   Many papers claim a **specific factor** or **subscale** is meaningful simply because a multidimensional model fits.
+-   But once a broader factor exists, the real question becomes:
+
+> **Is the narrow factor still interpretable and useful after the broad/common variance is modeled?**
+
+-   This deck focuses on that neglected question.
+
+::: callout-warning
+This deck of slides possibly invalidates many specific findings in the literature. **BUT** not being able to validate/measure a construct reliably, does not mean your theory is wrong, don't worry...you just can't test or study it.
+:::
+
+## Learning objectives
+
+By the end, students should be able to:
+
+-   distinguish **broad-factor validity** from **specific-factor validity**
+-   explain why **fit alone** does not justify subscale interpretation
+-   compare correlated-factor, higher-order, bifactor, and bifactor(S-1) logic
+-   evaluate whether a specific factor is **well-defined**, **reliable/determinate**, and **predictively useful**
+-   avoid overstated claims from residualized or observed-score analyses
+
+## The motivating problem
+
+Examples you will see in applied work:
+
+-   anxiety vs **math anxiety**
+-   intelligence vs **executive functions**
+-   neuroticism vs **depression**
+-   general psychopathology vs **specific symptom dimensions**
+-   general vs **domain-specific self-efficacy**
+-   mindset vs **domain-specific mindset**
+
+These are not just “more factors”.
+
+They are claims that a **narrow construct remains meaningful** (*identifiable*) once broader variance is present.
+
+## A useful reframe
+
+::: {style="font-size:0.8em; line-height:1.15;"}
+Instead of asking:
+
+> “Does the subscale exist?”
+
+Ask three separate questions:
+
+1.  **Structural distinctiveness**\
+    Is there evidence for separable narrow variance once the broad factor is modeled?
+
+2.  **Interpretability**\
+    Is that narrow factor well-defined enough to discuss substantively?
+
+3.  **Criterion validity**\
+    Does it predict anything important above the broad factor?
+:::
+
+::: {.callout-note appearence="minimal"}
+We'll see that *above the broad factor* is not such an easy question to tackle, if you really want to tackle it.
+:::
+
+## Running example
+
+> **Does math anxiety predict math performance above general anxiety?**
+
+That single sentence hides several different models and several different validity claims.
+
+We need to ask:
+
+-   Is math anxiety **psychometrically separable** from general anxiety?
+-   Is the “specific” part reliable or mostly leftover noise?
+-   Does prediction survive latent modeling?
+-   Is the conclusion robust across plausible models?
+
+## What usually goes wrong
+
+::: {style="font-size:0.9em; line-height:1.15;"}
+**Common shortcut**
+
+1.  Fit a CFA with several related factors
+2.  Note that the model fits “well enough”
+3.  Use subscale scores in regression
+4.  Claim “incremental validity”
+
+**The problem**
+
+That workflow often confuses:
+
+-   correlated constructs
+-   residualized variance
+-   measurement error
+-   predictive utility
+-   practical utility
+:::
+
+## Fit != truth
+
+A model can fit well and still fail the question that matters here:
+
+> **Is the specific factor interpretable and worth using?**
+
+For this topic, always separate:
+
+-   **global fit** (CFI/TLI/RMSEA/SRMR)
+-   **local diagnostics** (residuals, strain, improper estimates)
+-   **factor quality** (loadings, determinacy, H, omega-type indices)
+-   **criterion usefulness** (effect sizes, uncertainty, robustness, practical gain)
+
+## Four common model families
+
+**1. Correlated first-order factors**
+
+Broad overlap is represented through factor correlations.
+
+**2. Higher-order model**
+
+A broad factor explains the correlations among first-order factors.
+
+**3. Symmetrical bifactor model**
+
+All items load on a general factor and on one group factor.
+
+**4. Bifactor(S-1)**
+
+A theoretically chosen reference domain defines the general factor; other domains become specific residual factors.
+
+## Conceptual map
+
+| Model | Broad variance | Narrow variance | Typical attraction | Main danger |
+|---------------|---------------|---------------|---------------|---------------|
+| Correlated factors | factor correlations | first-order factors | simple, familiar | “unique” meaning may be overstated |
+| Higher-order | higher-order factor | first-order residualized on higher-order | broad vs domains | first-order meaning changes after higher-order layer |
+| Bifactor | general factor on all items | orthogonal group factors | direct separation of common vs specific | overinterpretation, instability, identifiability problems |
+| Bifactor(S-1) | reference-domain-defined general factor | residual domains | often more interpretable | requires strong theory and explicit reference choice |
+
+## What would count as evidence for a specific factor?
+
+A defensible specific factor usually needs **all** of the following:
+
+-   plausible theory for why narrow variance should remain after common variance is modeled
+-   a model that also models the general factor in which the specific factor is statistically admissible and meaningfully defined
+-   adequate factor quality (not just significant loadings)
+-   criterion relations that are stable and not artifacts of scoring/measurement error
+-   reporting that makes clear **what the factor means in that parameterization**
+
+## The key warning
+
+A “specific factor” is often **residualized variance**.
+
+That can be scientifically meaningful.\
+But it can also be:
+
+-   method variance
+-   wording variance
+-   nuisance variance
+-   instability created by a difficult parameterization
+-   a narrow remainder with weak reliability
+
+So the substantive question is not “is it significant?”\
+It is “what does this remainder represent?”
+
+## Observed-score incremental validity is especially risky
+
+A common workflow is:
+
+``` r
+lm(outcome ~ broad_score + narrow_score, data = dat)
+```
+
+This looks intuitive, but it can be misleading when:
+
+-   both predictors contain measurement error
+-   they are strongly correlated
+-   “controlling for” one construct changes the meaning of the other
+-   "controlling for" is not what you are really doing
+
+::: callout-important
+All specific factors are strongly correlated with general factors and share common variance that can be explained by the broader factor.
+:::
+
+## Why SEM helps
+
+Latent-variable models can help because they allow you to:
+
+-   model measurement error explicitly
+-   define what “broad” and “specific” mean
+-   compare alternative structures
+-   test criterion relations at the latent level
+-   inspect instability/improper solutions directly
+-   really "control for" the broader factor
+
+But SEM does **not** magically solve poor theory or weak indicators.
+
+## A minimal decision sequence
+
+1.  **Start with theory**
+2.  **Fit defensible measurement models** (these should already model both factors)
+3.  **Compare broad+narrow representations**
+4.  **Check local admissibility**
+5.  **Inspect factor quality**
+6.  **Only then test criterion relations**
+7.  **Assess robustness and practical value**
+8.  **Report cautiously**
+
+## Suggested reporting language
+
+Prefer:
+
+> “The residual narrow factor showed limited support and should be interpreted cautiously.”
+
+or
+
+> “After modeling the broad factor, the specific factor retained interpretable variance and showed a modest latent association with the criterion.”
+
+Avoid:
+
+> “The subscale demonstrated clear unique validity.”
+
+unless the evidence is unusually strong and consistent.
+
+# Code & Simulation
+
+## Live coding setup
+
+```{r}
+library(lavaan)
+library(semTools)
+library(dplyr)
+library(ggplot2)
+
+set.seed(1234)
+N = 1000
+```
+
+## Simulate a broad + narrow factor
+
+```{r}
+# The latent factors (structural truth)
+general_anxiety <- rnorm(N)
+math_anxiety <- .30*general_anxiety + rnorm(N)
+math_performance <- .30*general_anxiety + 0*math_anxiety + rnorm(N)
+```
+
+```{r}
+# Observed items
+anx1 = .80*general_anxiety + rnorm(N)
+anx2 = .80*general_anxiety + rnorm(N)
+anx3 = .80*general_anxiety + rnorm(N)
+anx4 = .80*general_anxiety + rnorm(N)
+manx1 = .65*general_anxiety + .35*math_anxiety + rnorm(N)
+manx2 = .65*general_anxiety + .35*math_anxiety + rnorm(N)
+manx3 = .65*general_anxiety + .35*math_anxiety + rnorm(N)
+manx4 = .65*general_anxiety + .35*math_anxiety + rnorm(N)
+```
+
+```{r}
+dat <- data.frame(
+  anx1,anx2,anx3,anx4,
+  manx1,manx2,manx3,manx4,
+  math_performance
+)
+# Sum scores
+dat$anxiety <- rowMeans(cbind(anx1,anx2,anx3,anx4))
+dat$mat_anx <- rowMeans(cbind(manx1,manx2,manx3,manx4))
+```
+
+# Step 1: Factorial validity
+
+## 'Classical' factor analysis
+
+::: {style="font-size:0.8em; line-height:1.15;"}
+```{r}
+mod_class <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+'
+fit <- cfa(mod_class, data = dat)
+fitmeasures(fit, fit.measures = c("cfi","tli","rmsea","srmr"))
+```
+
+```{r}
+parameterestimates(fit,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+```
+
+> We would conclude our measure is valid as it shows perfect fit indices and high and equal loadings across all items
+
+**BUT WE ALSO COLLECTED DATA ON 'ANXIETY' IN GENERAL...a higher-order factor**!
+:::
+
+## Competing model 1: correlated factors
+
+::: {style="font-size:0.8em; line-height:1.15;"}
+```{r}
+mod_cf <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  gen_anx =~ anx1 + anx2 + anx3 + anx4
+  math_anx ~~ gen_anx
+'
+fit_cf <- sem(mod_cf, data = dat)
+fitmeasures(fit_cf, fit.measures = c("cfi","tli","rmsea","srmr"))
+```
+
+```{r}
+parameterestimates(fit_cf,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+```
+:::
+
+## Competing model 2: higher-order representation
+
+::: {style="font-size:0.8em; line-height:1.15;"}
+```{r}
+mod_ho <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  gen_anx =~ anx1 + anx2 + anx3 + anx4 + math_anx
+'
+fit_ho <- sem(mod_ho, data = dat)
+fitmeasures(fit_ho, fit.measures = c("cfi","tli","rmsea","srmr"))
+```
+
+```{r}
+parameterestimates(fit_ho,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+```
+:::
+
+## Competing model 3: bifactor representation
+
+::: {style="font-size:0.8em; line-height:1.15;"}
+```{r}
+mod_bi <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  gen_anx =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4
+  
+  gen_anx ~~ 0*math_anx
+'
+fit_bi <- sem(mod_bi, data = dat)
+fitmeasures(fit_bi, fit.measures = c("cfi","tli","rmsea","srmr"))
+```
+
+```{r}
+parameterestimates(fit_bi,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+```
+:::
+
+## What to compare across models
+
+Do **not** ask only “which model fits best?”
+
+Also compare:
+
+-   whether parameter estimates are admissible
+-   whether the specific factor has meaningful loadings
+-   whether the narrow factor is determinate/reliable enough
+-   whether conclusions change under plausible reparameterizations
+
+## Factor quality matters
+
+For broad vs specific claims, add checks such as:
+
+-   salient standardized loadings
+-   factor determinacy
+-   construct replicability / (H)
+-   omega-based indices
+-   explained common variance (for bifactor contexts)
+
+A specific factor with low determinacy or weak replicability is hard to interpret, even if global fit looks good.
+
+## Optional indices for bifactor models
+
+```{r}
+# After extracting standardized loadings / residual variances,
+# inspect indices such as omega hierarchical, omega subscale,
+# ECV, PUC, H, and factor determinacy.
+library(BifactorIndicesCalculator)
+bifactorIndices(fit_bi)
+```
+
+# Step 2 - Criterion validity
+
+## 'Classical' approach
+
+::: {style="font-size:0.75em; line-height:1.15;"}
+```{r}
+mod_class <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  math_performance ~ math_anx
+'
+fit <- cfa(mod_class, data = dat)
+```
+
+```{r}
+#| echo: false
+asd<-parameterestimates(fit,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+asd[asd$op == "~", ]
+```
+
+```{r}
+summary(lm(math_performance~mat_anx,dat))
+```
+
+> We would conclude our measure is a good predictor of math performance, but is it for real?
+
+...we know from the data generating model that it should not be! Isn't it?
+:::
+
+## SEM with correlated factors
+
+::: {style="font-size:0.75em; line-height:1.15;"}
+```{r}
+mod_cf <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  gen_anx =~ anx1 + anx2 + anx3 + anx4
+  math_anx ~~ gen_anx
+  math_performance ~ math_anx+gen_anx
+'
+fit_cf <- sem(mod_cf, data = dat)
+```
+
+```{r}
+#| echo: false
+asd<-parameterestimates(fit_cf,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+asd[asd$op == "~", ]
+```
+
+```{r}
+summary(lm(math_performance~mat_anx+anxiety,dat))
+```
+
+**What's going on here**? Why do sum scores suggest both factors have an effect?
+:::
+
+## Bifactor representation
+
+```{r}
+mod_bi <- '
+  math_anx =~ manx1 + manx2 + manx3 + manx4
+  gen_anx =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4
+  
+  gen_anx ~~ 0*math_anx
+  math_performance ~ math_anx+gen_anx
+'
+fit_bi <- sem(mod_bi, data = dat)
+```
+
+```{r}
+#| echo: false
+asd<-parameterestimates(fit_bi,standardized = T)[,c("lhs","op","rhs","est","se","std.lv","std.all")]
+asd[asd$op == "~", ]
+```
+
+## Simulation results (bg=.40; bs=0; rgs=.40)
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+library(lavaan)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(tidyr)
+library(knitr)
+
+simulate_once <- function(N = 500) {
+
+  # -----------------------------
+  # 1. Structural truth
+  # -----------------------------
+  rho_gs  <- .40
+  beta_g  <- .40
+  beta_s  <- 0.00
+
+  general_anxiety <- rnorm(N)
+  math_anxiety <- rho_gs * general_anxiety + sqrt(1 - rho_gs^2) * rnorm(N)
+
+  math_performance <- beta_g * general_anxiety +
+    beta_s * math_anxiety +
+    sqrt(1 - beta_g^2 - beta_s^2 - 2 * beta_g * beta_s * rho_gs) * rnorm(N)
+
+  # -----------------------------
+  # 2. Observed indicators
+  # -----------------------------
+  # General-anxiety items
+  lam_g <- .80
+  err_g <- sqrt(1 - lam_g^2)
+
+  anx1 <- lam_g * general_anxiety + err_g * rnorm(N)
+  anx2 <- lam_g * general_anxiety + err_g * rnorm(N)
+  anx3 <- lam_g * general_anxiety + err_g * rnorm(N)
+  anx4 <- lam_g * general_anxiety + err_g * rnorm(N)
+
+  # Math-anxiety items: broad + narrow
+  lam_mg <- .65
+  lam_ms <- .35
+  explained_var <- lam_mg^2 + lam_ms^2 + 2 * lam_mg * lam_ms * rho_gs
+  err_m <- sqrt(1 - explained_var)
+
+  manx1 <- lam_mg * general_anxiety + lam_ms * math_anxiety + err_m * rnorm(N)
+  manx2 <- lam_mg * general_anxiety + lam_ms * math_anxiety + err_m * rnorm(N)
+  manx3 <- lam_mg * general_anxiety + lam_ms * math_anxiety + err_m * rnorm(N)
+  manx4 <- lam_mg * general_anxiety + lam_ms * math_anxiety + err_m * rnorm(N)
+
+  dat <- data.frame(
+    anx1, anx2, anx3, anx4,
+    manx1, manx2, manx3, manx4,
+    math_performance
+  )
+
+  # -----------------------------
+  # 3. Sum scores
+  # -----------------------------
+  dat$anxiety <- rowMeans(dat[, c("anx1", "anx2", "anx3", "anx4")])
+  dat$mat_anx <- rowMeans(dat[, c("manx1", "manx2", "manx3", "manx4")])
+
+  # standardize for easier comparison
+  dat <- dat %>%
+    mutate(
+      anxiety = as.numeric(scale(anxiety)),
+      mat_anx = as.numeric(scale(mat_anx)),
+      math_performance = as.numeric(scale(math_performance))
+    )
+
+  # -----------------------------
+  # 4. LM: specific score only
+  # -----------------------------
+  fit_lm1 <- lm(math_performance ~ mat_anx, data = dat)
+  coef_lm1 <- summary(fit_lm1)$coef["mat_anx", ]
+
+  # -----------------------------
+  # 5. LM: specific + general scores
+  # -----------------------------
+  fit_lm2 <- lm(math_performance ~ anxiety + mat_anx, data = dat)
+  coef_lm2 <- summary(fit_lm2)$coef["mat_anx", ]
+
+  # -----------------------------
+  # 6. Bifactor SEM
+  # -----------------------------
+  bifactor_model <- '
+    g =~ anx1 + anx2 + anx3 + anx4 + manx1 + manx2 + manx3 + manx4
+    s =~ manx1 + manx2 + manx3 + manx4
+
+    g ~~ 0*s
+
+    math_performance ~ g + s
+  '
+
+  fit_bi <- try(
+    sem(
+      bifactor_model,
+      data = dat,
+      std.lv = TRUE,
+      orthogonal = TRUE,
+      warn = FALSE
+    ),
+    silent = TRUE
+  )
+
+  if (inherits(fit_bi, "try-error")) {
+    bi_est <- NA
+    bi_p   <- NA
+    bi_ok  <- FALSE
+  } else {
+    pe <- parameterEstimates(fit_bi)
+    row_s <- pe[pe$lhs == "math_performance" & pe$op == "~" & pe$rhs == "s", ]
+
+    # simple admissibility screen
+    bad_var <- any(pe$op == "~~" & pe$lhs == pe$rhs & pe$est < 0, na.rm = TRUE)
+    bi_ok <- lavInspect(fit_bi, "converged") && !bad_var
+
+    bi_est <- if (nrow(row_s) == 1) row_s$est else NA
+    bi_p   <- if (nrow(row_s) == 1) row_s$pvalue else NA
+  }
+
+  bind_rows(
+    tibble(
+      model = "Specific sum only",
+      estimate = coef_lm1["Estimate"],
+      p_value = coef_lm1["Pr(>|t|)"],
+      admissible = TRUE
+    ),
+    tibble(
+      model = "Specific + general sums",
+      estimate = coef_lm2["Estimate"],
+      p_value = coef_lm2["Pr(>|t|)"],
+      admissible = TRUE
+    ),
+    tibble(
+      model = "Bifactor specific path",
+      estimate = bi_est,
+      p_value = bi_p,
+      admissible = bi_ok
+    )
+  )
+}
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+set.seed(2026)
+
+R <- 2000
+N <- 500
+
+sim_res <- map_dfr(1:R, ~ simulate_once(N = N), .id = "rep")
+
+sum_tab <- sim_res %>%
+  mutate(sig = p_value < .05) %>%
+  group_by(model) %>%
+  summarise(
+    mean_estimate = mean(estimate, na.rm = TRUE),
+    sd_estimate = sd(estimate, na.rm = TRUE),
+    prop_significant = mean(sig, na.rm = TRUE),
+#    usable_solutions = mean(admissible, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+kable(sum_tab, digits = 3)
+```
+
+```{r}
+#| fig-height: 4.8
+#| fig-width: 9
+#| echo: false
+sim_res %>%
+  filter(admissible) %>%
+  ggplot(aes(x = estimate)) +
+  geom_density(alpha = .30) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  facet_wrap(~ model, scales = "free_y") +
+  labs(
+    x = "Estimated effect of the specific factor",
+    y = "Density",
+    title = "Distribution of estimated specific-factor effects across replications"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+# Concluding remarks
+
+## Implications for non-validation results
+
+> Well, everything applies to all contexts. You cannot just control for intelligence using the Raven matrices...you should model intelligence as a general latent factor and test whether your specific executive funtion measures, visuo-spatial abilities, creative skills predict the desired outcome beyond the **latent** *g* factor.
+
+This is well known in literature...but we always ignore it [@westfallStatisticallyControllingConfounding2016]
+
+## A practical rubric
+
+| Question | If “no” | Consequence |
+|------------------------|------------------------|------------------------|
+| Is the specific factor theoretically motivated? | weak theory | do not over-interpret |
+| Are estimates admissible and stable? | improper / unstable | stop and rethink model |
+| Is the specific factor well-defined? | weak loadings / low determinacy | avoid strong substantive claims |
+| Does it add latent predictive information? | null / fragile effects | no evidence for unique criterion value |
+| Is the gain practically meaningful? | trivial improvement | probably not worth using |
+
+## Three take-home messages
+
+1.  **Specific factors are not automatically meaningful**\
+    Good fit is not enough.
+
+2.  **Interpretability comes before prediction claims**\
+    First ask whether the factor is well-defined.
+
+3.  **Incremental validity must be modeled carefully**\
+    Measurement error, parameterization, and out-of-sample performance all matter.
+
+## Self-study exercises
+
+1.  Take a scale with a plausible broad+narrow structure from your own area.\
+    Write down what the “specific factor” would mean **after** broad variance is removed.
+
+2.  Fit at least two plausible measurement models.\
+    Compare not just fit, but the meaning of the narrow factor.
+
+3.  Test one criterion relation.\
+    Ask whether the conclusion is robust across models.
+
+4.  If you use observed scores, add a cross-validated prediction comparison.
+
+## What I would report in a paper
+
+Minimum reporting before claiming “specific-factor validity”:
+
+-   why a broad+narrow representation is theoretically expected
+-   which competing measurement models were tested
+-   global fit + local diagnostics
+-   factor quality indices for the specific factor
+-   the exact criterion model
+-   robustness of the criterion conclusion across plausible specifications
+-   whether the predictive gain is practically meaningful
+
+## Further reading
+
+-   Westfall & Yarkoni [-@westfallStatisticallyControllingConfounding2016]. *Statistically controlling for confounding constructs is harder than you think.*
+-   Eid et al. [-@eidBifactorModelsPredicting2018]. *Bifactor models for predicting criteria by general and specific factors: Problems of nonidentifiability and alternative solutions.*
+-   Rodriguez, Reise, & Haviland [-@rodriguezEvaluatingBifactorModels2016]. *Evaluating bifactor models: Calculating and interpreting statistical indices.*
+-   Blogposts:
+    -   Julia Rohrer's [blogpost](https://www.the100.ci/2025/10/13/if-you-have-two-measures-of-the-same-confounder-you-can-just-include-both-of-them-in-your-regression-model/){target="_blank"}
+    -   My own [blogpost](https://feracotommaso.github.io/posts/iatmeasure.html){target="_blank"} about IAT incremental validity
+    -   Enrico Toffalini's [blogpost](https://enricotoffalini.github.io/blog/posts/controllare-per-latente/){target="_blank"} in italiano
+
+## References
