@@ -5541,14 +5541,14 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#step-2-metric-invariance-equal-loadings",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Step 2 — Metric invariance (equal loadings)",
-    "text": "Step 2 — Metric invariance (equal loadings)\n\nm_metr &lt;- cfa(m, data = d, group = \"Group\",\n             group.equal = \"loadings\")\n\nfitMeasures(m_metr, fi)\n\n      cfi       tli      srmr     rmsea       bic       aic \n    0.976     0.967     0.038     0.032 13198.034 13027.276 \n\n# Compare to configural\nanova(m_metr, m_conf)\n\n\nChi-Squared Difference Test\n\n       Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nm_conf 26 13032 13225 35.392                                    \nm_metr 31 13027 13198 40.373     4.9804     0       5     0.4183\n\nfitMeasures(m_metr, \"cfi\") - fitMeasures(m_conf, \"cfi\")\n\ncfi \n  0 \n\nfitMeasures(m_metr, \"bic\") - fitMeasures(m_conf, \"bic\")\n\n    bic \n-26.912"
+    "text": "Step 2 — Metric invariance (equal loadings)\n\n\nm_metr &lt;- cfa(m, data = d, group = \"Group\",\n             group.equal = \"loadings\")\n\nfitMeasures(m_metr, fi)\n\n      cfi       tli      srmr     rmsea       bic       aic \n    0.976     0.967     0.038     0.032 13198.034 13027.276 \n\n# Compare to configural\nanova(m_metr, m_conf)\n\n\nChi-Squared Difference Test\n\n       Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nm_conf 26 13032 13225 35.392                                    \nm_metr 31 13027 13198 40.373     4.9804     0       5     0.4183\n\nfitMeasures(m_metr, \"cfi\") - fitMeasures(m_conf, \"cfi\")\n\ncfi \n  0 \n\nfitMeasures(m_metr, \"bic\") - fitMeasures(m_conf, \"bic\")\n\n    bic \n-26.912"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-2-diagnostics-what-breaks",
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#step-2-diagnostics-what-breaks",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Step 2 diagnostics (what breaks?)",
-    "text": "Step 2 diagnostics (what breaks?)\n\n# Score tests for equality constraints\nlavTestScore(m_metr)$uni |&gt; head(10)\n\n\nunivariate score tests:\n\n   lhs op   rhs    X2 df p.value\n1 .p2. == .p28. 2.336  1   0.126\n2 .p3. == .p29. 0.310  1   0.578\n3 .p4. == .p30. 0.877  1   0.349\n4 .p6. == .p32. 1.798  1   0.180\n5 .p7. == .p33. 0.227  1   0.634\n\n# Parameter table (useful for mapping constraint ids)\nparameterTable(m_metr)[1:15, c(\"lhs\",\"op\",\"rhs\",\"group\",\"free\",\"ustart\")]\n\n   lhs op rhs group free ustart\n1   f1 =~  x1     1    0      1\n2   f1 =~  x2     1    1     NA\n3   f1 =~  x3     1    2     NA\n4   f1 =~  x4     1    3     NA\n5   f2 =~  x5     1    0      1\n6   f2 =~  x6     1    4     NA\n7   f2 =~  x7     1    5     NA\n8   x1 ~~  x1     1    6     NA\n9   x2 ~~  x2     1    7     NA\n10  x3 ~~  x3     1    8     NA\n11  x4 ~~  x4     1    9     NA\n12  x5 ~~  x5     1   10     NA\n13  x6 ~~  x6     1   11     NA\n14  x7 ~~  x7     1   12     NA\n15  f1 ~~  f1     1   13     NA"
+    "text": "Step 2 diagnostics (what breaks?)\n\n\n# Score tests for equality constraints\nlavTestScore(m_metr)$uni |&gt; head(10)\n\n\nunivariate score tests:\n\n   lhs op   rhs    X2 df p.value\n1 .p2. == .p28. 2.336  1   0.126\n2 .p3. == .p29. 0.310  1   0.578\n3 .p4. == .p30. 0.877  1   0.349\n4 .p6. == .p32. 1.798  1   0.180\n5 .p7. == .p33. 0.227  1   0.634\n\n# Parameter table (useful for mapping constraint ids)\nparameterTable(m_metr)[1:15, c(\"lhs\",\"op\",\"rhs\",\"group\",\"free\",\"ustart\")]\n\n   lhs op rhs group free ustart\n1   f1 =~  x1     1    0      1\n2   f1 =~  x2     1    1     NA\n3   f1 =~  x3     1    2     NA\n4   f1 =~  x4     1    3     NA\n5   f2 =~  x5     1    0      1\n6   f2 =~  x6     1    4     NA\n7   f2 =~  x7     1    5     NA\n8   x1 ~~  x1     1    6     NA\n9   x2 ~~  x2     1    7     NA\n10  x3 ~~  x3     1    8     NA\n11  x4 ~~  x4     1    9     NA\n12  x5 ~~  x5     1   10     NA\n13  x6 ~~  x6     1   11     NA\n14  x7 ~~  x7     1   12     NA\n15  f1 ~~  f1     1   13     NA"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-3-scalar-invariance-loadings-intercepts",
@@ -5576,7 +5576,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#the-case-study-dataset",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "The case study dataset",
-    "text": "The case study dataset\n\nload(\"../data/dmg.RData\")\nstr(dmg)\n\n'data.frame':   300 obs. of  10 variables:\n $ id       : int  1 2 3 4 5 6 7 8 9 10 ...\n $ diagnosis: Factor w/ 2 levels \"manic\",\"norming\": 1 1 1 1 1 1 1 1 1 1 ...\n $ Info     : num  8.95 11.94 5.8 14.69 6 ...\n $ Sim      : num  9.34 9.93 6.64 17.72 6.56 ...\n $ Vocab    : num  12.39 4.57 6.03 13.21 7.83 ...\n $ Comp     : num  11.61 8.86 5.03 13.38 5.77 ...\n $ PicComp  : num  11.15 4.95 8.02 11.54 8.84 ...\n $ PicArr   : num  15.7 5.46 7.65 12.06 5.39 ...\n $ BlkDsgn  : num  11.45 3.43 9.28 10.46 7.39 ...\n $ ObjAsmb  : num  15.54 3.8 8.63 14.38 9.92 ...\n\n\n\n\n\n\n\n\nImportant\n\n\nSEM work with variance-covariance matrices. For this reason, it is sufficient to find it in the original articles to use their “data”! The data we will use have been generated based on the parameters provided in the article, modifying the sample size."
+    "text": "The case study dataset\n(Beaujean et al., 2012)\n\nload(\"../data/dmg.RData\")\nstr(dmg)\n\n'data.frame':   300 obs. of  10 variables:\n $ id       : int  1 2 3 4 5 6 7 8 9 10 ...\n $ diagnosis: Factor w/ 2 levels \"manic\",\"norming\": 1 1 1 1 1 1 1 1 1 1 ...\n $ Info     : num  8.95 11.94 5.8 14.69 6 ...\n $ Sim      : num  9.34 9.93 6.64 17.72 6.56 ...\n $ Vocab    : num  12.39 4.57 6.03 13.21 7.83 ...\n $ Comp     : num  11.61 8.86 5.03 13.38 5.77 ...\n $ PicComp  : num  11.15 4.95 8.02 11.54 8.84 ...\n $ PicArr   : num  15.7 5.46 7.65 12.06 5.39 ...\n $ BlkDsgn  : num  11.45 3.43 9.28 10.46 7.39 ...\n $ ObjAsmb  : num  15.54 3.8 8.63 14.38 9.92 ...\n\n\n\n\n\n\n\n\nImportant\n\n\nSEM work with variance-covariance matrices. For this reason, it is sufficient to find it in the original articles to use their “data”! The data we will use have been generated based on the parameters provided in the article, modifying the sample size."
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#model-legacy",
@@ -5618,7 +5618,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#what-does-partial-scalar-mean-interpretation",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "What does partial scalar mean (interpretation)?",
-    "text": "What does partial scalar mean (interpretation)?\n\nMost intercepts are comparable across groups\nA small subset is not (e.g., Sim)\nLatent mean comparisons can be more defensible under partial scalar, but interpret non-invariant indicators substantively\n\n\nWhich item behaves differently across groups, and what could it reflect?"
+    "text": "What does partial scalar mean (interpretation)?\n\nMost intercepts are comparable across groups\nA small subset is not (e.g., Sim)\nLatent mean comparisons can be more defensible under partial scalar, but interpret non-invariant indicators substantively\n\n\nWhich item behaves differently across groups, and what could it reflect?\n\nA causal interpretation of invariance (Rohrer & Paulewicz, 2025)"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#structural-invariance-what-comes-after-measurement",
@@ -5646,14 +5646,14 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#further-reading-extras",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Further reading (extras)",
-    "text": "Further reading (extras)\n\nPartial invariance strategies and interpretability\n\nInvariance with ordinal indicators (thresholds first)\n\nRobust difference testing with MLR / WLSMV\n\n\nAdd links to extras/ modules when we create them."
+    "text": "Further reading (extras)\n\nRohrer’s blogpost: A casual but causal take on measurement invariance\nPartial invariance strategies and interpretability\n(Maassen et al., 2025): How much is invariance disregarded?\nlavaan tutorial: https://lavaan.ugent.be/tutorial/groups.html\nAnd controversies that I don’t like (Funder & Gardiner, 2024) (Robitzsch & Lüdtke, 2023)"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#references",
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#references",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "References",
-    "text": "References"
+    "text": "References\n\n\nBeaujean, A. A., Freeman, M. J., Youngstrom, E., & Carlson, G. (2012). The structure of cognitive abilities in youths with manic symptoms: a factorial invariance study. Assessment, 19(4), 462–471. https://doi.org/10.1177/1073191111399037\n\n\nFunder, D. C., & Gardiner, G. (2024). MIsgivings about measurement invariance. European Journal of Personality, 38(6), 889–895. https://doi.org/10.1177/08902070241228338\n\n\nMaassen, E., D’Urso, E. D., Assen, M. A. L. M. van, Nuijten, M. B., De Roover, K., & Wicherts, J. M. (2025). The dire disregard of measurement invariance testing in psychological science. Psychological Methods, 30(5), 966–979. https://doi.org/10.1037/met0000624\n\n\nRobitzsch, A., & Lüdtke, O. (2023). Why full, partial, or approximate measurement invariance are not a prerequisite for meaningful and valid group comparisons. Structural Equation Modeling: A Multidisciplinary Journal, 30(6), 859–870. https://doi.org/10.1080/10705511.2023.2191292\n\n\nRohrer, J. M., & Paulewicz, B. (2025). Rethinking measurement invariance causally. Current Research in Ecological and Social Psychology, 9, 100241. https://doi.org/10.1016/j.cresp.2025.100241"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#today-in-the-workflow",
@@ -5667,7 +5667,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#invariance-steps-measurement",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Invariance steps (measurement)",
-    "text": "Invariance steps (measurement)\n\nConfigural: same factor structure (same “form”)\nMetric / weak: equal loadings (Λ)\nScalar / strong: equal intercepts (τ)\nStrict: equal residual variances (Θ)\n\n\nScalar invariance (full or partial) is the gateway to latent mean comparisons."
+    "text": "Invariance steps (measurement)\n\nConfigural: same factor structure (same “form”)\nMetric / weak: equal loadings (\\(Λ\\))\nScalar / strong: equal intercepts (\\(τ\\))\nStrict: equal residual variances (\\(Θ\\))\n\n\nScalar invariance (full or partial) is the gateway to latent mean comparisons."
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-0-separate-models",
@@ -5723,7 +5723,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#step-2-metric-non-invariance",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Step 2: Metric (non-)invariance",
-    "text": "Step 2: Metric (non-)invariance\nMetric invariance means that for each item, the loading of the factor on the item is the same in the two groups (or, again more precisely, that we cannot reject the hypothesis that the loadings are the same)."
+    "text": "Step 2: Metric (non-)invariance\nMetric invariance means that for each item, the loading of the factor on the item is the same in the two groups (or, more precisely, that we cannot reject the hypothesis that the loadings are the same)."
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-2-metric-non-invariance-1",
@@ -5793,7 +5793,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#to-read",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "TO READ",
-    "text": "TO READ\nAll the next slides are inspired in large part from the following blog post"
+    "text": "TO READ\nAll the next ‘non-invariance’ slides are inspired in large part from the following blog post"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#practical-comparison-rules",
@@ -5828,14 +5828,14 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#step-3-inspection-of-equality-constraints",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Step 3 — Inspection of equality constraints",
-    "text": "Step 3 — Inspection of equality constraints\n\n# Identify the worst constraints\nlavTestScore(m_scal2)$uni |&gt; head(10)\n\n\nunivariate score tests:\n\n     lhs op   rhs     X2 df p.value\n1   .p2. == .p31.  0.419  1   0.517\n2   .p3. == .p32.  0.335  1   0.563\n3   .p4. == .p33.  2.389  1   0.122\n4   .p6. == .p35.  7.026  1   0.008\n5   .p7. == .p36.  0.072  1   0.789\n6   .p8. == .p37.  0.000  1   0.988\n7  .p20. == .p49.  8.342  1   0.004\n8  .p21. == .p50. 42.173  1   0.000\n9  .p22. == .p51.  2.691  1   0.101\n10 .p23. == .p52. 11.089  1   0.001\n\n\n\nparameterTable(m_scal2)"
+    "text": "Step 3 — Inspection of equality constraints\n\n\n# Identify the worst constraints\nlavTestScore(m_scal2)$uni |&gt; head(10)\n\n\nunivariate score tests:\n\n     lhs op   rhs     X2 df p.value\n1   .p2. == .p31.  0.419  1   0.517\n2   .p3. == .p32.  0.335  1   0.563\n3   .p4. == .p33.  2.389  1   0.122\n4   .p6. == .p35.  7.026  1   0.008\n5   .p7. == .p36.  0.072  1   0.789\n6   .p8. == .p37.  0.000  1   0.988\n7  .p20. == .p49.  8.342  1   0.004\n8  .p21. == .p50. 42.173  1   0.000\n9  .p22. == .p51.  2.691  1   0.101\n10 .p23. == .p52. 11.089  1   0.001\n\n\n\nptscal &lt;- parameterTable(m_scal2); ptscal[ptscal$op == \"~1\",-1]\n\n       lhs op rhs user block group free ustart exo label plabel start    est\n20    Info ~1        0     1     1   18     NA   0 .p20.  .p20. 10.09 10.385\n21     Sim ~1        0     1     1   19     NA   0 .p21.  .p21. 12.07 11.497\n22   Vocab ~1        0     1     1   20     NA   0 .p22.  .p22. 10.25 10.352\n23    Comp ~1        0     1     1   21     NA   0 .p23.  .p23.  9.96 10.185\n24 PicComp ~1        0     1     1   22     NA   0 .p24.  .p24. 10.90 10.803\n25  PicArr ~1        0     1     1   23     NA   0 .p25.  .p25. 11.24 10.916\n26 BlkDsgn ~1        0     1     1   24     NA   0 .p26.  .p26. 10.30 10.416\n27 ObjAsmb ~1        0     1     1   25     NA   0 .p27.  .p27. 10.44 10.608\n28      gc ~1        0     1     1    0      0   0        .p28.  0.00  0.000\n29      gv ~1        0     1     1    0      0   0        .p29.  0.00  0.000\n49    Info ~1        0     2     2   43     NA   0 .p20.  .p49. 10.10 10.385\n50     Sim ~1        0     2     2   44     NA   0 .p21.  .p50. 10.30 11.497\n51   Vocab ~1        0     2     2   45     NA   0 .p22.  .p51.  9.80 10.352\n52    Comp ~1        0     2     2   46     NA   0 .p23.  .p52. 10.10 10.185\n53 PicComp ~1        0     2     2   47     NA   0 .p24.  .p53. 10.10 10.803\n54  PicArr ~1        0     2     2   48     NA   0 .p25.  .p54. 10.10 10.916\n55 BlkDsgn ~1        0     2     2   49     NA   0 .p26.  .p55.  9.90 10.416\n56 ObjAsmb ~1        0     2     2   50     NA   0 .p27.  .p56. 10.20 10.608\n57      gc ~1        0     2     2   51     NA   0        .p57.  0.00 -0.590\n58      gv ~1        0     2     2   52     NA   0        .p58.  0.00 -0.509\n      se\n20 0.238\n21 0.274\n22 0.254\n23 0.216\n24 0.198\n25 0.251\n26 0.249\n27 0.236\n28 0.000\n29 0.000\n49 0.238\n50 0.274\n51 0.254\n52 0.216\n53 0.198\n54 0.251\n55 0.249\n56 0.236\n57 0.285\n58 0.257"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-3-partial-scalar-invariance",
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#step-3-partial-scalar-invariance",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Step 3 — Partial scalar invariance",
-    "text": "Step 3 — Partial scalar invariance\n\n# Example: free the intercept of Sim\nm_scal2_p &lt;- cfa(model, data = dmg, group = \"diagnosis\",\n                group.equal = c(\"loadings\",\"intercepts\"),\n                group.partial = \"Sim ~ 1\")\nfitMeasures(m_scal2_p, c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\"))\n\n  chisq      df   rmsea     cfi     tli \n100.174  49.000   0.083   0.957   0.950"
+    "text": "Step 3 — Partial scalar invariance\n\n\n# Example: free the intercept of Sim\nm_scal2_p &lt;- cfa(model, data = dmg, group = \"diagnosis\",\n                group.equal = c(\"loadings\",\"intercepts\"),\n                group.partial = \"Sim ~ 1\")\nfitMeasures(m_scal2_p, c(\"chisq\",\"df\",\"rmsea\",\"cfi\",\"tli\"))\n\n  chisq      df   rmsea     cfi     tli \n100.174  49.000   0.083   0.957   0.950 \n\n\n\nanova(m_scal2_p, m_metr2)\n\n\nChi-Squared Difference Test\n\n          Df   AIC   BIC   Chisq Chisq diff    RMSEA Df diff Pr(&gt;Chisq)  \nm_metr2   44 11243 11406  88.153                                         \nm_scal2_p 49 11245 11389 100.174     12.021 0.096752       5     0.0345 *\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nfitMeasures(m_scal2_p, \"cfi\") - fitMeasures(m_metr2, \"cfi\")\n\n   cfi \n-0.006"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#step-3-partial-scalar-invariance-1",
@@ -5877,7 +5877,7 @@
     "href": "slides/07_invariance_mgcfa_partialinvariance.html#partial-invariance-of-residuals-of-observed-variables-2",
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Partial Invariance of Residuals of observed variables (2)",
-    "text": "Partial Invariance of Residuals of observed variables (2)\n\n# Evaluation of Partial Invariance of Residuals of observed variables\nanova(m.rvo.P,m_scal2_p) # Note: Comparison model Partial Scalar invariance\n\n\nChi-Squared Difference Test\n\n          Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nm_scal2_p 49 11245 11389 100.17                                    \nm.rvo.P   55 11235 11357 102.42     2.2458     0       6     0.8958\n\nfitMeasures(m.rvo.P,\"cfi\")-fitMeasures(m_scal2_p,\"cfi\")\n\n  cfi \n0.003 \n\nfitMeasures(m.rvo.P,\"bic\")-fitMeasures(m_scal2_p,\"bic\")\n\n    bic \n-31.977 \n\n# Paartial Invariance of Residuals of observed variables is satisfactory.\n# Question: What can we say about overall\n# Measurement Invariance of the baseline theoretical model?"
+    "text": "Partial Invariance of Residuals of observed variables (2)\n\n\n# Evaluation of Partial Invariance of Residuals of observed variables\nanova(m.rvo.P,m_scal2_p) # Note: Comparison model Partial Scalar invariance\n\n\nChi-Squared Difference Test\n\n          Df   AIC   BIC  Chisq Chisq diff RMSEA Df diff Pr(&gt;Chisq)\nm_scal2_p 49 11245 11389 100.17                                    \nm.rvo.P   55 11235 11357 102.42     2.2458     0       6     0.8958\n\nfitMeasures(m.rvo.P,\"cfi\")-fitMeasures(m_scal2_p,\"cfi\")\n\n  cfi \n0.003 \n\nfitMeasures(m.rvo.P,\"bic\")-fitMeasures(m_scal2_p,\"bic\")\n\n    bic \n-31.977 \n\n# Paartial Invariance of Residuals of observed variables is satisfactory.\n# Question: What can we say about overall\n# Measurement Invariance of the baseline theoretical model?"
   },
   {
     "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#invariance-of-variance-of-latent-variables-1",
@@ -9007,5 +9007,19 @@
     "title": "Lesson 6 — When SEM Goes Wrong",
     "section": "Concepts",
     "text": "Concepts\n\nMCAR: missingness unrelated to observed/unobserved → listwise unbiased (but inefficient)\nMAR: missingness depends on observed variables → FIML OK (under correct model)\nMNAR: missingness depends on unobserved/missing values → both listwise & FIML can be biased\n\nKey point:\n\nFIML is not “imputation”. It’s likelihood-based estimation using all available cases assuming MAR."
+  },
+  {
+    "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#acknowledgments",
+    "href": "slides/07_invariance_mgcfa_partialinvariance.html#acknowledgments",
+    "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Gianmarco Altoé for his slides!"
+  },
+  {
+    "objectID": "slides/07_invariance_mgcfa_partialinvariance.html#exercise",
+    "href": "slides/07_invariance_mgcfa_partialinvariance.html#exercise",
+    "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
+    "section": "Exercise",
+    "text": "Exercise\nTry it (15–25 min)\n1. Fit configural, metric, scalar on the toy dataset d.\n2. Decide whether scalar is acceptable using ΔCFI + theory.\n3. If scalar fails, free one intercept using group.partial.\n4. Write 3–4 sentences: what is comparable now, and what is not?\n../labs/Lab 07 — Invariance (MG-CFA) link"
   }
 ]
