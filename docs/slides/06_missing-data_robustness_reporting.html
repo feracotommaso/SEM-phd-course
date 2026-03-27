@@ -93,26 +93,7 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-    /* CSS for citations */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-    }
-    .hanging-indent div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }  </style>
+  </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -263,8 +244,8 @@
 <h1>Part I — Build a dataset that can fool you</h1>
 
 </section>
-<section id="why-simulate" class="slide level2">
-<h2>Why simulate?</h2>
+<section id="why-messy-data" class="slide level2">
+<h2>Why messy data?</h2>
 <p>Real SEM work is rarely “clean”:</p>
 <ul>
 <li>indicators are <strong>skewed</strong></li>
@@ -315,65 +296,36 @@
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>skew_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"p1"</span>,<span class="st">"p2"</span>,<span class="st">"m1"</span>,<span class="st">"m2"</span>,<span class="st">"c1"</span>)</span>
 <span id="cb3-2"><a></a><span class="cf">for</span> (v <span class="cf">in</span> skew_vars) dat[[v]] <span class="ot">&lt;-</span> <span class="fu">exp</span>(dat[[v]] <span class="sc">/</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="quick-distribution-check" class="slide level2">
-<h2>Quick distribution check</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">hist</span>(dat<span class="sc">$</span>p1, <span class="at">main =</span> <span class="st">"Skewed indicator: p1"</span>, <span class="at">xlab =</span> <span class="st">"p1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-</div>
-<img data-src="06_missing-data_robustness_reporting_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"><blockquote>
-<p><span style="color:red">Add conceptual graphic: normal vs skewed distributions with same mean/variance but different tails.</span></p>
-</blockquote>
-</section>
+<img data-src="06_missing-data_robustness_reporting_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section id="add-heavy-tails-non-normal-residual-behavior" class="slide level2">
 <h2>Add heavy tails (non-normal residual behavior)</h2>
 <p>We inject a small number of outliers in two indicators (a common real-life pattern).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb5-2"><a></a>ix <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(N), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.03</span><span class="sc">*</span>N))  <span class="co"># ~3% outliers</span></span>
-<span id="cb5-3"><a></a>dat<span class="sc">$</span>m4[ix] <span class="ot">&lt;-</span> dat<span class="sc">$</span>m4[ix] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ix), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
-<span id="cb5-4"><a></a>dat<span class="sc">$</span>c3[ix] <span class="ot">&lt;-</span> dat<span class="sc">$</span>c3[ix] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ix), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb4-2"><a></a>ix <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(N), <span class="at">size =</span> <span class="fu">round</span>(<span class="fl">0.05</span><span class="sc">*</span>N))  <span class="co"># ~5% outliers</span></span>
+<span id="cb4-3"><a></a>dat<span class="sc">$</span>m4[ix] <span class="ot">&lt;-</span> dat<span class="sc">$</span>m4[ix] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ix), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
+<span id="cb4-4"><a></a>dat<span class="sc">$</span>c3[ix] <span class="ot">&lt;-</span> dat<span class="sc">$</span>c3[ix] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(ix), <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="a-simple-non-normality-summary-no-extra-packages" class="slide level2">
-<h2>A simple non-normality summary (no extra packages)</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>skew <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb6-2"><a></a>  x <span class="ot">&lt;-</span> x[<span class="fu">is.finite</span>(x)]</span>
-<span id="cb6-3"><a></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb6-4"><a></a>  <span class="fu">mean</span>((x <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> s<span class="sc">^</span><span class="dv">3</span></span>
-<span id="cb6-5"><a></a>}</span>
-<span id="cb6-6"><a></a>kurt_excess <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb6-7"><a></a>  x <span class="ot">&lt;-</span> x[<span class="fu">is.finite</span>(x)]</span>
-<span id="cb6-8"><a></a>  m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb6-9"><a></a>  <span class="fu">mean</span>((x <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">4</span>) <span class="sc">/</span> s<span class="sc">^</span><span class="dv">4</span> <span class="sc">-</span> <span class="dv">3</span></span>
-<span id="cb6-10"><a></a>}</span>
-<span id="cb6-11"><a></a></span>
-<span id="cb6-12"><a></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">skew =</span> <span class="fu">skew</span>(dat<span class="sc">$</span>p1), <span class="at">kurt_excess =</span> <span class="fu">kurt_excess</span>(dat<span class="sc">$</span>p1)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       skew kurt_excess 
-       2.83       14.79 </code></pre>
-</div>
-</div>
-</section>
+
+<img data-src="06_missing-data_robustness_reporting_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
 <section id="create-mar-missingness-20" class="slide level2">
 <h2>Create MAR missingness (~20%)</h2>
 <p>Missingness depends on an <em>observed</em> variable (MAR), not on the missing value itself.</p>
 <p>We make e1 and m3 more likely to be missing when peer pressure is high.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb8-2"><a></a></span>
-<span id="cb8-3"><a></a><span class="co"># a proxy observed score for peer (in real life: a sum score, previous wave, etc.)</span></span>
-<span id="cb8-4"><a></a>peer_obs <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(dat[, <span class="fu">c</span>(<span class="st">"p1"</span>,<span class="st">"p2"</span>,<span class="st">"p3"</span>,<span class="st">"p4"</span>)])</span>
-<span id="cb8-5"><a></a></span>
-<span id="cb8-6"><a></a>p_miss <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">scale</span>(peer_obs))            <span class="co"># 0..1</span></span>
-<span id="cb8-7"><a></a>miss   <span class="ot">&lt;-</span> <span class="fu">runif</span>(N) <span class="sc">&lt;</span> (p_miss <span class="sc">*</span> <span class="fl">0.45</span>)         <span class="co"># tune to ~20%</span></span>
-<span id="cb8-8"><a></a></span>
-<span id="cb8-9"><a></a>dat<span class="sc">$</span>e1[miss] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb8-10"><a></a>dat<span class="sc">$</span>m3[miss] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb8-11"><a></a></span>
-<span id="cb8-12"><a></a><span class="fu">round</span>(<span class="fu">colMeans</span>(<span class="fu">is.na</span>(dat)), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a><span class="co"># a proxy observed score for peer (in real life: a sum score, previous wave, etc.)</span></span>
+<span id="cb5-4"><a></a>peer_obs <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(dat[, <span class="fu">c</span>(<span class="st">"p1"</span>,<span class="st">"p2"</span>,<span class="st">"p3"</span>,<span class="st">"p4"</span>)])</span>
+<span id="cb5-5"><a></a></span>
+<span id="cb5-6"><a></a>p_miss <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="fu">scale</span>(peer_obs))            <span class="co"># 0..1</span></span>
+<span id="cb5-7"><a></a>miss   <span class="ot">&lt;-</span> <span class="fu">runif</span>(N) <span class="sc">&lt;</span> (p_miss <span class="sc">*</span> <span class="fl">0.45</span>)         <span class="co"># tune to ~20%</span></span>
+<span id="cb5-8"><a></a></span>
+<span id="cb5-9"><a></a>dat<span class="sc">$</span>e1[miss] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-10"><a></a>dat<span class="sc">$</span>m3[miss] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-11"><a></a></span>
+<span id="cb5-12"><a></a><span class="fu">round</span>(<span class="fu">colMeans</span>(<span class="fu">is.na</span>(dat)), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> p1  p2  p3  p4  m1  m2  m3  m4  c1  c2  c3  e1  e2 
 0.0 0.0 0.0 0.0 0.0 0.0 0.2 0.0 0.0 0.0 0.0 0.2 0.0 </code></pre>
@@ -387,9 +339,42 @@
 <li>patterns (is it concentrated in a subset?)</li>
 <li>association between missingness and observed variables (supports MAR plausibility)</li>
 </ul>
-<blockquote>
-<p><span style="color:red">Add small schematic: MCAR vs MAR vs MNAR (arrows from observed/unobserved to missingness indicator R).</span></p>
-</blockquote>
+<table class="caption-top">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 15%">
+<col style="width: 39%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mechanism</th>
+<th>Full Name</th>
+<th>Definition</th>
+<th>Key Idea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MCAR</td>
+<td>Missing Completely at Random</td>
+<td>Missingness is independent of both observed and unobserved data</td>
+<td>No systematic pattern in missing data</td>
+</tr>
+<tr class="even">
+<td>MAR</td>
+<td>Missing at Random</td>
+<td>Missingness depends only on observed data, not on the missing values</td>
+<td>Can be explained by variables you have</td>
+</tr>
+<tr class="odd">
+<td>MNAR</td>
+<td>Missing Not at Random</td>
+<td>Missingness depends on the unobserved (missing) values themselves</td>
+<td>Missingness is related to what is missing</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section class="slide level2">
 
@@ -402,17 +387,17 @@
 <section id="the-analysis-model-same-model-throughout" class="slide level2">
 <h2>The analysis model (same model throughout)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>model_sem <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb10-2"><a></a><span class="st"># Measurement</span></span>
-<span id="cb10-3"><a></a><span class="st">peer  =~ p1 + p2 + p3 + p4</span></span>
-<span id="cb10-4"><a></a><span class="st">media =~ m1 + m2 + m3 + m4</span></span>
-<span id="cb10-5"><a></a><span class="st">comp  =~ c1 + c2 + c3</span></span>
-<span id="cb10-6"><a></a><span class="st">eat   =~ e1 + e2</span></span>
-<span id="cb10-7"><a></a></span>
-<span id="cb10-8"><a></a><span class="st"># Structural</span></span>
-<span id="cb10-9"><a></a><span class="st">comp ~ peer + media</span></span>
-<span id="cb10-10"><a></a><span class="st">eat  ~ comp</span></span>
-<span id="cb10-11"><a></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>model_sem <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb7-2"><a></a><span class="st"># Measurement</span></span>
+<span id="cb7-3"><a></a><span class="st">peer  =~ p1 + p2 + p3 + p4</span></span>
+<span id="cb7-4"><a></a><span class="st">media =~ m1 + m2 + m3 + m4</span></span>
+<span id="cb7-5"><a></a><span class="st">comp  =~ c1 + c2 + c3</span></span>
+<span id="cb7-6"><a></a><span class="st">eat   =~ e1 + e2</span></span>
+<span id="cb7-7"><a></a></span>
+<span id="cb7-8"><a></a><span class="st"># Structural</span></span>
+<span id="cb7-9"><a></a><span class="st">comp ~ peer + media</span></span>
+<span id="cb7-10"><a></a><span class="st">eat  ~ comp</span></span>
+<span id="cb7-11"><a></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="a-helper-extract-the-same-key-parameters-each-time" class="slide level2">
@@ -424,12 +409,12 @@
 <li>comp → eat</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>key_paths <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
-<span id="cb11-2"><a></a>  pe <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit)</span>
-<span id="cb11-3"><a></a>  pe <span class="ot">&lt;-</span> pe[pe<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~"</span> <span class="sc">&amp;</span> pe<span class="sc">$</span>lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"comp"</span>,<span class="st">"eat"</span>), ]</span>
-<span id="cb11-4"><a></a>  pe[pe<span class="sc">$</span>rhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"peer"</span>,<span class="st">"media"</span>,<span class="st">"comp"</span>),</span>
-<span id="cb11-5"><a></a>     <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"se"</span>,<span class="st">"z"</span>,<span class="st">"pvalue"</span>)]</span>
-<span id="cb11-6"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>key_paths <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
+<span id="cb8-2"><a></a>  pe <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit)</span>
+<span id="cb8-3"><a></a>  pe <span class="ot">&lt;-</span> pe[pe<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~"</span> <span class="sc">&amp;</span> pe<span class="sc">$</span>lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"comp"</span>,<span class="st">"eat"</span>), ]</span>
+<span id="cb8-4"><a></a>  pe[pe<span class="sc">$</span>rhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"peer"</span>,<span class="st">"media"</span>,<span class="st">"comp"</span>),</span>
+<span id="cb8-5"><a></a>     <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"se"</span>,<span class="st">"z"</span>,<span class="st">"pvalue"</span>)]</span>
+<span id="cb8-6"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -440,8 +425,8 @@
 <h1>Part III — Missing data: listwise vs FIML</h1>
 
 </section>
-<section id="concepts-technical-but-actionable" class="slide level2">
-<h2>Concepts (technical, but actionable)</h2>
+<section id="concepts" class="slide level2">
+<h2>Concepts</h2>
 <ul>
 <li><strong>MCAR</strong>: missingness unrelated to observed/unobserved → listwise unbiased (but inefficient)</li>
 <li><strong>MAR</strong>: missingness depends on observed variables → <strong>FIML OK</strong> (under correct model)</li>
@@ -455,40 +440,40 @@
 <section id="fit-1-ml-default-missing-handling-listwise" class="slide level2">
 <h2>Fit 1 — ML, default missing handling (listwise)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>fit_list <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat)  <span class="co"># default: listwise deletion</span></span>
-<span id="cb12-2"><a></a><span class="fu">fitMeasures</span>(fit_list, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>fit_list <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat)  <span class="co"># default: listwise deletion</span></span>
+<span id="cb9-2"><a></a><span class="fu">fitMeasures</span>(fit_list, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi    tli  rmsea   srmr 
-56.219 61.000  1.000  1.009  0.000  0.030 </code></pre>
+58.102 61.000  1.000  1.006  0.000  0.030 </code></pre>
 </div>
 </div>
 </section>
 <section id="fit-2-ml-fiml" class="slide level2">
 <h2>Fit 2 — ML + FIML</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>fit_fiml <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
-<span id="cb14-2"><a></a><span class="fu">fitMeasures</span>(fit_fiml, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>fit_fiml <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat, <span class="at">missing =</span> <span class="st">"fiml"</span>)</span>
+<span id="cb11-2"><a></a><span class="fu">fitMeasures</span>(fit_fiml, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi    tli  rmsea   srmr 
-54.717 61.000  1.000  1.010  0.000  0.027 </code></pre>
+57.675 61.000  1.000  1.006  0.000  0.027 </code></pre>
 </div>
 </div>
 </section>
 <section id="sensitivity-check-did-the-conclusion-change" class="slide level2">
 <h2>Sensitivity check: did the conclusion change?</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">rbind</span>(</span>
-<span id="cb16-2"><a></a>  <span class="at">listwise =</span> <span class="fu">key_paths</span>(fit_list),</span>
-<span id="cb16-3"><a></a>  <span class="at">fiml     =</span> <span class="fu">key_paths</span>(fit_fiml)</span>
-<span id="cb16-4"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">rbind</span>(</span>
+<span id="cb13-2"><a></a>  <span class="at">listwise =</span> <span class="fu">key_paths</span>(fit_list),</span>
+<span id="cb13-3"><a></a>  <span class="at">fiml     =</span> <span class="fu">key_paths</span>(fit_fiml)</span>
+<span id="cb13-4"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             lhs op   rhs   est    se     z pvalue
-listwise.14 comp  ~  peer 0.362 0.103 3.523  0.000
-listwise.15 comp  ~ media 0.424 0.093 4.578  0.000
-listwise.16  eat  ~  comp 0.430 0.125 3.436  0.001
-fiml.14     comp  ~  peer 0.409 0.089 4.592  0.000
-fiml.15     comp  ~ media 0.450 0.085 5.280  0.000
-fiml.16      eat  ~  comp 0.427 0.124 3.442  0.001</code></pre>
+listwise.14 comp  ~  peer 0.387 0.103 3.767      0
+listwise.15 comp  ~ media 0.381 0.087 4.392      0
+listwise.16  eat  ~  comp 0.444 0.126 3.521      0
+fiml.14     comp  ~  peer 0.434 0.091 4.788      0
+fiml.15     comp  ~ media 0.404 0.081 4.959      0
+fiml.16      eat  ~  comp 0.444 0.126 3.526      0</code></pre>
 </div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -497,7 +482,7 @@ fiml.16      eat  ~  comp 0.427 0.124 3.442  0.001</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Interpretation rule of thumb (today)</strong></p>
+<p><strong>Interpretation rule of thumb</strong></p>
 </div>
 <div class="callout-content">
 <p>If your substantive conclusion changes under a reasonable alternative (e.g., listwise → FIML), treat the result as <strong>fragile</strong> and investigate <em>why</em>.</p>
@@ -531,31 +516,50 @@ fiml.16      eat  ~  comp 0.427 0.124 3.442  0.001</code></pre>
 <section id="fit-3-mlr-fiml" class="slide level2">
 <h2>Fit 3 — MLR + FIML</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>fit_mlr <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat,</span>
-<span id="cb18-2"><a></a>               <span class="at">missing =</span> <span class="st">"fiml"</span>,</span>
-<span id="cb18-3"><a></a>               <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
-<span id="cb18-4"><a></a><span class="fu">fitMeasures</span>(fit_mlr, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>fit_mlr <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat,</span>
+<span id="cb15-2"><a></a>               <span class="at">missing =</span> <span class="st">"fiml"</span>,</span>
+<span id="cb15-3"><a></a>               <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span>
+<span id="cb15-4"><a></a><span class="fu">fitMeasures</span>(fit_mlr, <span class="fu">c</span>(<span class="st">"nobs"</span>,<span class="st">"chisq"</span>,<span class="st">"df"</span>,<span class="st">"cfi"</span>,<span class="st">"tli"</span>,<span class="st">"rmsea"</span>,<span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> chisq     df    cfi    tli  rmsea   srmr 
-54.717 61.000  1.000  1.010  0.000  0.027 </code></pre>
+57.675 61.000  1.000  1.006  0.000  0.027 </code></pre>
+</div>
+</div>
+<p><strong>Or better use robust indices</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">fitMeasures</span>(</span>
+<span id="cb17-2"><a></a>  fit_mlr,</span>
+<span id="cb17-3"><a></a>  <span class="fu">c</span>(<span class="st">"cfi.scaled"</span>, <span class="st">"tli.scaled"</span>, <span class="st">"rmsea.scaled"</span>,</span>
+<span id="cb17-4"><a></a>    <span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span>, <span class="st">"rmsea.robust"</span>)</span>
+<span id="cb17-5"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi.scaled   tli.scaled rmsea.scaled   cfi.robust   tli.robust rmsea.robust 
+       1.000        1.010        0.000        1.000        1.011        0.000 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">fitMeasures</span>(fit_mlr, <span class="fu">c</span>(<span class="st">"cfi.robust"</span>, <span class="st">"tli.robust"</span>, <span class="st">"rmsea.robust"</span>, <span class="st">"srmr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cfi.robust   tli.robust rmsea.robust         srmr 
+       1.000        1.011        0.000        0.027 </code></pre>
 </div>
 </div>
 </section>
 <section id="sensitivity-check-do-se-p-values-change" class="slide level2">
 <h2>Sensitivity check: do SE / p-values change?</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="fu">rbind</span>(</span>
-<span id="cb20-2"><a></a>  <span class="at">fiml_ML  =</span> <span class="fu">key_paths</span>(fit_fiml),</span>
-<span id="cb20-3"><a></a>  <span class="at">fiml_MLR =</span> <span class="fu">key_paths</span>(fit_mlr)</span>
-<span id="cb20-4"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">rbind</span>(</span>
+<span id="cb21-2"><a></a>  <span class="at">fiml_ML  =</span> <span class="fu">key_paths</span>(fit_fiml),</span>
+<span id="cb21-3"><a></a>  <span class="at">fiml_MLR =</span> <span class="fu">key_paths</span>(fit_mlr)</span>
+<span id="cb21-4"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             lhs op   rhs   est    se     z pvalue
-fiml_ML.14  comp  ~  peer 0.409 0.089 4.592  0.000
-fiml_ML.15  comp  ~ media 0.450 0.085 5.280  0.000
-fiml_ML.16   eat  ~  comp 0.427 0.124 3.442  0.001
-fiml_MLR.14 comp  ~  peer 0.409 0.091 4.496  0.000
-fiml_MLR.15 comp  ~ media 0.450 0.146 3.085  0.002
-fiml_MLR.16  eat  ~  comp 0.427 0.125 3.430  0.001</code></pre>
+fiml_ML.14  comp  ~  peer 0.434 0.091 4.788  0.000
+fiml_ML.15  comp  ~ media 0.404 0.081 4.959  0.000
+fiml_ML.16   eat  ~  comp 0.444 0.126 3.526  0.000
+fiml_MLR.14 comp  ~  peer 0.434 0.094 4.643  0.000
+fiml_MLR.15 comp  ~ media 0.404 0.139 2.914  0.004
+fiml_MLR.16  eat  ~  comp 0.444 0.132 3.357  0.001</code></pre>
 </div>
 </div>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -589,51 +593,57 @@ fiml_MLR.16  eat  ~  comp 0.427 0.125 3.430  0.001</code></pre>
 <section id="optional-add-an-indirect-effect-to-the-model" class="slide level2">
 <h2>(Optional) Add an indirect effect to the model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a>model_sem_ind <span class="ot">&lt;-</span> <span class="fu">paste0</span>(model_sem, <span class="st">"</span><span class="sc">\n\n</span><span class="st"># Indirect effect</span><span class="sc">\n</span><span class="st">ind_peer := (comp~peer)*(eat~comp)</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>model_sem_ind <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb23-2"><a></a><span class="st"># Measurement</span></span>
+<span id="cb23-3"><a></a><span class="st">peer  =~ p1 + p2 + p3 + p4</span></span>
+<span id="cb23-4"><a></a><span class="st">media =~ m1 + m2 + m3 + m4</span></span>
+<span id="cb23-5"><a></a><span class="st">comp  =~ c1 + c2 + c3</span></span>
+<span id="cb23-6"><a></a><span class="st">eat   =~ e1 + e2</span></span>
+<span id="cb23-7"><a></a></span>
+<span id="cb23-8"><a></a><span class="st"># Structural</span></span>
+<span id="cb23-9"><a></a><span class="st">comp ~ peer + media</span></span>
+<span id="cb23-10"><a></a><span class="st">eat  ~ comp</span></span>
+<span id="cb23-11"><a></a></span>
+<span id="cb23-12"><a></a><span class="st"># Indirect effect</span></span>
+<span id="cb23-13"><a></a><span class="st">ind_peer := (comp~peer)*(eat~comp)</span></span>
+<span id="cb23-14"><a></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<blockquote>
-<p><span style="color:red">If lavaan complains about label reuse depending on version, label paths explicitly (a* and b<em>) and redefine ind := a</em>b.</span></p>
-</blockquote>
 </section>
 <section id="fit-4-bootstrap-seci-keep-small-for-live-teaching" class="slide level2">
 <h2>Fit 4 — Bootstrap SE/CI (keep small for live teaching)</h2>
 <p>For live demos keep bootstrap modest (e.g., 300–800).<br>
 For papers, use ~2000+.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>fit_boot <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat,</span>
-<span id="cb23-2"><a></a>                <span class="at">missing =</span> <span class="st">"fiml"</span>,</span>
-<span id="cb23-3"><a></a>                <span class="at">se =</span> <span class="st">"bootstrap"</span>,</span>
-<span id="cb23-4"><a></a>                <span class="at">bootstrap =</span> <span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>fit_boot <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_sem, <span class="at">data =</span> dat,</span>
+<span id="cb24-2"><a></a>                <span class="at">missing =</span> <span class="st">"fiml"</span>,</span>
+<span id="cb24-3"><a></a>                <span class="at">se =</span> <span class="st">"bootstrap"</span>,</span>
+<span id="cb24-4"><a></a>                <span class="at">bootstrap =</span> <span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="compare-ci-for-key-paths-normal-vs-bootstrap" class="slide level2">
 <h2>Compare CI for key paths (normal vs bootstrap)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>pe_norm <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_fiml, <span class="at">ci =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-2"><a></a>pe_boot <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_boot, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">boot.ci.type =</span> <span class="st">"perc"</span>)</span>
-<span id="cb24-3"><a></a></span>
-<span id="cb24-4"><a></a>sel <span class="ot">&lt;-</span> <span class="cf">function</span>(pe) {</span>
-<span id="cb24-5"><a></a>  pe[pe<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~"</span> <span class="sc">&amp;</span> pe<span class="sc">$</span>lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"comp"</span>,<span class="st">"eat"</span>) <span class="sc">&amp;</span></span>
-<span id="cb24-6"><a></a>       pe<span class="sc">$</span>rhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"peer"</span>,<span class="st">"media"</span>,<span class="st">"comp"</span>),</span>
-<span id="cb24-7"><a></a>     <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"ci.lower"</span>,<span class="st">"ci.upper"</span>)]</span>
-<span id="cb24-8"><a></a>}</span>
-<span id="cb24-9"><a></a></span>
-<span id="cb24-10"><a></a><span class="fu">list</span>(</span>
-<span id="cb24-11"><a></a>  <span class="at">normal_CI =</span> <span class="fu">sel</span>(pe_norm),</span>
-<span id="cb24-12"><a></a>  <span class="at">boot_CI   =</span> <span class="fu">sel</span>(pe_boot)</span>
-<span id="cb24-13"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>pe_norm <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_fiml, <span class="at">ci =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-2"><a></a>pe_boot <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit_boot, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">boot.ci.type =</span> <span class="st">"perc"</span>)</span>
+<span id="cb25-3"><a></a>sel <span class="ot">&lt;-</span> <span class="cf">function</span>(pe) {</span>
+<span id="cb25-4"><a></a>  pe[pe<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~"</span> <span class="sc">&amp;</span> pe<span class="sc">$</span>lhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"comp"</span>,<span class="st">"eat"</span>) <span class="sc">&amp;</span></span>
+<span id="cb25-5"><a></a>       pe<span class="sc">$</span>rhs <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"peer"</span>,<span class="st">"media"</span>,<span class="st">"comp"</span>),</span>
+<span id="cb25-6"><a></a>     <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"est"</span>,<span class="st">"ci.lower"</span>,<span class="st">"ci.upper"</span>)]</span>
+<span id="cb25-7"><a></a>}</span>
+<span id="cb25-8"><a></a><span class="fu">list</span>(<span class="at">normal_CI =</span> <span class="fu">sel</span>(pe_norm),</span>
+<span id="cb25-9"><a></a>     <span class="at">boot_CI   =</span> <span class="fu">sel</span>(pe_boot))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$normal_CI
     lhs op   rhs   est ci.lower ci.upper
-14 comp  ~  peer 0.409    0.235    0.584
-15 comp  ~ media 0.450    0.283    0.616
-16  eat  ~  comp 0.427    0.184    0.670
+14 comp  ~  peer 0.434    0.256    0.612
+15 comp  ~ media 0.404    0.244    0.564
+16  eat  ~  comp 0.444    0.197    0.691
 
 $boot_CI
     lhs op   rhs   est ci.lower ci.upper
-14 comp  ~  peer 0.409    0.236    0.601
-15 comp  ~ media 0.450    0.242    0.801
-16  eat  ~  comp 0.427    0.188    0.692</code></pre>
+14 comp  ~  peer 0.434    0.259    0.633
+15 comp  ~ media 0.404    0.210    0.743
+16  eat  ~  comp 0.444    0.199    0.729</code></pre>
 </div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -642,10 +652,14 @@ $boot_CI
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Decision heuristic (today)</strong></p>
+<p><strong>Decision heuristic</strong></p>
 </div>
 <div class="callout-content">
-<p>Bootstrap is most valuable when: - your target parameter is a <strong>product</strong> (indirect effects), - distributions are skewed / small N, - normal CIs would be suspect.</p>
+<p>Bootstrap is most valuable when:</p>
+<ul>
+<li>your target parameter is a <strong>product</strong> (indirect effects),</li>
+<li>distributions are skewed / small N,</li>
+</ul>
 </div>
 </div>
 </div>
@@ -675,44 +689,34 @@ $boot_CI
 <section id="local-fit-residuals-and-mi" class="slide level2">
 <h2>Local fit: residuals and MI</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Residual correlations (a small block)</span></span>
-<span id="cb26-2"><a></a><span class="fu">resid</span>(fit_mlr, <span class="at">type =</span> <span class="st">"cor"</span>)<span class="sc">$</span>cov[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="co"># Residual correlations (a small block)</span></span>
+<span id="cb27-2"><a></a><span class="fu">round</span>(<span class="fu">resid</span>(fit_mlr, <span class="at">type =</span> <span class="st">"cor"</span>)<span class="sc">$</span>cov[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>],<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              p1            p2           p3            p4            m1
-p1 -2.220446e-16  2.260205e-02 -0.027764125 -1.156267e-02 -5.688705e-02
-p2  2.260205e-02  2.220446e-16  0.008962091 -1.205551e-02  3.437288e-03
-p3 -2.776412e-02  8.962091e-03  0.000000000  2.145905e-02 -1.029635e-02
-p4 -1.156267e-02 -1.205551e-02  0.021459052 -1.110223e-16  3.037465e-02
-m1 -5.688705e-02  3.437288e-03 -0.010296345  3.037465e-02  2.220446e-16
-m2  1.572566e-02  3.943457e-02  0.010333999 -2.492806e-02  1.005055e-02
-            m2
-p1  0.01572566
-p2  0.03943457
-p3  0.01033400
-p4 -0.02492806
-m1  0.01005055
-m2  0.00000000</code></pre>
+<pre><code>       p1     p2     p3     p4     m1     m2
+p1  0.000  0.023 -0.030 -0.011 -0.052  0.022
+p2  0.023  0.000  0.008 -0.010  0.008  0.046
+p3 -0.030  0.008  0.000  0.021 -0.006  0.016
+p4 -0.011 -0.010  0.021  0.000  0.036 -0.017
+m1 -0.052  0.008 -0.006  0.036  0.000  0.006
+m2  0.022  0.046  0.016 -0.017  0.006  0.000</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a><span class="fu">modificationIndices</span>(fit_mlr, <span class="at">sort. =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">modificationIndices</span>(fit_mlr, <span class="at">sort. =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"mi"</span>,<span class="st">"epc"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     lhs op rhs    mi    epc
-132   p4 ~~  e2 4.658  0.116
-147   m2 ~~  e2 4.044 -0.074
-94    p1 ~~  m1 3.794 -0.047
-84   eat =~  m1 3.541  0.124
-109   p2 ~~  c1 3.434 -0.042
-125   p4 ~~  m2 3.237 -0.064
-85   eat =~  m2 3.024 -0.113
-56  peer =~  c1 2.961 -0.207
-96    p1 ~~  m3 2.841 -0.061
-101   p1 ~~  e1 2.573  0.065</code></pre>
+132   p4 ~~  e2 4.784  0.118
+56  peer =~  c1 3.903 -0.244
+142   m2 ~~  m4 3.872 -0.127
+84   eat =~  m1 3.653  0.122
+109   p2 ~~  c1 3.631 -0.043
+134   m1 ~~  m3 3.494 -0.094
+147   m2 ~~  e2 3.436 -0.069
+94    p1 ~~  m1 3.122 -0.043
+125   p4 ~~  m2 2.829 -0.060
+96    p1 ~~  m3 2.437 -0.057</code></pre>
 </div>
 </div>
-<blockquote>
-<p><span style="color:red">Add schematic: “CFI looks fine” but highlight a single large residual correlation and its substantive interpretation.</span></p>
-</blockquote>
 </section>
 <section id="a-disciplined-respecification-rule" class="slide level2">
 <h2>A disciplined respecification rule</h2>
@@ -787,9 +791,10 @@ m2  0.00000000</code></pre>
 </li>
 <li>Write a short “Methods + Results” reporting paragraph</li>
 </ol>
-<blockquote>
-<p><span style="color:red">Link placeholder: add a direct link to /labs/06_robustness_lab.qmd once created.</span></p>
-</blockquote>
+<ul>
+<li><strong>Lab 06 — missing data (FIML/MI) + robustness</strong><br>
+<a href="lab06_missing_fiml_mi_robust.html" target="_blank">Open lab</a></li>
+</ul>
 </section>
 <section id="things-to-remember" class="slide level2">
 <h2>3 things to remember</h2>
@@ -801,23 +806,8 @@ m2  0.00000000</code></pre>
 <li>Fit indices are diagnostics, not verdicts — <strong>always check local fit</strong></li>
 </ol>
 </section>
-<section id="further-reading-optional" class="slide level2">
-<h2>Further reading (optional)</h2>
-<ul>
-<li>Missing data in SEM (FIML, MAR assumptions)</li>
-<li>Robust estimation (MLR/MLM and non-normality)</li>
-<li>Bootstrap inference for indirect effects</li>
-<li>Reporting standards for SEM in psychology</li>
-</ul>
-<blockquote>
-<p><span style="color:red">Add 2–3 concrete citations once we confirm keys in refs/references.bib.</span></p>
-</blockquote>
-</section>
-<section id="references" class="slide level2 smaller scrollable">
+<section id="references" class="slide level2">
 <h2>References</h2>
-<div id="refs" role="list">
-
-</div>
 
 
 </section></section>

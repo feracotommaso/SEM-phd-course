@@ -52,7 +52,7 @@ By the end of today you can:
 
 # Part I — Build a dataset that can fool you
 
-## Why simulate?
+## Why messy data?
 
 Real SEM work is rarely “clean”:
 
@@ -110,15 +110,27 @@ skew_vars <- c("p1","p2","m1","m2","c1")
 for (v in skew_vars) dat[[v]] <- exp(dat[[v]] / 2)
 ```
 
----
-
-## Quick distribution check
 
 ```{r}
-hist(dat$p1, main = "Skewed indicator: p1", xlab = "p1")
-```
+#| echo: false
+#| message: false
 
-> <span style="color:red">Add conceptual graphic: normal vs skewed distributions with same mean/variance but different tails.</span>
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+dat_long <- dat |>
+  select(p1, p2, m1, m2, c1) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  )
+
+ggplot(dat_long, aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(~ variable, scales = "free_y")
+```
 
 ---
 
@@ -128,28 +140,26 @@ We inject a small number of outliers in two indicators (a common real-life patte
 
 ```{r}
 set.seed(1234)
-ix <- sample(seq_len(N), size = round(0.03*N))  # ~3% outliers
+ix <- sample(seq_len(N), size = round(0.05*N))  # ~5% outliers
 dat$m4[ix] <- dat$m4[ix] + rnorm(length(ix), mean = 0, sd = 4)
 dat$c3[ix] <- dat$c3[ix] + rnorm(length(ix), mean = 0, sd = 4)
 ```
 
----
-
-## A simple non-normality summary (no extra packages)
-
 ```{r}
-skew <- function(x) {
-  x <- x[is.finite(x)]
-  m <- mean(x); s <- sd(x)
-  mean((x - m)^3) / s^3
-}
-kurt_excess <- function(x) {
-  x <- x[is.finite(x)]
-  m <- mean(x); s <- sd(x)
-  mean((x - m)^4) / s^4 - 3
-}
+#| echo: false
+#| message: false
 
-round(c(skew = skew(dat$p1), kurt_excess = kurt_excess(dat$p1)), 2)
+dat_long <- dat |>
+  select(m4,c3) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  )
+
+ggplot(dat_long, aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(~ variable, scales = "free_y")
 ```
 
 ---
@@ -183,7 +193,11 @@ round(colMeans(is.na(dat)), 3)
 - patterns (is it concentrated in a subset?)
 - association between missingness and observed variables (supports MAR plausibility)
 
-> <span style="color:red">Add small schematic: MCAR vs MAR vs MNAR (arrows from observed/unobserved to missingness indicator R).</span>
+| Mechanism | Full Name                     | Definition                                                                 | Key Idea                                                                 |
+|-----------|------------------------------|----------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| MCAR      | Missing Completely at Random | Missingness is independent of both observed and unobserved data            | No systematic pattern in missing data                                    |
+| MAR       | Missing at Random            | Missingness depends only on observed data, not on the missing values       | Can be explained by variables you have                                   |
+| MNAR      | Missing Not at Random        | Missingness depends on the unobserved (missing) values themselves          | Missingness is related to what is missing                                |
 
 ---
 
@@ -228,7 +242,7 @@ key_paths <- function(fit) {
 
 # Part III — Missing data: listwise vs FIML
 
-## Concepts (technical, but actionable)
+## Concepts
 
 - **MCAR**: missingness unrelated to observed/unobserved → listwise unbiased (but inefficient)
 - **MAR**: missingness depends on observed variables → **FIML OK** (under correct model)
@@ -268,7 +282,7 @@ rbind(
 ```
 
 ::: callout-note
-### Interpretation rule of thumb (today)
+### Interpretation rule of thumb
 If your substantive conclusion changes under a reasonable alternative (e.g., listwise → FIML), treat the result as **fragile** and investigate *why*.
 :::
 
@@ -299,6 +313,20 @@ fit_mlr <- sem(model_sem, data = dat,
                missing = "fiml",
                estimator = "MLR")
 fitMeasures(fit_mlr, c("nobs","chisq","df","cfi","tli","rmsea","srmr"))
+```
+
+**Or better use robust indices**
+
+```{r}
+fitMeasures(
+  fit_mlr,
+  c("cfi.scaled", "tli.scaled", "rmsea.scaled",
+    "cfi.robust", "tli.robust", "rmsea.robust")
+)
+```
+
+```{r}
+fitMeasures(fit_mlr, c("cfi.robust", "tli.robust", "rmsea.robust", "srmr"))
 ```
 
 ---
@@ -336,10 +364,22 @@ Even if $(a)$ and $(b)$ are roughly normal, $(ab)$ is often **skewed** → norma
 ## (Optional) Add an indirect effect to the model
 
 ```{r}
-model_sem_ind <- paste0(model_sem, "\n\n# Indirect effect\nind_peer := (comp~peer)*(eat~comp)\n")
+model_sem_ind <- "
+# Measurement
+peer  =~ p1 + p2 + p3 + p4
+media =~ m1 + m2 + m3 + m4
+comp  =~ c1 + c2 + c3
+eat   =~ e1 + e2
+
+# Structural
+comp ~ peer + media
+eat  ~ comp
+
+# Indirect effect
+ind_peer := (comp~peer)*(eat~comp)
+"
 ```
 
-> <span style="color:red">If lavaan complains about label reuse depending on version, label paths explicitly (a* and b*) and redefine ind := a*b.</span>
 
 ---
 
@@ -363,25 +403,22 @@ fit_boot <- sem(model_sem, data = dat,
 ```{r}
 pe_norm <- parameterEstimates(fit_fiml, ci = TRUE)
 pe_boot <- parameterEstimates(fit_boot, ci = TRUE, boot.ci.type = "perc")
-
 sel <- function(pe) {
   pe[pe$op == "~" & pe$lhs %in% c("comp","eat") &
        pe$rhs %in% c("peer","media","comp"),
      c("lhs","op","rhs","est","ci.lower","ci.upper")]
 }
-
-list(
-  normal_CI = sel(pe_norm),
-  boot_CI   = sel(pe_boot)
-)
+list(normal_CI = sel(pe_norm),
+     boot_CI   = sel(pe_boot))
 ```
 
 ::: callout-note
-### Decision heuristic (today)
+### Decision heuristic
 Bootstrap is most valuable when:
+
 - your target parameter is a **product** (indirect effects),
 - distributions are skewed / small N,
-- normal CIs would be suspect.
+
 :::
 
 ---
@@ -407,14 +444,12 @@ But:
 
 ```{r}
 # Residual correlations (a small block)
-resid(fit_mlr, type = "cor")$cov[1:6, 1:6]
+round(resid(fit_mlr, type = "cor")$cov[1:6, 1:6],3)
 ```
 
 ```{r}
 modificationIndices(fit_mlr, sort. = TRUE)[1:10, c("lhs","op","rhs","mi","epc")]
 ```
-
-> <span style="color:red">Add schematic: “CFI looks fine” but highlight a single large residual correlation and its substantive interpretation.</span>
 
 ---
 
@@ -475,7 +510,8 @@ In the lab you will:
 3) Identify 1–2 large MIs, justify (or reject) a modification  
 4) Write a short “Methods + Results” reporting paragraph
 
-> <span style="color:red">Link placeholder: add a direct link to /labs/06_robustness_lab.qmd once created.</span>
+- **Lab 06 — missing data (FIML/MI) + robustness**  
+  [Open lab](lab06_missing_fiml_mi_robust.html){target="_blank"}
 
 ---
 
@@ -487,18 +523,4 @@ In the lab you will:
 
 ---
 
-## Further reading (optional)
-
-- Missing data in SEM (FIML, MAR assumptions)
-- Robust estimation (MLR/MLM and non-normality)
-- Bootstrap inference for indirect effects
-- Reporting standards for SEM in psychology
-
-> <span style="color:red">Add 2–3 concrete citations once we confirm keys in refs/references.bib.</span>
-
----
-
 ## References
-
-::: {#refs}
-:::
