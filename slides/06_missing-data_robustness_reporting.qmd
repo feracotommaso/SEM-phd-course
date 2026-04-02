@@ -1,19 +1,34 @@
 ---
 title: "Lesson 6 — When SEM Goes Wrong"
 subtitle: "Robustness, Missing Data, and Reporting in SEM"
+author: "Tommaso Feraco"
+
 format:
   revealjs:
+    code-line-numbers: false
     slide-number: c/t
+    self-contained: true
+
+    # Keep your colleague's defaults
+    code-fold: false
+    code-summary: "Show code"
     code-overflow: wrap
     theme: [default, ../assets/css/theme.scss, ../assets/css/slides.scss]
-include-in-header: ../assets/slidesheader.html
-execute:
-  echo: true
-  warning: false
-  message: false
-  freeze: auto
+
+    # Title slide background
+    title-slide-attributes:
+      data-background-image: "../assets/images/psicostatLogo.png"
+      data-background-size: "contain"
+      data-background-opacity: "0.15"
+
 bibliography: ../refs/references.bib
 csl: ../refs/apa7.csl
+
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
 ---
 
 ## Today in the workflow
@@ -192,7 +207,7 @@ round(colMeans(is.na(dat)), 3)
 -   association between missingness and observed variables (supports MAR plausibility)
 
 | Mechanism | Full Name | Definition | Key Idea |
-|-------------|-------------|-----------------------|-----------------------|
+|------------------|------------------|------------------|------------------|
 | MCAR | Missing Completely at Random | Missingness is independent of both observed and unobserved data | No systematic pattern in missing data |
 | MAR | Missing at Random | Missingness depends only on observed data, not on the missing values | Can be explained by variables you have |
 | MNAR | Missing Not at Random | Missingness depends on the unobserved (missing) values themselves | Missingness is related to what is missing |
