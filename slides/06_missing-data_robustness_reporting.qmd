@@ -207,7 +207,7 @@ round(colMeans(is.na(dat)), 3)
 -   association between missingness and observed variables (supports MAR plausibility)
 
 | Mechanism | Full Name | Definition | Key Idea |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | MCAR | Missing Completely at Random | Missingness is independent of both observed and unobserved data | No systematic pattern in missing data |
 | MAR | Missing at Random | Missingness depends only on observed data, not on the missing values | Can be explained by variables you have |
 | MNAR | Missing Not at Random | Missingness depends on the unobserved (missing) values themselves | Missingness is related to what is missing |

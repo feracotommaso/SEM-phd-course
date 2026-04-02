@@ -98,6 +98,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -114,7 +115,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -271,12 +272,12 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 </section>
 <section id="likert-scales" class="slide level2">
 <h2>Likert scales</h2>
-<p>This also applies to Liker scales, where the difference between reporting a score of 1 or 2, and the difference between reporting a score of 2 or 3 is not the same!</p>
+<p>This also applies to Likert scales, where the difference between reporting a score of 1 or 2, and the difference between reporting a score of 2 or 3 is not the same!</p>
 
 <img data-src="08_ordinal-sem_thresholds_wlsmv_ordinal-invariance_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
 <section id="the-adaptability-data" class="slide level2">
 <h2>The <code>adaptability</code> data</h2>
-<p>And in real data they are often not normally distributed</p>
+<p>And in real data Likert items are NEVER normally distributed</p>
 
 <img data-src="08_ordinal-sem_thresholds_wlsmv_ordinal-invariance_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="wrong-correlations" class="slide level2">
@@ -304,6 +305,7 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 </div>
 </div>
 </div></div>
+<p>This, of course, has consequences on SEM parameters, which are based on covariance</p>
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -311,14 +313,13 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 </div>
 </div>
 </div>
-<p>This, of course, has consequences on SEM parameters, which are based on covariance</p>
 </section>
 <section id="in-lavaan-and-sem" class="slide level2">
 <h2>In <code>lavaan</code> and SEM</h2>
 <p>To estimate a model treating items/observations as ordinal data, we need to change the estimationd method</p>
 <ul>
 <li><code>ML</code> is not always accurate with ordinal data (especially with few categories)</li>
-<li><code>lavaan</code>, when <code>ordered</code> is <code>TRUE</code>, automatically use <code>WLSMV</code> (diagonally weighted least squares)</li>
+<li><code>lavaan</code>, when <code>ordered</code> is <code>TRUE</code>, automatically use <code>WLSMV</code> (Weighted Least Squares Means and Variance-adjusted)</li>
 <li>A great alternative is <code>ULS</code>, but has more convergence problems</li>
 <li>We can also use robust ML alternatives, like <code>MLR</code></li>
 <li>Other available estimators: lavaan tutorial on estimators (see <a href="https://lavaan.ugent.be/tutorial/est.html">here</a>)</li>
@@ -339,7 +340,7 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 <span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a><span class="co"># WE JUST NEED TO ADD</span></span>
 <span id="cb3-9"><a aria-hidden="true" tabindex="-1"></a>fitOrd <span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T,</span>
-<span id="cb3-10"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">estimator =</span> <span class="st">"ULS"</span>, <span class="co"># optional</span></span>
+<span id="cb3-10"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">estimator =</span> <span class="st">"WLSMV"</span>, <span class="co"># optional</span></span>
 <span id="cb3-11"><a aria-hidden="true" tabindex="-1"></a>              <span class="at">ordered =</span> <span class="fu">colnames</span>(D.ad)) <span class="co"># the list of ord vars</span></span>
 <span id="cb3-12"><a aria-hidden="true" tabindex="-1"></a><span class="co">#             ordered = T) # or just "TRUE" if all ordered       </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -350,9 +351,9 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">capture.output</span>(<span class="fu">summary</span>(fitOrd, <span class="at">std=</span>T))</span>
 <span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">c</span>(temp[<span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>], <span class="st">"[...]"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lavaan 0.6-19 ended normally after 16 iterations
+<pre><code>lavaan 0.6-19 ended normally after 18 iterations
 
-  Estimator                                        ULS
+  Estimator                                       DWLS
   Optimization method                           NLMINB
   Number of model parameters                        64
 
@@ -360,18 +361,25 @@ thresholds, polychoric correlations, <strong>DWLS/WLSMV (and ULS)</strong>, and 
   Number of observations                          1044        1083
 
 Model Test User Model:
-                                                      
-  Test statistic                                73.746
-  Degrees of freedom                                26
-  P-value (Unknown)                                 NA
+                                              Standard      Scaled
+  Test Statistic                               128.154     195.816
+  Degrees of freedom                                26          26
+  P-value (Chi-square)                           0.000       0.000
+  Scaling correction factor                                  0.664
+  Shift parameter                                            2.781
+    simple second-order correction                                
 
 Parameter Estimates:
 
   Parameterization                               Delta
-  Standard errors                             Standard
-  Information                                 Expected
-  Information saturated (h1) model        Unstructured
 [...]</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Note how many parameters our 9-item CFA has</p>
+</div>
 </div>
 </div>
 </section>
@@ -380,25 +388,25 @@ Parameter Estimates:
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[...]
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
 
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   cb =~                                                                 
-    Adaptability_1    0.659    0.021   30.831    0.000    0.659    0.659
-    Adaptability_2    0.659    0.021   30.841    0.000    0.659    0.659
-    Adaptability_3    0.664    0.021   30.983    0.000    0.664    0.664
-    Adaptability_4    0.551    0.020   26.957    0.000    0.551    0.551
-    Adaptability_5    0.619    0.021   29.486    0.000    0.619    0.619
-    Adaptability_6    0.553    0.020   27.012    0.000    0.553    0.553
+    Adaptability_1    0.673    0.018   36.808    0.000    0.673    0.673
+    Adaptability_2    0.671    0.018   36.639    0.000    0.671    0.671
+    Adaptability_3    0.661    0.019   34.625    0.000    0.661    0.661
+    Adaptability_4    0.549    0.022   24.579    0.000    0.549    0.549
+    Adaptability_5    0.613    0.020   30.143    0.000    0.613    0.613
+    Adaptability_6    0.552    0.022   25.674    0.000    0.552    0.552
   em =~                                                                 
-    Adaptability_7    0.642    0.026   24.949    0.000    0.642    0.642
-    Adaptability_8    0.671    0.026   25.513    0.000    0.671    0.671
-    Adaptability_9    0.699    0.027   25.983    0.000    0.699    0.699
+    Adaptability_7    0.666    0.022   30.006    0.000    0.666    0.666
+    Adaptability_8    0.688    0.022   31.588    0.000    0.688    0.688
+    Adaptability_9    0.675    0.024   28.695    0.000    0.675    0.675
 
 Covariances:
-                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-  cb ~~                                                                 
-    em                0.587    0.022   26.729    0.000    0.587    0.587
 [...]</code></pre>
 </div>
 </div>
@@ -408,28 +416,35 @@ Covariances:
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[...]
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  cb ~~                                                                 
+    em                0.582    0.027   21.809    0.000    0.582    0.582
 
 Thresholds:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-    Adaptblty_1|t1   -2.114    0.031  -68.285    0.000   -2.114   -2.114
-    Adaptblty_1|t2   -1.647    0.031  -53.181    0.000   -1.647   -1.647
-    Adaptblty_1|t3   -1.056    0.031  -34.089    0.000   -1.056   -1.056
-    Adaptblty_1|t4   -0.320    0.031  -10.331    0.000   -0.320   -0.320
-    Adaptblty_1|t5    0.495    0.031   15.982    0.000    0.495    0.495
-    Adaptblty_1|t6    1.181    0.031   38.145    0.000    1.181    1.181
-    Adaptblty_2|t1   -2.071    0.031  -66.899    0.000   -2.071   -2.071
-    Adaptblty_2|t2   -1.421    0.031  -45.908    0.000   -1.421   -1.421
-    Adaptblty_2|t3   -0.794    0.031  -25.642    0.000   -0.794   -0.794
-    Adaptblty_2|t4   -0.188    0.031   -6.084    0.000   -0.188   -0.188
-    Adaptblty_2|t5    0.492    0.031   15.895    0.000    0.492    0.492
-    Adaptblty_2|t6    1.257    0.031   40.590    0.000    1.257    1.257
-    Adaptblty_3|t1   -1.930    0.031  -62.322    0.000   -1.930   -1.930
-    Adaptblty_3|t2   -1.415    0.031  -45.696    0.000   -1.415   -1.415
-    Adaptblty_3|t3   -0.858    0.031  -27.715    0.000   -0.858   -0.858
-    Adaptblty_3|t4   -0.250    0.031   -8.070    0.000   -0.250   -0.250
-    Adaptblty_3|t5    0.350    0.031   11.316    0.000    0.350    0.350
-    Adaptblty_3|t6    1.162    0.031   37.529    0.000    1.162    1.162
+    Adaptblty_1|t1   -2.114    0.094  -22.384    0.000   -2.114   -2.114
+    Adaptblty_1|t2   -1.647    0.066  -25.135    0.000   -1.647   -1.647
+    Adaptblty_1|t3   -1.056    0.048  -22.090    0.000   -1.056   -1.056
+    Adaptblty_1|t4   -0.320    0.040   -8.091    0.000   -0.320   -0.320
+    Adaptblty_1|t5    0.495    0.041   12.194    0.000    0.495    0.495
+    Adaptblty_1|t6    1.181    0.050   23.416    0.000    1.181    1.181
+    Adaptblty_2|t1   -2.071    0.091  -22.782    0.000   -2.071   -2.071
+    Adaptblty_2|t2   -1.421    0.057  -24.927    0.000   -1.421   -1.421
+    Adaptblty_2|t3   -0.794    0.044  -18.212    0.000   -0.794   -0.794
+    Adaptblty_2|t4   -0.188    0.039   -4.823    0.000   -0.188   -0.188
+    Adaptblty_2|t5    0.492    0.041   12.133    0.000    0.492    0.492
+    Adaptblty_2|t6    1.257    0.052   24.038    0.000    1.257    1.257
+    Adaptblty_3|t1   -1.930    0.081  -23.911    0.000   -1.930   -1.930
+    Adaptblty_3|t2   -1.415    0.057  -24.903    0.000   -1.415   -1.415
+    Adaptblty_3|t3   -0.858    0.044  -19.295    0.000   -0.858   -0.858
 [...]</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Here are the unexpected parameters!</p>
+</div>
 </div>
 </div>
 </section>
@@ -438,26 +453,33 @@ Thresholds:
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[...]
-    Adaptblty_4|t1   -1.962    0.031  -63.351    0.000   -1.962   -1.962
-    Adaptblty_4|t2   -1.476    0.031  -47.680    0.000   -1.476   -1.476
-    Adaptblty_4|t3   -0.817    0.031  -26.393    0.000   -0.817   -0.817
-    Adaptblty_4|t4   -0.257    0.031   -8.310    0.000   -0.257   -0.257
-    Adaptblty_4|t5    0.295    0.031    9.518    0.000    0.295    0.295
-    Adaptblty_4|t6    1.094    0.031   35.332    0.000    1.094    1.094
-    Adaptblty_5|t1   -1.978    0.031  -63.891    0.000   -1.978   -1.978
-    Adaptblty_5|t2   -1.408    0.031  -45.486    0.000   -1.408   -1.408
-    Adaptblty_5|t3   -0.781    0.031  -25.219    0.000   -0.781   -0.781
-    Adaptblty_5|t4   -0.196    0.031   -6.321    0.000   -0.196   -0.196
-    Adaptblty_5|t5    0.397    0.031   12.812    0.000    0.397    0.397
-    Adaptblty_5|t6    1.081    0.031   34.912    0.000    1.081    1.081
-    Adaptblty_6|t1   -1.705    0.031  -55.076    0.000   -1.705   -1.705
-    Adaptblty_6|t2   -1.186    0.031  -38.302    0.000   -1.186   -1.186
-    Adaptblty_6|t3   -0.654    0.031  -21.106    0.000   -0.654   -0.654
-    Adaptblty_6|t4   -0.055    0.031   -1.784    0.074   -0.055   -0.055
-    Adaptblty_6|t5    0.519    0.031   16.776    0.000    0.519    0.519
-    Adaptblty_6|t6    1.211    0.031   39.097    0.000    1.211    1.211
+    Adaptblty_3|t4   -0.250    0.039   -6.366    0.000   -0.250   -0.250
+    Adaptblty_3|t5    0.350    0.040    8.829    0.000    0.350    0.350
+    Adaptblty_3|t6    1.162    0.050   23.238    0.000    1.162    1.162
+    Adaptblty_4|t1   -1.962    0.083  -23.683    0.000   -1.962   -1.962
+    Adaptblty_4|t2   -1.476    0.059  -25.082    0.000   -1.476   -1.476
+    Adaptblty_4|t3   -0.817    0.044  -18.614    0.000   -0.817   -0.817
+    Adaptblty_4|t4   -0.257    0.039   -6.551    0.000   -0.257   -0.257
+    Adaptblty_4|t5    0.295    0.039    7.475    0.000    0.295    0.295
+    Adaptblty_4|t6    1.094    0.049   22.535    0.000    1.094    1.094
+    Adaptblty_5|t1   -1.978    0.084  -23.558    0.000   -1.978   -1.978
+    Adaptblty_5|t2   -1.408    0.057  -24.879    0.000   -1.408   -1.408
+    Adaptblty_5|t3   -0.781    0.043  -17.981    0.000   -0.781   -0.781
+    Adaptblty_5|t4   -0.196    0.039   -5.008    0.000   -0.196   -0.196
+    Adaptblty_5|t5    0.397    0.040    9.933    0.000    0.397    0.397
+    Adaptblty_5|t6    1.081    0.048   22.388    0.000    1.081    1.081
+    Adaptblty_6|t1   -1.705    0.068  -25.009    0.000   -1.705   -1.705
+    Adaptblty_6|t2   -1.186    0.051  -23.460    0.000   -1.186   -1.186
+    Adaptblty_6|t3   -0.654    0.042  -15.570    0.000   -0.654   -0.654
 [...]
 [...]</code></pre>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>…and counting</p>
+</div>
 </div>
 </div>
 </section>
@@ -469,7 +491,10 @@ Thresholds:
 </ul>
 <p><span class="math display">\[
 \alpha_{i-1} &lt; \xi \leq \alpha_i
-\]</span> where <span class="math inline">\(\alpha_0 = - \infty, \alpha_1 &lt; \alpha_2 &lt; \dots &lt; \alpha_{k-1}\)</span> e <span class="math inline">\(\alpha_k = +\infty\)</span> are the thresholds - Consequenlty we will have that, given a discrete ordered variable with <span class="math inline">\(k\)</span> possible values, there are <span class="math inline">\(k - 1\)</span> unknown thresholds.</p>
+\]</span> where <span class="math inline">\(\alpha_0 = - \infty, \alpha_1 &lt; \alpha_2 &lt; \dots &lt; \alpha_{k-1}\)</span> e <span class="math inline">\(\alpha_k = +\infty\)</span> are the thresholds</p>
+<ul>
+<li>Consequenlty we will have that, given a discrete ordered variable with <span class="math inline">\(k\)</span> possible values, there are <span class="math inline">\(k - 1\)</span> unknown thresholds.</li>
+</ul>
 </section>
 <section id="thresholds-2" class="slide level2">
 <h2>Thresholds (2)</h2>
@@ -495,60 +520,108 @@ Thresholds:
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[...]
+    Adaptblty_9|t5    0.447    0.040   11.096    0.000    0.447    0.447
+    Adaptblty_9|t6    1.068    0.048   22.240    0.000    1.068    1.068
+
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .Adaptability_1    0.566                               0.566    0.566
-   .Adaptability_2    0.565                               0.565    0.565
-   .Adaptability_3    0.559                               0.559    0.559
-   .Adaptability_4    0.696                               0.696    0.696
-   .Adaptability_5    0.616                               0.616    0.616
+   .Adaptability_1    0.547                               0.547    0.547
+   .Adaptability_2    0.550                               0.550    0.550
+   .Adaptability_3    0.563                               0.563    0.563
+   .Adaptability_4    0.698                               0.698    0.698
+   .Adaptability_5    0.625                               0.625    0.625
    .Adaptability_6    0.695                               0.695    0.695
-   .Adaptability_7    0.588                               0.588    0.588
-   .Adaptability_8    0.550                               0.550    0.550
-   .Adaptability_9    0.511                               0.511    0.511
-    cb                1.000                               1.000    1.000
-    em                1.000                               1.000    1.000
-
+   .Adaptability_7    0.556                               0.556    0.556
+   .Adaptability_8    0.527                               0.527    0.527
+   .Adaptability_9    0.544                               0.544    0.544
 [...]</code></pre>
 </div>
 </div>
 </section>
 <section id="model-fit" class="slide level2">
 <h2>Model fit</h2>
-<p>This works as usual</p>
+<p>Fit indices are available, but their behavior is more estimator-dependent <code>BUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>fi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"npar"</span>, <span class="st">"df"</span>, <span class="st">"chisq"</span>, </span>
-<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>        <span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"nnfi"</span>, <span class="st">"agfi"</span>, </span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="st">"srmr"</span>, <span class="st">"rmsea"</span>, <span class="st">"bic"</span>, <span class="st">"aic"</span>)</span>
-<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a><span class="fu">fitmeasures</span>(fitOrd, <span class="at">fit.measures =</span> fi)</span>
-<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># OR inspect(fitOrd, "fit")[fi]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cfi</td>
+<td style="text-align: right;">0.98600219</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tli</td>
+<td style="text-align: right;">0.98061842</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">srmr</td>
+<td style="text-align: right;">0.04032229</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rmsea</td>
+<td style="text-align: right;">0.06137610</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bic</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aic</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>    npar       df    chisq 
-64.00000 26.00000 73.74574 </code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      cfi       tli      nnfi      agfi 
-0.9883022 0.9838030 0.9838030 0.9964375 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      srmr      rmsea        bic        aic 
-0.03963876 0.04196029         NA         NA </code></pre>
-</div>
-</div>
-<p><code>BUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!</code></p>
-</section>
-<section id="model-fit-references" class="slide level2">
-<h2>Model fit, references</h2>
-<p>Some references for model fit with ordinal data:</p>
 <ul>
-<li>RMSEA (doi:10.1080/10705511.2019.1611434) tends to reject models with large datasets and 5-point scales</li>
-<li>CFI and TLI tend to overestimate model fit</li>
-<li>SRMR seems to be less biased</li>
+<li>Report robust/scaled 𝜒2, CFI/TLI, RMSEA + CI, and SRMR <span class="citation" data-cites="savaleiImprovingFitIndices2021">(<a href="#/references" role="doc-biblioref" onclick="">Savalei, 2021</a>)</span>.</li>
 </ul>
-<p>But there are many contradictory suggestions and it is not easy to navigate them. Look for what you need as simulation studies depend on many variables.</p>
-<p>This (doi:10.1027/2698-1866/a000034) might be a helpful summary/reflection.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cfi.robust</td>
+<td style="text-align: right;">0.94407465</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tli.robust</td>
+<td style="text-align: right;">0.92256491</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rmsea.robust</td>
+<td style="text-align: right;">0.06978753</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="model-fit-suggestions" class="slide level2">
+<h2>Model fit, suggestions</h2>
+<ul>
+<li><p>Do not recycle continuous-data cutoffs mechanically:</p>
+<ul>
+<li>RMSEA may overreject with large datasets ,</li>
+<li>CFI/TLI may look too good,</li>
+<li>SRMR is often the most stable, but still imperfect.</li>
+</ul></li>
+<li><p>Treat global fit as a screening tool, then inspect thresholds, sparse categories, local residuals, and theory.</p></li>
+<li><p>Read: <span class="citation" data-cites="shiAssessingFitOrdinal2020">(<a href="#/references" role="doc-biblioref" onclick="">Shi et al., 2020</a>)</span> <span class="citation" data-cites="brauerConfirmatoryFactorAnalyses2023">(<a href="#/references" role="doc-biblioref" onclick="">Brauer et al., 2023</a>)</span> <span class="citation" data-cites="liConfirmatoryFactorAnalysis2016">(<a href="#/references" role="doc-biblioref" onclick="">Li, 2016</a>)</span> <span class="citation" data-cites="xiaRMSEACFITLI2019">(<a href="#/references" role="doc-biblioref" onclick="">Xia &amp; Yang, 2019</a>)</span></p></li>
+</ul>
+<p>But there are many contradictory suggestions and it is not easy to navigate them. Look for what you need as simulation studies depend on many variables. Simulate your design! <span class="citation" data-cites="mcneishDynamicFitIndex2023a">(<a href="#/references" role="doc-biblioref" onclick="">McNeish, 2023</a>)</span></p>
 </section>
 <section id="reviewer-2" class="slide level2">
 <h2>Reviewer 2</h2>
@@ -620,89 +693,90 @@ Many categories + modest sample size → sparse tables and unstable estimation</
 <h2>In <code>R</code></h2>
 <p>I use again the adaptability items. I manually added a group variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>D.ad<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"G1"</span>, <span class="dv">428</span>), <span class="fu">rep</span>(<span class="st">"G2"</span>, <span class="dv">1083-428</span>))</span>
-<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 1. FIT THE BASELINE/CONFIGURAL MODEL</span></span>
-<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>fConf <span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T, <span class="at">estimator =</span> <span class="st">"ULS"</span>,</span>
-<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>)</span>
-<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 2. FIT THE FIXED THRESHOLDS MODEL</span></span>
-<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>fTresh<span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T, <span class="at">estimator =</span> <span class="st">"ULS"</span>,</span>
-<span id="cb17-7"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb17-8"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"thresholds"</span>))</span>
-<span id="cb17-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 3. FIT THE FIXED LOADINGS MODEL</span></span>
-<span id="cb17-10"><a aria-hidden="true" tabindex="-1"></a>fLoad <span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T, <span class="at">estimator =</span> <span class="st">"ULS"</span>,</span>
-<span id="cb17-11"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>,</span>
-<span id="cb17-12"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"thresholds"</span>, <span class="st">"loadings"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>D.ad<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"G1"</span>, <span class="dv">428</span>), <span class="fu">rep</span>(<span class="st">"G2"</span>, <span class="dv">1083-428</span>))</span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 1. FIT THE BASELINE/CONFIGURAL MODEL</span></span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>fConf <span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T,</span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>)</span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 2. FIT THE FIXED THRESHOLDS MODEL</span></span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>fTresh<span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T,</span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"thresholds"</span>))</span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a><span class="co"># 3. FIT THE FIXED LOADINGS MODEL</span></span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a>fLoad <span class="ot">&lt;-</span> <span class="fu">sem</span>(mOrd, D.ad, <span class="at">std.lv=</span>T,</span>
+<span id="cb13-11"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">ordered =</span> T, <span class="at">group =</span> <span class="st">"group"</span>,</span>
+<span id="cb13-12"><a aria-hidden="true" tabindex="-1"></a>             <span class="at">group.equal =</span> <span class="fu">c</span>(<span class="st">"thresholds"</span>, <span class="st">"loadings"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-fit-comparison" class="slide level2">
 <h2>Model fit comparison</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>fitTable <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">fitmeasures</span>(fConf, fi),</span>
-<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fitmeasures</span>(fTresh, fi),</span>
-<span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fitmeasures</span>(fLoad, fi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>fi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cfi"</span>, <span class="st">"tli"</span>, <span class="st">"srmr"</span>, <span class="st">"rmsea"</span>, <span class="st">"bic"</span>, <span class="st">"aic"</span>,</span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>        <span class="st">"cfi.scaled"</span>,<span class="st">"tli.scaled"</span>,<span class="st">"rmsea.scaled"</span>)</span>
+<span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>fitTable <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">fitmeasures</span>(fConf, fi),</span>
+<span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fitmeasures</span>(fTresh, fi),</span>
+<span id="cb14-5"><a aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fitmeasures</span>(fLoad, fi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <table class="table table-striped table-condensed caption-top" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th" style="text-align: left; font-weight: bold;"></th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">npar</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">df</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">chisq</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">cfi</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">tli</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">nnfi</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">agfi</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">srmr</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">rmsea</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">bic</th>
 <th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">aic</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">cfi.scaled</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">tli.scaled</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">rmsea.scaled</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">baseline</td>
-<td style="text-align: right;">128</td>
-<td style="text-align: right;">52</td>
-<td style="text-align: right;">91.652</td>
-<td style="text-align: right;">0.990</td>
 <td style="text-align: right;">0.987</td>
-<td style="text-align: right;">0.987</td>
-<td style="text-align: right;">0.996</td>
-<td style="text-align: right;">0.044</td>
-<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.981</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.062</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.957</td>
+<td style="text-align: right;">0.940</td>
+<td style="text-align: right;">0.083</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">thresholds</td>
-<td style="text-align: right;">85</td>
-<td style="text-align: right;">95</td>
-<td style="text-align: right;">166.552</td>
-<td style="text-align: right;">0.983</td>
-<td style="text-align: right;">0.987</td>
-<td style="text-align: right;">0.987</td>
-<td style="text-align: right;">0.996</td>
-<td style="text-align: right;">0.044</td>
-<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.988</td>
+<td style="text-align: right;">0.991</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.043</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.961</td>
+<td style="text-align: right;">0.971</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">loadings</td>
-<td style="text-align: right;">78</td>
-<td style="text-align: right;">102</td>
-<td style="text-align: right;">173.785</td>
-<td style="text-align: right;">0.983</td>
 <td style="text-align: right;">0.988</td>
-<td style="text-align: right;">0.988</td>
-<td style="text-align: right;">0.996</td>
-<td style="text-align: right;">0.046</td>
-<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.991</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.042</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.965</td>
+<td style="text-align: right;">0.975</td>
+<td style="text-align: right;">0.053</td>
 </tr>
 </tbody>
 </table>
+<div class="callout callout-warning no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>In multigroup ordinal SEM, robust fit indices are preferable in principle, but they are not always available in practice. When they disappear, <code>scaled</code> indices are the fallback (but less satisfactory)</p>
+</div>
+</div>
+</div>
 </section>
 <section id="model-results" class="slide level2">
 <h2>Model results</h2>
@@ -748,12 +822,12 @@ Group 2
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">cb</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_1</td>
-<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.70</td>
 <td style="text-align: left;">||</td>
 <td style="text-align: left;">cb</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_1</td>
-<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.66</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">cb</td>
@@ -764,13 +838,13 @@ Group 2
 <td style="text-align: left;">cb</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_2</td>
-<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.66</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">cb</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_3</td>
-<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">0.69</td>
 <td style="text-align: left;">||</td>
 <td style="text-align: left;">cb</td>
 <td style="text-align: left;">=~</td>
@@ -797,7 +871,7 @@ Group 2
 <td style="text-align: left;">cb</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_5</td>
-<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.58</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">cb</td>
@@ -814,34 +888,34 @@ Group 2
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_7</td>
-<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.68</td>
 <td style="text-align: left;">||</td>
 <td style="text-align: left;">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_7</td>
-<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">0.66</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_8</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.68</td>
 <td style="text-align: left;">||</td>
 <td style="text-align: left;">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_8</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.69</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; padding-left: 2em;" data-indentlevel="1">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_9</td>
-<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.71</td>
 <td style="text-align: left;">||</td>
 <td style="text-align: left;">em</td>
 <td style="text-align: left;">=~</td>
 <td style="text-align: left;">Adaptability_9</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.65</td>
 </tr>
 <tr class="odd" data-grouplength="1">
 <td colspan="9" style="border-bottom: 1px solid"><strong>Latent covariance</strong></td>
@@ -855,7 +929,7 @@ Group 2
 <td style="text-align: left;">cb</td>
 <td style="text-align: left;">~~</td>
 <td style="text-align: left;">em</td>
-<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">0.55</td>
 </tr>
 <tr class="odd" data-grouplength="6">
 <td colspan="9" style="border-bottom: 1px solid"><strong>Thresholds</strong></td>
@@ -932,15 +1006,15 @@ Group 2
 <section id="additional-materials" class="slide level2">
 <h2>Additional materials</h2>
 <ul>
-<li>Svetina et al.&nbsp;(doi:10.1080/10705511.2019.1602776) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data</li>
-<li>Enrico Perinelli held a <code>psicostat</code> meeting on the topic following Svetina et al.’s code</li>
+<li>Svetina et al. <span class="citation" data-cites="svetinaMultipleGroupInvarianceCategorical2020">(<a href="#/references" role="doc-biblioref" onclick="">Svetina et al., 2020</a>)</span> tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data</li>
+<li>Enrico Perinelli held a <code>psicostat</code> meeting on the topic following Svetina et al.’s code [slides](<a href="https://psicostat.dpss.psy.unipd.it/meetings/slides/2022-06-17_perinelli.pdf" class="uri">https://psicostat.dpss.psy.unipd.it/meetings/slides/2022-06-17_perinelli.pdf</a>)</li>
 </ul>
 </section>
 <section id="exercises-lab" class="slide level2">
 <h2>Exercises → Lab</h2>
 <p>Open and work through:</p>
 <ul>
-<li><code>labs/lab08_ordinal_sem_invariance.qmd</code></li>
+<li><code>labs/lab08_ordinal_sem_invariance.qmd</code> <a href="https://feracotommaso.github.io/SEM-phd-course/labs/lab08_ordinal_sem_invariance.html">link</a></li>
 </ul>
 <p>Focus on:</p>
 <ul>
@@ -958,19 +1032,35 @@ Group 2
 <li>With ordinal MG-CFA, <strong>threshold invariance</strong> is a key early step (often before loadings)</li>
 </ol>
 </section>
-<section id="further-reading" class="slide level2">
-<h2>Further reading</h2>
-<ul>
-<li>Svetina et al.&nbsp;tutorial + simulation-based guidance for ordinal MG-CFA<br>
-</li>
-<li>Simulation papers on fit indices with ordinal data (RMSEA/CFI/TLI/SRMR)</li>
-</ul>
-<p>(See the “Additional materials” slide for links.)</p>
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Massimiliano Pastore for his slides!</p>
+<p><img data-src="../assets/images/max.jpg" style="height:4.5cm"></p>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<div id="refs" role="list">
-
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-brauerConfirmatoryFactorAnalyses2023" class="csl-entry" role="listitem">
+Brauer, K., Ranger, J., &amp; Ziegler, M. (2023). Confirmatory factor analyses in psychological test adaptation and development. <em>Psychological Test Adaptation and Development</em>, <em>4</em>(1), 4–12. <a href="https://doi.org/10.1027/2698-1866/a000034">https://doi.org/10.1027/2698-1866/a000034</a>
+</div>
+<div id="ref-liConfirmatoryFactorAnalysis2016" class="csl-entry" role="listitem">
+Li, C.-H. (2016). Confirmatory factor analysis with ordinal data: Comparing robust maximum likelihood and diagonally weighted least squares. <em>Behavior Research Methods</em>, <em>48</em>(3), 936–949. <a href="https://doi.org/10.3758/s13428-015-0619-7">https://doi.org/10.3758/s13428-015-0619-7</a>
+</div>
+<div id="ref-mcneishDynamicFitIndex2023a" class="csl-entry" role="listitem">
+McNeish, D. (2023). Dynamic fit index cutoffs for categorical factor analysis with likert-type, ordinal, or binary responses. <em>American Psychologist</em>, <em>78</em>(9), 1061–1075. <a href="https://doi.org/10.1037/amp0001213">https://doi.org/10.1037/amp0001213</a>
+</div>
+<div id="ref-savaleiImprovingFitIndices2021" class="csl-entry" role="listitem">
+Savalei, V. (2021). Improving Fit Indices in Structural Equation Modeling with Categorical Data. <em>Multivariate Behavioral Research</em>, <em>56</em>(3), 390–407. <a href="https://doi.org/10.1080/00273171.2020.1717922">https://doi.org/10.1080/00273171.2020.1717922</a>
+</div>
+<div id="ref-shiAssessingFitOrdinal2020" class="csl-entry" role="listitem">
+Shi, D., Maydeu-Olivares, A., &amp; Rosseel, Y. (2020). Assessing fit in ordinal factor analysis models: SRMR vs. RMSEA. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>27</em>(1), 1–15. <a href="https://doi.org/10.1080/10705511.2019.1611434">https://doi.org/10.1080/10705511.2019.1611434</a>
+</div>
+<div id="ref-svetinaMultipleGroupInvarianceCategorical2020" class="csl-entry" role="listitem">
+Svetina, D., Rutkowski, L., &amp; Rutkowski, D. (2020). Multiple-group invariance with categorical outcomes using updated guidelines: An illustration using mplus and the lavaan/semTools packages. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>27</em>(1), 111130. <a href="https://doi.org/10.1080/10705511.2019.1602776">https://doi.org/10.1080/10705511.2019.1602776</a>
+</div>
+<div id="ref-xiaRMSEACFITLI2019" class="csl-entry" role="listitem">
+Xia, Y., &amp; Yang, Y. (2019). RMSEA, CFI, and TLI in structural equation modeling with ordered categorical data: The story they tell depends on the estimation methods. <em>Behavior Research Methods</em>, <em>51</em>(1), 409–428. <a href="https://doi.org/10.3758/s13428-018-1055-2">https://doi.org/10.3758/s13428-018-1055-2</a>
+</div>
 </div>
 
 
@@ -1190,6 +1280,11 @@ Group 2
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>

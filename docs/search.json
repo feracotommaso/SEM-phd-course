@@ -6045,70 +6045,70 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#likert-scales",
     "title": "SEM with ordinal variables",
     "section": "Likert scales",
-    "text": "Likert scales\nThis also applies to Liker scales, where the difference between reporting a score of 1 or 2, and the difference between reporting a score of 2 or 3 is not the same!"
+    "text": "Likert scales\nThis also applies to Likert scales, where the difference between reporting a score of 1 or 2, and the difference between reporting a score of 2 or 3 is not the same!"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#the-adaptability-data",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#the-adaptability-data",
     "title": "SEM with ordinal variables",
     "section": "The adaptability data",
-    "text": "The adaptability data\nAnd in real data they are often not normally distributed"
+    "text": "The adaptability data\nAnd in real data Likert items are NEVER normally distributed"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#wrong-correlations",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#wrong-correlations",
     "title": "SEM with ordinal variables",
     "section": "Wrong correlations",
-    "text": "Wrong correlations\nUnfortunately, when we use data that follow discrete distributions and treat them as they were continuous, we can fail to recreate true correlation matrices accurately. That’s why you usually use polychoric correlations with dichotomous or ordinal variables.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nData were generated from a multivariate normal distribution using MASS::mvrnorm and then manually truncated on a 3-point scale\n\n\n\nThis, of course, has consequences on SEM parameters, which are based on covariance"
+    "text": "Wrong correlations\nUnfortunately, when we use data that follow discrete distributions and treat them as they were continuous, we can fail to recreate true correlation matrices accurately. That’s why you usually use polychoric correlations with dichotomous or ordinal variables.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis, of course, has consequences on SEM parameters, which are based on covariance\n\n\n\nData were generated from a multivariate normal distribution using MASS::mvrnorm and then manually truncated on a 3-point scale"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#in-lavaan-and-sem",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#in-lavaan-and-sem",
     "title": "SEM with ordinal variables",
     "section": "In lavaan and SEM",
-    "text": "In lavaan and SEM\nTo estimate a model treating items/observations as ordinal data, we need to change the estimationd method\n\nML is not always accurate with ordinal data (especially with few categories)\nlavaan, when ordered is TRUE, automatically use WLSMV (diagonally weighted least squares)\nA great alternative is ULS, but has more convergence problems\nWe can also use robust ML alternatives, like MLR\nOther available estimators: lavaan tutorial on estimators (see here)"
+    "text": "In lavaan and SEM\nTo estimate a model treating items/observations as ordinal data, we need to change the estimationd method\n\nML is not always accurate with ordinal data (especially with few categories)\nlavaan, when ordered is TRUE, automatically use WLSMV (Weighted Least Squares Means and Variance-adjusted)\nA great alternative is ULS, but has more convergence problems\nWe can also use robust ML alternatives, like MLR\nOther available estimators: lavaan tutorial on estimators (see here)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#how-to-fit-a-cfa-with-ordinal-data",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#how-to-fit-a-cfa-with-ordinal-data",
     "title": "SEM with ordinal variables",
     "section": "How to fit a CFA with ordinal data",
-    "text": "How to fit a CFA with ordinal data\n\nlibrary(lavaan)\n\n\n# THE MODEL IS SPECIFIED AS USUAL\nmOrd &lt;- \"\ncb =~ Adaptability_1 + Adaptability_2 + Adaptability_3 + \n      Adaptability_4 + Adaptability_5 + Adaptability_6\nem =~ Adaptability_7 + Adaptability_8 + Adaptability_9\nem ~~ cb\n\"\n# WE JUST NEED TO ADD\nfitOrd &lt;- sem(mOrd, D.ad, std.lv=T,\n              estimator = \"ULS\", # optional\n              ordered = colnames(D.ad)) # the list of ord vars\n#             ordered = T) # or just \"TRUE\" if all ordered"
+    "text": "How to fit a CFA with ordinal data\n\nlibrary(lavaan)\n\n\n# THE MODEL IS SPECIFIED AS USUAL\nmOrd &lt;- \"\ncb =~ Adaptability_1 + Adaptability_2 + Adaptability_3 + \n      Adaptability_4 + Adaptability_5 + Adaptability_6\nem =~ Adaptability_7 + Adaptability_8 + Adaptability_9\nem ~~ cb\n\"\n# WE JUST NEED TO ADD\nfitOrd &lt;- sem(mOrd, D.ad, std.lv=T,\n              estimator = \"WLSMV\", # optional\n              ordered = colnames(D.ad)) # the list of ord vars\n#             ordered = T) # or just \"TRUE\" if all ordered"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-1",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-1",
     "title": "SEM with ordinal variables",
     "section": "Results (1)",
-    "text": "Results (1)\n\ntemp = capture.output(summary(fitOrd, std=T))\ncat(c(temp[1:21], \"[...]\"), sep = \"\\n\")\n\nlavaan 0.6-19 ended normally after 16 iterations\n\n  Estimator                                        ULS\n  Optimization method                           NLMINB\n  Number of model parameters                        64\n\n                                                  Used       Total\n  Number of observations                          1044        1083\n\nModel Test User Model:\n                                                      \n  Test statistic                                73.746\n  Degrees of freedom                                26\n  P-value (Unknown)                                 NA\n\nParameter Estimates:\n\n  Parameterization                               Delta\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model        Unstructured\n[...]"
+    "text": "Results (1)\n\ntemp = capture.output(summary(fitOrd, std=T))\ncat(c(temp[1:21], \"[...]\"), sep = \"\\n\")\n\nlavaan 0.6-19 ended normally after 18 iterations\n\n  Estimator                                       DWLS\n  Optimization method                           NLMINB\n  Number of model parameters                        64\n\n                                                  Used       Total\n  Number of observations                          1044        1083\n\nModel Test User Model:\n                                              Standard      Scaled\n  Test Statistic                               128.154     195.816\n  Degrees of freedom                                26          26\n  P-value (Chi-square)                           0.000       0.000\n  Scaling correction factor                                  0.664\n  Shift parameter                                            2.781\n    simple second-order correction                                \n\nParameter Estimates:\n\n  Parameterization                               Delta\n[...]\n\n\n\n\n\nNote how many parameters our 9-item CFA has"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-2",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-2",
     "title": "SEM with ordinal variables",
     "section": "Results (2)",
-    "text": "Results (2)\n\n\n[...]\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  cb =~                                                                 \n    Adaptability_1    0.659    0.021   30.831    0.000    0.659    0.659\n    Adaptability_2    0.659    0.021   30.841    0.000    0.659    0.659\n    Adaptability_3    0.664    0.021   30.983    0.000    0.664    0.664\n    Adaptability_4    0.551    0.020   26.957    0.000    0.551    0.551\n    Adaptability_5    0.619    0.021   29.486    0.000    0.619    0.619\n    Adaptability_6    0.553    0.020   27.012    0.000    0.553    0.553\n  em =~                                                                 \n    Adaptability_7    0.642    0.026   24.949    0.000    0.642    0.642\n    Adaptability_8    0.671    0.026   25.513    0.000    0.671    0.671\n    Adaptability_9    0.699    0.027   25.983    0.000    0.699    0.699\n\nCovariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  cb ~~                                                                 \n    em                0.587    0.022   26.729    0.000    0.587    0.587\n[...]"
+    "text": "Results (2)\n\n\n[...]\n  Standard errors                           Robust.sem\n  Information                                 Expected\n  Information saturated (h1) model        Unstructured\n\nLatent Variables:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  cb =~                                                                 \n    Adaptability_1    0.673    0.018   36.808    0.000    0.673    0.673\n    Adaptability_2    0.671    0.018   36.639    0.000    0.671    0.671\n    Adaptability_3    0.661    0.019   34.625    0.000    0.661    0.661\n    Adaptability_4    0.549    0.022   24.579    0.000    0.549    0.549\n    Adaptability_5    0.613    0.020   30.143    0.000    0.613    0.613\n    Adaptability_6    0.552    0.022   25.674    0.000    0.552    0.552\n  em =~                                                                 \n    Adaptability_7    0.666    0.022   30.006    0.000    0.666    0.666\n    Adaptability_8    0.688    0.022   31.588    0.000    0.688    0.688\n    Adaptability_9    0.675    0.024   28.695    0.000    0.675    0.675\n\nCovariances:\n[...]"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-3",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-3",
     "title": "SEM with ordinal variables",
     "section": "Results (3)",
-    "text": "Results (3)\n\n\n[...]\n\nThresholds:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n    Adaptblty_1|t1   -2.114    0.031  -68.285    0.000   -2.114   -2.114\n    Adaptblty_1|t2   -1.647    0.031  -53.181    0.000   -1.647   -1.647\n    Adaptblty_1|t3   -1.056    0.031  -34.089    0.000   -1.056   -1.056\n    Adaptblty_1|t4   -0.320    0.031  -10.331    0.000   -0.320   -0.320\n    Adaptblty_1|t5    0.495    0.031   15.982    0.000    0.495    0.495\n    Adaptblty_1|t6    1.181    0.031   38.145    0.000    1.181    1.181\n    Adaptblty_2|t1   -2.071    0.031  -66.899    0.000   -2.071   -2.071\n    Adaptblty_2|t2   -1.421    0.031  -45.908    0.000   -1.421   -1.421\n    Adaptblty_2|t3   -0.794    0.031  -25.642    0.000   -0.794   -0.794\n    Adaptblty_2|t4   -0.188    0.031   -6.084    0.000   -0.188   -0.188\n    Adaptblty_2|t5    0.492    0.031   15.895    0.000    0.492    0.492\n    Adaptblty_2|t6    1.257    0.031   40.590    0.000    1.257    1.257\n    Adaptblty_3|t1   -1.930    0.031  -62.322    0.000   -1.930   -1.930\n    Adaptblty_3|t2   -1.415    0.031  -45.696    0.000   -1.415   -1.415\n    Adaptblty_3|t3   -0.858    0.031  -27.715    0.000   -0.858   -0.858\n    Adaptblty_3|t4   -0.250    0.031   -8.070    0.000   -0.250   -0.250\n    Adaptblty_3|t5    0.350    0.031   11.316    0.000    0.350    0.350\n    Adaptblty_3|t6    1.162    0.031   37.529    0.000    1.162    1.162\n[...]"
+    "text": "Results (3)\n\n\n[...]\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n  cb ~~                                                                 \n    em                0.582    0.027   21.809    0.000    0.582    0.582\n\nThresholds:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n    Adaptblty_1|t1   -2.114    0.094  -22.384    0.000   -2.114   -2.114\n    Adaptblty_1|t2   -1.647    0.066  -25.135    0.000   -1.647   -1.647\n    Adaptblty_1|t3   -1.056    0.048  -22.090    0.000   -1.056   -1.056\n    Adaptblty_1|t4   -0.320    0.040   -8.091    0.000   -0.320   -0.320\n    Adaptblty_1|t5    0.495    0.041   12.194    0.000    0.495    0.495\n    Adaptblty_1|t6    1.181    0.050   23.416    0.000    1.181    1.181\n    Adaptblty_2|t1   -2.071    0.091  -22.782    0.000   -2.071   -2.071\n    Adaptblty_2|t2   -1.421    0.057  -24.927    0.000   -1.421   -1.421\n    Adaptblty_2|t3   -0.794    0.044  -18.212    0.000   -0.794   -0.794\n    Adaptblty_2|t4   -0.188    0.039   -4.823    0.000   -0.188   -0.188\n    Adaptblty_2|t5    0.492    0.041   12.133    0.000    0.492    0.492\n    Adaptblty_2|t6    1.257    0.052   24.038    0.000    1.257    1.257\n    Adaptblty_3|t1   -1.930    0.081  -23.911    0.000   -1.930   -1.930\n    Adaptblty_3|t2   -1.415    0.057  -24.903    0.000   -1.415   -1.415\n    Adaptblty_3|t3   -0.858    0.044  -19.295    0.000   -0.858   -0.858\n[...]\n\n\n\n\n\nHere are the unexpected parameters!"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-4",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-4",
     "title": "SEM with ordinal variables",
     "section": "Results (4)",
-    "text": "Results (4)\n\n\n[...]\n    Adaptblty_4|t1   -1.962    0.031  -63.351    0.000   -1.962   -1.962\n    Adaptblty_4|t2   -1.476    0.031  -47.680    0.000   -1.476   -1.476\n    Adaptblty_4|t3   -0.817    0.031  -26.393    0.000   -0.817   -0.817\n    Adaptblty_4|t4   -0.257    0.031   -8.310    0.000   -0.257   -0.257\n    Adaptblty_4|t5    0.295    0.031    9.518    0.000    0.295    0.295\n    Adaptblty_4|t6    1.094    0.031   35.332    0.000    1.094    1.094\n    Adaptblty_5|t1   -1.978    0.031  -63.891    0.000   -1.978   -1.978\n    Adaptblty_5|t2   -1.408    0.031  -45.486    0.000   -1.408   -1.408\n    Adaptblty_5|t3   -0.781    0.031  -25.219    0.000   -0.781   -0.781\n    Adaptblty_5|t4   -0.196    0.031   -6.321    0.000   -0.196   -0.196\n    Adaptblty_5|t5    0.397    0.031   12.812    0.000    0.397    0.397\n    Adaptblty_5|t6    1.081    0.031   34.912    0.000    1.081    1.081\n    Adaptblty_6|t1   -1.705    0.031  -55.076    0.000   -1.705   -1.705\n    Adaptblty_6|t2   -1.186    0.031  -38.302    0.000   -1.186   -1.186\n    Adaptblty_6|t3   -0.654    0.031  -21.106    0.000   -0.654   -0.654\n    Adaptblty_6|t4   -0.055    0.031   -1.784    0.074   -0.055   -0.055\n    Adaptblty_6|t5    0.519    0.031   16.776    0.000    0.519    0.519\n    Adaptblty_6|t6    1.211    0.031   39.097    0.000    1.211    1.211\n[...]\n[...]"
+    "text": "Results (4)\n\n\n[...]\n    Adaptblty_3|t4   -0.250    0.039   -6.366    0.000   -0.250   -0.250\n    Adaptblty_3|t5    0.350    0.040    8.829    0.000    0.350    0.350\n    Adaptblty_3|t6    1.162    0.050   23.238    0.000    1.162    1.162\n    Adaptblty_4|t1   -1.962    0.083  -23.683    0.000   -1.962   -1.962\n    Adaptblty_4|t2   -1.476    0.059  -25.082    0.000   -1.476   -1.476\n    Adaptblty_4|t3   -0.817    0.044  -18.614    0.000   -0.817   -0.817\n    Adaptblty_4|t4   -0.257    0.039   -6.551    0.000   -0.257   -0.257\n    Adaptblty_4|t5    0.295    0.039    7.475    0.000    0.295    0.295\n    Adaptblty_4|t6    1.094    0.049   22.535    0.000    1.094    1.094\n    Adaptblty_5|t1   -1.978    0.084  -23.558    0.000   -1.978   -1.978\n    Adaptblty_5|t2   -1.408    0.057  -24.879    0.000   -1.408   -1.408\n    Adaptblty_5|t3   -0.781    0.043  -17.981    0.000   -0.781   -0.781\n    Adaptblty_5|t4   -0.196    0.039   -5.008    0.000   -0.196   -0.196\n    Adaptblty_5|t5    0.397    0.040    9.933    0.000    0.397    0.397\n    Adaptblty_5|t6    1.081    0.048   22.388    0.000    1.081    1.081\n    Adaptblty_6|t1   -1.705    0.068  -25.009    0.000   -1.705   -1.705\n    Adaptblty_6|t2   -1.186    0.051  -23.460    0.000   -1.186   -1.186\n    Adaptblty_6|t3   -0.654    0.042  -15.570    0.000   -0.654   -0.654\n[...]\n[...]\n\n\n\n\n\n…and counting"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#thresholds-1",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#thresholds-1",
     "title": "SEM with ordinal variables",
     "section": "Thresholds (1)",
-    "text": "Thresholds (1)\n\nWe can assume that a discrete variable \\(x\\) (expressed with \\(k\\) ordered categories) represents an approximation of a continuous latent variable \\(\\xi\\), normally distributed with mean 0.\nTherefore, when we observe \\(x = i\\), it means that the true corresponding value \\(\\xi\\) is ranging between two values, i.e.\n\n\\[\n\\alpha_{i-1} &lt; \\xi \\leq \\alpha_i\n\\] where \\(\\alpha_0 = - \\infty, \\alpha_1 &lt; \\alpha_2 &lt; \\dots &lt; \\alpha_{k-1}\\) e \\(\\alpha_k = +\\infty\\) are the thresholds - Consequenlty we will have that, given a discrete ordered variable with \\(k\\) possible values, there are \\(k - 1\\) unknown thresholds."
+    "text": "Thresholds (1)\n\nWe can assume that a discrete variable \\(x\\) (expressed with \\(k\\) ordered categories) represents an approximation of a continuous latent variable \\(\\xi\\), normally distributed with mean 0.\nTherefore, when we observe \\(x = i\\), it means that the true corresponding value \\(\\xi\\) is ranging between two values, i.e.\n\n\\[\n\\alpha_{i-1} &lt; \\xi \\leq \\alpha_i\n\\] where \\(\\alpha_0 = - \\infty, \\alpha_1 &lt; \\alpha_2 &lt; \\dots &lt; \\alpha_{k-1}\\) e \\(\\alpha_k = +\\infty\\) are the thresholds\n\nConsequenlty we will have that, given a discrete ordered variable with \\(k\\) possible values, there are \\(k - 1\\) unknown thresholds."
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#thresholds-2",
@@ -6122,14 +6122,14 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#results-5",
     "title": "SEM with ordinal variables",
     "section": "Results (5)",
-    "text": "Results (5)\n\n\n[...]\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .Adaptability_1    0.566                               0.566    0.566\n   .Adaptability_2    0.565                               0.565    0.565\n   .Adaptability_3    0.559                               0.559    0.559\n   .Adaptability_4    0.696                               0.696    0.696\n   .Adaptability_5    0.616                               0.616    0.616\n   .Adaptability_6    0.695                               0.695    0.695\n   .Adaptability_7    0.588                               0.588    0.588\n   .Adaptability_8    0.550                               0.550    0.550\n   .Adaptability_9    0.511                               0.511    0.511\n    cb                1.000                               1.000    1.000\n    em                1.000                               1.000    1.000\n\n[...]"
+    "text": "Results (5)\n\n\n[...]\n    Adaptblty_9|t5    0.447    0.040   11.096    0.000    0.447    0.447\n    Adaptblty_9|t6    1.068    0.048   22.240    0.000    1.068    1.068\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all\n   .Adaptability_1    0.547                               0.547    0.547\n   .Adaptability_2    0.550                               0.550    0.550\n   .Adaptability_3    0.563                               0.563    0.563\n   .Adaptability_4    0.698                               0.698    0.698\n   .Adaptability_5    0.625                               0.625    0.625\n   .Adaptability_6    0.695                               0.695    0.695\n   .Adaptability_7    0.556                               0.556    0.556\n   .Adaptability_8    0.527                               0.527    0.527\n   .Adaptability_9    0.544                               0.544    0.544\n[...]"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit",
     "title": "SEM with ordinal variables",
     "section": "Model fit",
-    "text": "Model fit\nThis works as usual\n\nfi &lt;- c(\"npar\", \"df\", \"chisq\", \n        \"cfi\", \"tli\", \"nnfi\", \"agfi\", \n        \"srmr\", \"rmsea\", \"bic\", \"aic\")\nfitmeasures(fitOrd, fit.measures = fi)\n# OR inspect(fitOrd, \"fit\")[fi]\n\n\n\n    npar       df    chisq \n64.00000 26.00000 73.74574 \n\n\n      cfi       tli      nnfi      agfi \n0.9883022 0.9838030 0.9838030 0.9964375 \n\n\n      srmr      rmsea        bic        aic \n0.03963876 0.04196029         NA         NA \n\n\nBUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!"
+    "text": "Model fit\nFit indices are available, but their behavior is more estimator-dependent BUT YOU CANNOT INTERPRET THEM AS WE USED TO DO!\n\n\n\n\n\n\nx\n\n\n\n\ncfi\n0.98600219\n\n\ntli\n0.98061842\n\n\nsrmr\n0.04032229\n\n\nrmsea\n0.06137610\n\n\nbic\nNA\n\n\naic\nNA\n\n\n\n\n\n\nReport robust/scaled 𝜒2, CFI/TLI, RMSEA + CI, and SRMR (Savalei, 2021).\n\n\n\n\n\n\n\nx\n\n\n\n\ncfi.robust\n0.94407465\n\n\ntli.robust\n0.92256491\n\n\nrmsea.robust\n0.06978753"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit-references",
@@ -6164,35 +6164,35 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#in-r",
     "title": "SEM with ordinal variables",
     "section": "In R",
-    "text": "In R\nI use again the adaptability items. I manually added a group variable.\n\nD.ad$group &lt;- c(rep(\"G1\", 428), rep(\"G2\", 1083-428))\n# 1. FIT THE BASELINE/CONFIGURAL MODEL\nfConf &lt;- sem(mOrd, D.ad, std.lv=T, estimator = \"ULS\",\n             ordered = T, group = \"group\")\n# 2. FIT THE FIXED THRESHOLDS MODEL\nfTresh&lt;- sem(mOrd, D.ad, std.lv=T, estimator = \"ULS\",\n             ordered = T, group = \"group\",\n             group.equal = c(\"thresholds\"))\n# 3. FIT THE FIXED LOADINGS MODEL\nfLoad &lt;- sem(mOrd, D.ad, std.lv=T, estimator = \"ULS\",\n             ordered = T, group = \"group\",\n             group.equal = c(\"thresholds\", \"loadings\"))"
+    "text": "In R\nI use again the adaptability items. I manually added a group variable.\n\nD.ad$group &lt;- c(rep(\"G1\", 428), rep(\"G2\", 1083-428))\n# 1. FIT THE BASELINE/CONFIGURAL MODEL\nfConf &lt;- sem(mOrd, D.ad, std.lv=T,\n             ordered = T, group = \"group\")\n# 2. FIT THE FIXED THRESHOLDS MODEL\nfTresh&lt;- sem(mOrd, D.ad, std.lv=T,\n             ordered = T, group = \"group\",\n             group.equal = c(\"thresholds\"))\n# 3. FIT THE FIXED LOADINGS MODEL\nfLoad &lt;- sem(mOrd, D.ad, std.lv=T,\n             ordered = T, group = \"group\",\n             group.equal = c(\"thresholds\", \"loadings\"))"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit-comparison",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit-comparison",
     "title": "SEM with ordinal variables",
     "section": "Model fit comparison",
-    "text": "Model fit comparison\n\nfitTable &lt;- rbind(fitmeasures(fConf, fi),\n                  fitmeasures(fTresh, fi),\n                  fitmeasures(fLoad, fi))\n\n\n\n\n\nnpar\ndf\nchisq\ncfi\ntli\nnnfi\nagfi\nsrmr\nrmsea\nbic\naic\n\n\n\n\nbaseline\n128\n52\n91.652\n0.990\n0.987\n0.987\n0.996\n0.044\n0.038\nNA\nNA\n\n\nthresholds\n85\n95\n166.552\n0.983\n0.987\n0.987\n0.996\n0.044\n0.038\nNA\nNA\n\n\nloadings\n78\n102\n173.785\n0.983\n0.988\n0.988\n0.996\n0.046\n0.037\nNA\nNA"
+    "text": "Model fit comparison\n\nfi &lt;- c(\"cfi\", \"tli\", \"srmr\", \"rmsea\", \"bic\", \"aic\",\n        \"cfi.scaled\",\"tli.scaled\",\"rmsea.scaled\")\nfitTable &lt;- rbind(fitmeasures(fConf, fi),\n                  fitmeasures(fTresh, fi),\n                  fitmeasures(fLoad, fi))\n\n\n\n\n\ncfi\ntli\nsrmr\nrmsea\nbic\naic\ncfi.scaled\ntli.scaled\nrmsea.scaled\n\n\n\n\nbaseline\n0.987\n0.981\n0.045\n0.062\nNA\nNA\n0.957\n0.940\n0.083\n\n\nthresholds\n0.988\n0.991\n0.045\n0.043\nNA\nNA\n0.961\n0.971\n0.058\n\n\nloadings\n0.988\n0.991\n0.045\n0.042\nNA\nNA\n0.965\n0.975\n0.053\n\n\n\n\n\n\nIn multigroup ordinal SEM, robust fit indices are preferable in principle, but they are not always available in practice. When they disappear, scaled indices are the fallback (but less satisfactory)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-results",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-results",
     "title": "SEM with ordinal variables",
     "section": "Model results",
-    "text": "Model results\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGroup 1\n\n\n\nGroup 2\n\n\n\nlhs\nop\nrhs\nest\n||\nlhs\nop\nrhs\nest\n\n\n\n\nLoadings\n\n\ncb\n=~\nAdaptability_1\n0.69\n||\ncb\n=~\nAdaptability_1\n0.64\n\n\ncb\n=~\nAdaptability_2\n0.69\n||\ncb\n=~\nAdaptability_2\n0.64\n\n\ncb\n=~\nAdaptability_3\n0.70\n||\ncb\n=~\nAdaptability_3\n0.64\n\n\ncb\n=~\nAdaptability_4\n0.54\n||\ncb\n=~\nAdaptability_4\n0.56\n\n\ncb\n=~\nAdaptability_5\n0.66\n||\ncb\n=~\nAdaptability_5\n0.59\n\n\ncb\n=~\nAdaptability_6\n0.65\n||\ncb\n=~\nAdaptability_6\n0.49\n\n\nem\n=~\nAdaptability_7\n0.66\n||\nem\n=~\nAdaptability_7\n0.63\n\n\nem\n=~\nAdaptability_8\n0.67\n||\nem\n=~\nAdaptability_8\n0.67\n\n\nem\n=~\nAdaptability_9\n0.73\n||\nem\n=~\nAdaptability_9\n0.67\n\n\nLatent covariance\n\n\ncb\n~~\nem\n0.62\n||\ncb\n~~\nem\n0.56\n\n\nThresholds\n\n\nAdaptability_1\n|\nt1\n-2.13\n||\nAdaptability_1\n|\nt1\n-2.11\n\n\nAdaptability_1\n|\nt2\n-1.69\n||\nAdaptability_1\n|\nt2\n-1.62\n\n\nAdaptability_1\n|\nt3\n-1.06\n||\nAdaptability_1\n|\nt3\n-1.05\n\n\nAdaptability_1\n|\nt4\n-0.36\n||\nAdaptability_1\n|\nt4\n-0.30\n\n\nAdaptability_1\n|\nt5\n0.52\n||\nAdaptability_1\n|\nt5\n0.48\n\n\nAdaptability_1\n|\nt6\n1.14\n||\nAdaptability_1\n|\nt6\n1.21"
+    "text": "Model results\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGroup 1\n\n\n\nGroup 2\n\n\n\nlhs\nop\nrhs\nest\n||\nlhs\nop\nrhs\nest\n\n\n\n\nLoadings\n\n\ncb\n=~\nAdaptability_1\n0.70\n||\ncb\n=~\nAdaptability_1\n0.66\n\n\ncb\n=~\nAdaptability_2\n0.69\n||\ncb\n=~\nAdaptability_2\n0.66\n\n\ncb\n=~\nAdaptability_3\n0.69\n||\ncb\n=~\nAdaptability_3\n0.64\n\n\ncb\n=~\nAdaptability_4\n0.54\n||\ncb\n=~\nAdaptability_4\n0.56\n\n\ncb\n=~\nAdaptability_5\n0.66\n||\ncb\n=~\nAdaptability_5\n0.58\n\n\ncb\n=~\nAdaptability_6\n0.65\n||\ncb\n=~\nAdaptability_6\n0.49\n\n\nem\n=~\nAdaptability_7\n0.68\n||\nem\n=~\nAdaptability_7\n0.66\n\n\nem\n=~\nAdaptability_8\n0.68\n||\nem\n=~\nAdaptability_8\n0.69\n\n\nem\n=~\nAdaptability_9\n0.71\n||\nem\n=~\nAdaptability_9\n0.65\n\n\nLatent covariance\n\n\ncb\n~~\nem\n0.62\n||\ncb\n~~\nem\n0.55\n\n\nThresholds\n\n\nAdaptability_1\n|\nt1\n-2.13\n||\nAdaptability_1\n|\nt1\n-2.11\n\n\nAdaptability_1\n|\nt2\n-1.69\n||\nAdaptability_1\n|\nt2\n-1.62\n\n\nAdaptability_1\n|\nt3\n-1.06\n||\nAdaptability_1\n|\nt3\n-1.05\n\n\nAdaptability_1\n|\nt4\n-0.36\n||\nAdaptability_1\n|\nt4\n-0.30\n\n\nAdaptability_1\n|\nt5\n0.52\n||\nAdaptability_1\n|\nt5\n0.48\n\n\nAdaptability_1\n|\nt6\n1.14\n||\nAdaptability_1\n|\nt6\n1.21"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#additional-materials",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#additional-materials",
     "title": "SEM with ordinal variables",
     "section": "Additional materials",
-    "text": "Additional materials\n\nSvetina et al. (doi:10.1080/10705511.2019.1602776) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data\nEnrico Perinelli held a psicostat meeting on the topic following Svetina et al.’s code"
+    "text": "Additional materials\n\nSvetina et al. (Svetina et al., 2020) tutorial, suggestions, and model fit recommendations for MG-CFA with ordinal data\nEnrico Perinelli held a psicostat meeting on the topic following Svetina et al.’s code [slides](https://psicostat.dpss.psy.unipd.it/meetings/slides/2022-06-17_perinelli.pdf)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#exercises-lab",
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#exercises-lab",
     "title": "SEM with ordinal variables",
     "section": "Exercises → Lab",
-    "text": "Exercises → Lab\nOpen and work through:\n\nlabs/lab08_ordinal_sem_invariance.qmd\n\nFocus on:\n\nfitting the same CFA/SEM treating items as continuous vs ordered\ninspecting thresholds and (polychoric) correlations\nMG-CFA steps with ordinal indicators (thresholds → thresholds + loadings)"
+    "text": "Exercises → Lab\nOpen and work through:\n\nlabs/lab08_ordinal_sem_invariance.qmd link\n\nFocus on:\n\nfitting the same CFA/SEM treating items as continuous vs ordered\ninspecting thresholds and (polychoric) correlations\nMG-CFA steps with ordinal indicators (thresholds → thresholds + loadings)"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#take-home-summary",
@@ -6213,7 +6213,7 @@
     "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#references",
     "title": "SEM with ordinal variables",
     "section": "References",
-    "text": "References"
+    "text": "References\n\n\nBrauer, K., Ranger, J., & Ziegler, M. (2023). Confirmatory factor analyses in psychological test adaptation and development. Psychological Test Adaptation and Development, 4(1), 4–12. https://doi.org/10.1027/2698-1866/a000034\n\n\nLi, C.-H. (2016). Confirmatory factor analysis with ordinal data: Comparing robust maximum likelihood and diagonally weighted least squares. Behavior Research Methods, 48(3), 936–949. https://doi.org/10.3758/s13428-015-0619-7\n\n\nMcNeish, D. (2023). Dynamic fit index cutoffs for categorical factor analysis with likert-type, ordinal, or binary responses. American Psychologist, 78(9), 1061–1075. https://doi.org/10.1037/amp0001213\n\n\nSavalei, V. (2021). Improving Fit Indices in Structural Equation Modeling with Categorical Data. Multivariate Behavioral Research, 56(3), 390–407. https://doi.org/10.1080/00273171.2020.1717922\n\n\nShi, D., Maydeu-Olivares, A., & Rosseel, Y. (2020). Assessing fit in ordinal factor analysis models: SRMR vs. RMSEA. Structural Equation Modeling: A Multidisciplinary Journal, 27(1), 1–15. https://doi.org/10.1080/10705511.2019.1611434\n\n\nSvetina, D., Rutkowski, L., & Rutkowski, D. (2020). Multiple-group invariance with categorical outcomes using updated guidelines: An illustration using mplus and the lavaan/semTools packages. Structural Equation Modeling: A Multidisciplinary Journal, 27(1), 111130. https://doi.org/10.1080/10705511.2019.1602776\n\n\nXia, Y., & Yang, Y. (2019). RMSEA, CFI, and TLI in structural equation modeling with ordered categorical data: The story they tell depends on the estimation methods. Behavior Research Methods, 51(1), 409–428. https://doi.org/10.3758/s13428-018-1055-2"
   },
   {
     "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#data-quality-checks-before-fitting",
@@ -9021,5 +9021,19 @@
     "title": "Evaluating Measurement and Structural Invariance via Multi-Group CFA",
     "section": "Exercise",
     "text": "Exercise\nTry it (15–25 min)\n1. Fit configural, metric, scalar on the toy dataset d.\n2. Decide whether scalar is acceptable using ΔCFI + theory.\n3. If scalar fails, free one intercept using group.partial.\n4. Write 3–4 sentences: what is comparable now, and what is not?\n../labs/Lab 07 — Invariance (MG-CFA) link"
+  },
+  {
+    "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#acknowledgments",
+    "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#acknowledgments",
+    "title": "SEM with ordinal variables",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThanks to Massimiliano Pastore for his slides!"
+  },
+  {
+    "objectID": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit-suggestions",
+    "href": "slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html#model-fit-suggestions",
+    "title": "SEM with ordinal variables",
+    "section": "Model fit, suggestions",
+    "text": "Model fit, suggestions\n\nDo not recycle continuous-data cutoffs mechanically:\n\nRMSEA may overreject with large datasets ,\nCFI/TLI may look too good,\nSRMR is often the most stable, but still imperfect.\n\nTreat global fit as a screening tool, then inspect thresholds, sparse categories, local residuals, and theory.\nRead: (Shi et al., 2020) (Brauer et al., 2023) (Li, 2016) (Xia & Yang, 2019)\n\nBut there are many contradictory suggestions and it is not easy to navigate them. Look for what you need as simulation studies depend on many variables. Simulate your design! (McNeish, 2023)"
   }
 ]
