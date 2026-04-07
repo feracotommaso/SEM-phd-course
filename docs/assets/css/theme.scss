@@ -1,0 +1,157 @@
+/* assets/css/theme.scss */
+/* Quarto revealjs theme layer: colors, fonts, global “look”.
+   Keep layout/helpers in slides.scss. */
+
+/*-- scss:defaults --*/
+
+/* If you want web fonts, uncomment the @import lines.
+   (Optional; system fonts are fine and more robust offline.) */
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap'); */
+
+/* Fonts */
+$presentation-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$presentation-heading-font: $presentation-font;
+$presentation-code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+/* Brand palette (tweak these 3 and you’re basically done) */
+$brand: #0b57d0;        // primary accent (links, highlights)
+$brand-2: #1b7f5a;      // secondary accent (optional)
+$ink: #111111;          // main text
+$paper: #ffffff;        // background
+
+/* Neutrals */
+$muted: rgba(17, 17, 17, 0.72);
+$border: rgba(17, 17, 17, 0.18);
+$soft: rgba(11, 87, 208, 0.08);
+
+/* Reveal/Quarto theme variables */
+$body-bg: $paper;
+$body-color: $ink;
+$link-color: $brand;
+
+$presentation-heading-color: $ink;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: -0.01em;
+$presentation-heading-font-weight: 700;
+
+$code-block-bg: rgba(17, 17, 17, 0.04);
+$code-block-border-color: rgba(17, 17, 17, 0.10);
+$code-color: $ink;
+
+/* Optional: subtle rounding everywhere */
+$border-radius: 14px;
+
+
+/*-- scss:rules --*/
+
+.reveal {
+  font-family: $presentation-font;
+  color: $body-color;
+}
+
+.reveal a {
+  text-decoration: none;
+  border-bottom: 2px solid rgba(11, 87, 208, 0.20);
+}
+.reveal a:hover {
+  border-bottom-color: rgba(11, 87, 208, 0.55);
+}
+
+/* Subtle selection highlight */
+.reveal ::selection {
+  background: rgba(11, 87, 208, 0.22);
+}
+
+/* Title slide: clean and academic */
+.reveal .title-slide h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.reveal .title-slide .subtitle,
+.reveal .title-slide .quarto-title-affiliation,
+.reveal .title-slide .quarto-title-author,
+.reveal .title-slide .date {
+  color: $muted;
+}
+
+/* Section headings: add a thin accent rule */
+.reveal h2 {
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+.reveal h2::after {
+  content: "";
+  display: block;
+  width: 3.0rem;
+  height: 0.22rem;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: rgba(11, 87, 208, 0.65);
+}
+
+/* Code blocks */
+.reveal pre {
+  background: $code-block-bg;
+  border: 1px solid $code-block-border-color;
+  border-radius: $border-radius;
+}
+.reveal pre code {
+  font-family: $presentation-code-font;
+}
+
+/* Inline code */
+.reveal code:not(pre code) {
+  background: rgba(11, 87, 208, 0.10);
+  border: 1px solid rgba(11, 87, 208, 0.14);
+  border-radius: 8px;
+}
+
+/* Blockquotes (nice for “rules of thumb”) */
+.reveal blockquote {
+  border-left: 0.35rem solid rgba(11, 87, 208, 0.55);
+  padding: 0.2rem 0.8rem;
+  background: rgba(11, 87, 208, 0.06);
+  border-radius: 12px;
+}
+
+/* Horizontal rule */
+.reveal hr {
+  border: 0;
+  border-top: 2px solid $border;
+}
+
+/* Tables: subtle borders */
+.reveal table th,
+.reveal table td {
+  border-bottom: 1px solid $border;
+}
+
+/* Quarto callouts: make them look consistent */
+.reveal .callout {
+  border-radius: $border-radius;
+  border-width: 1px;
+}
+.reveal .callout.callout-tip {
+  border-color: rgba(27, 127, 90, 0.35);
+}
+.reveal .callout.callout-warning {
+  border-color: rgba(217, 119, 6, 0.40);
+}
+.reveal .callout.callout-important {
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+/* Reveal progress bar */
+.reveal .progress {
+  background: rgba(17, 17, 17, 0.10);
+  height: 6px;
+}
+.reveal .progress span {
+  background: rgba(11, 87, 208, 0.85);
+}
+
+/* Small utility for accent text */
+.reveal .accent { color: $brand; }
+.reveal .accent2 { color: $brand-2; }
+.reveal .muted { color: $muted; }
