@@ -94,8 +94,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,7 +216,7 @@
 
 <section id="title-slide" data-background-image="../assets/images/psicostatLogo.png" data-background-opacity="0.15" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Multilevel Confirmatory Factor Analysis</h1>
-  <p class="subtitle">Introduction, syntax, and practical examples (lavaan)</p>
+  <p class="subtitle">Introduction, syntax, and practical examples in lavaan</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -206,6 +226,24 @@ Tommaso Feraco (adapted from Luca Menghini’s HandZone material)
 </div>
 </div>
 
+</section>
+<section id="acknowledgments" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks to Luca Menghini for his slides!</p>
+<p><img data-src="../assets/images/luca.png" style="height:4.5cm"></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>If you really need anything about multilevel SEM ask Luca!</p>
+</div>
+</div>
+</div>
 </section>
 <section id="today-in-the-workflow" class="slide level2">
 <h2>Today in the workflow</h2>
@@ -228,16 +266,6 @@ Key idea: with clustering we need to model <strong>two covariance structures</st
 <li>Fit a <strong>two-level CFA</strong> in <code>lavaan</code> (<code>level:</code> blocks + <code>cluster=</code>)</li>
 <li>Read <strong>level-specific fit</strong> (especially <code>srmr_within</code> vs <code>srmr_between</code>)</li>
 <li>Understand <strong>cross-level invariance</strong> and its link to construct meaning (e.g., traits as distributions of states)</li>
-</ul>
-</section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
-<ul>
-<li>SEM vs CFA (quick refresher)</li>
-<li>From single-level CFA to multilevel CFA</li>
-<li>Example A: individuals nested within groups (schools/teams)</li>
-<li>Example B: repeated measures nested within persons (ESM)</li>
-<li>Cross-level invariance and cross-level homology</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -309,6 +337,7 @@ Key idea: with clustering we need to model <strong>two covariance structures</st
 <img data-src="../assets/images/cfa1.PNG" class="quarto-figure quarto-figure-center r-stretch" style="width:95.0%"></section>
 <section id="factor-structure-concept" class="slide level2">
 <h2>Factor structure (concept)</h2>
+<div style="font-size:0.80em; line-height:1.15;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>A <strong>factor structure</strong> is one possible configuration of relations between a set of observed variables and one or more latent factors, defining:</p>
@@ -320,11 +349,12 @@ Key idea: with clustering we need to model <strong>two covariance structures</st
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="../assets/images/cfa2.PNG" class="quarto-figure quarto-figure-center" style="width:95.0%"></p>
+<p><img data-src="../assets/images/cfa2.PNG" class="quarto-figure quarto-figure-center" style="width:75.0%"></p>
 </figure>
 </div>
 </div></div>
 <p>Starting from the covariance matrix of observed variables, CFA tests the <strong>fit</strong> of one or more hypothesized factor structures and estimates the corresponding <strong>loadings</strong>.</p>
+</div>
 </section>
 <section id="the-starting-point-variancecovariance-matrix" class="slide level2">
 <h2>The starting point: variance–covariance matrix</h2>
@@ -435,22 +465,24 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 <div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Within: when a unit is above its cluster mean on <span class="math inline">\((X)\)</span>, is it also above on <span class="math inline">\((Y)\)</span>?</p>
+<p>Within: when a unit is above its cluster mean on <span class="math inline">\((X)\)</span>, is it also above its cluster mean on <span class="math inline">\((Y)\)</span>?</p>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="computing-withinbetween-covariance" class="slide level2">
-<h2>Computing within/between covariance</h2>
+<section id="level-specific-covariance-matrices" class="slide level2">
+<h2>Level-specific covariance matrices</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
 <li><strong>Between (L2):</strong> covariance among <strong>cluster means</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>S_between <span class="ot">&lt;-</span> <span class="fu">cov</span>(wide[, <span class="fu">c</span>(<span class="st">"x1.b"</span>,<span class="st">"x2.b"</span>)])</span>
-<span id="cb8-2"><a></a>S_between</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>S_between <span class="ot">&lt;-</span> <span class="fu">cov</span>(</span>
+<span id="cb8-2"><a></a>  wide[, <span class="fu">c</span>(<span class="st">"x1.b"</span>,<span class="st">"x2.b"</span>)]</span>
+<span id="cb8-3"><a></a>  )</span>
+<span id="cb8-4"><a></a>S_between</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            x1.b        x2.b
 x1.b  0.14161724 -0.04636824
@@ -469,8 +501,10 @@ x2.b -0.04636824  0.12918010</code></pre>
 <li><strong>Within (L1):</strong> covariance among <strong>deviations</strong> from cluster means</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>S_within  <span class="ot">&lt;-</span> <span class="fu">cov</span>(df2[, <span class="fu">c</span>(<span class="st">"x1.w"</span>,<span class="st">"x2.w"</span>)])</span>
-<span id="cb10-2"><a></a>S_within</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>S_within  <span class="ot">&lt;-</span> <span class="fu">cov</span>(</span>
+<span id="cb10-2"><a></a>  df2[, <span class="fu">c</span>(<span class="st">"x1.w"</span>,<span class="st">"x2.w"</span>)]</span>
+<span id="cb10-3"><a></a>  )</span>
+<span id="cb10-4"><a></a>S_within</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          x1.w      x2.w
 x1.w 0.8085842 0.1428157
@@ -485,9 +519,6 @@ x2.w 0.1428157 0.7787649</code></pre>
 </div>
 </div>
 </div></div>
-</section>
-<section id="level-specific-covariance-matrices" class="slide level2">
-<h2>Level-specific covariance matrices</h2>
 </section>
 <section id="multilevel-cfa-mcfa" class="slide level2">
 <h2>Multilevel CFA (MCFA)</h2>
@@ -529,8 +560,8 @@ x2.w 0.1428157 0.7787649</code></pre>
 
 </section></section>
 <section>
-<section id="handzone-multilevel-cfa" class="title-slide slide level1 center">
-<h1>HandZone: Multilevel CFA</h1>
+<section id="multilevel-cfa---coding" class="title-slide slide level1 center">
+<h1>Multilevel CFA - coding</h1>
 
 </section>
 <section id="mcfa-in-lavaan-syntax" class="slide level2">
@@ -553,6 +584,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 </section>
 <section id="simulate-an-esm-like-dataset" class="slide level2">
 <h2>Simulate an ESM-like dataset</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <ul>
 <li>139 individuals</li>
 <li>21 measurements each (3 days × 7 prompts/day)</li>
@@ -575,11 +607,12 @@ x2.w 0.1428157 0.7787649</code></pre>
 <span id="cb13-12"><a></a>lambda <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.70</span>, <span class="fl">0.75</span>, <span class="fl">0.65</span>)</span>
 <span id="cb13-13"><a></a>eps_sd <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.80</span>, <span class="fl">0.75</span>, <span class="fl">0.85</span>)</span>
 <span id="cb13-14"><a></a></span>
-<span id="cb13-15"><a></a>y_cont <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_along</span>(lambda), </span>
-<span id="cb13-16"><a></a>                 <span class="cf">function</span>(j) {</span>
-<span id="cb13-17"><a></a>  lambda[j]<span class="sc">*</span>(eta_b_long <span class="sc">+</span> eta_w) <span class="sc">+</span> </span>
-<span id="cb13-18"><a></a>                 <span class="fu">rnorm</span>(N, <span class="dv">0</span>, eps_sd[j])</span>
-<span id="cb13-19"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-15"><a></a>y_cont <span class="ot">&lt;-</span> <span class="fu">sapply</span>(</span>
+<span id="cb13-16"><a></a>  <span class="fu">seq_along</span>(lambda), </span>
+<span id="cb13-17"><a></a>  <span class="cf">function</span>(j) {</span>
+<span id="cb13-18"><a></a>    lambda[j]<span class="sc">*</span>(eta_b_long <span class="sc">+</span> eta_w) <span class="sc">+</span> </span>
+<span id="cb13-19"><a></a>      <span class="fu">rnorm</span>(N, <span class="dv">0</span>, eps_sd[j])</span>
+<span id="cb13-20"><a></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
@@ -610,6 +643,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 </div>
 </div>
 </div></div>
+</div>
 </section>
 <section id="multilevel-cfa-fit-the-model" class="slide level2">
 <h2>Multilevel CFA: fit the model</h2>
@@ -641,7 +675,7 @@ x2.w 0.1428157 0.7787649</code></pre>
        0.000        1.000        1.003        0.008        0.002 </code></pre>
 </div>
 </div>
-<p><span style="color:#c00000;">[ADD REFERENCES: Ryu &amp; West (2009); Hsu et al.&nbsp;(2015) → add bib entries]</span></p>
+<p><span class="citation" data-cites="ryuLevelSpecificEvaluationModel2009 hsuDetectingMisspecifiedMultilevel2015">(<a href="#/references" role="doc-biblioref" onclick="">Hsu et al., 2015</a>; <a href="#/references" role="doc-biblioref" onclick="">Ryu &amp; West, 2009</a>)</span></p>
 </section>
 <section id="multilevel-cfa-level-specific-parameters" class="slide level2">
 <h2>Multilevel CFA: level-specific parameters</h2>
@@ -670,11 +704,10 @@ x2.w 0.1428157 0.7787649</code></pre>
 <div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Note: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).</p>
+<p>Note: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 <span class="citation" data-cites="hoxMultilevelAnalysisTechniques2017">(<a href="#/references" role="doc-biblioref" onclick="">Hox et al., 2017</a>)</span>.</p>
 </div>
 </div>
 </div>
-<p><span style="color:#c00000;">[ADD REFERENCES: Hox, 2010 → add bib entries]</span></p>
 </section>
 <section id="multilevel-cfa-but-items-are-ordinal" class="slide level2">
 <h2>Multilevel CFA: but items are ordinal</h2>
@@ -704,8 +737,9 @@ x2.w 0.1428157 0.7787649</code></pre>
 <li>multilevel CFA allows <strong>separate within and between measurement models</strong></li>
 </ul>
 </section>
-<section id="example-individual-vs-team-participation-simulated" class="slide level2">
-<h2>Example: individual vs team participation (simulated)</h2>
+<section id="example-individual-vs-team-participation" class="slide level2">
+<h2>Example: individual vs team participation</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>n_school <span class="ot">&lt;-</span> <span class="dv">68</span></span>
 <span id="cb25-2"><a></a>n_i <span class="ot">&lt;-</span> <span class="dv">608</span></span>
@@ -721,21 +755,20 @@ x2.w 0.1428157 0.7787649</code></pre>
 <span id="cb25-12"><a></a>p_cont <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_along</span>(lam_p), <span class="cf">function</span>(j) {</span>
 <span id="cb25-13"><a></a>  lam_p[j] <span class="sc">*</span> (eta_b <span class="sc">+</span> eta_w) <span class="sc">+</span> <span class="fu">rnorm</span>(n_i, <span class="dv">0</span>, eps_p[j])</span>
 <span id="cb25-14"><a></a>})</span>
-<span id="cb25-15"><a></a></span>
-<span id="cb25-16"><a></a>edudata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb25-17"><a></a>  <span class="at">schoolID =</span> schoolID,</span>
-<span id="cb25-18"><a></a>  <span class="at">p2 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">1</span>]),</span>
-<span id="cb25-19"><a></a>  <span class="at">p3 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">2</span>]),</span>
-<span id="cb25-20"><a></a>  <span class="at">p4 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">3</span>]),</span>
-<span id="cb25-21"><a></a>  <span class="at">p5 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">4</span>])</span>
-<span id="cb25-22"><a></a>)</span>
-<span id="cb25-23"><a></a><span class="fu">head</span>(edudata, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-15"><a></a>edudata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb25-16"><a></a>  <span class="at">schoolID =</span> schoolID,</span>
+<span id="cb25-17"><a></a>  <span class="at">p2 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">1</span>]),</span>
+<span id="cb25-18"><a></a>  <span class="at">p3 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">2</span>]),</span>
+<span id="cb25-19"><a></a>  <span class="at">p4 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">3</span>]),</span>
+<span id="cb25-20"><a></a>  <span class="at">p5 =</span> <span class="fu">cut_likert</span>(p_cont[,<span class="dv">4</span>])</span>
+<span id="cb25-21"><a></a>); <span class="fu">head</span>(edudata, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  schoolID p2 p3 p4 p5
 1       28  5  5  5  5
 2        8  5  3  4  5
 3       18  1  2  1  2
 4       26  2  1  4  2</code></pre>
+</div>
 </div>
 </div>
 </section>
@@ -768,7 +801,8 @@ x2.w 0.1428157 0.7787649</code></pre>
 </section>
 <section id="multilevel-cfa-preliminary-models-level-1" class="slide level2">
 <h2>Multilevel CFA: preliminary models (Level 1)</h2>
-<p>Hox (2010) suggests a preliminary check:</p>
+<div style="font-size:0.8em; line-height:1.15;">
+<p>Hox <span class="citation" data-cites="hoxMultilevelAnalysisTechniques2017">(<a href="#/references" role="doc-biblioref" onclick="">2017</a>)</span> suggests a preliminary check:</p>
 <ul>
 <li>fit CFA on the <strong>pooled-within covariance matrix</strong> (within-cluster centered scores)</li>
 </ul>
@@ -792,6 +826,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 5.856 2.000 0.056 0.991 0.973 0.019 </code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="multilevel-cfa-preliminary-models-level-2" class="slide level2">
 <h2>Multilevel CFA: preliminary models (Level 2)</h2>
@@ -806,6 +841,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 </section>
 <section id="multilevel-cfa-preliminary-models-level-2-1" class="slide level2">
 <h2>Multilevel CFA: preliminary models (Level 2)</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
@@ -817,7 +853,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 <span id="cb33-6"><a></a><span class="st">    p3 ~~ 0*p3</span></span>
 <span id="cb33-7"><a></a><span class="st">    p4 ~~ 0*p4</span></span>
 <span id="cb33-8"><a></a><span class="st">    p5 ~~ 0*p5</span></span>
-<span id="cb33-9"><a></a><span class="st">'</span></span>
+<span id="cb33-9"><a></a><span class="st">'</span> <span class="co"># No structure at Level 2</span></span>
 <span id="cb33-10"><a></a></span>
 <span id="cb33-11"><a></a>m_ind <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb33-12"><a></a><span class="st">  level: 1</span></span>
@@ -827,7 +863,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 <span id="cb33-16"><a></a><span class="st">    p3 ~~ p3</span></span>
 <span id="cb33-17"><a></a><span class="st">    p4 ~~ p4</span></span>
 <span id="cb33-18"><a></a><span class="st">    p5 ~~ p5</span></span>
-<span id="cb33-19"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-19"><a></a><span class="st">'</span> <span class="co"># model with variances only</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell">
@@ -839,7 +875,7 @@ x2.w 0.1428157 0.7787649</code></pre>
 <span id="cb34-6"><a></a><span class="st">    p3 ~~ p3 + p4 + p5</span></span>
 <span id="cb34-7"><a></a><span class="st">    p4 ~~ p4 + p5</span></span>
 <span id="cb34-8"><a></a><span class="st">    p5 ~~ p5</span></span>
-<span id="cb34-9"><a></a><span class="st">'</span></span>
+<span id="cb34-9"><a></a><span class="st">'</span> <span class="co"># variances and covariances</span></span>
 <span id="cb34-10"><a></a></span>
 <span id="cb34-11"><a></a>fit_null <span class="ot">&lt;-</span> <span class="fu">cfa</span>(m_null, edudata, </span>
 <span id="cb34-12"><a></a>                <span class="at">cluster =</span> <span class="st">"schoolID"</span>, </span>
@@ -860,9 +896,11 @@ sat   2        0.000      1.000       0.019        0.004</code></pre>
 </div>
 </div>
 </div></div>
+</div>
 </section>
 <section id="multilevel-cfa-the-hypothesized-model" class="slide level2">
 <h2>Multilevel CFA: the hypothesized model</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a>m_mcfa <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb36-2"><a></a><span class="st">  level: 1</span></span>
@@ -885,18 +923,17 @@ sat   2        0.000      1.000       0.019        0.004</code></pre>
 <pre><code>Warning: lavaan-&gt;lav_object_post_check():  
    some estimated ov variances are negative</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(</span>
-<span id="cb40-2"><a></a>  <span class="at">null =</span> <span class="fu">lavInspect</span>(fit_null,<span class="st">"fit"</span>)[f],</span>
-<span id="cb40-3"><a></a>  <span class="at">ind  =</span> <span class="fu">lavInspect</span>(fit_ind,<span class="st">"fit"</span>)[f],</span>
-<span id="cb40-4"><a></a>  <span class="at">sat  =</span> <span class="fu">lavInspect</span>(fit_sat,<span class="st">"fit"</span>)[f],</span>
-<span id="cb40-5"><a></a>  <span class="at">mcfa =</span> <span class="fu">lavInspect</span>(fit_mcfa,<span class="st">"fit"</span>)[f]</span>
-<span id="cb40-6"><a></a>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">null =</span> <span class="fu">lavInspect</span>(fit_null,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-2"><a></a>            <span class="at">ind  =</span> <span class="fu">lavInspect</span>(fit_ind,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-3"><a></a>            <span class="at">sat  =</span> <span class="fu">lavInspect</span>(fit_sat,<span class="st">"fit"</span>)[f],</span>
+<span id="cb40-4"><a></a>            <span class="at">mcfa =</span> <span class="fu">lavInspect</span>(fit_mcfa,<span class="st">"fit"</span>)[f]), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     df rmsea.robust cfi.robust srmr_within srmr_between
 null 12        0.085      0.908       0.057           NA
 ind   8        0.105      0.907       0.058        0.763
 sat   2        0.000      1.000       0.019        0.004
 mcfa  4        0.000      1.000       0.019        0.005</code></pre>
+</div>
 </div>
 </div>
 </section>
@@ -919,7 +956,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Remember: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 (Hox, 2010).</p>
+<p>Remember: Loadings are typically stronger at the between level because measurement error tends to accumulate at Level 1 <span class="citation" data-cites="hoxMultilevelAnalysisTechniques2017">(<a href="#/references" role="doc-biblioref" onclick="">Hox et al., 2017</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -940,7 +977,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <li>Level 1 (within): momentary fluctuations within a person (“state-like”)</li>
 </ul>
 
-<img data-src="../assets/images/esm.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>See Menghini, Pastore &amp; Balducci (2023) https://doi.org/10.1027/1015-5759/a000725</p>
+<img data-src="../assets/images/esm.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>See <span class="citation" data-cites="MenghiniWorkplaceStressReal">(<a href="#/references" role="doc-biblioref" onclick="">Menghini et al., 2023</a>)</span></p>
 </section>
 <section id="multiple-factor-mcfa-compare-structures" class="slide level2">
 <h2>Multiple-factor MCFA (compare structures)</h2>
@@ -949,6 +986,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <img data-src="../assets/images/mcfa2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section>
 <section id="simulate-a-3-factor-mcfa-dataset-nv-ta-fa" class="slide level2">
 <h2>Simulate a 3-factor MCFA dataset (NV, TA, FA)</h2>
+<div style="font-size:0.70em; line-height:1.15;">
 <p>We simulate 9 ordinal items (3 per factor), repeated within persons.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a>n_id <span class="ot">&lt;-</span> <span class="dv">139</span></span>
@@ -992,9 +1030,11 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 4 S001  2  1  1  2  2  2  3  5  5</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="specify-alternative-structures" class="slide level2">
 <h2>Specify alternative structures</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
@@ -1041,6 +1081,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <span id="cb47-18"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
+</div>
 </section>
 <section id="fit-and-compare" class="slide level2">
 <h2>Fit and compare</h2>
@@ -1068,6 +1109,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 </section>
 <section id="negative-level-2-variances-heywood-cases" class="slide level2">
 <h2>Negative Level-2 variances (Heywood cases)</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>Negative residual variances at Level 2 are common in MCFA because:</p>
 <ul>
 <li>error tends to accumulate at Level 1<br>
@@ -1076,10 +1118,9 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 </li>
 <li>sampling fluctuations around ~0 can produce negative estimates</li>
 </ul>
-
-<img data-src="../assets/images/error.PNG" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit3x3)</span>
-<span id="cb50-2"><a></a>p[p<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~~"</span> <span class="sc">&amp;</span> p<span class="sc">$</span>ci.lower <span class="sc">&lt;</span> <span class="dv">0</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a>p <span class="ot">&lt;-</span> <span class="fu">parameterEstimates</span>(fit3x3); p[p<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"~~"</span> <span class="sc">&amp;</span> p<span class="sc">$</span>ci.lower <span class="sc">&lt;</span> <span class="dv">0</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lhs op  rhs block level    est    se      z pvalue ci.lower ci.upper
 22 NV_w ~~ TA_w     1     1  0.003 0.017  0.202  0.840   -0.030    0.037
@@ -1099,7 +1140,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 60 TA_b ~~ FA_b     2     2 -0.030 0.051 -0.598  0.550   -0.130    0.069</code></pre>
 </div>
 </div>
-<p><span style="color:#c00000;">[ADD REFERENCE: Hox (2010); Kolenikov &amp; Bollen (2012) → add bib entries]</span></p>
+<p><span class="citation" data-cites="hoxMultilevelAnalysisTechniques2017 kolenikovTestingNegativeError2012">(<a href="#/references" role="doc-biblioref" onclick="">Hox et al., 2017</a>; <a href="#/references" role="doc-biblioref" onclick="">Kolenikov &amp; Bollen, 2012</a>)</span></p>
 </section>
 <section id="negative-variances-and-influential-case-analysis" class="slide level2">
 <h2>Negative variances and influential-case analysis</h2>
@@ -1137,7 +1178,7 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <p>Multi-group CFA becomes impractical with many clusters (e.g., 139 persons).</p>
 <p>Multilevel logic: treat clusters as <strong>random effects</strong> and focus on <strong>cross-level invariance</strong>.</p>
 
-<img data-src="../assets/images/inv.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Jak &amp; Jorgensen (2017) → add bib entry]</span></p>
+<img data-src="../assets/images/inv.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><p><span class="citation" data-cites="jakRelatingMeasurementInvariance2017">(<a href="#/references" role="doc-biblioref" onclick="">Jak &amp; Jorgensen, 2017</a>)</span></p>
 </section>
 <section id="cross-level-invariance-configural" class="slide level2">
 <h2>Cross-level invariance: configural</h2>
@@ -1171,9 +1212,8 @@ mcfa  4        0.000      1.000       0.019        0.005</code></pre>
 <span id="cb54-10"><a></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="cross-level-invariance-strong-as-in-lucas-slide" class="slide level2">
-<h2>Cross-level invariance: “strong” (as in Luca’s slide)</h2>
-<p>Luca’s “strong” adds <strong>zero residual variances at Level 2</strong> (“perfect reliability”).</p>
+<section id="cross-level-invariance-strong" class="slide level2">
+<h2>Cross-level invariance: “strong”</h2>
 <div class="callout callout-warning no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
@@ -1222,7 +1262,7 @@ strong 63            0          1       0.013        0.020</code></pre>
 <h2>Multilevel constructs and cross-level invariance</h2>
 <p>Cross-level invariance is not only “fit”—it’s about <strong>construct meaning</strong>.</p>
 
-<img data-src="../assets/images/MCFAconstructs.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Stapleton et al.&nbsp;(2016) → add bib entry]</span></p>
+<img data-src="../assets/images/MCFAconstructs.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><p><span class="citation" data-cites="stapletonConstructMeaningMultilevel2016">(<a href="#/references" role="doc-biblioref" onclick="">Stapleton et al., 2016</a>)</span></p>
 </section>
 <section id="traits-as-distributions-of-states" class="slide level2">
 <h2>Traits as distributions of states</h2>
@@ -1240,10 +1280,24 @@ This implicitly assumes at least <strong>weak cross-level invariance</strong>.</
 </section>
 <section id="lucas-real-data-example-slides" class="slide level2">
 <h2>Luca’s real-data example (slides)</h2>
-<p><img data-src="../assets/images/ema.png" class="quarto-figure quarto-figure-center" style="width:80.0%"> <img data-src="../assets/images/statew.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/ema.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../assets/images/statew.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
 </section>
-<section id="simulate-a-workaholism-esm-dataset-2-factors-6-items" class="slide level2">
-<h2>Simulate a workaholism ESM dataset (2 factors, 6 items)</h2>
+<section id="simulate-esm-workaholism-2-factors-6-items" class="slide level2">
+<h2>Simulate ESM workaholism (2 factors, 6 items)</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a></a>n_id <span class="ot">&lt;-</span> <span class="dv">135</span></span>
 <span id="cb58-2"><a></a>n_rep <span class="ot">&lt;-</span> <span class="dv">30</span></span>
@@ -1290,9 +1344,11 @@ This implicitly assumes at least <strong>weak cross-level invariance</strong>.</
 4 P001      4      1      1      4      1      2</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="cross-level-invariance-configural-vs-weak" class="slide level2">
 <h2>Cross-level invariance: configural vs weak</h2>
+<div style="font-size:0.75em; line-height:1.15;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a></a>conf_wh <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb60-2"><a></a><span class="st">  level: 1</span></span>
@@ -1325,9 +1381,11 @@ conf 16        0.014      0.996       0.014        0.046
 weak 20        0.018      0.992       0.015        0.046</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="partial-invariance" class="slide level2">
 <h2>Partial invariance?</h2>
+<div style="font-size:0.8em; line-height:1.15;">
 <p>Use modification indices to find which equality constraint is most problematic.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a></a>mi <span class="ot">&lt;-</span> <span class="fu">modificationIndices</span>(fit.weak_wh)</span>
@@ -1354,6 +1412,7 @@ weak 20        0.018      0.992       0.015        0.046</code></pre>
 <span id="cb64-8"><a></a><span class="st">'</span></span>
 <span id="cb64-9"><a></a>fit.weak_part_wh <span class="ot">&lt;-</span> <span class="fu">cfa</span>(weak_part_wh, dat_wh, <span class="at">cluster =</span> <span class="st">"ID"</span>, <span class="at">estimator =</span> <span class="st">"MLR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 </section>
 <section class="slide level2">
 
@@ -1367,8 +1426,7 @@ weak 20        0.018      0.992       0.015        0.046</code></pre>
 <h2>Beyond invariance: homology</h2>
 <p>If cross-level invariance holds (conceptually and empirically), we can test whether the construct has a similar <strong>nomological network</strong> across levels (cross-level homology).</p>
 
-<img data-src="../assets/images/homology.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p><span style="color:#c00000;">[ADD REFERENCE: Chen et al.&nbsp;(2005) → add bib entries]</span></p>
-</section>
+<img data-src="../assets/images/homology.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="take-home-3-things" class="slide level2">
 <h2>Take-home: 3 things</h2>
 <ol type="1">
@@ -1381,7 +1439,7 @@ weak 20        0.018      0.992       0.015        0.046</code></pre>
 </section>
 <section id="exercises-lab-10" class="slide level2">
 <h2>Exercises → Lab 10</h2>
-<p>Go to: <strong><code>labs/lab10_multilevel_robustse_twolevelcfa.qmd</code></strong></p>
+<p>Go to: <strong><code>labs/lab10_multilevel_robustse_twolevelcfa.qmd</code></strong> <a href="https://feracotommaso.github.io/SEM-phd-course/labs/lab10_multilevel_robustse_twolevelcfa.html">link</a></p>
 <ul>
 <li>fit a two-level CFA with <code>level:</code> + <code>cluster=</code></li>
 <li>compare alternative within/between structures and interpret SRMR</li>
@@ -1389,30 +1447,51 @@ weak 20        0.018      0.992       0.015        0.046</code></pre>
 <li>test (optional) cross-level invariance and partial invariance</li>
 </ul>
 </section>
-<section id="further-reading" class="slide level2">
-<h2>Further reading</h2>
-<p><span style="color:#c00000;">[ADD the corresponding bib entries + citation keys in <code>refs/references.bib</code>]</span></p>
-<ul>
-<li>Hox (2010), <em>Multilevel Analysis</em> (SEM/MCFA chapter)<br>
-</li>
-<li>Ryu &amp; West (2009) on level-specific fit, SRMR<br>
-</li>
-<li>Hsu et al.&nbsp;(2015) on level-specific fit in MCFA<br>
-</li>
-<li>Kolenikov &amp; Bollen (2012) on improper solutions / negative variances<br>
-</li>
-<li>Jak &amp; Jorgensen (2017) on cross-level invariance<br>
-</li>
-<li>Stapleton et al.&nbsp;(2016) on multilevel constructs<br>
-</li>
-<li>Chen et al.&nbsp;(2005) on cross-level homology</li>
-</ul>
+<section id="acknowledgments-1" class="slide level2">
+<h2>Acknowledgments</h2>
+<p>Thanks <strong>AGAIN</strong> to Luca Menghini for his slides!</p>
+<p><img data-src="../assets/images/luca.png" style="height:7.5cm"></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>If you really need anything about multilevel SEM ask Luca!</p>
+</div>
+</div>
+</div>
 </section>
-<section id="references" class="slide level2">
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<p><span style="color:#c00000;">[Replace the red TODOs with proper <code>[@key]</code> citations once the bib entries are in place.]</span></p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-hoxMultilevelAnalysisTechniques2017" class="csl-entry" role="listitem">
+Hox, J., Moerbeek, M., &amp; Schoot, R. van de. (2017). <em>Multilevel analysis: Techniques and applications, third edition</em> (3rd ed.). Routledge. <a href="https://doi.org/10.4324/9781315650982">https://doi.org/10.4324/9781315650982</a>
+</div>
+<div id="ref-hsuDetectingMisspecifiedMultilevel2015" class="csl-entry" role="listitem">
+Hsu, H.-Y., Kwok, O., Lin, J. H., &amp; Acosta, S. (2015). Detecting misspecified multilevel structural equation models with common fit indices: A monte carlo study. <em>Multivariate Behavioral Research</em>, <em>50</em>(2), 197–215. <a href="https://doi.org/10.1080/00273171.2014.977429">https://doi.org/10.1080/00273171.2014.977429</a>
+</div>
+<div id="ref-jakRelatingMeasurementInvariance2017" class="csl-entry" role="listitem">
+Jak, S., &amp; Jorgensen, T. D. (2017). Relating measurement invariance, cross-level invariance, and multilevel reliability. <em>Frontiers in Psychology</em>, <em>8</em>. <a href="https://doi.org/10.3389/fpsyg.2017.01640">https://doi.org/10.3389/fpsyg.2017.01640</a>
+</div>
+<div id="ref-kolenikovTestingNegativeError2012" class="csl-entry" role="listitem">
+Kolenikov, S., &amp; Bollen, K. A. (2012). Testing Negative Error Variances: Is a Heywood Case a Symptom of Misspecification? <em>Sociological Methods &amp; Research</em>, <em>41</em>(1), 124–167. <a href="https://doi.org/10.1177/0049124112442138">https://doi.org/10.1177/0049124112442138</a>
+</div>
+<div id="ref-MenghiniWorkplaceStressReal" class="csl-entry" role="listitem">
+Menghini, L., Pastore, M., &amp; Balducci, C. (2023). Workplace Stress in Real Time: Three Parsimonious Scales for the Experience Sampling Measurement of Stressors and Strain at Work. <em>European Journal of Psychological Assessment</em>, <em>39</em>(6). <a href="https://econtent.hogrefe.com/doi/10.1027/1015-5759/a000725">https://econtent.hogrefe.com/doi/10.1027/1015-5759/a000725</a>
+</div>
+<div id="ref-ryuLevelSpecificEvaluationModel2009" class="csl-entry" role="listitem">
+Ryu, E., &amp; West, S. G. (2009). Level-specific evaluation of model fit in multilevel structural equation modeling. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>16</em>(4), 583–601. <a href="https://doi.org/10.1080/10705510903203466">https://doi.org/10.1080/10705510903203466</a>
+</div>
+<div id="ref-stapletonConstructMeaningMultilevel2016" class="csl-entry" role="listitem">
+Stapleton, L. M., Yang, J. S., &amp; Hancock, G. R. (2016). Construct Meaning in Multilevel Settings. <em>Journal of Educational and Behavioral Statistics</em>, <em>41</em>(5), 481–520. <a href="https://doi.org/10.3102/1076998616646200">https://doi.org/10.3102/1076998616646200</a>
+</div>
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -1629,6 +1708,11 @@ weak 20        0.018      0.992       0.015        0.046</code></pre>
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>
