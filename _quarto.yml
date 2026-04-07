@@ -18,15 +18,15 @@ website:
         text: Home
       - href: setup.qmd
         text: Setup
-      - href: slides/slides_index.qmd
+      - href: slides_index.qmd
         text: Slides
-      - href: labs/labs_index.qmd
+      - href: labs_index.qmd
         text: Labs
       - href: glossary.qmd
         text: Glossary
       - href: reporting-checklist.qmd
         text: Reporting checklist
-      - href: extras/extras_index.qmd
+      - href: extras_index.qmd
         text: Extras
     right:
       - icon: github

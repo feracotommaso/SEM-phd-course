@@ -137,14 +137,14 @@
     "href": "labs/labs_index.html#day-2",
     "title": "Labs",
     "section": "Day 2",
-    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability (omega)\nOpen lab"
+    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability\nOpen lab"
   },
   {
     "objectID": "labs/labs_index.html#day-3",
     "href": "labs/labs_index.html#day-3",
     "title": "Labs",
     "section": "Day 3",
-    "text": "Day 3\n\nLab 05 — SEM capstone (flagship dataset)\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
+    "text": "Day 3\n\nLab 05 — SEM - structural relationships\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
   },
   {
     "objectID": "labs/labs_index.html#day-4",
@@ -165,7 +165,7 @@
     "href": "labs/labs_index.html#optional-extra-practice",
     "title": "Labs",
     "section": "Optional extra practice",
-    "text": "Optional extra practice\nIf you want more practice beyond the core labs, check the Extras page."
+    "text": "Optional extra practice\nIf you want more practice beyond the core materials, check the Extras page."
   },
   {
     "objectID": "glossary.html",
@@ -9168,5 +9168,138 @@
     "title": "Glossary",
     "section": "Ω-family and related bifactor terms",
     "text": "Ω-family and related bifactor terms\n\n\\(\\omega\\), \\(\\omega_H\\), ECV, PUC, H, FD\nA family of model-based indices often used when evaluating reliability, essential unidimensionality, and interpretability in CFA and bifactor models.\nPractical takeaway: good global fit is not enough for bifactor interpretation; these indices help determine whether the general factor or the specific factors are actually meaningful."
+  },
+  {
+    "objectID": "slides_index.html",
+    "href": "slides_index.html",
+    "title": "Slides",
+    "section": "",
+    "text": "Here are the slide decks for the course (5×4h, split into two blocks each day)."
+  },
+  {
+    "objectID": "slides_index.html#day-1",
+    "href": "slides_index.html#day-1",
+    "title": "Slides",
+    "section": "Day 1",
+    "text": "Day 1\n\nBlock A: 00 Course map, 01 Foundations\nBlock B: 02 Path analysis"
+  },
+  {
+    "objectID": "slides_index.html#day-2",
+    "href": "slides_index.html#day-2",
+    "title": "Slides",
+    "section": "Day 2",
+    "text": "Day 2\n\nBlock A: 03 Fit & diagnostics\nBlock B: 04 CFA"
+  },
+  {
+    "objectID": "slides_index.html#day-3",
+    "href": "slides_index.html#day-3",
+    "title": "Slides",
+    "section": "Day 3",
+    "text": "Day 3\n\nBlock A: 05 SEM capstone\nBlock B: 06 Missing/robust/reporting"
+  },
+  {
+    "objectID": "slides_index.html#day-4",
+    "href": "slides_index.html#day-4",
+    "title": "Slides",
+    "section": "Day 4",
+    "text": "Day 4\n\nBlock A: 07 Invariance (MG-CFA)\nBlock B: 08 Ordinal SEM"
+  },
+  {
+    "objectID": "slides_index.html#day-5",
+    "href": "slides_index.html#day-5",
+    "title": "Slides",
+    "section": "Day 5",
+    "text": "Day 5\n\nBlock A: 09 Longitudinal on-ramp\nBlock B: 10 Multilevel/clustered"
+  },
+  {
+    "objectID": "labs_index.html",
+    "href": "labs_index.html",
+    "title": "Labs",
+    "section": "",
+    "text": "These labs are the hands-on part of the course. Each lab is designed to be runnable end-to-end and includes exercises."
+  },
+  {
+    "objectID": "labs_index.html#day-1",
+    "href": "labs_index.html#day-1",
+    "title": "Labs",
+    "section": "Day 1",
+    "text": "Day 1\n\nLab 01 — lavaan basics\nOpen lab\nLab 02 — path analysis & mediation\nOpen lab"
+  },
+  {
+    "objectID": "labs_index.html#day-2",
+    "href": "labs_index.html#day-2",
+    "title": "Labs",
+    "section": "Day 2",
+    "text": "Day 2\n\nLab 03 — fit diagnostics (residuals, MI/EPC)\nOpen lab\nLab 04 — CFA + reliability\nOpen lab"
+  },
+  {
+    "objectID": "labs_index.html#day-3",
+    "href": "labs_index.html#day-3",
+    "title": "Labs",
+    "section": "Day 3",
+    "text": "Day 3\n\nLab 05 — SEM - structural relationships\nOpen lab\nLab 06 — missing data (FIML/MI) + robustness\nOpen lab"
+  },
+  {
+    "objectID": "labs_index.html#day-4",
+    "href": "labs_index.html#day-4",
+    "title": "Labs",
+    "section": "Day 4",
+    "text": "Day 4\n\nLab 07 — MG-CFA invariance\nOpen lab\nLab 08 — ordinal SEM + ordinal invariance\nOpen lab"
+  },
+  {
+    "objectID": "labs_index.html#day-5",
+    "href": "labs_index.html#day-5",
+    "title": "Labs",
+    "section": "Day 5",
+    "text": "Day 5\n\nLab 09 — longitudinal SEM (growth model)\nOpen lab\nLab 10 — clustered data (robust SE) + two-level CFA\nOpen lab"
+  },
+  {
+    "objectID": "labs_index.html#optional-extra-practice",
+    "href": "labs_index.html#optional-extra-practice",
+    "title": "Labs",
+    "section": "Optional extra practice",
+    "text": "Optional extra practice\nIf you want more practice beyond the core materials, check the Extras page."
+  },
+  {
+    "objectID": "extras_index.html",
+    "href": "extras_index.html",
+    "title": "Extras",
+    "section": "",
+    "text": "These are optional, self-contained modules you can read when relevant."
+  },
+  {
+    "objectID": "extras_index.html#methods-inference",
+    "href": "extras_index.html#methods-inference",
+    "title": "Extras",
+    "section": "Methods & inference",
+    "text": "Methods & inference\n\nIndifference of the indicators and implications\nSpecific factors: Distinctiveness, interpretability, and predictive validity\n\n… under construction"
+  },
+  {
+    "objectID": "extras_index.html#advanced-sem",
+    "href": "extras_index.html#advanced-sem",
+    "title": "Extras",
+    "section": "Advanced SEM",
+    "text": "Advanced SEM\n\nLatent interactions (modsem)\n\n… under construction"
+  },
+  {
+    "objectID": "extras_index.html#longitudinal-deep-dives",
+    "href": "extras_index.html#longitudinal-deep-dives",
+    "title": "Extras",
+    "section": "Longitudinal deep dives",
+    "text": "Longitudinal deep dives\n… under construction"
+  },
+  {
+    "objectID": "extras_index.html#measurement-extensions",
+    "href": "extras_index.html#measurement-extensions",
+    "title": "Extras",
+    "section": "Measurement extensions",
+    "text": "Measurement extensions\n\nPCA-EFA-CFA comparison and overview\n\n… under construction"
+  },
+  {
+    "objectID": "extras_index.html#missing-data-sensitivity",
+    "href": "extras_index.html#missing-data-sensitivity",
+    "title": "Extras",
+    "section": "Missing data sensitivity",
+    "text": "Missing data sensitivity\n… under construction"
   }
 ]
