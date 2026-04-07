@@ -32,7 +32,7 @@ If you get lost: come back here. This page is the “map” for everything.
 -   [Setup](setup.html) (only once, then keep for troubleshooting)
 -   [Glossary](glossary.html) (quick definitions, naming conventions)
 -   [Reporting checklist](reporting-checklist.html) (what to report in CFA/SEM/invariance/ordinal/etc.)
--   [Extras](extras_index.html) (optional modules; useful later)
+-   [Extras](extras.html) (optional modules; useful later)
 
 ## Conventions used in this course
 
