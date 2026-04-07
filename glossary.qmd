@@ -1,112 +1,488 @@
 ---
 title: "Glossary"
+toc: true
+toc-depth: 2
 ---
 
-Short definitions + “what students usually confuse it with”.
+This glossary defines the main terms used across the SEM PhD course. The aim is practical clarity, not encyclopedic completeness: entries are written in the way the terms are used in the decks, labs, and course workflow.
+
+A recurring theme of this course is **measurement first**: before interpreting structural paths, mean differences, growth, or group comparisons, make sure the measurement story is defensible.
 
 ## A
 
-**Absolute fit**  
-Fit measures that evaluate how well the model reproduces the observed covariance structure (e.g., χ², SRMR).
+### Absolute fit
+How well a model reproduces the observed covariance structure in its own right, not relative to a baseline model. Typical absolute or close-to-absolute fit information includes the \(\chi^2\) test, RMSEA, and SRMR.
 
-**AIC / BIC**  
-Information criteria for comparing models (typically non-nested too). Lower is better (with caveats).
+**Often confused with:** incremental fit OR global fit.
+
+### AIC / BIC
+Information criteria used to compare models, usually estimated on the same data. Smaller values indicate a better trade-off between fit and complexity.
+
+**Use carefully:** they are most useful for comparing candidate models, not for deciding whether one model is “good” in an absolute sense.
+
+### Attenuation
+Weakening of an estimated relation because variables are measured with error. One reason SEM can outperform observed-score regression is that latent modeling can reduce attenuation.
+
+### Auxiliary variable
+A variable added to help handle missing data, usually because it predicts missingness or is related to incomplete variables. Auxiliary variables can make MAR more plausible and improve estimation.
+
+## B
+
+### Baseline model (independence model)
+A very restrictive comparison model in which observed variables are treated as unrelated. Incremental fit indices such as CFI and TLI compare your model against this baseline.
+
+### Bifactor model
+A measurement model in which all items load on a general factor and, at the same time, subsets of items also load on specific factors. It is useful only when the interpretation of both the general and specific factors is theoretically and empirically defensible.
+
+**Often confused with:** two-factor model.
+
+### Bootstrap confidence interval
+A confidence interval obtained by repeatedly resampling the data. Especially useful for indirect effects, which often have asymmetric sampling distributions.
 
 ## C
 
-**CFA (Confirmatory Factor Analysis)**  
-A measurement model where latent variables explain covariances among observed indicators via factor loadings.
+### Categorical indicator
+An observed variable with a finite set of categories, such as binary, ordinal, or Likert-type responses. In this course, ordinal indicators are typically modeled through an underlying continuous response plus thresholds.
 
-**CFI / TLI**  
-Incremental fit indices comparing your model to a baseline (independence) model.
+### CFA (Confirmatory Factor Analysis)
+A measurement model in which the researcher specifies in advance which indicators load on which latent factor(s). CFA is used to test measurement structure, evaluate loadings and residuals, and derive reliability estimates that are model-based.
 
-**Cluster-robust standard errors**  
-A correction to SEs/p-values when observations are clustered (e.g., students in classrooms) without explicitly fitting a multilevel model.
+**Often confused with:** EFA.
 
-**Configural / Metric / Scalar invariance**  
-Levels of measurement invariance across groups/time:
-- configural: same pattern of loadings
-- metric: equal loadings
-- scalar: equal loadings + intercepts (or thresholds for ordinal)
+### CFI (Comparative Fit Index)
+An incremental fit index comparing the target model to a baseline independence model. Higher values indicate better relative fit.
+
+**Interpretation note:** CFI is informative, but it should not be interpreted alone or turned into a mechanical pass/fail rule.
+
+### Cluster-robust standard errors
+Standard errors adjusted for non-independence due to clustering, without fully specifying a multilevel measurement model. This is often a reasonable first correction when data are nested and the main concern is inference rather than explicit within/between modeling.
+
+### Communality
+The proportion of an indicator’s variance explained by the common factor(s) in the model.
+
+**Relation:** uniqueness = 1 - communality.
+
+### Conditional growth model
+A latent growth model in which growth factors such as the intercept and slope are predicted by covariates.
+
+### Configural invariance
+The weakest invariance level. The same factor structure is specified across groups or waves, but key parameters are still allowed to differ.
+
+**What it allows:** evidence that the same broad measurement pattern is plausible.
+
+**What it does not yet allow:** strong claims about latent mean comparisons.
+
+### Convergence
+Successful completion of the estimation algorithm. Convergence is necessary, but not sufficient, for trusting a model.
+
+**Always also check:** warnings, standard errors, inadmissible estimates, and substantive plausibility.
+
+### Covariance matrix
+The matrix containing variances on the diagonal and covariances off the diagonal. It is the core empirical object that SEM tries to reproduce.
+
+### Cross-level homology
+Similarity of a construct’s broader nomological network across levels, such as within-person and between-person. Even if measurement is similar across levels, relations with other variables may still differ.
+
+### Cross-level invariance
+The idea that a construct is measured in the same way at different levels of analysis, such as within-person and between-person, or within-team and between-team.
 
 ## D
 
-**DWLS / WLSMV**  
-Common estimators for ordinal indicators. Naming can be confusing: the practical takeaway is that ordinal models often use a weighted least squares approach with robust corrections.
+### Defined parameter
+A quantity defined from estimated parameters rather than estimated directly, such as an indirect effect \(a \times b\) or a total effect.
+
+### Degrees of freedom (df)
+Roughly, the amount of information left over after accounting for the parameters being estimated. Overidentified models have positive df and can therefore be tested against the data.
+
+### Direct effect
+The estimated relation from one variable to another that is not transmitted through a mediator in the model.
+
+### Disciplined respecification
+Theory-guided model modification based on a combination of local diagnostics, measurement logic, and transparency. It is the opposite of freeing parameters only because they improve fit.
+
+### DWLS
+Diagonally weighted least squares. In practice, with ordinal SEM in `lavaan`, the label often appears alongside robust corrections such as WLSMV.
+
+**Often confused with:** WLSMV. In teaching practice, the key point is that ordinal models often rely on weighted-least-squares estimation with robust corrections.
 
 ## E
 
-**Equivalent models**  
-Different path diagrams that imply the same covariance structure (same global fit). Fit alone cannot identify the “true” causal story.
+### Endogenous variable
+A variable that is explained by other variables inside the model. Endogenous variables receive arrows.
 
-**EPC (Expected Parameter Change)**  
-How much a parameter estimate would change if a fixed constraint were freed; often reported with modification indices.
+### EFA (Exploratory Factor Analysis)
+A factor model used when the loading pattern is not fully specified in advance. EFA is mainly discovery-oriented; CFA is mainly theory-testing and confirmation-oriented.
+
+### Empirical underidentification
+A case in which a model may look identified on paper but becomes effectively unidentified because some crucial parameter is near zero or otherwise weakly supported by the data.
+
+### EPC (Expected Parameter Change)
+The expected size of a fixed parameter if it were freed. EPC helps judge whether a large modification index is also substantively meaningful.
+
+### Equivalence / equivalent models
+Different model structures that imply the same covariance matrix and therefore the same global fit. Fit alone cannot tell you which causal story is true.
+
+### Estimator
+The method used to estimate model parameters, such as ML, MLR, DWLS, WLSMV, or ULS. Estimator choice affects standard errors, test statistics, and sometimes the fit indices you should report.
+
+### ECV
+Explained common variance. In bifactor work, it quantifies how much common variance is captured by the general factor or by specific factors.
 
 ## F
 
-**FIML (Full Information Maximum Likelihood)**  
-A likelihood-based approach to handle missing data under MAR assumptions (with ML-family estimators).
+### Factor determinacy (FD)
+An index describing how well the latent factor is defined by the observed data and, therefore, how trustworthy derived factor scores are.
 
-**Fit indices (global)**  
-Summaries of how well the overall model fits (CFI/TLI/RMSEA/SRMR/χ²).
+### Factor loading
+The strength of the relation between an indicator and a latent factor. In a reflective model, larger absolute loadings indicate that the indicator more strongly reflects the factor.
 
-**Fit indices (local)**  
-Diagnostics for specific parts of a model (residuals, MI/EPC, standardized residual covariances).
+### Factor score
+An estimated score for a latent variable at the person level. Factor scores can be useful, but they are estimates, not the latent variables themselves.
+
+### Factor structure
+The number of factors and the pattern of relations between factors and indicators.
+
+### Fit index
+A numerical summary of mismatch between the observed data structure and the model-implied structure. Different fit indices capture different aspects of mismatch.
+
+### FIML (Full Information Maximum Likelihood)
+A likelihood-based way to handle missing data under MAR assumptions. FIML uses all available observed information instead of discarding incomplete cases.
+
+### Formative latent variable
+A latent variable defined as the result of its indicators rather than their common cause. This is conceptually different from the reflective models emphasized in most of the course.
+
+**Often confused with:** reflective latent variable.
+
+## G
+
+### Global fit
+Overall model fit, usually summarized by statistics such as \(\chi^2\), CFI, TLI, RMSEA, and SRMR.
+
+### Growth factor
+A latent factor in a growth model representing a component of change, most commonly an intercept factor and a slope factor.
+
+### Growth model / latent growth model (LGM)
+A longitudinal SEM used to model average trajectories of change and individual differences in those trajectories.
+
+## H
+
+### H index
+An index of construct replicability. Larger values suggest the latent variable is more likely to be stable and well defined across studies.
+
+### Heywood case
+An improper solution, classically a negative variance estimate or a standardized loading greater than 1 in absolute value. Heywood cases often signal misspecification, weak data support, or estimation problems.
+
+### Homology
+See **cross-level homology**.
 
 ## I
 
-**Identification**  
-Whether model parameters can be uniquely estimated from the data (rules of thumb help, but do not guarantee identification).
+### Identification
+Whether the model parameters can, in principle, be uniquely estimated from the available information.
 
-**Intercepts vs thresholds (ordinal)**  
-- Intercepts: continuous indicator mean structure
-- Thresholds: cut-points that map a continuous latent response to ordinal categories
+**Important:** a model can be identified mathematically and still be fragile in practice.
+
+### IECV
+Item explained common variance. In bifactor models, it expresses how much of an item’s common variance is due to the general factor.
+
+### Independence assumption
+The assumption that observations are independent. It is violated in clustered, repeated-measures, and many intensive longitudinal datasets.
+
+### Indicator
+An observed variable used to measure a latent construct.
+
+### Indicator indifference
+Under a strong reflective view, different reasonable indicators of the same latent construct should support similar structural conclusions. When conclusions change a lot across plausible indicator sets, the result may be item-bound rather than construct-robust.
+
+### Indirect effect
+The effect of one variable on another through one or more mediators. In simple mediation it is the product of component paths.
+
+### Intercept
+The expected value of an observed or latent variable when the relevant predictors equal zero. In invariance testing with continuous indicators, intercept equality is central for latent mean comparisons.
+
+### Intercept factor
+In latent growth modeling, the growth factor representing initial level or status.
 
 ## L
 
-**Latent variable**  
-Unobserved construct inferred from observed indicators.
+### Latent variable
+An unobserved construct inferred from relations among observed indicators or other variables in the model.
 
-**Latent interaction**  
-An interaction between latent variables (e.g., F1 × F2 predicting Y). Estimation/interpretation differs from standard linear SEM.
+### Local dependence
+Residual association between indicators after accounting for the latent variable(s). It often appears as correlated residuals, method effects, repeated wording, or dependence induced by clustering.
+
+### Local fit
+Information about where a model does or does not fit well, rather than how it fits overall. Typical local diagnostics include residuals, standardized residuals, modification indices, and EPCs.
+
+### Loading invariance
+See **metric invariance**.
+
+### Longitudinal invariance
+Measurement invariance tested across time rather than across groups. The goal is to determine whether observed change reflects true change in the construct rather than changes in how the construct is measured.
 
 ## M
 
-**Measurement model**  
-The part of SEM that links indicators to latent factors (loadings, intercepts/thresholds, residual variances).
+### MAR (Missing At Random)
+A missing-data mechanism in which missingness may depend on observed variables but not on the unobserved value itself, conditional on what is observed.
 
-**MI (Modification Index)**  
-A statistic indicating how much χ² would drop if a fixed parameter were freed. Useful but easy to abuse.
+### Marker-variable scaling
+A way to identify a latent variable by fixing one loading to 1. The latent variable is then scaled relative to that chosen indicator.
 
-**Missingness (MCAR/MAR/MNAR)**  
-Assumptions about why data are missing:
-- MCAR: unrelated to observed/unobserved variables
-- MAR: related to observed variables
-- MNAR: related to unobserved values themselves
+### MCAR (Missing Completely At Random)
+A missing-data mechanism in which missingness is unrelated to both observed and unobserved data.
+
+### MCFA (Multilevel Confirmatory Factor Analysis)
+A CFA that separates within-level and between-level covariance structures and estimates measurement models at both levels.
+
+### Measurement error
+The part of an observed score that does not reflect the target construct.
+
+### Measurement invariance
+The idea that a construct is measured in the same way across groups, waves, or levels.
+
+### Measurement model
+The part of an SEM that links observed indicators to latent factors, including loadings, intercepts or thresholds, and residual variances.
+
+### Metric invariance (weak invariance)
+Equality of factor loadings across groups or waves. It supports comparison of relations involving latent variables more than comparison of latent means.
+
+### MI (Modification Index)
+An estimate of how much the model \(\chi^2\) would improve if a fixed parameter were freed.
+
+**Golden rule:** MI is a prompt for thinking, not a command to modify the model.
+
+### MLR
+Robust maximum likelihood as implemented in `lavaan`. With continuous indicators, it typically provides robust standard errors and a scaled test statistic, making inference less sensitive to non-normality.
+
+### MNAR (Missing Not At Random)
+A missing-data mechanism in which missingness depends on the unobserved value itself, even after conditioning on observed data.
+
+### Model-implied covariance matrix
+The covariance matrix predicted by the model, often written as \(\hat{\Sigma}(\theta)\). SEM fit is fundamentally about the discrepancy between the observed matrix and this model-implied matrix.
+
+### Model modification
+Changing a model after inspecting the data, often by freeing parameters, adding residual covariances, or removing weak indicators.
+
+**Good practice:** modify only when the change is theoretically defensible and report it transparently.
+
+### Multicollinearity
+Strong overlap among predictors. In SEM it can destabilize path estimates just as it does in regression.
+
+### Mean structure
+The part of a model dealing with means, intercepts, or thresholds rather than only covariances. Mean structure becomes central in latent mean comparisons, longitudinal models, and invariance testing.
+
+### Multilevel SEM
+An SEM framework that explicitly models variation at more than one level, such as students within classes or repeated observations within persons.
+
+## N
+
+### Nested models
+Two models are nested when one can be obtained from the other by imposing additional constraints. Nested models can be compared with difference testing or changes in fit indices.
+
+### Nomological network
+The broader pattern of relations a construct has with other constructs. In multilevel and invariance work, a construct may show similar measurement properties while still having a different nomological network.
+
+### Non-independence
+Similarity among observations due to clustering, repeated measurement, family membership, or other grouping structures.
+
+## O
+
+### Observed variable
+A measured variable that appears directly in the dataset. In SEM, observed variables can serve as indicators, covariates, outcomes, or all three.
+
+### Omega $(\omega)$
+A model-based reliability coefficient aligned with the factor model. In this course, omega is generally preferred to coefficient alpha when CFA is the measurement framework.
+
+### Omega hierarchical ($\omega_H$)
+In bifactor settings, the proportion of variance in total scores attributable to the general factor. It helps evaluate whether a total score is mostly interpretable as measuring a single general construct.
+
+### Ordinal indicator
+An observed variable with ordered categories, such as a 1–5 Likert item, where the distances between categories are not assumed to be equal.
+
+### Overidentified model
+A model with more empirical information than free parameters. Overidentified models have positive degrees of freedom and can be evaluated for fit.
+
+## P
+
+### Parameter constraint
+A restriction placed on one or more parameters, such as fixing a loading to 1, setting two loadings equal, or constraining intercepts across groups.
+
+### Parameterization
+The specific way a model is written and identified in software. Different parameterizations can represent the same substantive model.
+
+### Partial invariance
+A situation in which most, but not all, equality constraints at a given invariance level hold. Partial invariance is often acceptable when the released constraints are few, interpretable, and transparently reported.
+
+### Path analysis
+A model of directional and nondirectional relations among observed variables. It is the manifest-variable ancestor of full SEM.
+
+### Path coefficient
+The estimated strength of a directional relation in a path model or SEM.
+
+### Perfect fit
+A just-identified model reproduces the covariance matrix exactly and therefore has perfect global fit by construction. This does not mean the model is theoretically informative.
+
+### Polychoric correlation
+An estimate of the correlation between two underlying continuous latent responses assumed to generate ordinal observed variables.
+
+### PUC
+Percentage of uncontaminated correlations. In bifactor evaluation, it describes how many item correlations are influenced only by the general factor rather than overlap among specific factors.
+
+## Q
+
+### Quadratic growth
+A growth model that adds a curvature component so that change does not need to be strictly linear over time.
 
 ## R
 
-**RMSEA**  
-A parsimony-adjusted fit index; usually reported with a confidence interval.
+### Random effect
+A model component allowed to vary across higher-level units, such as persons, classes, or teams. Multilevel SEM uses random-effects logic when it partitions within and between variation.
+
+### Reflective latent variable
+A latent variable conceived as a common cause of its indicators. This is the default measurement logic in most of the course.
+
+### Residual
+The part of a variable not explained by the model component currently predicting it.
+
+### Residual covariance
+Covariance between residuals, often added when two indicators share wording, content, time-specific variance, or another source of local dependence.
+
+### Residual variance
+The variance left unexplained after predictors or latent factors have done their work.
+
+### Respecification
+See **disciplined respecification**.
+
+### Robust estimator
+An estimator designed to make inference less sensitive to violations of assumptions such as normality.
+
+### Robust fit indices
+Fit indices adjusted to align with robust test statistics or non-normal estimation. With some estimators and settings, robust variants may differ from their classical counterparts.
+
+### Robust standard errors
+Standard errors adjusted so that inference is less sensitive to assumption violations such as non-normality or clustering.
+
+### RMSEA
+A fit index focused on approximate misfit per degree of freedom. Lower values indicate less misfit, and it should usually be reported with a confidence interval.
 
 ## S
 
-**SAM (Structural After Measurement)**  
-A two-stage estimation strategy: estimate measurement first, then structural relations using implied latent moments.
+### SAM (Structural After Measurement)
+A two-stage approach in which the measurement model is estimated first and the structural relations are studied afterward using the resulting latent moments. It reflects the same measurement-first logic emphasized throughout the course.
 
-**SEM (Structural Equation Model)**  
-An integrated model including both measurement (latent variables) and structural relations (regressions/covariances among latents/observeds).
+### Scalar invariance (strong invariance)
+Equality of loadings and intercepts across groups or waves for continuous indicators.
 
-**SRMR**  
-A fit index based on standardized residuals (difference between observed and model-implied covariances/correlations).
+**Why it matters:** without at least partial scalar invariance, latent mean comparisons are not well grounded.
+
+### Scaled test statistic
+A $\chi^2$-type statistic adjusted for non-normality or other estimation issues. In practice, robust estimation often goes together with scaled test statistics and correspondingly adjusted difference testing.
+
+### SEPC (Standardized Expected Parameter Change)
+A standardized version of EPC that helps judge the practical magnitude of a potential modification.
+
+### SEM (Structural Equation Model)
+A broad framework combining measurement models and structural relations among observed and/or latent variables.
+
+### Simple structure
+A factor pattern in which each indicator loads strongly on its intended factor and weakly, ideally not at all, on others.
+
+### Slope factor
+In growth modeling, the latent factor representing rate of change over time.
+
+### SRMR
+The standardized root mean square residual. It summarizes the average discrepancy between observed and model-implied standardized covariances or correlations.
+
+### SRMR_between / SRMR_within
+Level-specific SRMR values in multilevel SEM. They help diagnose whether misfit is mainly at the between level or the within level.
+
+### Standardized coefficient
+A coefficient expressed in standard deviation units, making relative comparison easier within a model.
+
+### State-like variance
+Variation that reflects momentary or occasion-specific fluctuations, usually associated with the within-person level.
+
+### Strict invariance
+Equality of loadings, intercepts, and residual variances across groups or waves.
+
+**Note:** often treated as desirable but not always necessary for every substantive comparison.
+
+### Structure coefficient
+The correlation between an indicator and a latent factor. With a single factor, structure coefficients and loadings coincide; with multiple correlated factors, they do not.
+
+### Sum score
+A total or average based directly on observed items. Sum scores can be practical, but they treat measurement error and differential item functioning much more crudely than latent modeling does.
 
 ## T
 
-**Two-step mindset**  
-A practical workflow: evaluate measurement quality before interpreting structural relations.
+### Threshold
+A cut-point on an underlying continuous response that separates adjacent ordinal categories.
 
----
+**Often confused with:** intercept. For ordinal indicators, thresholds play the role that intercepts play in continuous-indicator models.
 
-::: {.callout-tip}
-If you want to add to this glossary during the course, just make a PR / issue or send the term + how you’d define it.
-:::
+### Threshold invariance
+In ordinal invariance testing, equality of thresholds across groups or waves. Because ordinal models use thresholds instead of intercepts, threshold invariance plays the role that scalar invariance plays in continuous-indicator models.
+
+### Tetrachoric correlation
+A special case of polychoric correlation for two dichotomous variables.
+
+### TLI (Tucker–Lewis Index)
+An incremental fit index related to CFI but with a stronger parsimony component.
+
+### Time-invariant covariate
+A predictor whose value does not change across measurement occasions in a longitudinal model.
+
+### Time-varying covariate
+A predictor whose value can change from one measurement occasion to another in a longitudinal model.
+
+### Total effect
+The sum of direct and indirect effects.
+
+### Trait-like variance
+Stable between-person or between-cluster variation, contrasted with state-like within-person fluctuation.
+
+### Two-step mindset
+A practical SEM workflow: first establish a defensible measurement model, then interpret structural paths, mean differences, or growth parameters.
+
+### Two-level CFA
+A multilevel CFA in which latent structure is estimated separately at the within and between levels.
+
+## U
+
+### ULS
+Unweighted least squares. An estimator sometimes used with ordinal SEM, though in practice it is less emphasized in the course than WLSMV and robust ML alternatives.
+
+### Underidentified model
+A model with too many free parameters relative to the available information, so unique estimation is impossible.
+
+### Uniqueness
+The part of an indicator’s variance not explained by the common factor(s).
+
+### Unstandardized coefficient
+A coefficient expressed in the original metric of the variables.
+
+## W
+
+### Weak invariance
+See **metric invariance**.
+
+### Within level
+Variation among deviations from cluster or person means. In multilevel SEM, the within level captures relations among momentary or lower-level fluctuations.
+
+### Within-person effect
+A relation describing how variables co-vary around a person’s own expected level across repeated occasions.
+
+### WLSMV
+Weighted least squares mean and variance adjusted. A common estimator for ordinal CFA/SEM in `lavaan`, typically used together with `ordered =` for categorical indicators.
+
+## Y
+
+### YAML header
+The metadata block at the top of a Quarto file, enclosed by `---`. It controls document options such as title, output format, table of contents, and theme.
+
+## Ω-family and related bifactor terms
+
+### $\omega$, $\omega_H$, ECV, PUC, H, FD
+A family of model-based indices often used when evaluating reliability, essential unidimensionality, and interpretability in CFA and bifactor models.
+
+**Practical takeaway:** good global fit is not enough for bifactor interpretation; these indices help determine whether the general factor or the specific factors are actually meaningful.

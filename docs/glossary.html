@@ -52,7 +52,6 @@ ul.task-list li input[type="checkbox"] {
     "/",
     "s"
   ],
-  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -68,6 +67,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -138,18 +166,29 @@ ul.task-list li input[type="checkbox"] {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul>
+  <ul class="collapse">
   <li><a href="#a" id="toc-a" class="nav-link active" data-scroll-target="#a">A</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b">B</a></li>
   <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c">C</a></li>
   <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d">D</a></li>
   <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e">E</a></li>
   <li><a href="#f" id="toc-f" class="nav-link" data-scroll-target="#f">F</a></li>
+  <li><a href="#g" id="toc-g" class="nav-link" data-scroll-target="#g">G</a></li>
+  <li><a href="#h" id="toc-h" class="nav-link" data-scroll-target="#h">H</a></li>
   <li><a href="#i" id="toc-i" class="nav-link" data-scroll-target="#i">I</a></li>
   <li><a href="#l" id="toc-l" class="nav-link" data-scroll-target="#l">L</a></li>
   <li><a href="#m" id="toc-m" class="nav-link" data-scroll-target="#m">M</a></li>
+  <li><a href="#n" id="toc-n" class="nav-link" data-scroll-target="#n">N</a></li>
+  <li><a href="#o" id="toc-o" class="nav-link" data-scroll-target="#o">O</a></li>
+  <li><a href="#p" id="toc-p" class="nav-link" data-scroll-target="#p">P</a></li>
+  <li><a href="#q" id="toc-q" class="nav-link" data-scroll-target="#q">Q</a></li>
   <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
   <li><a href="#s" id="toc-s" class="nav-link" data-scroll-target="#s">S</a></li>
   <li><a href="#t" id="toc-t" class="nav-link" data-scroll-target="#t">T</a></li>
+  <li><a href="#u" id="toc-u" class="nav-link" data-scroll-target="#u">U</a></li>
+  <li><a href="#w" id="toc-w" class="nav-link" data-scroll-target="#w">W</a></li>
+  <li><a href="#y" id="toc-y" class="nav-link" data-scroll-target="#y">Y</a></li>
+  <li><a href="#ω-family-and-related-bifactor-terms" id="toc-ω-family-and-related-bifactor-terms" class="nav-link" data-scroll-target="#ω-family-and-related-bifactor-terms">Ω-family and related bifactor terms</a></li>
   </ul>
 </nav>
     </div>
@@ -175,103 +214,625 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Short definitions + “what students usually confuse it with”.</p>
+<p>This glossary defines the main terms used across the SEM PhD course. The aim is practical clarity, not encyclopedic completeness: entries are written in the way the terms are used in the decks, labs, and course workflow.</p>
+<p>A recurring theme of this course is <strong>measurement first</strong>: before interpreting structural paths, mean differences, growth, or group comparisons, make sure the measurement story is defensible.</p>
 <section id="a" class="level2">
 <h2 class="anchored" data-anchor-id="a">A</h2>
-<p><strong>Absolute fit</strong><br>
-Fit measures that evaluate how well the model reproduces the observed covariance structure (e.g., χ², SRMR).</p>
-<p><strong>AIC / BIC</strong><br>
-Information criteria for comparing models (typically non-nested too). Lower is better (with caveats).</p>
+<section id="absolute-fit" class="level3">
+<h3 class="anchored" data-anchor-id="absolute-fit">Absolute fit</h3>
+<p>How well a model reproduces the observed covariance structure in its own right, not relative to a baseline model. Typical absolute or close-to-absolute fit information includes the (^2) test, RMSEA, and SRMR.</p>
+<p><strong>Often confused with:</strong> incremental fit OR global fit.</p>
+</section>
+<section id="aic-bic" class="level3">
+<h3 class="anchored" data-anchor-id="aic-bic">AIC / BIC</h3>
+<p>Information criteria used to compare models, usually estimated on the same data. Smaller values indicate a better trade-off between fit and complexity.</p>
+<p><strong>Use carefully:</strong> they are most useful for comparing candidate models, not for deciding whether one model is “good” in an absolute sense.</p>
+</section>
+<section id="attenuation" class="level3">
+<h3 class="anchored" data-anchor-id="attenuation">Attenuation</h3>
+<p>Weakening of an estimated relation because variables are measured with error. One reason SEM can outperform observed-score regression is that latent modeling can reduce attenuation.</p>
+</section>
+<section id="auxiliary-variable" class="level3">
+<h3 class="anchored" data-anchor-id="auxiliary-variable">Auxiliary variable</h3>
+<p>A variable added to help handle missing data, usually because it predicts missingness or is related to incomplete variables. Auxiliary variables can make MAR more plausible and improve estimation.</p>
+</section>
+</section>
+<section id="b" class="level2">
+<h2 class="anchored" data-anchor-id="b">B</h2>
+<section id="baseline-model-independence-model" class="level3">
+<h3 class="anchored" data-anchor-id="baseline-model-independence-model">Baseline model (independence model)</h3>
+<p>A very restrictive comparison model in which observed variables are treated as unrelated. Incremental fit indices such as CFI and TLI compare your model against this baseline.</p>
+</section>
+<section id="bifactor-model" class="level3">
+<h3 class="anchored" data-anchor-id="bifactor-model">Bifactor model</h3>
+<p>A measurement model in which all items load on a general factor and, at the same time, subsets of items also load on specific factors. It is useful only when the interpretation of both the general and specific factors is theoretically and empirically defensible.</p>
+<p><strong>Often confused with:</strong> two-factor model.</p>
+</section>
+<section id="bootstrap-confidence-interval" class="level3">
+<h3 class="anchored" data-anchor-id="bootstrap-confidence-interval">Bootstrap confidence interval</h3>
+<p>A confidence interval obtained by repeatedly resampling the data. Especially useful for indirect effects, which often have asymmetric sampling distributions.</p>
+</section>
 </section>
 <section id="c" class="level2">
 <h2 class="anchored" data-anchor-id="c">C</h2>
-<p><strong>CFA (Confirmatory Factor Analysis)</strong><br>
-A measurement model where latent variables explain covariances among observed indicators via factor loadings.</p>
-<p><strong>CFI / TLI</strong><br>
-Incremental fit indices comparing your model to a baseline (independence) model.</p>
-<p><strong>Cluster-robust standard errors</strong><br>
-A correction to SEs/p-values when observations are clustered (e.g., students in classrooms) without explicitly fitting a multilevel model.</p>
-<p><strong>Configural / Metric / Scalar invariance</strong><br>
-Levels of measurement invariance across groups/time: - configural: same pattern of loadings - metric: equal loadings - scalar: equal loadings + intercepts (or thresholds for ordinal)</p>
+<section id="categorical-indicator" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-indicator">Categorical indicator</h3>
+<p>An observed variable with a finite set of categories, such as binary, ordinal, or Likert-type responses. In this course, ordinal indicators are typically modeled through an underlying continuous response plus thresholds.</p>
+</section>
+<section id="cfa-confirmatory-factor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="cfa-confirmatory-factor-analysis">CFA (Confirmatory Factor Analysis)</h3>
+<p>A measurement model in which the researcher specifies in advance which indicators load on which latent factor(s). CFA is used to test measurement structure, evaluate loadings and residuals, and derive reliability estimates that are model-based.</p>
+<p><strong>Often confused with:</strong> EFA.</p>
+</section>
+<section id="cfi-comparative-fit-index" class="level3">
+<h3 class="anchored" data-anchor-id="cfi-comparative-fit-index">CFI (Comparative Fit Index)</h3>
+<p>An incremental fit index comparing the target model to a baseline independence model. Higher values indicate better relative fit.</p>
+<p><strong>Interpretation note:</strong> CFI is informative, but it should not be interpreted alone or turned into a mechanical pass/fail rule.</p>
+</section>
+<section id="cluster-robust-standard-errors" class="level3">
+<h3 class="anchored" data-anchor-id="cluster-robust-standard-errors">Cluster-robust standard errors</h3>
+<p>Standard errors adjusted for non-independence due to clustering, without fully specifying a multilevel measurement model. This is often a reasonable first correction when data are nested and the main concern is inference rather than explicit within/between modeling.</p>
+</section>
+<section id="communality" class="level3">
+<h3 class="anchored" data-anchor-id="communality">Communality</h3>
+<p>The proportion of an indicator’s variance explained by the common factor(s) in the model.</p>
+<p><strong>Relation:</strong> uniqueness = 1 - communality.</p>
+</section>
+<section id="conditional-growth-model" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-growth-model">Conditional growth model</h3>
+<p>A latent growth model in which growth factors such as the intercept and slope are predicted by covariates.</p>
+</section>
+<section id="configural-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="configural-invariance">Configural invariance</h3>
+<p>The weakest invariance level. The same factor structure is specified across groups or waves, but key parameters are still allowed to differ.</p>
+<p><strong>What it allows:</strong> evidence that the same broad measurement pattern is plausible.</p>
+<p><strong>What it does not yet allow:</strong> strong claims about latent mean comparisons.</p>
+</section>
+<section id="convergence" class="level3">
+<h3 class="anchored" data-anchor-id="convergence">Convergence</h3>
+<p>Successful completion of the estimation algorithm. Convergence is necessary, but not sufficient, for trusting a model.</p>
+<p><strong>Always also check:</strong> warnings, standard errors, inadmissible estimates, and substantive plausibility.</p>
+</section>
+<section id="covariance-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="covariance-matrix">Covariance matrix</h3>
+<p>The matrix containing variances on the diagonal and covariances off the diagonal. It is the core empirical object that SEM tries to reproduce.</p>
+</section>
+<section id="cross-level-homology" class="level3">
+<h3 class="anchored" data-anchor-id="cross-level-homology">Cross-level homology</h3>
+<p>Similarity of a construct’s broader nomological network across levels, such as within-person and between-person. Even if measurement is similar across levels, relations with other variables may still differ.</p>
+</section>
+<section id="cross-level-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="cross-level-invariance">Cross-level invariance</h3>
+<p>The idea that a construct is measured in the same way at different levels of analysis, such as within-person and between-person, or within-team and between-team.</p>
+</section>
 </section>
 <section id="d" class="level2">
 <h2 class="anchored" data-anchor-id="d">D</h2>
-<p><strong>DWLS / WLSMV</strong><br>
-Common estimators for ordinal indicators. Naming can be confusing: the practical takeaway is that ordinal models often use a weighted least squares approach with robust corrections.</p>
+<section id="defined-parameter" class="level3">
+<h3 class="anchored" data-anchor-id="defined-parameter">Defined parameter</h3>
+<p>A quantity defined from estimated parameters rather than estimated directly, such as an indirect effect (a b) or a total effect.</p>
+</section>
+<section id="degrees-of-freedom-df" class="level3">
+<h3 class="anchored" data-anchor-id="degrees-of-freedom-df">Degrees of freedom (df)</h3>
+<p>Roughly, the amount of information left over after accounting for the parameters being estimated. Overidentified models have positive df and can therefore be tested against the data.</p>
+</section>
+<section id="direct-effect" class="level3">
+<h3 class="anchored" data-anchor-id="direct-effect">Direct effect</h3>
+<p>The estimated relation from one variable to another that is not transmitted through a mediator in the model.</p>
+</section>
+<section id="disciplined-respecification" class="level3">
+<h3 class="anchored" data-anchor-id="disciplined-respecification">Disciplined respecification</h3>
+<p>Theory-guided model modification based on a combination of local diagnostics, measurement logic, and transparency. It is the opposite of freeing parameters only because they improve fit.</p>
+</section>
+<section id="dwls" class="level3">
+<h3 class="anchored" data-anchor-id="dwls">DWLS</h3>
+<p>Diagonally weighted least squares. In practice, with ordinal SEM in <code>lavaan</code>, the label often appears alongside robust corrections such as WLSMV.</p>
+<p><strong>Often confused with:</strong> WLSMV. In teaching practice, the key point is that ordinal models often rely on weighted-least-squares estimation with robust corrections.</p>
+</section>
 </section>
 <section id="e" class="level2">
 <h2 class="anchored" data-anchor-id="e">E</h2>
-<p><strong>Equivalent models</strong><br>
-Different path diagrams that imply the same covariance structure (same global fit). Fit alone cannot identify the “true” causal story.</p>
-<p><strong>EPC (Expected Parameter Change)</strong><br>
-How much a parameter estimate would change if a fixed constraint were freed; often reported with modification indices.</p>
+<section id="endogenous-variable" class="level3">
+<h3 class="anchored" data-anchor-id="endogenous-variable">Endogenous variable</h3>
+<p>A variable that is explained by other variables inside the model. Endogenous variables receive arrows.</p>
+</section>
+<section id="efa-exploratory-factor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="efa-exploratory-factor-analysis">EFA (Exploratory Factor Analysis)</h3>
+<p>A factor model used when the loading pattern is not fully specified in advance. EFA is mainly discovery-oriented; CFA is mainly theory-testing and confirmation-oriented.</p>
+</section>
+<section id="empirical-underidentification" class="level3">
+<h3 class="anchored" data-anchor-id="empirical-underidentification">Empirical underidentification</h3>
+<p>A case in which a model may look identified on paper but becomes effectively unidentified because some crucial parameter is near zero or otherwise weakly supported by the data.</p>
+</section>
+<section id="epc-expected-parameter-change" class="level3">
+<h3 class="anchored" data-anchor-id="epc-expected-parameter-change">EPC (Expected Parameter Change)</h3>
+<p>The expected size of a fixed parameter if it were freed. EPC helps judge whether a large modification index is also substantively meaningful.</p>
+</section>
+<section id="equivalence-equivalent-models" class="level3">
+<h3 class="anchored" data-anchor-id="equivalence-equivalent-models">Equivalence / equivalent models</h3>
+<p>Different model structures that imply the same covariance matrix and therefore the same global fit. Fit alone cannot tell you which causal story is true.</p>
+</section>
+<section id="estimator" class="level3">
+<h3 class="anchored" data-anchor-id="estimator">Estimator</h3>
+<p>The method used to estimate model parameters, such as ML, MLR, DWLS, WLSMV, or ULS. Estimator choice affects standard errors, test statistics, and sometimes the fit indices you should report.</p>
+</section>
+<section id="ecv" class="level3">
+<h3 class="anchored" data-anchor-id="ecv">ECV</h3>
+<p>Explained common variance. In bifactor work, it quantifies how much common variance is captured by the general factor or by specific factors.</p>
+</section>
 </section>
 <section id="f" class="level2">
 <h2 class="anchored" data-anchor-id="f">F</h2>
-<p><strong>FIML (Full Information Maximum Likelihood)</strong><br>
-A likelihood-based approach to handle missing data under MAR assumptions (with ML-family estimators).</p>
-<p><strong>Fit indices (global)</strong><br>
-Summaries of how well the overall model fits (CFI/TLI/RMSEA/SRMR/χ²).</p>
-<p><strong>Fit indices (local)</strong><br>
-Diagnostics for specific parts of a model (residuals, MI/EPC, standardized residual covariances).</p>
+<section id="factor-determinacy-fd" class="level3">
+<h3 class="anchored" data-anchor-id="factor-determinacy-fd">Factor determinacy (FD)</h3>
+<p>An index describing how well the latent factor is defined by the observed data and, therefore, how trustworthy derived factor scores are.</p>
+</section>
+<section id="factor-loading" class="level3">
+<h3 class="anchored" data-anchor-id="factor-loading">Factor loading</h3>
+<p>The strength of the relation between an indicator and a latent factor. In a reflective model, larger absolute loadings indicate that the indicator more strongly reflects the factor.</p>
+</section>
+<section id="factor-score" class="level3">
+<h3 class="anchored" data-anchor-id="factor-score">Factor score</h3>
+<p>An estimated score for a latent variable at the person level. Factor scores can be useful, but they are estimates, not the latent variables themselves.</p>
+</section>
+<section id="factor-structure" class="level3">
+<h3 class="anchored" data-anchor-id="factor-structure">Factor structure</h3>
+<p>The number of factors and the pattern of relations between factors and indicators.</p>
+</section>
+<section id="fit-index" class="level3">
+<h3 class="anchored" data-anchor-id="fit-index">Fit index</h3>
+<p>A numerical summary of mismatch between the observed data structure and the model-implied structure. Different fit indices capture different aspects of mismatch.</p>
+</section>
+<section id="fiml-full-information-maximum-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="fiml-full-information-maximum-likelihood">FIML (Full Information Maximum Likelihood)</h3>
+<p>A likelihood-based way to handle missing data under MAR assumptions. FIML uses all available observed information instead of discarding incomplete cases.</p>
+</section>
+<section id="formative-latent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="formative-latent-variable">Formative latent variable</h3>
+<p>A latent variable defined as the result of its indicators rather than their common cause. This is conceptually different from the reflective models emphasized in most of the course.</p>
+<p><strong>Often confused with:</strong> reflective latent variable.</p>
+</section>
+</section>
+<section id="g" class="level2">
+<h2 class="anchored" data-anchor-id="g">G</h2>
+<section id="global-fit" class="level3">
+<h3 class="anchored" data-anchor-id="global-fit">Global fit</h3>
+<p>Overall model fit, usually summarized by statistics such as (^2), CFI, TLI, RMSEA, and SRMR.</p>
+</section>
+<section id="growth-factor" class="level3">
+<h3 class="anchored" data-anchor-id="growth-factor">Growth factor</h3>
+<p>A latent factor in a growth model representing a component of change, most commonly an intercept factor and a slope factor.</p>
+</section>
+<section id="growth-model-latent-growth-model-lgm" class="level3">
+<h3 class="anchored" data-anchor-id="growth-model-latent-growth-model-lgm">Growth model / latent growth model (LGM)</h3>
+<p>A longitudinal SEM used to model average trajectories of change and individual differences in those trajectories.</p>
+</section>
+</section>
+<section id="h" class="level2">
+<h2 class="anchored" data-anchor-id="h">H</h2>
+<section id="h-index" class="level3">
+<h3 class="anchored" data-anchor-id="h-index">H index</h3>
+<p>An index of construct replicability. Larger values suggest the latent variable is more likely to be stable and well defined across studies.</p>
+</section>
+<section id="heywood-case" class="level3">
+<h3 class="anchored" data-anchor-id="heywood-case">Heywood case</h3>
+<p>An improper solution, classically a negative variance estimate or a standardized loading greater than 1 in absolute value. Heywood cases often signal misspecification, weak data support, or estimation problems.</p>
+</section>
+<section id="homology" class="level3">
+<h3 class="anchored" data-anchor-id="homology">Homology</h3>
+<p>See <strong>cross-level homology</strong>.</p>
+</section>
 </section>
 <section id="i" class="level2">
 <h2 class="anchored" data-anchor-id="i">I</h2>
-<p><strong>Identification</strong><br>
-Whether model parameters can be uniquely estimated from the data (rules of thumb help, but do not guarantee identification).</p>
-<p><strong>Intercepts vs thresholds (ordinal)</strong><br>
-- Intercepts: continuous indicator mean structure - Thresholds: cut-points that map a continuous latent response to ordinal categories</p>
+<section id="identification" class="level3">
+<h3 class="anchored" data-anchor-id="identification">Identification</h3>
+<p>Whether the model parameters can, in principle, be uniquely estimated from the available information.</p>
+<p><strong>Important:</strong> a model can be identified mathematically and still be fragile in practice.</p>
+</section>
+<section id="iecv" class="level3">
+<h3 class="anchored" data-anchor-id="iecv">IECV</h3>
+<p>Item explained common variance. In bifactor models, it expresses how much of an item’s common variance is due to the general factor.</p>
+</section>
+<section id="independence-assumption" class="level3">
+<h3 class="anchored" data-anchor-id="independence-assumption">Independence assumption</h3>
+<p>The assumption that observations are independent. It is violated in clustered, repeated-measures, and many intensive longitudinal datasets.</p>
+</section>
+<section id="indicator" class="level3">
+<h3 class="anchored" data-anchor-id="indicator">Indicator</h3>
+<p>An observed variable used to measure a latent construct.</p>
+</section>
+<section id="indicator-indifference" class="level3">
+<h3 class="anchored" data-anchor-id="indicator-indifference">Indicator indifference</h3>
+<p>Under a strong reflective view, different reasonable indicators of the same latent construct should support similar structural conclusions. When conclusions change a lot across plausible indicator sets, the result may be item-bound rather than construct-robust.</p>
+</section>
+<section id="indirect-effect" class="level3">
+<h3 class="anchored" data-anchor-id="indirect-effect">Indirect effect</h3>
+<p>The effect of one variable on another through one or more mediators. In simple mediation it is the product of component paths.</p>
+</section>
+<section id="intercept" class="level3">
+<h3 class="anchored" data-anchor-id="intercept">Intercept</h3>
+<p>The expected value of an observed or latent variable when the relevant predictors equal zero. In invariance testing with continuous indicators, intercept equality is central for latent mean comparisons.</p>
+</section>
+<section id="intercept-factor" class="level3">
+<h3 class="anchored" data-anchor-id="intercept-factor">Intercept factor</h3>
+<p>In latent growth modeling, the growth factor representing initial level or status.</p>
+</section>
 </section>
 <section id="l" class="level2">
 <h2 class="anchored" data-anchor-id="l">L</h2>
-<p><strong>Latent variable</strong><br>
-Unobserved construct inferred from observed indicators.</p>
-<p><strong>Latent interaction</strong><br>
-An interaction between latent variables (e.g., F1 × F2 predicting Y). Estimation/interpretation differs from standard linear SEM.</p>
+<section id="latent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="latent-variable">Latent variable</h3>
+<p>An unobserved construct inferred from relations among observed indicators or other variables in the model.</p>
+</section>
+<section id="local-dependence" class="level3">
+<h3 class="anchored" data-anchor-id="local-dependence">Local dependence</h3>
+<p>Residual association between indicators after accounting for the latent variable(s). It often appears as correlated residuals, method effects, repeated wording, or dependence induced by clustering.</p>
+</section>
+<section id="local-fit" class="level3">
+<h3 class="anchored" data-anchor-id="local-fit">Local fit</h3>
+<p>Information about where a model does or does not fit well, rather than how it fits overall. Typical local diagnostics include residuals, standardized residuals, modification indices, and EPCs.</p>
+</section>
+<section id="loading-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="loading-invariance">Loading invariance</h3>
+<p>See <strong>metric invariance</strong>.</p>
+</section>
+<section id="longitudinal-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="longitudinal-invariance">Longitudinal invariance</h3>
+<p>Measurement invariance tested across time rather than across groups. The goal is to determine whether observed change reflects true change in the construct rather than changes in how the construct is measured.</p>
+</section>
 </section>
 <section id="m" class="level2">
 <h2 class="anchored" data-anchor-id="m">M</h2>
-<p><strong>Measurement model</strong><br>
-The part of SEM that links indicators to latent factors (loadings, intercepts/thresholds, residual variances).</p>
-<p><strong>MI (Modification Index)</strong><br>
-A statistic indicating how much χ² would drop if a fixed parameter were freed. Useful but easy to abuse.</p>
-<p><strong>Missingness (MCAR/MAR/MNAR)</strong><br>
-Assumptions about why data are missing: - MCAR: unrelated to observed/unobserved variables - MAR: related to observed variables - MNAR: related to unobserved values themselves</p>
+<section id="mar-missing-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mar-missing-at-random">MAR (Missing At Random)</h3>
+<p>A missing-data mechanism in which missingness may depend on observed variables but not on the unobserved value itself, conditional on what is observed.</p>
+</section>
+<section id="marker-variable-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="marker-variable-scaling">Marker-variable scaling</h3>
+<p>A way to identify a latent variable by fixing one loading to 1. The latent variable is then scaled relative to that chosen indicator.</p>
+</section>
+<section id="mcar-missing-completely-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mcar-missing-completely-at-random">MCAR (Missing Completely At Random)</h3>
+<p>A missing-data mechanism in which missingness is unrelated to both observed and unobserved data.</p>
+</section>
+<section id="mcfa-multilevel-confirmatory-factor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="mcfa-multilevel-confirmatory-factor-analysis">MCFA (Multilevel Confirmatory Factor Analysis)</h3>
+<p>A CFA that separates within-level and between-level covariance structures and estimates measurement models at both levels.</p>
+</section>
+<section id="measurement-error" class="level3">
+<h3 class="anchored" data-anchor-id="measurement-error">Measurement error</h3>
+<p>The part of an observed score that does not reflect the target construct.</p>
+</section>
+<section id="measurement-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="measurement-invariance">Measurement invariance</h3>
+<p>The idea that a construct is measured in the same way across groups, waves, or levels.</p>
+</section>
+<section id="measurement-model" class="level3">
+<h3 class="anchored" data-anchor-id="measurement-model">Measurement model</h3>
+<p>The part of an SEM that links observed indicators to latent factors, including loadings, intercepts or thresholds, and residual variances.</p>
+</section>
+<section id="metric-invariance-weak-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="metric-invariance-weak-invariance">Metric invariance (weak invariance)</h3>
+<p>Equality of factor loadings across groups or waves. It supports comparison of relations involving latent variables more than comparison of latent means.</p>
+</section>
+<section id="mi-modification-index" class="level3">
+<h3 class="anchored" data-anchor-id="mi-modification-index">MI (Modification Index)</h3>
+<p>An estimate of how much the model (^2) would improve if a fixed parameter were freed.</p>
+<p><strong>Golden rule:</strong> MI is a prompt for thinking, not a command to modify the model.</p>
+</section>
+<section id="mlr" class="level3">
+<h3 class="anchored" data-anchor-id="mlr">MLR</h3>
+<p>Robust maximum likelihood as implemented in <code>lavaan</code>. With continuous indicators, it typically provides robust standard errors and a scaled test statistic, making inference less sensitive to non-normality.</p>
+</section>
+<section id="mnar-missing-not-at-random" class="level3">
+<h3 class="anchored" data-anchor-id="mnar-missing-not-at-random">MNAR (Missing Not At Random)</h3>
+<p>A missing-data mechanism in which missingness depends on the unobserved value itself, even after conditioning on observed data.</p>
+</section>
+<section id="model-implied-covariance-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="model-implied-covariance-matrix">Model-implied covariance matrix</h3>
+<p>The covariance matrix predicted by the model, often written as (()). SEM fit is fundamentally about the discrepancy between the observed matrix and this model-implied matrix.</p>
+</section>
+<section id="model-modification" class="level3">
+<h3 class="anchored" data-anchor-id="model-modification">Model modification</h3>
+<p>Changing a model after inspecting the data, often by freeing parameters, adding residual covariances, or removing weak indicators.</p>
+<p><strong>Good practice:</strong> modify only when the change is theoretically defensible and report it transparently.</p>
+</section>
+<section id="multicollinearity" class="level3">
+<h3 class="anchored" data-anchor-id="multicollinearity">Multicollinearity</h3>
+<p>Strong overlap among predictors. In SEM it can destabilize path estimates just as it does in regression.</p>
+</section>
+<section id="mean-structure" class="level3">
+<h3 class="anchored" data-anchor-id="mean-structure">Mean structure</h3>
+<p>The part of a model dealing with means, intercepts, or thresholds rather than only covariances. Mean structure becomes central in latent mean comparisons, longitudinal models, and invariance testing.</p>
+</section>
+<section id="multilevel-sem" class="level3">
+<h3 class="anchored" data-anchor-id="multilevel-sem">Multilevel SEM</h3>
+<p>An SEM framework that explicitly models variation at more than one level, such as students within classes or repeated observations within persons.</p>
+</section>
+</section>
+<section id="n" class="level2">
+<h2 class="anchored" data-anchor-id="n">N</h2>
+<section id="nested-models" class="level3">
+<h3 class="anchored" data-anchor-id="nested-models">Nested models</h3>
+<p>Two models are nested when one can be obtained from the other by imposing additional constraints. Nested models can be compared with difference testing or changes in fit indices.</p>
+</section>
+<section id="nomological-network" class="level3">
+<h3 class="anchored" data-anchor-id="nomological-network">Nomological network</h3>
+<p>The broader pattern of relations a construct has with other constructs. In multilevel and invariance work, a construct may show similar measurement properties while still having a different nomological network.</p>
+</section>
+<section id="non-independence" class="level3">
+<h3 class="anchored" data-anchor-id="non-independence">Non-independence</h3>
+<p>Similarity among observations due to clustering, repeated measurement, family membership, or other grouping structures.</p>
+</section>
+</section>
+<section id="o" class="level2">
+<h2 class="anchored" data-anchor-id="o">O</h2>
+<section id="observed-variable" class="level3">
+<h3 class="anchored" data-anchor-id="observed-variable">Observed variable</h3>
+<p>A measured variable that appears directly in the dataset. In SEM, observed variables can serve as indicators, covariates, outcomes, or all three.</p>
+</section>
+<section id="omega-omega" class="level3">
+<h3 class="anchored" data-anchor-id="omega-omega">Omega <span class="math inline">\((\omega)\)</span></h3>
+<p>A model-based reliability coefficient aligned with the factor model. In this course, omega is generally preferred to coefficient alpha when CFA is the measurement framework.</p>
+</section>
+<section id="omega-hierarchical-omega_h" class="level3">
+<h3 class="anchored" data-anchor-id="omega-hierarchical-omega_h">Omega hierarchical (<span class="math inline">\(\omega_H\)</span>)</h3>
+<p>In bifactor settings, the proportion of variance in total scores attributable to the general factor. It helps evaluate whether a total score is mostly interpretable as measuring a single general construct.</p>
+</section>
+<section id="ordinal-indicator" class="level3">
+<h3 class="anchored" data-anchor-id="ordinal-indicator">Ordinal indicator</h3>
+<p>An observed variable with ordered categories, such as a 1–5 Likert item, where the distances between categories are not assumed to be equal.</p>
+</section>
+<section id="overidentified-model" class="level3">
+<h3 class="anchored" data-anchor-id="overidentified-model">Overidentified model</h3>
+<p>A model with more empirical information than free parameters. Overidentified models have positive degrees of freedom and can be evaluated for fit.</p>
+</section>
+</section>
+<section id="p" class="level2">
+<h2 class="anchored" data-anchor-id="p">P</h2>
+<section id="parameter-constraint" class="level3">
+<h3 class="anchored" data-anchor-id="parameter-constraint">Parameter constraint</h3>
+<p>A restriction placed on one or more parameters, such as fixing a loading to 1, setting two loadings equal, or constraining intercepts across groups.</p>
+</section>
+<section id="parameterization" class="level3">
+<h3 class="anchored" data-anchor-id="parameterization">Parameterization</h3>
+<p>The specific way a model is written and identified in software. Different parameterizations can represent the same substantive model.</p>
+</section>
+<section id="partial-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="partial-invariance">Partial invariance</h3>
+<p>A situation in which most, but not all, equality constraints at a given invariance level hold. Partial invariance is often acceptable when the released constraints are few, interpretable, and transparently reported.</p>
+</section>
+<section id="path-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="path-analysis">Path analysis</h3>
+<p>A model of directional and nondirectional relations among observed variables. It is the manifest-variable ancestor of full SEM.</p>
+</section>
+<section id="path-coefficient" class="level3">
+<h3 class="anchored" data-anchor-id="path-coefficient">Path coefficient</h3>
+<p>The estimated strength of a directional relation in a path model or SEM.</p>
+</section>
+<section id="perfect-fit" class="level3">
+<h3 class="anchored" data-anchor-id="perfect-fit">Perfect fit</h3>
+<p>A just-identified model reproduces the covariance matrix exactly and therefore has perfect global fit by construction. This does not mean the model is theoretically informative.</p>
+</section>
+<section id="polychoric-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="polychoric-correlation">Polychoric correlation</h3>
+<p>An estimate of the correlation between two underlying continuous latent responses assumed to generate ordinal observed variables.</p>
+</section>
+<section id="puc" class="level3">
+<h3 class="anchored" data-anchor-id="puc">PUC</h3>
+<p>Percentage of uncontaminated correlations. In bifactor evaluation, it describes how many item correlations are influenced only by the general factor rather than overlap among specific factors.</p>
+</section>
+</section>
+<section id="q" class="level2">
+<h2 class="anchored" data-anchor-id="q">Q</h2>
+<section id="quadratic-growth" class="level3">
+<h3 class="anchored" data-anchor-id="quadratic-growth">Quadratic growth</h3>
+<p>A growth model that adds a curvature component so that change does not need to be strictly linear over time.</p>
+</section>
 </section>
 <section id="r" class="level2">
 <h2 class="anchored" data-anchor-id="r">R</h2>
-<p><strong>RMSEA</strong><br>
-A parsimony-adjusted fit index; usually reported with a confidence interval.</p>
+<section id="random-effect" class="level3">
+<h3 class="anchored" data-anchor-id="random-effect">Random effect</h3>
+<p>A model component allowed to vary across higher-level units, such as persons, classes, or teams. Multilevel SEM uses random-effects logic when it partitions within and between variation.</p>
+</section>
+<section id="reflective-latent-variable" class="level3">
+<h3 class="anchored" data-anchor-id="reflective-latent-variable">Reflective latent variable</h3>
+<p>A latent variable conceived as a common cause of its indicators. This is the default measurement logic in most of the course.</p>
+</section>
+<section id="residual" class="level3">
+<h3 class="anchored" data-anchor-id="residual">Residual</h3>
+<p>The part of a variable not explained by the model component currently predicting it.</p>
+</section>
+<section id="residual-covariance" class="level3">
+<h3 class="anchored" data-anchor-id="residual-covariance">Residual covariance</h3>
+<p>Covariance between residuals, often added when two indicators share wording, content, time-specific variance, or another source of local dependence.</p>
+</section>
+<section id="residual-variance" class="level3">
+<h3 class="anchored" data-anchor-id="residual-variance">Residual variance</h3>
+<p>The variance left unexplained after predictors or latent factors have done their work.</p>
+</section>
+<section id="respecification" class="level3">
+<h3 class="anchored" data-anchor-id="respecification">Respecification</h3>
+<p>See <strong>disciplined respecification</strong>.</p>
+</section>
+<section id="robust-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="robust-estimator">Robust estimator</h3>
+<p>An estimator designed to make inference less sensitive to violations of assumptions such as normality.</p>
+</section>
+<section id="robust-fit-indices" class="level3">
+<h3 class="anchored" data-anchor-id="robust-fit-indices">Robust fit indices</h3>
+<p>Fit indices adjusted to align with robust test statistics or non-normal estimation. With some estimators and settings, robust variants may differ from their classical counterparts.</p>
+</section>
+<section id="robust-standard-errors" class="level3">
+<h3 class="anchored" data-anchor-id="robust-standard-errors">Robust standard errors</h3>
+<p>Standard errors adjusted so that inference is less sensitive to assumption violations such as non-normality or clustering.</p>
+</section>
+<section id="rmsea" class="level3">
+<h3 class="anchored" data-anchor-id="rmsea">RMSEA</h3>
+<p>A fit index focused on approximate misfit per degree of freedom. Lower values indicate less misfit, and it should usually be reported with a confidence interval.</p>
+</section>
 </section>
 <section id="s" class="level2">
 <h2 class="anchored" data-anchor-id="s">S</h2>
-<p><strong>SAM (Structural After Measurement)</strong><br>
-A two-stage estimation strategy: estimate measurement first, then structural relations using implied latent moments.</p>
-<p><strong>SEM (Structural Equation Model)</strong><br>
-An integrated model including both measurement (latent variables) and structural relations (regressions/covariances among latents/observeds).</p>
-<p><strong>SRMR</strong><br>
-A fit index based on standardized residuals (difference between observed and model-implied covariances/correlations).</p>
+<section id="sam-structural-after-measurement" class="level3">
+<h3 class="anchored" data-anchor-id="sam-structural-after-measurement">SAM (Structural After Measurement)</h3>
+<p>A two-stage approach in which the measurement model is estimated first and the structural relations are studied afterward using the resulting latent moments. It reflects the same measurement-first logic emphasized throughout the course.</p>
+</section>
+<section id="scalar-invariance-strong-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="scalar-invariance-strong-invariance">Scalar invariance (strong invariance)</h3>
+<p>Equality of loadings and intercepts across groups or waves for continuous indicators.</p>
+<p><strong>Why it matters:</strong> without at least partial scalar invariance, latent mean comparisons are not well grounded.</p>
+</section>
+<section id="scaled-test-statistic" class="level3">
+<h3 class="anchored" data-anchor-id="scaled-test-statistic">Scaled test statistic</h3>
+<p>A <span class="math inline">\(\chi^2\)</span>-type statistic adjusted for non-normality or other estimation issues. In practice, robust estimation often goes together with scaled test statistics and correspondingly adjusted difference testing.</p>
+</section>
+<section id="sepc-standardized-expected-parameter-change" class="level3">
+<h3 class="anchored" data-anchor-id="sepc-standardized-expected-parameter-change">SEPC (Standardized Expected Parameter Change)</h3>
+<p>A standardized version of EPC that helps judge the practical magnitude of a potential modification.</p>
+</section>
+<section id="sem-structural-equation-model" class="level3">
+<h3 class="anchored" data-anchor-id="sem-structural-equation-model">SEM (Structural Equation Model)</h3>
+<p>A broad framework combining measurement models and structural relations among observed and/or latent variables.</p>
+</section>
+<section id="simple-structure" class="level3">
+<h3 class="anchored" data-anchor-id="simple-structure">Simple structure</h3>
+<p>A factor pattern in which each indicator loads strongly on its intended factor and weakly, ideally not at all, on others.</p>
+</section>
+<section id="slope-factor" class="level3">
+<h3 class="anchored" data-anchor-id="slope-factor">Slope factor</h3>
+<p>In growth modeling, the latent factor representing rate of change over time.</p>
+</section>
+<section id="srmr" class="level3">
+<h3 class="anchored" data-anchor-id="srmr">SRMR</h3>
+<p>The standardized root mean square residual. It summarizes the average discrepancy between observed and model-implied standardized covariances or correlations.</p>
+</section>
+<section id="srmr_between-srmr_within" class="level3">
+<h3 class="anchored" data-anchor-id="srmr_between-srmr_within">SRMR_between / SRMR_within</h3>
+<p>Level-specific SRMR values in multilevel SEM. They help diagnose whether misfit is mainly at the between level or the within level.</p>
+</section>
+<section id="standardized-coefficient" class="level3">
+<h3 class="anchored" data-anchor-id="standardized-coefficient">Standardized coefficient</h3>
+<p>A coefficient expressed in standard deviation units, making relative comparison easier within a model.</p>
+</section>
+<section id="state-like-variance" class="level3">
+<h3 class="anchored" data-anchor-id="state-like-variance">State-like variance</h3>
+<p>Variation that reflects momentary or occasion-specific fluctuations, usually associated with the within-person level.</p>
+</section>
+<section id="strict-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="strict-invariance">Strict invariance</h3>
+<p>Equality of loadings, intercepts, and residual variances across groups or waves.</p>
+<p><strong>Note:</strong> often treated as desirable but not always necessary for every substantive comparison.</p>
+</section>
+<section id="structure-coefficient" class="level3">
+<h3 class="anchored" data-anchor-id="structure-coefficient">Structure coefficient</h3>
+<p>The correlation between an indicator and a latent factor. With a single factor, structure coefficients and loadings coincide; with multiple correlated factors, they do not.</p>
+</section>
+<section id="sum-score" class="level3">
+<h3 class="anchored" data-anchor-id="sum-score">Sum score</h3>
+<p>A total or average based directly on observed items. Sum scores can be practical, but they treat measurement error and differential item functioning much more crudely than latent modeling does.</p>
+</section>
 </section>
 <section id="t" class="level2">
 <h2 class="anchored" data-anchor-id="t">T</h2>
-<p><strong>Two-step mindset</strong><br>
-A practical workflow: evaluate measurement quality before interpreting structural relations.</p>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If you want to add to this glossary during the course, just make a PR / issue or send the term + how you’d define it.</p>
-</div>
-</div>
+<section id="threshold" class="level3">
+<h3 class="anchored" data-anchor-id="threshold">Threshold</h3>
+<p>A cut-point on an underlying continuous response that separates adjacent ordinal categories.</p>
+<p><strong>Often confused with:</strong> intercept. For ordinal indicators, thresholds play the role that intercepts play in continuous-indicator models.</p>
+</section>
+<section id="threshold-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="threshold-invariance">Threshold invariance</h3>
+<p>In ordinal invariance testing, equality of thresholds across groups or waves. Because ordinal models use thresholds instead of intercepts, threshold invariance plays the role that scalar invariance plays in continuous-indicator models.</p>
+</section>
+<section id="tetrachoric-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="tetrachoric-correlation">Tetrachoric correlation</h3>
+<p>A special case of polychoric correlation for two dichotomous variables.</p>
+</section>
+<section id="tli-tuckerlewis-index" class="level3">
+<h3 class="anchored" data-anchor-id="tli-tuckerlewis-index">TLI (Tucker–Lewis Index)</h3>
+<p>An incremental fit index related to CFI but with a stronger parsimony component.</p>
+</section>
+<section id="time-invariant-covariate" class="level3">
+<h3 class="anchored" data-anchor-id="time-invariant-covariate">Time-invariant covariate</h3>
+<p>A predictor whose value does not change across measurement occasions in a longitudinal model.</p>
+</section>
+<section id="time-varying-covariate" class="level3">
+<h3 class="anchored" data-anchor-id="time-varying-covariate">Time-varying covariate</h3>
+<p>A predictor whose value can change from one measurement occasion to another in a longitudinal model.</p>
+</section>
+<section id="total-effect" class="level3">
+<h3 class="anchored" data-anchor-id="total-effect">Total effect</h3>
+<p>The sum of direct and indirect effects.</p>
+</section>
+<section id="trait-like-variance" class="level3">
+<h3 class="anchored" data-anchor-id="trait-like-variance">Trait-like variance</h3>
+<p>Stable between-person or between-cluster variation, contrasted with state-like within-person fluctuation.</p>
+</section>
+<section id="two-step-mindset" class="level3">
+<h3 class="anchored" data-anchor-id="two-step-mindset">Two-step mindset</h3>
+<p>A practical SEM workflow: first establish a defensible measurement model, then interpret structural paths, mean differences, or growth parameters.</p>
+</section>
+<section id="two-level-cfa" class="level3">
+<h3 class="anchored" data-anchor-id="two-level-cfa">Two-level CFA</h3>
+<p>A multilevel CFA in which latent structure is estimated separately at the within and between levels.</p>
+</section>
+</section>
+<section id="u" class="level2">
+<h2 class="anchored" data-anchor-id="u">U</h2>
+<section id="uls" class="level3">
+<h3 class="anchored" data-anchor-id="uls">ULS</h3>
+<p>Unweighted least squares. An estimator sometimes used with ordinal SEM, though in practice it is less emphasized in the course than WLSMV and robust ML alternatives.</p>
+</section>
+<section id="underidentified-model" class="level3">
+<h3 class="anchored" data-anchor-id="underidentified-model">Underidentified model</h3>
+<p>A model with too many free parameters relative to the available information, so unique estimation is impossible.</p>
+</section>
+<section id="uniqueness" class="level3">
+<h3 class="anchored" data-anchor-id="uniqueness">Uniqueness</h3>
+<p>The part of an indicator’s variance not explained by the common factor(s).</p>
+</section>
+<section id="unstandardized-coefficient" class="level3">
+<h3 class="anchored" data-anchor-id="unstandardized-coefficient">Unstandardized coefficient</h3>
+<p>A coefficient expressed in the original metric of the variables.</p>
+</section>
+</section>
+<section id="w" class="level2">
+<h2 class="anchored" data-anchor-id="w">W</h2>
+<section id="weak-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="weak-invariance">Weak invariance</h3>
+<p>See <strong>metric invariance</strong>.</p>
+</section>
+<section id="within-level" class="level3">
+<h3 class="anchored" data-anchor-id="within-level">Within level</h3>
+<p>Variation among deviations from cluster or person means. In multilevel SEM, the within level captures relations among momentary or lower-level fluctuations.</p>
+</section>
+<section id="within-person-effect" class="level3">
+<h3 class="anchored" data-anchor-id="within-person-effect">Within-person effect</h3>
+<p>A relation describing how variables co-vary around a person’s own expected level across repeated occasions.</p>
+</section>
+<section id="wlsmv" class="level3">
+<h3 class="anchored" data-anchor-id="wlsmv">WLSMV</h3>
+<p>Weighted least squares mean and variance adjusted. A common estimator for ordinal CFA/SEM in <code>lavaan</code>, typically used together with <code>ordered =</code> for categorical indicators.</p>
+</section>
+</section>
+<section id="y" class="level2">
+<h2 class="anchored" data-anchor-id="y">Y</h2>
+<section id="yaml-header" class="level3">
+<h3 class="anchored" data-anchor-id="yaml-header">YAML header</h3>
+<p>The metadata block at the top of a Quarto file, enclosed by <code>---</code>. It controls document options such as title, output format, table of contents, and theme.</p>
+</section>
+</section>
+<section id="ω-family-and-related-bifactor-terms" class="level2">
+<h2 class="anchored" data-anchor-id="ω-family-and-related-bifactor-terms">Ω-family and related bifactor terms</h2>
+<section id="omega-omega_h-ecv-puc-h-fd" class="level3">
+<h3 class="anchored" data-anchor-id="omega-omega_h-ecv-puc-h-fd"><span class="math inline">\(\omega\)</span>, <span class="math inline">\(\omega_H\)</span>, ECV, PUC, H, FD</h3>
+<p>A family of model-based indices often used when evaluating reliability, essential unidimensionality, and interpretability in CFA and bifactor models.</p>
+<p><strong>Practical takeaway:</strong> good global fit is not enough for bifactor interpretation; these indices help determine whether the general factor or the specific factors are actually meaningful.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -156,7 +156,7 @@ H_0:\ \hat{\Sigma}(\theta) = \Sigma
 $$
 
 ::: center
-![](../assets/images/modelfit.png){width="50%"}
+![](../assets/images/modelfit.png){width="45%"}
 :::
 
 ::: {.callout-note appearance="minimal"}

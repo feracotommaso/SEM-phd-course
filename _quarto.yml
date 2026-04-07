@@ -31,6 +31,9 @@ website:
     right:
       - icon: github
         href: "https://github.com/feracotommaso/SEM-phd-course"  
+  search:
+    location: navbar
+    type: overlay
 
 format:
   html:
