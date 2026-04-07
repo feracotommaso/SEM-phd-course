@@ -42,5 +42,8 @@ format:
     toc-depth: 3
     number-sections: false
 
+execute: 
+  freeze: auto
+
 bibliography: refs/references.bib
 csl: refs/apa7.csl
