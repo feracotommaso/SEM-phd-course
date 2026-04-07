@@ -45,44 +45,44 @@ set.seed(12)
 **Specify → Identify → Estimate → Evaluate → Revise/Report**
 
 ::: {.callout-note appearance="minimal"}
-**Today:** *measurement* in a *longitudinal* fashion.  
+**Today:** *measurement* in a *longitudinal* fashion.\
 **Growth:** measuring and testing change in latent variables.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Learning objectives
 
 By the end of today you can:
 
-1. Fit and justify **measurement invariance over time** (longitudinal CFA).
-2. Specify and estimate **latent growth curve models (LGM)** in SEM form.
-3. Interpret growth parameters (means, variances, covariances) and understand **time coding**.
-4. Use **global + local diagnostics** to decide on *disciplined* respecification.
+1.  Fit and justify **measurement invariance over time** (longitudinal CFA).
+2.  Specify and estimate **latent growth curve models (LGM)** in SEM form.
+3.  Interpret growth parameters (means, variances, covariances) and understand **time coding**.
+4.  Use **global + local diagnostics** to decide on *disciplined* respecification.
 
----
+------------------------------------------------------------------------
 
 ## What question are we asking?
 
 Longitudinal SEM is not one model, but a family of models.
 
-::: {.callout-tip}
+::: callout-tip
 **Choose the model family from the scientific question:**
 
-- **Growth (LGM):** “How do people change on average? How do trajectories differ?”
-- **Stability / lagged prediction (CLPM/RI-CLPM):** “Do individual changes predict later changes?”
-- **Change processes (LCS):** “How is change from t→t+1 driven/coupled?”
+-   **Growth (LGM):** “How do people change on average? How do trajectories differ?”
+-   **Stability / lagged prediction (CLPM/RI-CLPM):** “Do individual changes predict later changes?”
+-   **Change processes (LCS):** “How is change from t→t+1 driven/coupled?”
 :::
 
-Today: **Invariance over time + LGM (growth)**.  
+Today: **Invariance over time + LGM (growth)**.\
 RI-CLPM and LCS are linked as extras later.
 
----
+------------------------------------------------------------------------
 
 ## Not a longitudinal model
 
-:::{columns}
-:::{.column width="50%"}
+:::::: {columns}
+::: {.column width="50%"}
 ```{r}
 #| echo: false
 set.seed(123)
@@ -123,70 +123,67 @@ semPaths(
 )
 
 ```
-
-
 :::
-:::{.column width="50%"}
-::: {.callout-warning}
 
+:::: {.column width="50%"}
+::: callout-warning
 **The intercepts problem:** Without controlling for the TRUE latent variable, variables that are associated with T1 levels will always be associated with T2 level even after accounting for T1 scores. You must account for the latent intercept of that variable. T1 scores is just an indicator of that variable + some error. Which is the same for T2.
 
-- You are **not** testing whether neuroticism predicts *changes* in affect from T1 and T2
+-   You are **not** testing whether affect predicts *changes* in neuroticism from T1 to T2
+:::
+::::
+::::::
 
-:::
-:::
-:::
-
----
+------------------------------------------------------------------------
 
 ## Minimal key concept: measurement-first (two-step)
 
 **Two-step mindset**
 
-1) **Measurement model**: is the construct measured comparably across waves?  
-2) **Structural/growth model**: only then interpret change parameters.
+1)  **Measurement model**: is the construct measured comparably across waves?\
+2)  **Structural/growth model**: only then interpret change parameters.
 
 If measurement shifts over time, “growth” can become a mixture of:
 
-- true change in the latent construct
-- changes in item functioning / scaling / intercepts
+-   true change in the latent construct
+-   changes in item functioning / scaling / intercepts
 
----
+------------------------------------------------------------------------
 
 # Longitudinal invariance
 
----
+------------------------------------------------------------------------
 
-## Longitudinal invariance ladder
+## Longitudinal invariance steps
 
 Measurement waves are our “groups” for the MG-CFA.
 
-- **Configural:** same factor structure each wave
-- **Metric:** equal loadings ($Λ$) across waves
-- **Scalar:** equal intercepts ($τ$) across waves  
-  → necessary for **latent mean / growth mean** interpretation
+-   **Configural:** same factor structure each wave
+-   **Metric:** equal loadings ($Λ$) across waves
+-   **Scalar:** equal intercepts ($τ$) across waves\
+    → necessary for **latent mean / growth mean** interpretation
 
-::: {.callout-warning}
+::: callout-warning
 **Key point:** Without at least (partial) **scalar invariance**, mean differences over time can be artifacts of shifting intercepts (thresholds for ordinal items).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Identification reminders (longitudinal CFA)
 
 For each wave:
 
-- Fix factor scale (e.g., one loading = 1, or factor variance = 1)
-- With multiple waves, keep scaling consistent across time
+-   Fix factor scale (e.g., one loading = 1, or factor variance = 1)
+-   With multiple waves, keep scaling consistent across time
 
 In longitudinal CFA with **means**, the usual identification logic extends:
 
-- Intercepts and factor means can’t all be free without constraints
-- In lavaan, a standard way is **fix factor mean at wave 1 to 0** and estimate others (or use growth factors later)
+-   Intercepts and factor means can’t all be free without constraints
+-   In lavaan, a standard way is **fix factor mean at wave 1 to 0** and estimate others (or use growth factors later)
 
----
+------------------------------------------------------------------------
 
-## Diagram: longitudinal CFA 
+## Diagram: longitudinal CFA
 
 ```{r}
 #| echo: false
@@ -317,7 +314,7 @@ semPaths(
 )
 ```
 
----
+------------------------------------------------------------------------
 
 ## Live coding setup
 
@@ -329,26 +326,26 @@ library(dplyr)
 set.seed(12345)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Example data (transparent simulation)
-<div style="font-size:0.5em; line-height:1.15;">
-:::{columns}
-:::{.column width="30%"}
+
+:::::: {style="font-size:0.5em; line-height:1.15;"}
+::::: {columns}
+:::: {.column width="40%"}
 We simulate:
 
-- One latent trait at each wave
-- Strong stability (correlated factors over time)
-- Some correlated residuals for the same indicator across waves (realistic)
-- Later we impose invariance constraints in fitting
+-   One latent trait at each wave
+-   Strong stability (correlated factors over time)
+-   Some correlated residuals for the same indicator across waves (realistic)
+-   Later we impose invariance constraints in fitting
 
-::: {.callout-note}
+::: callout-note
 We set `meanstructure = TRUE` in simulation to generate item intercepts + means consistently with the population model.
 :::
+::::
 
-
-:::
-:::{.column width = "70%"}
+:::{.column width = "60%"}
 
 ```{r}
 pop <- '
@@ -387,7 +384,8 @@ y1_2 ~~ .5*y1_2; y2_2 ~~ .6*y2_2; y3_2 ~~ .5*y3_2; y4_2 ~~ .7*y4_2
 y1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3
 y1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4
 
-# Correlated residuals across adjacent waves for same indicator (method/wording carryover)
+# Correlated residuals across adjacent waves for same indicator 
+# (method/wording carryover)
 y1_1 ~~ .25*y1_2
 y1_2 ~~ .25*y1_3
 y1_3 ~~ .25*y1_4
@@ -398,22 +396,19 @@ y2_3 ~~ .20*y2_4
 
 dat <- simulateData(pop, sample.nobs = 6000, meanstructure = TRUE)
 ```
+:::::
 
 :::
-:::
+::::::
 
-
-</div>
-
----
+------------------------------------------------------------------------
 
 ## Step 1: Configural longitudinal CFA
 
-We specify one factor per wave, same indicators each wave.  
+We specify one factor per wave, same indicators each wave.\
 We also allow *conceptually justified* correlated residuals (same items).
 
-<div style="font-size:0.8em; line-height:1.15;">
-
+::: {style="font-size:0.8em; line-height:1.15;"}
 ```{r}
 mod_config <- '
 F1 =~ y1_1 + y2_1 + y3_1 + y4_1
@@ -433,14 +428,13 @@ y2_3 ~~ y2_4
 fit_config <- cfa(mod_config, data = dat, meanstructure = TRUE)
 fitMeasures(fit_config, c("chisq","df","cfi","tli","rmsea","srmr"))
 ```
-</div>
+:::
 
----
+------------------------------------------------------------------------
 
 ## Step 2: Metric invariance: equal loadings
 
-<div style="font-size:0.8em; line-height:1.15;">
-
+::: {style="font-size:0.8em; line-height:1.15;"}
 ```{r}
 mod_metric <- '
 # equal loadings across timepoints
@@ -460,13 +454,15 @@ y2_3 ~~ y2_4
 
 fit_metric <- cfa(mod_metric, data = dat, meanstructure = TRUE)
 ```
+:::
 
-</div>
+::: callout-note
+We are not using the `group=` argument because data are wide.
+:::
 
 ## Step 3: Scalar invariance: equal intercepts too
 
-<div style="font-size:0.8em; line-height:1.15;">
-
+::: {style="font-size:0.8em; line-height:1.15;"}
 ```{r}
 mod_scalar <- '
 # equal loadings across timepoints
@@ -497,14 +493,13 @@ F4 ~ m4*1
 '
 fit_scalar <- cfa(mod_scalar, data = dat, meanstructure = TRUE)
 ```
+:::
 
-</div>
-
-::: {.callout-tip}
+::: callout-tip
 Freeing means could be essential if there is actual mean change.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Evaluate invariance: fit comparisons
 
@@ -519,11 +514,11 @@ data.frame(bind_rows(
   scalar = fitMeasures(fit_scalar, c("cfi","rmsea","srmr")),.id = "model"))
 ```
 
-::: {.callout-tip}
+::: callout-tip
 Always check *where* misfit arises (local diagnostics).
 :::
 
----
+------------------------------------------------------------------------
 
 ## Diagnostics: global vs local fit (in invariance)
 
@@ -531,9 +526,9 @@ Always check *where* misfit arises (local diagnostics).
 
 **Local**:
 
-- standardized residuals
-- modification indices (MI)
-- inspect which items/waves break invariance
+-   standardized residuals
+-   modification indices (MI)
+-   inspect which items/waves break invariance
 
 ```{r}
 # Local diagnostics example
@@ -541,26 +536,26 @@ mi <- modificationIndices(fit_scalar)
 mi |> arrange(desc(mi)) |> head(10)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Pitfall/callout: “Partial invariance = fishing?”
 
-::: {.callout-warning}
+::: callout-warning
 **Partial invariance is not “cheating”** if done transparently:
 
-- free the smallest number of parameters
-- justify based on item content / design changes
-- report which parameters were freed
-- verify conclusions are robust (sensitivity)
+-   free the smallest number of parameters
+-   justify based on item content / design changes
+-   report which parameters were freed
+-   verify conclusions are robust (sensitivity)
 :::
 
 A good practice: free one intercept (or loading) at a time guided by theory + MI, then reassess.
 
----
+------------------------------------------------------------------------
 
 # From time invariance to growth
 
----
+------------------------------------------------------------------------
 
 ## Transition: from invariance to growth
 
@@ -568,25 +563,25 @@ If longitudinal **(partial) scalar invariance** holds, we can interpret latent m
 
 Growth models re-express these latent means as a trajectory using **growth factors**:
 
-- **Intercept factor (i):** baseline level (at a chosen time point)
-- **Slope factor (s):** rate of change (linear, unless extended)
-  - Optional: quadratic slope, piecewise slopes...
+-   **Intercept factor (i):** baseline level (at a chosen time point)
+-   **Slope factor (s):** rate of change (linear, unless extended)
+    -   Optional: quadratic slope, piecewise slopes...
 
----
+------------------------------------------------------------------------
 
 ## Transition: from invariance to growth
 
 What questions do you answer with latent growth models?
 
-- What is the average trajectory for *all* respondents?
-  - What is their initial value (i.e., mean)?
-  - Is there any change?
-    - What's the form of the change
-- Is the average trajectory enough or participants vary in their trajectories?
-  - random effects of intercepts and slope
-- Are random effects explainable? How? Do we need more variables?
-  
----
+-   What is the average trajectory for *all* respondents?
+    -   What is their initial value (i.e., mean)?
+    -   Is there any change?
+        -   What's the form of the change
+-   Is the average trajectory enough or participants vary in their trajectories?
+    -   random effects of intercepts and slope
+-   Are random effects explainable? How? Do we need more variables?
+
+------------------------------------------------------------------------
 
 ## Minimal math: LGM as CFA with time scores
 
@@ -596,36 +591,36 @@ $$
 \eta_{nt} = i_n + \lambda_t s_n + \varepsilon_{nt}
 $$
 
-- $(i_n)$ and $(s_n)$ are latent variables (random effects)
-- $(\lambda_t)$ are fixed **time scores** (e.g., 0,1,2,3)
-- $(\varepsilon_{nt})$ are time-specific residuals
+-   $(i_n)$ and $(s_n)$ are latent variables (random effects)
+-   $(\lambda_t)$ are fixed **time scores** (e.g., 0,1,2,3)
+-   $(\varepsilon_{nt})$ are time-specific residuals
 
 Means and variances:
 
-- $(E(i_n) = \mu_i)$, $(Var(i_n)=\sigma_i^2)$
-- $(E(s_n) = \mu_s)$, $(Var(s_n)=\sigma_s^2)$
-- $(Cov(i_n,s_n)=\sigma_{is})$
+-   $(E(i_n) = \mu_i)$, $(Var(i_n)=\sigma_i^2)$
+-   $(E(s_n) = \mu_s)$, $(Var(s_n)=\sigma_s^2)$
+-   $(Cov(i_n,s_n)=\sigma_{is})$
 
----
+------------------------------------------------------------------------
 
 ## Diagram: growth model (intercept + slope)
 
 ![](../assets/images/lgcm_basic.jpg)
 
-::: {.callout-note}
-This is a linear **second-order** latent growth curve model 
+::: callout-note
+This is a linear **second-order** latent growth curve model
 :::
 
----
+------------------------------------------------------------------------
 
-## LGM on observed composites 
+## LGM on observed composites
 
 We’ll start with a simple observed repeated measure (think: scale score).
 
 In practice, you often combine:
 
-- longitudinal invariance CFA for measurement
-- then growth model on latent factors (“second-order” growth)
+-   longitudinal invariance CFA for measurement
+-   then growth model on latent factors (“second-order” growth)
 
 Create an observed score per wave from the data we used before:
 
@@ -639,11 +634,11 @@ dat <- dat |>
   )
 ```
 
-::: {.callout-warning}
+::: callout-warning
 (teaching-friendly less publication/SEM-friendly)
 :::
 
----
+------------------------------------------------------------------------
 
 ## Linear growth model in lavaan
 
@@ -664,7 +659,7 @@ y_t3 ~~ y_t4
 fit_lgm <- growth(lgm_linear, data = dat)  # meanstructure handled
 ```
 
-::: {.callout-warning}
+::: callout-warning
 This model is already assuming random intercepts and slopes
 :::
 
@@ -674,74 +669,74 @@ This model is already assuming random intercepts and slopes
 summary(fit_lgm, fit.measures = TRUE, standardized = TRUE)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Interpreting the growth output
 
 Key parameters:
 
-- **Mean(i)** = average baseline (at time score 0)
-- **Mean(s)** = average change per time unit
-- **Var(i)** = between-person differences in baseline
-- **Var(s)** = between-person differences in change (heterogeneity)
-- **Cov(i,s)** = association between intercept and slope
-  (often negative due to artifacts: regression-to-mean, boundaries, heteroskedasticity - **interpret carefully**)
+-   **Mean(i)** = average baseline (at time score 0)
+-   **Mean(s)** = average change per time unit
+-   **Var(i)** = between-person differences in baseline
+-   **Var(s)** = between-person differences in change (heterogeneity)
+-   **Cov(i,s)** = association between intercept and slope (often negative due to artifacts: regression-to-mean, boundaries, heteroskedasticity - **interpret carefully**)
 
 ```{r}
 parameterEstimates(fit_lgm) |>
   filter(op %in% c("~1","~~") & lhs %in% c("i","s"))
 ```
 
----
+------------------------------------------------------------------------
 
 ## Pitfall/callout: time coding is a modeling choice
 
-::: {.callout-warning}
+::: callout-warning
 **Changing time scores changes interpretation.**
 
 If you code slope loadings as 0,1,2,3 then:
 
-- intercept = expected value at wave 1
+-   intercept = expected value at wave 1
 
-If you code as -1,0,1,2 then:
-- intercept = expected value at wave 2
+If you code as -1,0,1,2 then: - intercept = expected value at wave 2
 
 If you center at the midpoint, intercept becomes “midpoint status.”
 :::
 
 Remember to choose a centering that matches the substantive interpretation you want.
 
-::: {.callout-warning}
+::: callout-warning
 **TIME POINTS MUST BE CHOSEN A PRIORI, BASED ON THEORY.**
 
 e.g. Is this time point large enough to see change?
 :::
 
----
+------------------------------------------------------------------------
 
 ## A stepwise approach to LGM
 
-
-:::{columns}
-:::{.column width="65%"}
+::::: {columns}
+::: {.column width="65%"}
 ![](../assets/images/stepwiseLGM.png)
 :::
-:::{.column width="25%"}
-![](../assets/images/beaujean.png)
-:::
-:::
 
----
+::: {.column width="25%"}
+![](../assets/images/beaujean.png)
+
+@beaujeanLatentVariableModeling2014
+:::
+:::::
+
+------------------------------------------------------------------------
 
 # LGM extensions
 
----
+------------------------------------------------------------------------
 
 ## The second-order factor model
 
-<div style="font-size:0.5em; line-height:1.15;">
-:::{columns}
-:::{.column width="50%"}
+:::::: {style="font-size:0.5em; line-height:1.15;"}
+::::: {columns}
+::: {.column width="50%"}
 **The measurement block**
 
 ```{r}
@@ -780,7 +775,8 @@ y4_3 ~~ r4*y4_4
 '
 ```
 :::
-:::{.column width="50%"}
+
+::: {.column width="50%"}
 **The latent change block**
 
 ```{r}
@@ -813,19 +809,18 @@ F3 ~~ F4
 fit_lgm_2nd <- sem(lgm_linear_2ndorder, data = dat, meanstructure = TRUE)
 ```
 :::
-:::
-</div>
+:::::
+::::::
 
-::: {.callout-warning}
+::: callout-warning
 We are not using `growth()` here but `sem` + `meanstructure=TRUE`
 :::
 
----
+------------------------------------------------------------------------
 
 ## Quadratic growth example (simulation)
 
-<div style="font-size:0.5em; line-height:1.15;">
-
+::: {style="font-size:0.5em; line-height:1.15;"}
 ```{r}
 #| warning: true
 set.seed(123)
@@ -873,17 +868,15 @@ y_t3 ~~ 0.192*y_t4
 dat <- simulateData(pop_quad, sample.nobs = 6000, meanstructure = TRUE)
 
 ```
+:::
 
-</div>
-
----
+------------------------------------------------------------------------
 
 ## Quadratic results
 
-<div style="font-size:0.70em; line-height:0.75;">
-
-:::{columns}
-:::{.column width="50%"}
+:::::: {style="font-size:0.70em; line-height:0.75;"}
+::::: {columns}
+::: {.column width="50%"}
 ```{r}
 ## ----------------------------
 ## 2) FIT LGM without quadratic
@@ -899,7 +892,8 @@ fitMeasures(fit_lin,  c("cfi","tli","rmsea","srmr","aic","bic"))
 
 ```
 :::
-:::{.column width="50%"}
+
+::: {.column width="50%"}
 ```{r}
 ## ----------------------------
 ## 3) FIT LGM with quadratic
@@ -915,15 +909,14 @@ fitMeasures(fit_quad, c("cfi","tli","rmsea","srmr","aic","bic"))
 
 ```
 :::
-:::
+:::::
 
 ```{r}
 anova(fit_lin, fit_quad)  # chi-square diff test (nested models)
 ```
+::::::
 
-</div>
-
----
+------------------------------------------------------------------------
 
 ## Conditional growth: predictors of i and s
 
@@ -948,85 +941,79 @@ y_t3 ~~ y_t4
 fit_lgm_c <- growth(lgm_cond, data = dat)
 ```
 
-
----
+------------------------------------------------------------------------
 
 ## Summary of the conditional model
 
-
-<div style="font-size:0.75em; line-height:1.15;">
-:::{columns}
-:::{.column width="60%"}
+::::::: {style="font-size:0.75em; line-height:1.15;"}
+:::::: {columns}
+::: {.column width="60%"}
 ```{r}
 summary(fit_lgm_c, fit.measures = TRUE, standardized = TRUE)
 ```
 :::
-:::{.column width="40%"}
-::: {.callout-warning}
-As for $i$ ~~ $s$ correlations, when an external variable is associated with the intercept, it will probably be associated with the slope, but this is often an artifact. A second-order model could help resolving this issue and avoid issues due to bounds in measures.
-:::
-:::
-:::
-</div>
 
----
+:::: {.column width="40%"}
+::: callout-warning
+As for $i$ \~\~ $s$ correlations, when an external variable is associated with the intercept, it will probably be associated with the slope, but this is often an artifact. A second-order model could help resolving this issue and avoid issues due to bounds in measures.
+:::
+::::
+::::::
+:::::::
+
+------------------------------------------------------------------------
 
 ## Local diagnostics for growth models
 
 Global fit is necessary but not sufficient.
 
-- residual autocorrelation (y_t2 ~~ y_t3, etc.)
-- MIs suggesting additional residual correlations
-- implausible negative variances (Heywood)
-- standardized residuals / fitted vs observed means
+-   residual autocorrelation (y_t2 \~\~ y_t3, etc.)
+-   MIs suggesting additional residual correlations
+-   implausible negative variances (Heywood)
+-   standardized residuals / fitted vs observed means
 
 ```{r}
 mi_g <- modificationIndices(fit_quad)
 mi_g |> arrange(desc(mi)) |> head(10)
 ```
 
----
+------------------------------------------------------------------------
 
 ## What we did NOT do (on purpose)
 
-- RI-CLPM and LCS families (they answer different questions)
-  
-  → **RI-CLPM warnings & alternatives:** `slides/opt05_riclpm_warning-and-alternatives.qmd`
-  (and/or `extras/ex06_riclpm_vs_clpm.qmd`)
-  → **Latent change score models:** `extras/ex07_latent-change-score_models.qmd`
+-   RI-CLPM and LCS families (they answer different questions)
 
----
+    -   **Not yet available extras**
 
-## Exercises → Lab09 (explicit links)
+        → **RI-CLPM warnings & alternatives:** `extras/riclpm_vs_clpm.qmd`
 
-In **Lab09 (longitudinal growth)** you will:
+        → **Latent change score models:** `extras/latent-change-score_models.qmd`
 
-1) **Longitudinal invariance ladder**
-   - Fit configural → metric → scalar
-   - Decide if partial scalar is needed (and document what you free)
+------------------------------------------------------------------------
 
-2) **Fit linear LGM** (time scores 0,1,2,3)
-   - Interpret mean/variance of intercept and slope
-   - Re-center time to change intercept meaning
+## Exercises → Lab09
 
-3) **Add curvature or residual autocorrelation**
-   - Compare fit + interpretability (don’t respecify blindly)
+In **Lab09 (**[link](https://feracotommaso.github.io/SEM-phd-course/labs/lab09_longitudinal_growth.html)**)** you will:
 
-4) **Conditional growth**
-   - Add a predictor of intercept and slope; interpret effects
+1)  **Longitudinal invariance ladder**
+    -   Fit configural → metric → scalar
+    -   Decide if partial scalar is needed (and document what you free)
+2)  **Fit linear LGM** (time scores 0,1,2,3)
+    -   Interpret mean/variance of intercept and slope
+    -   Re-center time to change intercept meaning
+3)  **Add curvature or residual autocorrelation**
+    -   Compare fit + interpretability (don’t respecify blindly)
+4)  **Conditional growth**
+    -   Add a predictor of intercept and slope; interpret effects
 
----
+------------------------------------------------------------------------
 
 ## Take-home summary: 3 things
 
-1) **Measurement invariance over time is the entry ticket** to interpreting mean change.
-2) **Growth models are SEMs** with time-coded loadings: interpretation depends on time coding/centering.
-3) **Diagnostics matter:** combine global fit with local checks; respecify with theory and transparency.
+1)  **Measurement invariance over time is the entry ticket** to interpreting mean change.
+2)  **Growth models are SEMs** with time-coded loadings: interpretation depends on time coding/centering.
+3)  **Diagnostics matter:** combine global fit with local checks; respecify with theory and transparency.
 
----
+------------------------------------------------------------------------
 
 ## References
-
-::: {.content-visible when-format="revealjs"}
-(Generated from `refs/references.bib` using APA 7 CSL.)
-:::

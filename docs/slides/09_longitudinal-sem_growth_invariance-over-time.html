@@ -94,8 +94,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-a589dfdd18e65617bd4e8915e98a7fff.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4133e6e6d60bc60abfe6e230de0dcdc4.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -278,7 +298,7 @@ RI-CLPM and LCS are linked as extras later.</p>
 <div class="callout-content">
 <p><strong>The intercepts problem:</strong> Without controlling for the TRUE latent variable, variables that are associated with T1 levels will always be associated with T2 level even after accounting for T1 scores. You must account for the latent intercept of that variable. T1 scores is just an indicator of that variable + some error. Which is the same for T2.</p>
 <ul>
-<li>You are <strong>not</strong> testing whether neuroticism predicts <em>changes</em> in affect from T1 and T2</li>
+<li>You are <strong>not</strong> testing whether affect predicts <em>changes</em> in neuroticism from T1 to T2</li>
 </ul>
 </div>
 </div>
@@ -307,8 +327,8 @@ RI-CLPM and LCS are linked as extras later.</p>
 <h1>Longitudinal invariance</h1>
 
 </section>
-<section id="longitudinal-invariance-ladder" class="slide level2">
-<h2>Longitudinal invariance ladder</h2>
+<section id="longitudinal-invariance-steps" class="slide level2">
+<h2>Longitudinal invariance steps</h2>
 <p>Measurement waves are our “groups” for the MG-CFA.</p>
 <ul>
 <li><strong>Configural:</strong> same factor structure each wave</li>
@@ -361,7 +381,7 @@ RI-CLPM and LCS are linked as extras later.</p>
 <h2>Example data (transparent simulation)</h2>
 <div style="font-size:0.5em; line-height:1.15;">
 <div class="{columns}">
-<div class="column" style="width:30%;">
+<div class="column" style="width:40%;">
 <p>We simulate:</p>
 <ul>
 <li>One latent trait at each wave</li>
@@ -382,7 +402,7 @@ RI-CLPM and LCS are linked as extras later.</p>
 </div>
 </div>
 </div>
-</div><div class="column" style="width:70%;">
+</div><div class="column" style="width:60%;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="st">'</span></span>
 <span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a><span class="st"># Wave 1 factor</span></span>
@@ -420,16 +440,17 @@ RI-CLPM and LCS are linked as extras later.</p>
 <span id="cb2-34"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .5*y1_3; y2_3 ~~ .6*y2_3; y3_3 ~~ .5*y3_3; y4_3 ~~ .7*y4_3</span></span>
 <span id="cb2-35"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_4 ~~ .5*y1_4; y2_4 ~~ .6*y2_4; y3_4 ~~ .5*y3_4; y4_4 ~~ .7*y4_4</span></span>
 <span id="cb2-36"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves for same indicator (method/wording carryover)</span></span>
-<span id="cb2-38"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .25*y1_2</span></span>
-<span id="cb2-39"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .25*y1_3</span></span>
-<span id="cb2-40"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .25*y1_4</span></span>
-<span id="cb2-41"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ .20*y2_2</span></span>
-<span id="cb2-42"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ .20*y2_3</span></span>
-<span id="cb2-43"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ .20*y2_4</span></span>
-<span id="cb2-44"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="cb2-45"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> <span class="dv">6000</span>, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-37"><a aria-hidden="true" tabindex="-1"></a><span class="st"># Correlated residuals across adjacent waves for same indicator </span></span>
+<span id="cb2-38"><a aria-hidden="true" tabindex="-1"></a><span class="st"># (method/wording carryover)</span></span>
+<span id="cb2-39"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_1 ~~ .25*y1_2</span></span>
+<span id="cb2-40"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_2 ~~ .25*y1_3</span></span>
+<span id="cb2-41"><a aria-hidden="true" tabindex="-1"></a><span class="st">y1_3 ~~ .25*y1_4</span></span>
+<span id="cb2-42"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_1 ~~ .20*y2_2</span></span>
+<span id="cb2-43"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_2 ~~ .20*y2_3</span></span>
+<span id="cb2-44"><a aria-hidden="true" tabindex="-1"></a><span class="st">y2_3 ~~ .20*y2_4</span></span>
+<span id="cb2-45"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb2-46"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">simulateData</span>(pop, <span class="at">sample.nobs =</span> <span class="dv">6000</span>, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
 </div>
@@ -485,6 +506,19 @@ We also allow <em>conceptually justified</em> correlated residuals (same items).
 <span id="cb5-15"><a aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
 <span id="cb5-16"><a aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-17"><a aria-hidden="true" tabindex="-1"></a>fit_metric <span class="ot">&lt;-</span> <span class="fu">cfa</span>(mod_metric, <span class="at">data =</span> dat, <span class="at">meanstructure =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>We are not using the <code>group=</code> argument because data are wide.</p>
+</div>
 </div>
 </div>
 </section>
@@ -928,6 +962,7 @@ Variances:
 <p><img data-src="../assets/images/stepwiseLGM.png"></p>
 </div><div class="column" style="width:25%;">
 <p><img data-src="../assets/images/beaujean.png"></p>
+<p><span class="citation" data-cites="beaujeanLatentVariableModeling2014">Beaujean (<a href="#/references" role="doc-biblioref" onclick="">2014</a>)</span></p>
 </div></div>
 </section>
 <section class="slide level2">
@@ -1310,12 +1345,16 @@ Variances:
 <h2>What we did NOT do (on purpose)</h2>
 <ul>
 <li><p>RI-CLPM and LCS families (they answer different questions)</p>
-<p>→ <strong>RI-CLPM warnings &amp; alternatives:</strong> <code>slides/opt05_riclpm_warning-and-alternatives.qmd</code> (and/or <code>extras/ex06_riclpm_vs_clpm.qmd</code>) → <strong>Latent change score models:</strong> <code>extras/ex07_latent-change-score_models.qmd</code></p></li>
+<ul>
+<li><p><strong>Not yet available extras</strong></p>
+<p>→ <strong>RI-CLPM warnings &amp; alternatives:</strong> <code>extras/riclpm_vs_clpm.qmd</code></p>
+<p>→ <strong>Latent change score models:</strong> <code>extras/latent-change-score_models.qmd</code></p></li>
+</ul></li>
 </ul>
 </section>
-<section id="exercises-lab09-explicit-links" class="slide level2">
-<h2>Exercises → Lab09 (explicit links)</h2>
-<p>In <strong>Lab09 (longitudinal growth)</strong> you will:</p>
+<section id="exercises-lab09" class="slide level2">
+<h2>Exercises → Lab09</h2>
+<p>In <strong>Lab09 (</strong><a href="https://feracotommaso.github.io/SEM-phd-course/labs/lab09_longitudinal_growth.html">link</a><strong>)</strong> you will:</p>
 <ol type="1">
 <li><strong>Longitudinal invariance ladder</strong>
 <ul>
@@ -1345,11 +1384,15 @@ Variances:
 <li><strong>Diagnostics matter:</strong> combine global fit with local checks; respecify with theory and transparency.</li>
 </ol>
 </section>
-<section id="references" class="slide level2">
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<p>(Generated from <code>refs/references.bib</code> using APA 7 CSL.)</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-beaujeanLatentVariableModeling2014" class="csl-entry" role="listitem">
+Beaujean, A. A. (2014). <em>Latent variable modeling using r: A step-by-step guide</em>. Routledge. <a href="https://doi.org/10.4324/9781315869780">https://doi.org/10.4324/9781315869780</a>
+</div>
+</div>
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -1566,6 +1609,11 @@ Variances:
         ]
       });
     </script>
+    <a class="course-site-badge" href="https://feracotommaso.github.io/SEM-phd-course/" target="_blank" rel="noopener noreferrer" aria-label="SEM course website">
+
+      <img src="../assets/images/faviconpsicostat2.png" alt="SEM course website">
+
+    </a>
     
 
     <script>
