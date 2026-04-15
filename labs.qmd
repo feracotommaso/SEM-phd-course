@@ -53,4 +53,4 @@ If you get stuck, start from the top of the lab and run chunks in order.
 
 ## Optional extra practice
 
-If you want more practice beyond the core materials, check the [Extras](extras_index.html){target="_blank"} page.
+If you want more practice beyond the core materials, check the [Extras](https://feracotommaso.github.io/SEM-phd-course/extras.html){target="_blank"} page.
