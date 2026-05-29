@@ -26,6 +26,12 @@ Welcome! This repository contains **slides (Quarto revealjs)**, **hands-on labs*
 If you want the pdf version of the slides: [/?print-pdf](https://revealjs.com/pdf-export/){target="_blank"}
 :::
 
+## History
+
+At the end of each course, I will create a Git Release that will be permanently available on GitHub and Zenodo so that you can always retrieve the materials you saw or used during the course.
+
+-   June 2026 - release not yet available
+
 ## What you should keep open while working
 
 -   [Setup](setup.html) (only once, then keep for troubleshooting)
@@ -38,6 +44,8 @@ If you want the pdf version of the slides: [/?print-pdf](https://revealjs.com/pd
 -   **Core fit indices** (default): χ², CFI/TLI, RMSEA (+ CI), SRMR
 -   **Local fit**: residuals + MI/EPC (with “modification discipline”)
 -   **Default mindset:** measurement first, then structure (“two-step mindset”)
+
+## More
 
 ::: callout-tip
 **Tip**\

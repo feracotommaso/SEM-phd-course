@@ -1,0 +1,888 @@
+---
+title: "School Adjustment, Motivation, and Academic Functioning"
+subtitle: "Project brief for the SEM course dataset"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(knitr)
+
+# This file is designed to live in labs/.
+# If you move it elsewhere, update these paths.
+data_path <- "../data/processed/sem_school_adjustment.csv"
+codebook_path <- "../data/processed/sem_school_adjustment_codebook.csv"
+
+has_data <- file.exists(data_path) && file.exists(codebook_path)
+
+if (has_data) {
+  dat <- readr::read_csv(data_path, show_col_types = FALSE)
+  codebook <- readr::read_csv(codebook_path, show_col_types = FALSE)
+}
+```
+
+```{r}
+#| label: data-availability-note
+#| echo: false
+#| results: asis
+
+if (!has_data) {
+  cat(
+    "::: {.callout-warning}\n",
+    "## Dataset not found\n\n",
+    "The descriptive tables in this page require these files:\n\n",
+    "- `../data/processed/sem_school_adjustment.csv`\n",
+    "- `../data/processed/sem_school_adjustment_codebook.csv`\n\n",
+    "Generate them by running `R/simulate_sem_school_adjustment.R`.\n",
+    ":::\n"
+  )
+}
+```
+
+# Project brief
+
+A colleague asks you to help analyse data from a multi-school study of secondary-school students. The broad aim is to understand how **school context**, **motivation**, **school adjustment**, **emotional functioning**, and **academic achievement** are related.
+
+The substantive focus is not a single variable. The dataset is meant to support several linked questions about academic functioning:
+
+- Why do some adolescents report stronger academic self-efficacy than others?
+- How are teacher support and school belonging related to school anxiety?
+- Are school anxiety and academic self-efficacy associated with academic achievement?
+- Do these associations remain visible over time?
+- Are individuals with incomplete follow-up data different from those with more complete data?
+
+The dataset is simulated, but it is intentionally not clean. You should expect realistic complications: skewed ordinal indicators, binary test items, noisy task indicators, missing data, group differences, and clustered observations.
+
+The goal is not to find the one correct model. The goal is to make defensible analytic choices, explain them clearly, and connect the statistical results back to the substantive questions.
+
+::: {.callout-important}
+## What you are expected to decide
+
+You need to decide how to represent the constructs, how to handle missing data, whether clustering matters, and which analytic strategy is appropriate for each question. You may begin with descriptive statistics, sum scores, correlations, regressions, and path models before moving to latent variable models.
+:::
+
+# Dataset structure
+
+Each row corresponds to one student. Students are nested in classes, and classes are nested in schools.
+
+```{r}
+#| label: sample-structure
+#| eval: !expr has_data
+
+sample_structure <- dat |>
+  summarise(
+    n_students = n(),
+    n_schools = n_distinct(school_id),
+    n_classes = n_distinct(class_id),
+    mean_class_size = mean(class_size, na.rm = TRUE),
+    min_class_size = min(class_size, na.rm = TRUE),
+    max_class_size = max(class_size, na.rm = TRUE)
+  )
+
+kable(sample_structure, digits = 2)
+```
+
+The main contextual and clustering variables are:
+
+| Variable | Description |
+|---|---|
+| `school_id` | School identifier |
+| `class_id` | Class identifier nested within school |
+| `region` | Macro-region of the school |
+| `school_type` | General, technical, or vocational school |
+| `school_resources` | Standardized school-level resource index |
+| `class_climate_mean` | Standardized class-level climate index |
+
+# Main variables and measures
+
+This section describes the main variables used in the project. The dataset contains more variables than those listed here, but these are sufficient for the main research questions.
+
+## Background variables
+
+| Variable | Description |
+|---|---|
+| `age` | Student age |
+| `grade` | School grade |
+| `gender` | Student gender |
+| `ses` | Standardized socioeconomic status |
+| `parent_edu` | Highest parental education, ordinal 1-5 |
+| `books_home` | Approximate books at home, ordinal 1-5 |
+| `language_home` | Majority language or other home language |
+| `migration_background` | Migration background indicator |
+| `special_education_support` | Formal learning-support indicator |
+
+These variables can be treated as predictors, covariates, grouping variables, or auxiliary variables, depending on the research question.
+
+## Observed academic and behavioural variables
+
+| Variable | Description |
+|---|---|
+| `gpa_t1`, `gpa_t2`, `gpa_t3` | Grade point average across three waves |
+| `math_grade_t1` | Baseline math grade |
+| `language_grade_t1` | Baseline language grade |
+| `absences_t1`, `absences_t2`, `absences_t3` | Number of school absences |
+| `study_hours` | Weekly study hours |
+| `screen_time` | Daily recreational screen time in hours |
+| `homework_completion` | Homework completion frequency, ordinal 1-5 |
+| `teacher_rating_effort` | Teacher-rated student effort |
+
+## Academic self-efficacy
+
+Academic self-efficacy refers to perceived competence in understanding, learning, and succeeding in school tasks.
+
+It is measured at three waves using five ordinal indicators per wave:
+
+```text
+se1_t1-se5_t1
+se1_t2-se5_t2
+se1_t3-se5_t3
+```
+
+## School anxiety
+
+School anxiety refers to worry, tension, and avoidance related to school tasks, classroom participation, and evaluation.
+
+It is measured at three waves using six ordinal indicators per wave:
+
+```text
+anx1_t1-anx6_t1
+anx1_t2-anx6_t2
+anx1_t3-anx6_t3
+```
+
+## School belonging
+
+School belonging refers to perceived acceptance, safety, and connectedness at school.
+
+It is measured at three waves using five ordinal indicators per wave:
+
+```text
+bel1_t1-bel5_t1
+bel1_t2-bel5_t2
+bel1_t3-bel5_t3
+```
+
+## Mastery goal orientation
+
+Mastery goal orientation refers to valuing learning, improvement, and mastery.
+
+It is measured at baseline using five ordinal indicators:
+
+```text
+mast1_t1-mast5_t1
+```
+
+## Perceived teacher support
+
+Perceived teacher support refers to students' perceptions that teachers explain clearly, notice difficulties, treat students fairly, encourage effort, and provide useful feedback.
+
+It is measured at baseline using five ordinal indicators:
+
+```text
+ts1_t1-ts5_t1
+```
+
+## Academic reasoning ability
+
+Academic reasoning ability is measured at baseline using 12 correct/incorrect indicators:
+
+```text
+abil1-abil12
+```
+
+The items vary in difficulty. The variables are binary: `0` indicates an incorrect response and `1` indicates a correct response.
+
+## Attention regulation
+
+Attention regulation is measured at baseline using four continuous task indicators:
+
+```text
+att_acc
+att_rt_inv
+att_inhibit
+att_switch
+```
+
+Higher values indicate better attention regulation or better task performance.
+
+# Descriptive overview
+
+Use the descriptive statistics as the starting point for analysis. Before testing any hypothesis, inspect distributions, missingness, and the basic structure of the sample.
+
+## Demographics
+
+```{r}
+#| label: demographics-continuous
+#| eval: !expr has_data
+
+demo_continuous <- dat |>
+  summarise(
+    mean_age = mean(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE),
+    mean_ses = mean(ses, na.rm = TRUE),
+    sd_ses = sd(ses, na.rm = TRUE)
+  )
+
+kable(demo_continuous, digits = 2)
+```
+
+```{r}
+#| label: gender-table
+#| eval: !expr has_data
+
+dat |>
+  count(gender, name = "n") |>
+  mutate(percent = 100 * n / sum(n)) |>
+  arrange(desc(n)) |>
+  kable(digits = 1)
+```
+
+```{r}
+#| label: school-type-table
+#| eval: !expr has_data
+
+dat |>
+  count(school_type, name = "n") |>
+  mutate(percent = 100 * n / sum(n)) |>
+  arrange(desc(n)) |>
+  kable(digits = 1)
+```
+
+## Main observed outcomes
+
+```{r}
+#| label: observed-outcomes-descriptives
+#| eval: !expr has_data
+
+observed_vars <- c(
+  "gpa_t1", "gpa_t2", "gpa_t3",
+  "absences_t1", "absences_t2", "absences_t3",
+  "study_hours", "screen_time", "teacher_rating_effort"
+)
+
+observed_desc <- dat |>
+  summarise(
+    across(
+      all_of(observed_vars),
+      list(
+        mean = ~ mean(.x, na.rm = TRUE),
+        sd = ~ sd(.x, na.rm = TRUE),
+        missing = ~ mean(is.na(.x))
+      )
+    )
+  ) |>
+  pivot_longer(
+    everything(),
+    names_to = c("variable", ".value"),
+    names_pattern = "(.*)_(mean|sd|missing)$"
+  )
+
+kable(observed_desc, digits = 2)
+```
+
+## Missingness by variable block
+
+```{r}
+#| label: missing-by-construct
+#| eval: !expr has_data
+
+missing_by_construct <- codebook |>
+  group_by(construct) |>
+  summarise(
+    n_variables = n(),
+    mean_missing_rate = mean(missing_rate, na.rm = TRUE),
+    max_missing_rate = max(missing_rate, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(mean_missing_rate))
+
+kable(missing_by_construct, digits = 3)
+```
+
+## Longitudinal dropout and incomplete data
+
+```{r}
+#| label: dropout-overview
+#| eval: !expr has_data
+
+dropout_overview <- dat |>
+  summarise(
+    dropout_t2 = mean(dropout_t2, na.rm = TRUE),
+    dropout_t3 = mean(dropout_t3, na.rm = TRUE),
+    missing_any_t1 = mean(missing_any_t1, na.rm = TRUE),
+    missing_any_t2 = mean(missing_any_t2, na.rm = TRUE),
+    missing_any_t3 = mean(missing_any_t3, na.rm = TRUE)
+  ) |>
+  pivot_longer(
+    everything(),
+    names_to = "indicator",
+    values_to = "proportion"
+  )
+
+kable(dropout_overview, digits = 3)
+```
+
+# Research questions
+
+The questions below are written as substantive questions, not as statistical instructions. Treat them as a project brief or as the starting point for a preregistration. You should decide which variables, scores, models, and assumptions are appropriate.
+
+## Cross-sectional research questions
+
+The cross-sectional part uses baseline information only.
+
+### RQ1. Socioeconomic background and academic achievement
+
+Is socioeconomic status associated with baseline academic achievement?
+
+**H1.** Higher socioeconomic status is expected to be associated with higher baseline academic achievement.
+
+### RQ2. Socioeconomic background, ability, and self-efficacy
+
+Are academic reasoning ability and academic self-efficacy plausible psychological pathways linking socioeconomic status with academic achievement?
+
+**H2.** Higher socioeconomic status is expected to be associated with stronger academic reasoning ability and stronger academic self-efficacy. Academic reasoning ability and academic self-efficacy are expected to be positively associated with baseline academic achievement.
+
+### RQ3. Academic self-efficacy and academic functioning
+
+Is academic self-efficacy associated with better academic functioning at baseline?
+
+**H3.** Higher academic self-efficacy is expected to be associated with higher GPA, more frequent homework completion, more study hours, and higher teacher-rated effort.
+
+### RQ4. Teacher support, belonging, and school anxiety
+
+Is perceived teacher support associated with lower school anxiety, and is this association partly explained by school belonging?
+
+**H4.** Stronger perceived teacher support is expected to be associated with stronger school belonging. Stronger school belonging is expected to be associated with lower school anxiety.
+
+### RQ5. School anxiety and academic functioning
+
+Is school anxiety associated with poorer academic functioning at baseline?
+
+**H5.** Higher school anxiety is expected to be associated with more absences and lower GPA. Its association with study hours may be weaker or less consistent.
+
+### RQ6. Mastery goal orientation and adaptive school engagement
+
+Is mastery goal orientation associated with more adaptive school engagement?
+
+**H6.** Higher mastery goal orientation is expected to be associated with stronger academic self-efficacy, more frequent homework completion, more study hours, and higher teacher-rated effort.
+
+### RQ7. Attention regulation and academic achievement
+
+Is attention regulation associated with baseline academic achievement beyond motivational and emotional factors?
+
+**H7.** Better attention regulation is expected to be positively associated with GPA and teacher-rated effort.
+
+### RQ8. Classroom and school context
+
+Are classroom climate and school resources associated with perceived teacher support, school belonging, school anxiety, and academic achievement?
+
+**H8.** More favourable classroom and school contexts are expected to be associated with stronger perceived teacher support, stronger school belonging, lower school anxiety, and higher academic achievement.
+
+### RQ9. Construct distinctiveness
+
+Are academic self-efficacy, school anxiety, school belonging, mastery goal orientation, and perceived teacher support empirically distinguishable constructs?
+
+**H9.** The constructs are expected to be related but not interchangeable. For example, academic self-efficacy and school anxiety should be negatively related, but they should not be treated as the same construct.
+
+### RQ10. Group differences in school adjustment
+
+Do indicators of school adjustment and academic functioning differ by gender, school type, language background, or socioeconomic status?
+
+**H10.** Some group differences are expected, but their size, direction, and substantive interpretation should be evaluated cautiously.
+
+## Longitudinal research questions
+
+The longitudinal part uses repeated measurements of academic self-efficacy, school anxiety, school belonging, GPA, and absences across three waves.
+
+### LRQ1. Stability of school adjustment
+
+How stable are academic self-efficacy, school anxiety, and school belonging across the three waves?
+
+**LH1.** Academic self-efficacy, school anxiety, and school belonging are expected to show moderate-to-strong stability over time, but not perfect stability.
+
+### LRQ2. Mean-level change in school adjustment
+
+Do average levels of academic self-efficacy, school anxiety, and school belonging change over time?
+
+**LH2.** Average levels of academic self-efficacy and belonging are expected to be relatively stable. School anxiety may show more noticeable change and greater individual variability.
+
+### LRQ3. Belonging and later school anxiety
+
+Does school belonging predict later school anxiety after taking earlier anxiety into account?
+
+**LH3.** Higher school belonging at an earlier wave is expected to be associated with lower school anxiety at the following wave.
+
+### LRQ4. Academic self-efficacy and later achievement
+
+Does academic self-efficacy predict later academic achievement after taking earlier achievement into account?
+
+**LH4.** Higher academic self-efficacy at an earlier wave is expected to be associated with higher GPA at the following wave.
+
+### LRQ5. School anxiety and later academic functioning
+
+Does school anxiety predict later GPA and absences after taking earlier academic functioning into account?
+
+**LH5.** Higher school anxiety at an earlier wave is expected to be associated with more later absences and lower later GPA.
+
+### LRQ6. Reciprocal relations between academic self-efficacy and achievement
+
+Are academic self-efficacy and GPA reciprocally related over time?
+
+**LH6.** Higher self-efficacy is expected to predict later GPA, and higher GPA is expected to predict later self-efficacy. The two directions may differ in magnitude.
+
+### LRQ7. Change in self-efficacy and change in GPA
+
+Are individuals who increase in academic self-efficacy also more likely to improve in GPA?
+
+**LH7.** Increases in academic self-efficacy are expected to be associated with more favourable academic trajectories.
+
+### LRQ8. Persistent school anxiety
+
+Are individuals with persistently high school anxiety more likely to show unfavourable academic trajectories?
+
+**LH8.** Persistent school anxiety is expected to be associated with more absences and lower GPA over time.
+
+### LRQ9. Differences in longitudinal patterns across groups
+
+Do longitudinal patterns differ by socioeconomic status, gender, school type, or language background?
+
+**LH9.** Some differences in initial levels and trajectories are expected across groups, but these differences should be interpreted in relation to measurement quality, missing data, and baseline differences.
+
+### LRQ10. Attrition and follow-up participation
+
+Are individuals with incomplete follow-up data different from individuals with more complete data?
+
+**LH10.** Incomplete follow-up data may be associated with baseline achievement, school anxiety, absences, and socioeconomic status.
+
+# Optional analysis routes and suggested solutions
+
+This section gives possible analysis routes. It is not part of the research-question statement. Use it after you have translated the substantive questions into your own analysis plan.
+
+::: {.callout-note}
+## How to use this section
+
+The code below is deliberately written as a set of possible routes rather than as a required solution. You may answer some questions with sum scores and regressions, others with path models, and others with latent variable models. More complex models are not automatically better.
+:::
+
+## Prepare baseline scale scores
+
+A defensible first pass is to create transparent scale scores. These scores are useful for descriptive summaries, correlations, simple regressions, and preliminary path models.
+
+```{r}
+#| label: create-scale-scores
+#| eval: false
+
+library(tidyverse)
+
+dat_scores <- dat |>
+  mutate(
+    selfeff_t1_score = rowMeans(across(se1_t1:se5_t1), na.rm = TRUE),
+    anxiety_t1_score = rowMeans(across(anx1_t1:anx6_t1), na.rm = TRUE),
+    belong_t1_score = rowMeans(across(bel1_t1:bel5_t1), na.rm = TRUE),
+    mastery_t1_score = rowMeans(across(mast1_t1:mast5_t1), na.rm = TRUE),
+    teachsup_t1_score = rowMeans(across(ts1_t1:ts5_t1), na.rm = TRUE),
+    ability_t1_score = rowMeans(across(abil1:abil12), na.rm = TRUE)
+  ) |>
+  mutate(
+    across(
+      c(att_acc, att_rt_inv, att_inhibit, att_switch),
+      ~ as.numeric(scale(.x)),
+      .names = "{.col}_z"
+    ),
+    attention_t1_score = rowMeans(
+      across(c(att_acc_z, att_rt_inv_z, att_inhibit_z, att_switch_z)),
+      na.rm = TRUE
+    )
+  )
+```
+
+A useful check is whether the expected associations appear in the zero-order correlations.
+
+```{r}
+#| label: score-correlations
+#| eval: false
+
+score_vars <- c(
+  "ses", "gpa_t1", "absences_t1", "study_hours", "teacher_rating_effort",
+  "selfeff_t1_score", "anxiety_t1_score", "belong_t1_score",
+  "mastery_t1_score", "teachsup_t1_score", "ability_t1_score",
+  "attention_t1_score"
+)
+
+cor(dat_scores[score_vars], use = "pairwise.complete.obs") |>
+  round(2)
+```
+
+Expected broad pattern:
+
+- `selfeff_t1_score`, `ability_t1_score`, `attention_t1_score`, and `ses` should be positively associated with `gpa_t1`.
+- `anxiety_t1_score` should be positively associated with `absences_t1` and negatively associated with `gpa_t1`.
+- `teachsup_t1_score` should be positively associated with `belong_t1_score`.
+- `belong_t1_score` should be negatively associated with `anxiety_t1_score`.
+
+## Simple regression solutions
+
+### RQ1: Socioeconomic status and GPA
+
+```{r}
+#| label: rq1-regression
+#| eval: false
+
+m_rq1 <- lm(gpa_t1 ~ ses, data = dat_scores)
+summary(m_rq1)
+```
+
+A minimal extension adds demographic and contextual covariates.
+
+```{r}
+#| label: rq1-regression-adjusted
+#| eval: false
+
+m_rq1_adj <- lm(
+  gpa_t1 ~ ses + gender + language_home + school_type + school_resources,
+  data = dat_scores
+)
+
+summary(m_rq1_adj)
+```
+
+### RQ3 and RQ5: Self-efficacy, anxiety, and academic functioning
+
+```{r}
+#| label: rq3-rq5-regressions
+#| eval: false
+
+m_gpa <- lm(
+  gpa_t1 ~ selfeff_t1_score + anxiety_t1_score + ses + ability_t1_score,
+  data = dat_scores
+)
+
+m_abs <- glm(
+  absences_t1 ~ anxiety_t1_score + belong_t1_score + ses,
+  data = dat_scores,
+  family = poisson()
+)
+
+summary(m_gpa)
+summary(m_abs)
+```
+
+For `absences_t1`, inspect overdispersion before relying on a Poisson model.
+
+```{r}
+#| label: poisson-overdispersion
+#| eval: false
+
+sum(residuals(m_abs, type = "pearson")^2) / df.residual(m_abs)
+```
+
+## Path-analysis solution with observed scale scores
+
+A compact baseline path model can address several cross-sectional questions at once.
+
+```{r}
+#| label: observed-path-model
+#| eval: false
+
+library(lavaan)
+
+model_scores_cross <- '
+  ability_t1_score ~ ses
+  selfeff_t1_score ~ ability_t1_score + mastery_t1_score + teachsup_t1_score + ses
+  belong_t1_score ~ teachsup_t1_score + ses
+  anxiety_t1_score ~ selfeff_t1_score + belong_t1_score + ses
+  gpa_t1 ~ ability_t1_score + selfeff_t1_score + anxiety_t1_score + attention_t1_score + ses
+  absences_t1 ~ anxiety_t1_score + belong_t1_score + ses
+'
+
+fit_scores_cross <- sem(
+  model_scores_cross,
+  data = dat_scores,
+  missing = "fiml",
+  estimator = "MLR",
+  cluster = "class_id"
+)
+
+summary(fit_scores_cross, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+```
+
+A more focused mediation model addresses the teacher support, belonging, and anxiety question.
+
+```{r}
+#| label: observed-path-model-indirect
+#| eval: false
+
+model_scores_mediation <- '
+  belong_t1_score ~ a * teachsup_t1_score + ses
+  anxiety_t1_score ~ b * belong_t1_score + cprime * teachsup_t1_score + ses
+
+  indirect := a * b
+  total := cprime + indirect
+'
+
+fit_scores_mediation <- sem(
+  model_scores_mediation,
+  data = dat_scores,
+  missing = "fiml",
+  estimator = "MLR",
+  cluster = "class_id"
+)
+
+summary(fit_scores_mediation, fit.measures = TRUE, standardized = TRUE)
+```
+
+## Baseline latent-variable solution
+
+After inspecting score-based results, you may represent the main constructs as latent variables. This is especially relevant when construct distinctiveness and measurement quality are part of the question.
+
+```{r}
+#| label: cross-sectional-sem-model
+#| eval: false
+
+model_cross_sectional <- '
+  selfeff =~ se1_t1 + se2_t1 + se3_t1 + se4_t1 + se5_t1
+  anxiety =~ anx1_t1 + anx2_t1 + anx3_t1 + anx4_t1 + anx5_t1 + anx6_t1
+  belong  =~ bel1_t1 + bel2_t1 + bel3_t1 + bel4_t1 + bel5_t1
+  teachsup =~ ts1_t1 + ts2_t1 + ts3_t1 + ts4_t1 + ts5_t1
+  mastery =~ mast1_t1 + mast2_t1 + mast3_t1 + mast4_t1 + mast5_t1
+
+  ability =~ abil1 + abil2 + abil3 + abil4 + abil5 + abil6 +
+             abil7 + abil8 + abil9 + abil10 + abil11 + abil12
+
+  attention =~ att_acc + att_rt_inv + att_inhibit + att_switch
+
+  ability ~ ses
+  selfeff ~ ability + mastery + teachsup + ses
+  belong ~ teachsup + ses
+  anxiety ~ selfeff + belong + ses
+  gpa_t1 ~ ability + selfeff + anxiety + attention + ses
+  absences_t1 ~ anxiety + belong + ses
+'
+
+ordered_items_t1 <- c(
+  paste0("se", 1:5, "_t1"),
+  paste0("anx", 1:6, "_t1"),
+  paste0("bel", 1:5, "_t1"),
+  paste0("mast", 1:5, "_t1"),
+  paste0("ts", 1:5, "_t1"),
+  paste0("abil", 1:12)
+)
+
+fit_cross <- sem(
+  model_cross_sectional,
+  data = dat,
+  ordered = ordered_items_t1,
+  estimator = "WLSMV"
+)
+
+summary(fit_cross, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+```
+
+Possible interpretation route:
+
+- Start with global fit: chi-square, CFI, TLI, RMSEA, and SRMR when available.
+- Inspect local diagnostics: residuals, modification indices, and unusually weak indicators.
+- Avoid adding parameters only because they improve fit.
+- Interpret indirect or structural paths only after the measurement part is defensible.
+
+## Longitudinal score-based solution
+
+A first longitudinal pass can use scale scores. This keeps the focus on stability, change, and prospective associations.
+
+```{r}
+#| label: create-longitudinal-scores
+#| eval: false
+
+dat_long_scores <- dat |>
+  mutate(
+    selfeff_t1_score = rowMeans(across(se1_t1:se5_t1), na.rm = TRUE),
+    selfeff_t2_score = rowMeans(across(se1_t2:se5_t2), na.rm = TRUE),
+    selfeff_t3_score = rowMeans(across(se1_t3:se5_t3), na.rm = TRUE),
+
+    anxiety_t1_score = rowMeans(across(anx1_t1:anx6_t1), na.rm = TRUE),
+    anxiety_t2_score = rowMeans(across(anx1_t2:anx6_t2), na.rm = TRUE),
+    anxiety_t3_score = rowMeans(across(anx1_t3:anx6_t3), na.rm = TRUE),
+
+    belong_t1_score = rowMeans(across(bel1_t1:bel5_t1), na.rm = TRUE),
+    belong_t2_score = rowMeans(across(bel1_t2:bel5_t2), na.rm = TRUE),
+    belong_t3_score = rowMeans(across(bel1_t3:bel5_t3), na.rm = TRUE)
+  )
+```
+
+### LRQ3: Belonging and later anxiety
+
+```{r}
+#| label: longitudinal-regression-belonging-anxiety
+#| eval: false
+
+m_lrq3 <- lm(
+  anxiety_t2_score ~ anxiety_t1_score + belong_t1_score + ses + gender,
+  data = dat_long_scores
+)
+
+summary(m_lrq3)
+```
+
+### LRQ4 and LRQ5: Anxiety, self-efficacy, and later GPA
+
+```{r}
+#| label: longitudinal-regression-gpa
+#| eval: false
+
+m_lrq4_lrq5 <- lm(
+  gpa_t2 ~ gpa_t1 + selfeff_t1_score + anxiety_t1_score + ses,
+  data = dat_long_scores
+)
+
+summary(m_lrq4_lrq5)
+```
+
+## Longitudinal latent-variable solution
+
+The following model is one possible latent longitudinal model. It should be fitted only after you have inspected the repeated measures and considered whether the indicators are comparable across time.
+
+```{r}
+#| label: longitudinal-sem-model
+#| eval: false
+
+model_longitudinal <- '
+  selfeff_t1 =~ se1_t1 + se2_t1 + se3_t1 + se4_t1 + se5_t1
+  selfeff_t2 =~ se1_t2 + se2_t2 + se3_t2 + se4_t2 + se5_t2
+  selfeff_t3 =~ se1_t3 + se2_t3 + se3_t3 + se4_t3 + se5_t3
+
+  anxiety_t1 =~ anx1_t1 + anx2_t1 + anx3_t1 + anx4_t1 + anx5_t1 + anx6_t1
+  anxiety_t2 =~ anx1_t2 + anx2_t2 + anx3_t2 + anx4_t2 + anx5_t2 + anx6_t2
+  anxiety_t3 =~ anx1_t3 + anx2_t3 + anx3_t3 + anx4_t3 + anx5_t3 + anx6_t3
+
+  selfeff_t2 ~ selfeff_t1
+  selfeff_t3 ~ selfeff_t2
+
+  anxiety_t2 ~ anxiety_t1
+  anxiety_t3 ~ anxiety_t2
+
+  gpa_t2 ~ gpa_t1
+  gpa_t3 ~ gpa_t2
+
+  anxiety_t2 ~ selfeff_t1
+  anxiety_t3 ~ selfeff_t2
+
+  gpa_t2 ~ selfeff_t1 + anxiety_t1
+  gpa_t3 ~ selfeff_t2 + anxiety_t2
+
+  selfeff_t1 ~~ anxiety_t1
+  selfeff_t2 ~~ anxiety_t2
+  selfeff_t3 ~~ anxiety_t3
+'
+
+ordered_items_long <- c(
+  paste0("se", 1:5, "_t1"), paste0("se", 1:5, "_t2"), paste0("se", 1:5, "_t3"),
+  paste0("anx", 1:6, "_t1"), paste0("anx", 1:6, "_t2"), paste0("anx", 1:6, "_t3")
+)
+
+fit_long <- sem(
+  model_longitudinal,
+  data = dat,
+  ordered = ordered_items_long,
+  estimator = "WLSMV"
+)
+
+summary(fit_long, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)
+```
+
+## Checking incomplete follow-up data
+
+The attrition question can be addressed descriptively before any longitudinal model is fitted.
+
+```{r}
+#| label: attrition-checks
+#| eval: false
+
+dat |>
+  group_by(dropout_t3) |>
+  summarise(
+    n = n(),
+    mean_gpa_t1 = mean(gpa_t1, na.rm = TRUE),
+    mean_absences_t1 = mean(absences_t1, na.rm = TRUE),
+    mean_ses = mean(ses, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+If you create baseline school-adjustment scores, also compare baseline anxiety, self-efficacy, and belonging by follow-up completion status.
+
+```{r}
+#| label: attrition-checks-scores
+#| eval: false
+
+dat_long_scores |>
+  group_by(dropout_t3) |>
+  summarise(
+    n = n(),
+    selfeff_t1 = mean(selfeff_t1_score, na.rm = TRUE),
+    anxiety_t1 = mean(anxiety_t1_score, na.rm = TRUE),
+    belong_t1 = mean(belong_t1_score, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+# Missing data and clustering
+
+## Missing data
+
+The dataset contains missing data by design. Missingness occurs at several levels:
+
+- item-level missingness in questionnaire and reasoning indicators;
+- block-level missingness for the attention task;
+- planned missingness for some questionnaire forms;
+- longitudinal dropout at later waves.
+
+Report how missing data were handled. Also report whether your conclusions change when you compare different defensible approaches, such as complete-case analysis, full-information maximum likelihood, multiple imputation, or categorical-data estimators.
+
+## Clustering
+
+The observations are not fully independent: individuals are nested in classes and schools. Some constructs, especially teacher support, belonging, and GPA, may show class-level or school-level dependence.
+
+At minimum, inspect whether conclusions are sensitive to classroom clustering. For example, compare a model that ignores clustering with one that adjusts standard errors for `class_id`, when the estimator and model type allow this.
+
+```{r}
+#| label: clustering-example
+#| eval: false
+
+fit_clustered <- sem(
+  model_scores_mediation,
+  data = dat_scores,
+  missing = "fiml",
+  estimator = "MLR",
+  cluster = "class_id"
+)
+
+summary(fit_clustered, fit.measures = TRUE, standardized = TRUE)
+```
+
+# Reporting checklist
+
+For each analysis, report:
+
+- the research question being addressed;
+- how each construct was represented;
+- inclusion and exclusion criteria;
+- treatment of missing data;
+- whether clustering was ignored, adjusted, or modelled;
+- estimator and assumptions, when applicable;
+- global model fit, if a model with fit indices was estimated;
+- local diagnostics, if relevant;
+- estimates with uncertainty intervals or standard errors;
+- a substantive interpretation that distinguishes statistical evidence, model fit, and causal claims.

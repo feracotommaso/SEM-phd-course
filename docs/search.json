@@ -151,7 +151,7 @@
     "href": "index.html#conventions-used-in-this-course",
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "Conventions used in this course",
-    "text": "Conventions used in this course\n\nCore fit indices (default): χ², CFI/TLI, RMSEA (+ CI), SRMR\nLocal fit: residuals + MI/EPC (with “modification discipline”)\nDefault mindset: measurement first, then structure (“two-step mindset”)\n\n\n\n\n\n\n\nTip\n\n\n\nTip\nIf you get lost: come back here. This page is the “map” for everything.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
+    "text": "Conventions used in this course\n\nCore fit indices (default): χ², CFI/TLI, RMSEA (+ CI), SRMR\nLocal fit: residuals + MI/EPC (with “modification discipline”)\nDefault mindset: measurement first, then structure (“two-step mindset”)"
   },
   {
     "objectID": "setup.html",
@@ -558,5 +558,257 @@
     "title": "Extras",
     "section": "Missing data sensitivity",
     "text": "Missing data sensitivity\n… under construction"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html",
+    "href": "labs/sem_school_adjustment_project-description.html",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "",
+    "text": "A colleague asks you to help analyse data from a multi-school study of secondary-school students. The broad aim is to understand how school context, motivation, school adjustment, emotional functioning, and academic achievement are related.\nThe substantive focus is not a single variable. The dataset is meant to support several linked questions about academic functioning:\n\nWhy do some adolescents report stronger academic self-efficacy than others?\nHow are teacher support and school belonging related to school anxiety?\nAre school anxiety and academic self-efficacy associated with academic achievement?\nDo these associations remain visible over time?\nAre individuals with incomplete follow-up data different from those with more complete data?\n\nThe dataset is simulated, but it is intentionally not clean. You should expect realistic complications: skewed ordinal indicators, binary test items, noisy task indicators, missing data, group differences, and clustered observations.\nThe goal is not to find the one correct model. The goal is to make defensible analytic choices, explain them clearly, and connect the statistical results back to the substantive questions.\n\n\n\n\n\n\nWhat you are expected to decide\n\n\n\nYou need to decide how to represent the constructs, how to handle missing data, whether clustering matters, and which analytic strategy is appropriate for each question. You may begin with descriptive statistics, sum scores, correlations, regressions, and path models before moving to latent variable models."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#background-variables",
+    "href": "labs/sem_school_adjustment_project-description.html#background-variables",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.1 Background variables",
+    "text": "3.1 Background variables\n\n\n\nVariable\nDescription\n\n\n\n\nage\nStudent age\n\n\ngrade\nSchool grade\n\n\ngender\nStudent gender\n\n\nses\nStandardized socioeconomic status\n\n\nparent_edu\nHighest parental education, ordinal 1-5\n\n\nbooks_home\nApproximate books at home, ordinal 1-5\n\n\nlanguage_home\nMajority language or other home language\n\n\nmigration_background\nMigration background indicator\n\n\nspecial_education_support\nFormal learning-support indicator\n\n\n\nThese variables can be treated as predictors, covariates, grouping variables, or auxiliary variables, depending on the research question."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#observed-academic-and-behavioural-variables",
+    "href": "labs/sem_school_adjustment_project-description.html#observed-academic-and-behavioural-variables",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.2 Observed academic and behavioural variables",
+    "text": "3.2 Observed academic and behavioural variables\n\n\n\n\n\n\n\nVariable\nDescription\n\n\n\n\ngpa_t1, gpa_t2, gpa_t3\nGrade point average across three waves\n\n\nmath_grade_t1\nBaseline math grade\n\n\nlanguage_grade_t1\nBaseline language grade\n\n\nabsences_t1, absences_t2, absences_t3\nNumber of school absences\n\n\nstudy_hours\nWeekly study hours\n\n\nscreen_time\nDaily recreational screen time in hours\n\n\nhomework_completion\nHomework completion frequency, ordinal 1-5\n\n\nteacher_rating_effort\nTeacher-rated student effort"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#latent-constructs-measured-with-ordinal-likert-indicators",
+    "href": "labs/sem_school_adjustment_project-description.html#latent-constructs-measured-with-ordinal-likert-indicators",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.3 Latent constructs measured with ordinal Likert indicators",
+    "text": "3.3 Latent constructs measured with ordinal Likert indicators\n\n3.3.1 Academic self-efficacy\nAcademic self-efficacy reflects students’ perceived capacity to understand, learn, and succeed in school tasks.\nMeasured at three waves:\nse1_t1-se5_t1\nse1_t2-se5_t2\nse1_t3-se5_t3\n\n\n3.3.2 School anxiety\nSchool anxiety reflects worry, tension, and avoidance related to school tasks, classroom participation, and evaluation.\nMeasured at three waves:\nanx1_t1-anx6_t1\nanx1_t2-anx6_t2\nanx1_t3-anx6_t3\n\n\n3.3.3 School belonging\nSchool belonging reflects perceived acceptance, safety, and connectedness at school.\nMeasured at three waves:\nbel1_t1-bel5_t1\nbel1_t2-bel5_t2\nbel1_t3-bel5_t3\n\n\n3.3.4 Mastery goal orientation\nMastery goal orientation reflects students’ tendency to value learning, improvement, and mastery.\nMeasured at baseline:\nmast1_t1-mast5_t1\n\n\n3.3.5 Perceived teacher support\nPerceived teacher support reflects students’ perceptions that teachers explain clearly, notice difficulties, treat students fairly, encourage effort, and provide useful feedback.\nMeasured at baseline:\nts1_t1-ts5_t1"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#latent-construct-measured-with-binary-indicators",
+    "href": "labs/sem_school_adjustment_project-description.html#latent-construct-measured-with-binary-indicators",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.4 Latent construct measured with binary indicators",
+    "text": "3.4 Latent construct measured with binary indicators\n\n3.4.1 Academic reasoning ability\nAcademic reasoning ability is measured at baseline using 12 correct/incorrect indicators:\nabil1-abil12\nThe items vary in difficulty. These variables are binary and should be treated as categorical indicators when they are used in latent variable models."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#latent-construct-measured-with-continuous-indicators",
+    "href": "labs/sem_school_adjustment_project-description.html#latent-construct-measured-with-continuous-indicators",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.5 Latent construct measured with continuous indicators",
+    "text": "3.5 Latent construct measured with continuous indicators\n\n3.5.1 Attention regulation\nAttention regulation is measured at baseline using four continuous task indicators:\natt_acc\natt_rt_inv\natt_inhibit\natt_switch\nHigher values indicate better attention regulation or better task performance."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#demographics",
+    "href": "labs/sem_school_adjustment_project-description.html#demographics",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "4.1 Demographics",
+    "text": "4.1 Demographics\n\n\nCode\ndemo_continuous &lt;- dat |&gt;\n  summarise(\n    mean_age = mean(age, na.rm = TRUE),\n    sd_age = sd(age, na.rm = TRUE),\n    mean_ses = mean(ses, na.rm = TRUE),\n    sd_ses = sd(ses, na.rm = TRUE)\n  )\n\nkable(demo_continuous, digits = 2)\n\n\n\n\n\nmean_age\nsd_age\nmean_ses\nsd_ses\n\n\n\n\n15.9\n1.11\n0\n1\n\n\n\n\n\n\n\nCode\ndat |&gt;\n  count(gender, name = \"n\") |&gt;\n  mutate(percent = 100 * n / sum(n)) |&gt;\n  arrange(desc(n)) |&gt;\n  kable(digits = 1)\n\n\n\n\n\ngender\nn\npercent\n\n\n\n\ngirl\n1220\n51.0\n\n\nboy\n1124\n47.0\n\n\nanother_or_no_answer\n50\n2.1\n\n\n\n\n\n\n\nCode\ndat |&gt;\n  count(school_type, name = \"n\") |&gt;\n  mutate(percent = 100 * n / sum(n)) |&gt;\n  arrange(desc(n)) |&gt;\n  kable(digits = 1)\n\n\n\n\n\nschool_type\nn\npercent\n\n\n\n\ngeneral\n896\n37.4\n\n\nvocational\n770\n32.2\n\n\ntechnical\n728\n30.4"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#main-observed-outcomes",
+    "href": "labs/sem_school_adjustment_project-description.html#main-observed-outcomes",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "4.2 Main observed outcomes",
+    "text": "4.2 Main observed outcomes\n\n\nCode\nobserved_vars &lt;- c(\n  \"gpa_t1\", \"gpa_t2\", \"gpa_t3\",\n  \"absences_t1\", \"absences_t2\", \"absences_t3\",\n  \"study_hours\", \"screen_time\", \"teacher_rating_effort\"\n)\n\nobserved_desc &lt;- dat |&gt;\n  summarise(\n    across(\n      all_of(observed_vars),\n      list(\n        mean = ~ mean(.x, na.rm = TRUE),\n        sd = ~ sd(.x, na.rm = TRUE),\n        missing = ~ mean(is.na(.x))\n      )\n    )\n  ) |&gt;\n  pivot_longer(\n    everything(),\n    names_to = c(\"variable\", \".value\"),\n    names_pattern = \"(.*)_(mean|sd|missing)$\"\n  )\n\nkable(observed_desc, digits = 2)\n\n\n\n\n\nvariable\nmean\nsd\nmissing\n\n\n\n\ngpa_t1\n7.00\n0.90\n0.00\n\n\ngpa_t2\n7.08\n0.88\n0.14\n\n\ngpa_t3\n7.14\n0.87\n0.27\n\n\nabsences_t1\n4.66\n5.15\n0.00\n\n\nabsences_t2\n3.81\n3.90\n0.14\n\n\nabsences_t3\n3.67\n3.86\n0.27\n\n\nstudy_hours\n6.01\n2.59\n0.00\n\n\nscreen_time\n2.90\n1.50\n0.00\n\n\nteacher_rating_effort\n50.00\n7.98\n0.00"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#missingness-by-construct",
+    "href": "labs/sem_school_adjustment_project-description.html#missingness-by-construct",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "4.3 Missingness by construct",
+    "text": "4.3 Missingness by construct\n\n\nCode\nmissing_by_construct &lt;- codebook |&gt;\n  group_by(construct) |&gt;\n  summarise(\n    n_variables = n(),\n    mean_missing_rate = mean(missing_rate, na.rm = TRUE),\n    max_missing_rate = max(missing_rate, na.rm = TRUE),\n    .groups = \"drop\"\n  ) |&gt;\n  arrange(desc(mean_missing_rate))\n\nkable(missing_by_construct, digits = 3)\n\n\n\n\n\n\n\n\n\n\n\nconstruct\nn_variables\nmean_missing_rate\nmax_missing_rate\n\n\n\n\nschool_anxiety\n18\n0.263\n0.530\n\n\nacademic_self_efficacy\n15\n0.211\n0.437\n\n\nschool_belonging\n15\n0.208\n0.553\n\n\nattention_regulation\n4\n0.106\n0.106\n\n\nobserved_academic_behavioural\n12\n0.069\n0.274\n\n\nmastery_goal_orientation\n5\n0.049\n0.060\n\n\nteacher_support\n5\n0.047\n0.055\n\n\nacademic_reasoning_ability\n12\n0.036\n0.044\n\n\ndemographics\n10\n0.004\n0.020\n\n\ncluster_context\n7\n0.000\n0.000\n\n\nmissing_data_design\n6\n0.000\n0.000"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-dropout-and-incomplete-data",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-dropout-and-incomplete-data",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "4.4 Longitudinal dropout and incomplete data",
+    "text": "4.4 Longitudinal dropout and incomplete data\n\n\nCode\ndropout_overview &lt;- dat |&gt;\n  summarise(\n    dropout_t2 = mean(dropout_t2, na.rm = TRUE),\n    dropout_t3 = mean(dropout_t3, na.rm = TRUE),\n    missing_any_t1 = mean(missing_any_t1, na.rm = TRUE),\n    missing_any_t2 = mean(missing_any_t2, na.rm = TRUE),\n    missing_any_t3 = mean(missing_any_t3, na.rm = TRUE)\n  ) |&gt;\n  pivot_longer(\n    everything(),\n    names_to = \"indicator\",\n    values_to = \"proportion\"\n  )\n\nkable(dropout_overview, digits = 3)\n\n\n\n\n\nindicator\nproportion\n\n\n\n\ndropout_t2\n0.138\n\n\ndropout_t3\n0.274\n\n\nmissing_any_t1\n0.817\n\n\nmissing_any_t2\n0.853\n\n\nmissing_any_t3\n0.869"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#measurement-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#measurement-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "5.1 Measurement questions",
+    "text": "5.1 Measurement questions\n\n5.1.1 RQ1. Do the main questionnaire scales show an interpretable latent structure?\nStudents can begin by fitting separate confirmatory factor analyses for:\nacademic self-efficacy\nschool anxiety\nschool belonging\nteacher support\nmastery goal orientation\nThey can then estimate a larger baseline measurement model.\nHypothesis 1. The baseline ordinal indicators will support a five-factor measurement model distinguishing academic self-efficacy, school anxiety, school belonging, teacher support, and mastery goal orientation.\n\n\n5.1.2 RQ2. Should Likert indicators be treated as continuous or ordered categorical?\nStudents can compare models that treat Likert indicators as approximately continuous with models that treat them as ordered categorical.\nHypothesis 2. Treating the Likert indicators as ordered categorical will provide a more defensible representation of the measurement structure, especially for skewed or unevenly distributed items.\nThis should not be interpreted as a mechanical rule that categorical estimation is always superior. Students should justify the estimator in relation to item distributions, sample size, model complexity, convergence, and the inferential goal."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#structural-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#structural-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "5.2 Structural questions",
+    "text": "5.2 Structural questions\n\n5.2.1 RQ3. Is socioeconomic status associated with academic achievement?\nA simple observed-variable model can examine:\nses -&gt; gpa_t1\nA richer SEM can test whether this association is partly accounted for by academic reasoning ability and academic self-efficacy:\nses -&gt; ability_t1 -&gt; gpa_t1\nses -&gt; selfeff_t1 -&gt; gpa_t1\nHypothesis 3. Students with higher socioeconomic status will show higher baseline GPA, partly through higher academic reasoning ability and stronger academic self-efficacy.\n\n\n5.2.2 RQ4. Does academic self-efficacy mediate the association between ability and GPA?\nA baseline mediation model can examine:\nability_t1 -&gt; selfeff_t1 -&gt; gpa_t1\nability_t1 -&gt; gpa_t1\nHypothesis 4. Academic reasoning ability will be positively associated with GPA, and this association will be partially mediated by academic self-efficacy.\n\n\n5.2.3 RQ5. Is perceived teacher support associated with lower school anxiety through belonging?\nA baseline mediation model can examine:\nteachsup_t1 -&gt; belong_t1 -&gt; anxiety_t1\nHypothesis 5. Students who perceive stronger teacher support will report stronger school belonging, which in turn will be associated with lower school anxiety.\n\n\n5.2.4 RQ6. Is school anxiety associated with academic functioning?\nA baseline structural model can examine:\nanxiety_t1 -&gt; absences_t1\nanxiety_t1 -&gt; gpa_t1\nanxiety_t1 -&gt; study_hours\nHypothesis 6. Higher school anxiety will be associated with more absences and lower GPA. The association with study hours may be weaker or more ambiguous because anxiety may increase effort for some students while impairing functioning for others.\n\n\n5.2.5 RQ7. Does clustering matter?\nStudents can compare standard errors and substantive conclusions from models that ignore clustering with models that adjust for class-level clustering.\nfit_naive &lt;- sem(model, data = dat)\nfit_clustered &lt;- sem(model, data = dat, cluster = \"class_id\")\nHypothesis 7. Ignoring class-level clustering will lead to underestimated standard errors for variables with non-trivial classroom-level dependence, especially teacher support, belonging, and GPA."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-measurement-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-measurement-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "7.1 Longitudinal measurement questions",
+    "text": "7.1 Longitudinal measurement questions\n\n7.1.1 LRQ1. Is the measurement structure stable over time?\nStudents can test longitudinal measurement invariance for academic self-efficacy, school anxiety, and school belonging.\nRelevant steps include:\nconfigural invariance\nmetric invariance\nscalar or threshold invariance\npartial invariance\nLongitudinal Hypothesis 1. Academic self-efficacy, school anxiety, and school belonging will show broadly stable factor structures across the three waves, although some indicators may show minor deviations from strict invariance.\n\n\n7.1.2 LRQ2. Do students change over time in self-efficacy, anxiety, and belonging?\nStudents can examine latent means, latent growth factors, or latent change scores.\nLongitudinal Hypothesis 2. Mean levels of academic self-efficacy and belonging will show moderate stability over time, whereas school anxiety will show greater individual variability in change."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-structural-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-structural-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "7.2 Longitudinal structural questions",
+    "text": "7.2 Longitudinal structural questions\n\n7.2.1 LRQ3. Does baseline belonging predict later anxiety?\nbelong_t1 -&gt; anxiety_t2\nanxiety_t1 -&gt; anxiety_t2\nLongitudinal Hypothesis 3. Higher school belonging at baseline will predict lower school anxiety at the next wave, controlling for previous anxiety.\n\n\n7.2.2 LRQ4. Does school anxiety predict later academic outcomes?\nanxiety_t1 -&gt; gpa_t2\nanxiety_t1 -&gt; absences_t2\ngpa_t1 -&gt; gpa_t2\nabsences_t1 -&gt; absences_t2\nLongitudinal Hypothesis 4. Higher school anxiety will predict more subsequent absences and lower subsequent GPA, controlling for prior absences and prior GPA.\n\n\n7.2.3 LRQ5. Are changes in self-efficacy associated with changes in GPA?\nThis question can be examined using latent growth models, parallel-process growth models, or latent change score models.\nLongitudinal Hypothesis 5. Students who increase in academic self-efficacy across waves will tend to show more favourable academic trajectories.\n\n\n7.2.4 LRQ6. Are associations between school adjustment and achievement stable across time?\nselfeff_t1 -&gt; gpa_t2\nselfeff_t2 -&gt; gpa_t3\n\nanxiety_t1 -&gt; gpa_t2\nanxiety_t2 -&gt; gpa_t3\nLongitudinal Hypothesis 6. Academic self-efficacy will show positive prospective associations with GPA, whereas school anxiety will show negative prospective associations with GPA."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#missing-data",
+    "href": "labs/sem_school_adjustment_project-description.html#missing-data",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "7.1 Missing data",
+    "text": "7.1 Missing data\nThe dataset contains missing data by design. Missingness occurs at several levels:\n\nitem-level missingness in questionnaire and reasoning indicators;\nblock-level missingness for the attention task;\nplanned missingness for some questionnaire forms;\nlongitudinal dropout at later waves.\n\nReport how missing data were handled. Also report whether your conclusions change when you compare different defensible approaches, such as complete-case analysis, full-information maximum likelihood, multiple imputation, or categorical-data estimators."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#clustering",
+    "href": "labs/sem_school_adjustment_project-description.html#clustering",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "7.2 Clustering",
+    "text": "7.2 Clustering\nThe observations are not fully independent: individuals are nested in classes and schools. Some constructs, especially teacher support, belonging, and GPA, may show class-level or school-level dependence.\nAt minimum, inspect whether conclusions are sensitive to classroom clustering. For example, compare a model that ignores clustering with one that adjusts standard errors for class_id, when the estimator and model type allow this.\n\n\nCode\nfit_clustered &lt;- sem(\n  model_scores_mediation,\n  data = dat_scores,\n  missing = \"fiml\",\n  estimator = \"MLR\",\n  cluster = \"class_id\"\n)\n\nsummary(fit_clustered, fit.measures = TRUE, standardized = TRUE)"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#academic-self-efficacy",
+    "href": "labs/sem_school_adjustment_project-description.html#academic-self-efficacy",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.3 Academic self-efficacy",
+    "text": "3.3 Academic self-efficacy\nAcademic self-efficacy refers to perceived competence in understanding, learning, and succeeding in school tasks.\nIt is measured at three waves using five ordinal indicators per wave:\nse1_t1-se5_t1\nse1_t2-se5_t2\nse1_t3-se5_t3"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#school-anxiety",
+    "href": "labs/sem_school_adjustment_project-description.html#school-anxiety",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.4 School anxiety",
+    "text": "3.4 School anxiety\nSchool anxiety refers to worry, tension, and avoidance related to school tasks, classroom participation, and evaluation.\nIt is measured at three waves using six ordinal indicators per wave:\nanx1_t1-anx6_t1\nanx1_t2-anx6_t2\nanx1_t3-anx6_t3"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#school-belonging",
+    "href": "labs/sem_school_adjustment_project-description.html#school-belonging",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.5 School belonging",
+    "text": "3.5 School belonging\nSchool belonging refers to perceived acceptance, safety, and connectedness at school.\nIt is measured at three waves using five ordinal indicators per wave:\nbel1_t1-bel5_t1\nbel1_t2-bel5_t2\nbel1_t3-bel5_t3"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#mastery-goal-orientation",
+    "href": "labs/sem_school_adjustment_project-description.html#mastery-goal-orientation",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.6 Mastery goal orientation",
+    "text": "3.6 Mastery goal orientation\nMastery goal orientation refers to valuing learning, improvement, and mastery.\nIt is measured at baseline using five ordinal indicators:\nmast1_t1-mast5_t1"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#perceived-teacher-support",
+    "href": "labs/sem_school_adjustment_project-description.html#perceived-teacher-support",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.7 Perceived teacher support",
+    "text": "3.7 Perceived teacher support\nPerceived teacher support refers to students’ perceptions that teachers explain clearly, notice difficulties, treat students fairly, encourage effort, and provide useful feedback.\nIt is measured at baseline using five ordinal indicators:\nts1_t1-ts5_t1"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#academic-reasoning-ability",
+    "href": "labs/sem_school_adjustment_project-description.html#academic-reasoning-ability",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.8 Academic reasoning ability",
+    "text": "3.8 Academic reasoning ability\nAcademic reasoning ability is measured at baseline using 12 correct/incorrect indicators:\nabil1-abil12\nThe items vary in difficulty. The variables are binary: 0 indicates an incorrect response and 1 indicates a correct response."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#attention-regulation",
+    "href": "labs/sem_school_adjustment_project-description.html#attention-regulation",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "3.9 Attention regulation",
+    "text": "3.9 Attention regulation\nAttention regulation is measured at baseline using four continuous task indicators:\natt_acc\natt_rt_inv\natt_inhibit\natt_switch\nHigher values indicate better attention regulation or better task performance."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#missingness-by-variable-block",
+    "href": "labs/sem_school_adjustment_project-description.html#missingness-by-variable-block",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "4.3 Missingness by variable block",
+    "text": "4.3 Missingness by variable block\n\n\nCode\nmissing_by_construct &lt;- codebook |&gt;\n  group_by(construct) |&gt;\n  summarise(\n    n_variables = n(),\n    mean_missing_rate = mean(missing_rate, na.rm = TRUE),\n    max_missing_rate = max(missing_rate, na.rm = TRUE),\n    .groups = \"drop\"\n  ) |&gt;\n  arrange(desc(mean_missing_rate))\n\nkable(missing_by_construct, digits = 3)\n\n\n\n\n\n\n\n\n\n\n\nconstruct\nn_variables\nmean_missing_rate\nmax_missing_rate\n\n\n\n\nschool_anxiety\n18\n0.263\n0.530\n\n\nacademic_self_efficacy\n15\n0.211\n0.437\n\n\nschool_belonging\n15\n0.208\n0.553\n\n\nattention_regulation\n4\n0.106\n0.106\n\n\nobserved_academic_behavioural\n12\n0.069\n0.274\n\n\nmastery_goal_orientation\n5\n0.049\n0.060\n\n\nteacher_support\n5\n0.047\n0.055\n\n\nacademic_reasoning_ability\n12\n0.036\n0.044\n\n\ndemographics\n10\n0.004\n0.020\n\n\ncluster_context\n7\n0.000\n0.000\n\n\nmissing_data_design\n6\n0.000\n0.000"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#cross-sectional-research-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#cross-sectional-research-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "5.1 Cross-sectional research questions",
+    "text": "5.1 Cross-sectional research questions\nThe cross-sectional part uses baseline information only.\n\n5.1.1 RQ1. Socioeconomic background and academic achievement\nIs socioeconomic status associated with baseline academic achievement?\nH1. Higher socioeconomic status is expected to be associated with higher baseline academic achievement.\n\n\n5.1.2 RQ2. Socioeconomic background, ability, and self-efficacy\nAre academic reasoning ability and academic self-efficacy plausible psychological pathways linking socioeconomic status with academic achievement?\nH2. Higher socioeconomic status is expected to be associated with stronger academic reasoning ability and stronger academic self-efficacy. Academic reasoning ability and academic self-efficacy are expected to be positively associated with baseline academic achievement.\n\n\n5.1.3 RQ3. Academic self-efficacy and academic functioning\nIs academic self-efficacy associated with better academic functioning at baseline?\nH3. Higher academic self-efficacy is expected to be associated with higher GPA, more frequent homework completion, more study hours, and higher teacher-rated effort.\n\n\n5.1.4 RQ4. Teacher support, belonging, and school anxiety\nIs perceived teacher support associated with lower school anxiety, and is this association partly explained by school belonging?\nH4. Stronger perceived teacher support is expected to be associated with stronger school belonging. Stronger school belonging is expected to be associated with lower school anxiety.\n\n\n5.1.5 RQ5. School anxiety and academic functioning\nIs school anxiety associated with poorer academic functioning at baseline?\nH5. Higher school anxiety is expected to be associated with more absences and lower GPA. Its association with study hours may be weaker or less consistent.\n\n\n5.1.6 RQ6. Mastery goal orientation and adaptive school engagement\nIs mastery goal orientation associated with more adaptive school engagement?\nH6. Higher mastery goal orientation is expected to be associated with stronger academic self-efficacy, more frequent homework completion, more study hours, and higher teacher-rated effort.\n\n\n5.1.7 RQ7. Attention regulation and academic achievement\nIs attention regulation associated with baseline academic achievement beyond motivational and emotional factors?\nH7. Better attention regulation is expected to be positively associated with GPA and teacher-rated effort.\n\n\n5.1.8 RQ8. Classroom and school context\nAre classroom climate and school resources associated with perceived teacher support, school belonging, school anxiety, and academic achievement?\nH8. More favourable classroom and school contexts are expected to be associated with stronger perceived teacher support, stronger school belonging, lower school anxiety, and higher academic achievement.\n\n\n5.1.9 RQ9. Construct distinctiveness\nAre academic self-efficacy, school anxiety, school belonging, mastery goal orientation, and perceived teacher support empirically distinguishable constructs?\nH9. The constructs are expected to be related but not interchangeable. For example, academic self-efficacy and school anxiety should be negatively related, but they should not be treated as the same construct.\n\n\n5.1.10 RQ10. Group differences in school adjustment\nDo indicators of school adjustment and academic functioning differ by gender, school type, language background, or socioeconomic status?\nH10. Some group differences are expected, but their size, direction, and substantive interpretation should be evaluated cautiously."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-research-questions",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-research-questions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "5.2 Longitudinal research questions",
+    "text": "5.2 Longitudinal research questions\nThe longitudinal part uses repeated measurements of academic self-efficacy, school anxiety, school belonging, GPA, and absences across three waves.\n\n5.2.1 LRQ1. Stability of school adjustment\nHow stable are academic self-efficacy, school anxiety, and school belonging across the three waves?\nLH1. Academic self-efficacy, school anxiety, and school belonging are expected to show moderate-to-strong stability over time, but not perfect stability.\n\n\n5.2.2 LRQ2. Mean-level change in school adjustment\nDo average levels of academic self-efficacy, school anxiety, and school belonging change over time?\nLH2. Average levels of academic self-efficacy and belonging are expected to be relatively stable. School anxiety may show more noticeable change and greater individual variability.\n\n\n5.2.3 LRQ3. Belonging and later school anxiety\nDoes school belonging predict later school anxiety after taking earlier anxiety into account?\nLH3. Higher school belonging at an earlier wave is expected to be associated with lower school anxiety at the following wave.\n\n\n5.2.4 LRQ4. Academic self-efficacy and later achievement\nDoes academic self-efficacy predict later academic achievement after taking earlier achievement into account?\nLH4. Higher academic self-efficacy at an earlier wave is expected to be associated with higher GPA at the following wave.\n\n\n5.2.5 LRQ5. School anxiety and later academic functioning\nDoes school anxiety predict later GPA and absences after taking earlier academic functioning into account?\nLH5. Higher school anxiety at an earlier wave is expected to be associated with more later absences and lower later GPA.\n\n\n5.2.6 LRQ6. Reciprocal relations between academic self-efficacy and achievement\nAre academic self-efficacy and GPA reciprocally related over time?\nLH6. Higher self-efficacy is expected to predict later GPA, and higher GPA is expected to predict later self-efficacy. The two directions may differ in magnitude.\n\n\n5.2.7 LRQ7. Change in self-efficacy and change in GPA\nAre individuals who increase in academic self-efficacy also more likely to improve in GPA?\nLH7. Increases in academic self-efficacy are expected to be associated with more favourable academic trajectories.\n\n\n5.2.8 LRQ8. Persistent school anxiety\nAre individuals with persistently high school anxiety more likely to show unfavourable academic trajectories?\nLH8. Persistent school anxiety is expected to be associated with more absences and lower GPA over time.\n\n\n5.2.9 LRQ9. Differences in longitudinal patterns across groups\nDo longitudinal patterns differ by socioeconomic status, gender, school type, or language background?\nLH9. Some differences in initial levels and trajectories are expected across groups, but these differences should be interpreted in relation to measurement quality, missing data, and baseline differences.\n\n\n5.2.10 LRQ10. Attrition and follow-up participation\nAre individuals with incomplete follow-up data different from individuals with more complete data?\nLH10. Incomplete follow-up data may be associated with baseline achievement, school anxiety, absences, and socioeconomic status."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#prepare-baseline-scale-scores",
+    "href": "labs/sem_school_adjustment_project-description.html#prepare-baseline-scale-scores",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.1 Prepare baseline scale scores",
+    "text": "6.1 Prepare baseline scale scores\nA defensible first pass is to create transparent scale scores. These scores are useful for descriptive summaries, correlations, simple regressions, and preliminary path models.\n\n\nCode\nlibrary(tidyverse)\n\ndat_scores &lt;- dat |&gt;\n  mutate(\n    selfeff_t1_score = rowMeans(across(se1_t1:se5_t1), na.rm = TRUE),\n    anxiety_t1_score = rowMeans(across(anx1_t1:anx6_t1), na.rm = TRUE),\n    belong_t1_score = rowMeans(across(bel1_t1:bel5_t1), na.rm = TRUE),\n    mastery_t1_score = rowMeans(across(mast1_t1:mast5_t1), na.rm = TRUE),\n    teachsup_t1_score = rowMeans(across(ts1_t1:ts5_t1), na.rm = TRUE),\n    ability_t1_score = rowMeans(across(abil1:abil12), na.rm = TRUE)\n  ) |&gt;\n  mutate(\n    across(\n      c(att_acc, att_rt_inv, att_inhibit, att_switch),\n      ~ as.numeric(scale(.x)),\n      .names = \"{.col}_z\"\n    ),\n    attention_t1_score = rowMeans(\n      across(c(att_acc_z, att_rt_inv_z, att_inhibit_z, att_switch_z)),\n      na.rm = TRUE\n    )\n  )\n\n\nA useful check is whether the expected associations appear in the zero-order correlations.\n\n\nCode\nscore_vars &lt;- c(\n  \"ses\", \"gpa_t1\", \"absences_t1\", \"study_hours\", \"teacher_rating_effort\",\n  \"selfeff_t1_score\", \"anxiety_t1_score\", \"belong_t1_score\",\n  \"mastery_t1_score\", \"teachsup_t1_score\", \"ability_t1_score\",\n  \"attention_t1_score\"\n)\n\ncor(dat_scores[score_vars], use = \"pairwise.complete.obs\") |&gt;\n  round(2)\n\n\nExpected broad pattern:\n\nselfeff_t1_score, ability_t1_score, attention_t1_score, and ses should be positively associated with gpa_t1.\nanxiety_t1_score should be positively associated with absences_t1 and negatively associated with gpa_t1.\nteachsup_t1_score should be positively associated with belong_t1_score.\nbelong_t1_score should be negatively associated with anxiety_t1_score."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#simple-regression-solutions",
+    "href": "labs/sem_school_adjustment_project-description.html#simple-regression-solutions",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.2 Simple regression solutions",
+    "text": "6.2 Simple regression solutions\n\n6.2.1 RQ1: Socioeconomic status and GPA\n\n\nCode\nm_rq1 &lt;- lm(gpa_t1 ~ ses, data = dat_scores)\nsummary(m_rq1)\n\n\nA minimal extension adds demographic and contextual covariates.\n\n\nCode\nm_rq1_adj &lt;- lm(\n  gpa_t1 ~ ses + gender + language_home + school_type + school_resources,\n  data = dat_scores\n)\n\nsummary(m_rq1_adj)\n\n\n\n\n6.2.2 RQ3 and RQ5: Self-efficacy, anxiety, and academic functioning\n\n\nCode\nm_gpa &lt;- lm(\n  gpa_t1 ~ selfeff_t1_score + anxiety_t1_score + ses + ability_t1_score,\n  data = dat_scores\n)\n\nm_abs &lt;- glm(\n  absences_t1 ~ anxiety_t1_score + belong_t1_score + ses,\n  data = dat_scores,\n  family = poisson()\n)\n\nsummary(m_gpa)\nsummary(m_abs)\n\n\nFor absences_t1, inspect overdispersion before relying on a Poisson model.\n\n\nCode\nsum(residuals(m_abs, type = \"pearson\")^2) / df.residual(m_abs)"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#path-analysis-solution-with-observed-scale-scores",
+    "href": "labs/sem_school_adjustment_project-description.html#path-analysis-solution-with-observed-scale-scores",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.3 Path-analysis solution with observed scale scores",
+    "text": "6.3 Path-analysis solution with observed scale scores\nA compact baseline path model can address several cross-sectional questions at once.\n\n\nCode\nlibrary(lavaan)\n\nmodel_scores_cross &lt;- '\n  ability_t1_score ~ ses\n  selfeff_t1_score ~ ability_t1_score + mastery_t1_score + teachsup_t1_score + ses\n  belong_t1_score ~ teachsup_t1_score + ses\n  anxiety_t1_score ~ selfeff_t1_score + belong_t1_score + ses\n  gpa_t1 ~ ability_t1_score + selfeff_t1_score + anxiety_t1_score + attention_t1_score + ses\n  absences_t1 ~ anxiety_t1_score + belong_t1_score + ses\n'\n\nfit_scores_cross &lt;- sem(\n  model_scores_cross,\n  data = dat_scores,\n  missing = \"fiml\",\n  estimator = \"MLR\",\n  cluster = \"class_id\"\n)\n\nsummary(fit_scores_cross, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)\n\n\nA more focused mediation model addresses the teacher support, belonging, and anxiety question.\n\n\nCode\nmodel_scores_mediation &lt;- '\n  belong_t1_score ~ a * teachsup_t1_score + ses\n  anxiety_t1_score ~ b * belong_t1_score + cprime * teachsup_t1_score + ses\n\n  indirect := a * b\n  total := cprime + indirect\n'\n\nfit_scores_mediation &lt;- sem(\n  model_scores_mediation,\n  data = dat_scores,\n  missing = \"fiml\",\n  estimator = \"MLR\",\n  cluster = \"class_id\"\n)\n\nsummary(fit_scores_mediation, fit.measures = TRUE, standardized = TRUE)"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#baseline-latent-variable-solution",
+    "href": "labs/sem_school_adjustment_project-description.html#baseline-latent-variable-solution",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.4 Baseline latent-variable solution",
+    "text": "6.4 Baseline latent-variable solution\nAfter inspecting score-based results, you may represent the main constructs as latent variables. This is especially relevant when construct distinctiveness and measurement quality are part of the question.\n\n\nCode\nmodel_cross_sectional &lt;- '\n  selfeff =~ se1_t1 + se2_t1 + se3_t1 + se4_t1 + se5_t1\n  anxiety =~ anx1_t1 + anx2_t1 + anx3_t1 + anx4_t1 + anx5_t1 + anx6_t1\n  belong  =~ bel1_t1 + bel2_t1 + bel3_t1 + bel4_t1 + bel5_t1\n  teachsup =~ ts1_t1 + ts2_t1 + ts3_t1 + ts4_t1 + ts5_t1\n  mastery =~ mast1_t1 + mast2_t1 + mast3_t1 + mast4_t1 + mast5_t1\n\n  ability =~ abil1 + abil2 + abil3 + abil4 + abil5 + abil6 +\n             abil7 + abil8 + abil9 + abil10 + abil11 + abil12\n\n  attention =~ att_acc + att_rt_inv + att_inhibit + att_switch\n\n  ability ~ ses\n  selfeff ~ ability + mastery + teachsup + ses\n  belong ~ teachsup + ses\n  anxiety ~ selfeff + belong + ses\n  gpa_t1 ~ ability + selfeff + anxiety + attention + ses\n  absences_t1 ~ anxiety + belong + ses\n'\n\nordered_items_t1 &lt;- c(\n  paste0(\"se\", 1:5, \"_t1\"),\n  paste0(\"anx\", 1:6, \"_t1\"),\n  paste0(\"bel\", 1:5, \"_t1\"),\n  paste0(\"mast\", 1:5, \"_t1\"),\n  paste0(\"ts\", 1:5, \"_t1\"),\n  paste0(\"abil\", 1:12)\n)\n\nfit_cross &lt;- sem(\n  model_cross_sectional,\n  data = dat,\n  ordered = ordered_items_t1,\n  estimator = \"WLSMV\"\n)\n\nsummary(fit_cross, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)\n\n\nPossible interpretation route:\n\nStart with global fit: chi-square, CFI, TLI, RMSEA, and SRMR when available.\nInspect local diagnostics: residuals, modification indices, and unusually weak indicators.\nAvoid adding parameters only because they improve fit.\nInterpret indirect or structural paths only after the measurement part is defensible."
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-score-based-solution",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-score-based-solution",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.5 Longitudinal score-based solution",
+    "text": "6.5 Longitudinal score-based solution\nA first longitudinal pass can use scale scores. This keeps the focus on stability, change, and prospective associations.\n\n\nCode\ndat_long_scores &lt;- dat |&gt;\n  mutate(\n    selfeff_t1_score = rowMeans(across(se1_t1:se5_t1), na.rm = TRUE),\n    selfeff_t2_score = rowMeans(across(se1_t2:se5_t2), na.rm = TRUE),\n    selfeff_t3_score = rowMeans(across(se1_t3:se5_t3), na.rm = TRUE),\n\n    anxiety_t1_score = rowMeans(across(anx1_t1:anx6_t1), na.rm = TRUE),\n    anxiety_t2_score = rowMeans(across(anx1_t2:anx6_t2), na.rm = TRUE),\n    anxiety_t3_score = rowMeans(across(anx1_t3:anx6_t3), na.rm = TRUE),\n\n    belong_t1_score = rowMeans(across(bel1_t1:bel5_t1), na.rm = TRUE),\n    belong_t2_score = rowMeans(across(bel1_t2:bel5_t2), na.rm = TRUE),\n    belong_t3_score = rowMeans(across(bel1_t3:bel5_t3), na.rm = TRUE)\n  )\n\n\n\n6.5.1 LRQ3: Belonging and later anxiety\n\n\nCode\nm_lrq3 &lt;- lm(\n  anxiety_t2_score ~ anxiety_t1_score + belong_t1_score + ses + gender,\n  data = dat_long_scores\n)\n\nsummary(m_lrq3)\n\n\n\n\n6.5.2 LRQ4 and LRQ5: Anxiety, self-efficacy, and later GPA\n\n\nCode\nm_lrq4_lrq5 &lt;- lm(\n  gpa_t2 ~ gpa_t1 + selfeff_t1_score + anxiety_t1_score + ses,\n  data = dat_long_scores\n)\n\nsummary(m_lrq4_lrq5)"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#longitudinal-latent-variable-solution",
+    "href": "labs/sem_school_adjustment_project-description.html#longitudinal-latent-variable-solution",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.6 Longitudinal latent-variable solution",
+    "text": "6.6 Longitudinal latent-variable solution\nThe following model is one possible latent longitudinal model. It should be fitted only after you have inspected the repeated measures and considered whether the indicators are comparable across time.\n\n\nCode\nmodel_longitudinal &lt;- '\n  selfeff_t1 =~ se1_t1 + se2_t1 + se3_t1 + se4_t1 + se5_t1\n  selfeff_t2 =~ se1_t2 + se2_t2 + se3_t2 + se4_t2 + se5_t2\n  selfeff_t3 =~ se1_t3 + se2_t3 + se3_t3 + se4_t3 + se5_t3\n\n  anxiety_t1 =~ anx1_t1 + anx2_t1 + anx3_t1 + anx4_t1 + anx5_t1 + anx6_t1\n  anxiety_t2 =~ anx1_t2 + anx2_t2 + anx3_t2 + anx4_t2 + anx5_t2 + anx6_t2\n  anxiety_t3 =~ anx1_t3 + anx2_t3 + anx3_t3 + anx4_t3 + anx5_t3 + anx6_t3\n\n  selfeff_t2 ~ selfeff_t1\n  selfeff_t3 ~ selfeff_t2\n\n  anxiety_t2 ~ anxiety_t1\n  anxiety_t3 ~ anxiety_t2\n\n  gpa_t2 ~ gpa_t1\n  gpa_t3 ~ gpa_t2\n\n  anxiety_t2 ~ selfeff_t1\n  anxiety_t3 ~ selfeff_t2\n\n  gpa_t2 ~ selfeff_t1 + anxiety_t1\n  gpa_t3 ~ selfeff_t2 + anxiety_t2\n\n  selfeff_t1 ~~ anxiety_t1\n  selfeff_t2 ~~ anxiety_t2\n  selfeff_t3 ~~ anxiety_t3\n'\n\nordered_items_long &lt;- c(\n  paste0(\"se\", 1:5, \"_t1\"), paste0(\"se\", 1:5, \"_t2\"), paste0(\"se\", 1:5, \"_t3\"),\n  paste0(\"anx\", 1:6, \"_t1\"), paste0(\"anx\", 1:6, \"_t2\"), paste0(\"anx\", 1:6, \"_t3\")\n)\n\nfit_long &lt;- sem(\n  model_longitudinal,\n  data = dat,\n  ordered = ordered_items_long,\n  estimator = \"WLSMV\"\n)\n\nsummary(fit_long, fit.measures = TRUE, standardized = TRUE, rsquare = TRUE)"
+  },
+  {
+    "objectID": "labs/sem_school_adjustment_project-description.html#checking-incomplete-follow-up-data",
+    "href": "labs/sem_school_adjustment_project-description.html#checking-incomplete-follow-up-data",
+    "title": "School Adjustment, Motivation, and Academic Functioning",
+    "section": "6.7 Checking incomplete follow-up data",
+    "text": "6.7 Checking incomplete follow-up data\nThe attrition question can be addressed descriptively before any longitudinal model is fitted.\n\n\nCode\ndat |&gt;\n  group_by(dropout_t3) |&gt;\n  summarise(\n    n = n(),\n    mean_gpa_t1 = mean(gpa_t1, na.rm = TRUE),\n    mean_absences_t1 = mean(absences_t1, na.rm = TRUE),\n    mean_ses = mean(ses, na.rm = TRUE),\n    .groups = \"drop\"\n  )\n\n\nIf you create baseline school-adjustment scores, also compare baseline anxiety, self-efficacy, and belonging by follow-up completion status.\n\n\nCode\ndat_long_scores |&gt;\n  group_by(dropout_t3) |&gt;\n  summarise(\n    n = n(),\n    selfeff_t1 = mean(selfeff_t1_score, na.rm = TRUE),\n    anxiety_t1 = mean(anxiety_t1_score, na.rm = TRUE),\n    belong_t1 = mean(belong_t1_score, na.rm = TRUE),\n    .groups = \"drop\"\n  )"
+  },
+  {
+    "objectID": "labs.html#a-dataset-to-rule-them-all",
+    "href": "labs.html#a-dataset-to-rule-them-all",
+    "title": "Labs",
+    "section": "A Dataset To Rule Them All",
+    "text": "A Dataset To Rule Them All\nAll the labs listed below are topic-specific and include solutions. Instead, you can practice everything from scratch using the oh God I collected so many data and I don’t know what to do now dataset. You can download the data from /data/processed folder which also include a codebook."
+  },
+  {
+    "objectID": "index.html#history",
+    "href": "index.html#history",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "History",
+    "text": "History\nAt the end of each course, I will create a Git Release that will be permanently available on GitHub and Zenodo so that you can always retrieve the materials you saw or used during the course.\n\nJune 2026 - release not yet available"
+  },
+  {
+    "objectID": "index.html#more",
+    "href": "index.html#more",
+    "title": "Structural Equation Modelling in Psychological Sciences",
+    "section": "More",
+    "text": "More\n\n\n\n\n\n\nTip\n\n\n\nTip\nIf you get lost: come back here. This page is the “map” for everything.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
   }
 ]
