@@ -130,14 +130,14 @@
     "href": "index.html#how-to-use-this-repo",
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "How to use this repo",
-    "text": "How to use this repo\n\nDuring class: open the slides for today + run the matching lab.\nAfter class: use the Glossary and Reporting checklist while doing exercises/projects.\nExtras: optional modules (power, SAM, latent interactions, etc.) you can read when relevant.\n\n\n\n\n\n\n\nTip\n\n\n\nTip\nIf you get lost: come back here. This page is the “map” for everything."
+    "text": "How to use this repo\n\nDuring class: open the slides for today + run the matching lab.\nAfter class: use the Glossary and Reporting checklist while doing exercises/projects.\nExtras: optional modules (power, SAM, latent interactions, etc.) you can read when relevant."
   },
   {
     "objectID": "index.html#approximate-timetable-54h-split-into-two-2-hour-blocks",
     "href": "index.html#approximate-timetable-54h-split-into-two-2-hour-blocks",
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "Approximate timetable (5×4h, split into two 2-hour blocks)",
-    "text": "Approximate timetable (5×4h, split into two 2-hour blocks)\n\n\n\nDay\nBlock A (2h)\nBlock B (2h)\nCore lab\n\n\n\n\n1\n00 Course map + 01 Foundations\n02 Path analysis\nLab 01 + Lab 02\n\n\n2\n03 Fit & diagnostics\n04 CFA\nLab 03 + Lab 04\n\n\n3\n05 SEM\n06 Missing/robust/reporting\nLab 05 + Lab 06\n\n\n4\n07 Invariance (MG-CFA)\n08 Ordinal SEM\nLab 07 + Lab 08\n\n\n5\n09 Longitudinal SEM\n10 Multilevel/clustered\nLab 09 + Lab 10"
+    "text": "Approximate timetable (5×4h, split into two 2-hour blocks)\n\n\n\nDay\nBlock A (2h)\nBlock B (2h)\nCore lab\n\n\n\n\n1\n00 Course map + 01 Foundations\n02 Path analysis\nLab 01 + Lab 02\n\n\n2\n03 Fit & diagnostics\n04 CFA\nLab 03 + Lab 04\n\n\n3\n05 SEM\n06 Missing/robust/reporting\nLab 05 + Lab 06\n\n\n4\n07 Invariance (MG-CFA)\n08 Ordinal SEM\nLab 07 + Lab 08\n\n\n5\n09 Longitudinal SEM\n10 Multilevel/clustered\nLab 09 + Lab 10\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nIf you want the pdf version of the slides: /?print-pdf"
   },
   {
     "objectID": "index.html#what-you-should-keep-open-while-working",
@@ -151,7 +151,7 @@
     "href": "index.html#conventions-used-in-this-course",
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "Conventions used in this course",
-    "text": "Conventions used in this course\n\nCore fit indices (default): χ², CFI/TLI, RMSEA (+ CI), SRMR\nLocal fit: residuals + MI/EPC (with “modification discipline”)\nDefault mindset: measurement first, then structure (“two-step mindset”)\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
+    "text": "Conventions used in this course\n\nCore fit indices (default): χ², CFI/TLI, RMSEA (+ CI), SRMR\nLocal fit: residuals + MI/EPC (with “modification discipline”)\nDefault mindset: measurement first, then structure (“two-step mindset”)\n\n\n\n\n\n\n\nTip\n\n\n\nTip\nIf you get lost: come back here. This page is the “map” for everything.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
   },
   {
     "objectID": "setup.html",

@@ -12,11 +12,6 @@ Welcome! This repository contains **slides (Quarto revealjs)**, **hands-on labs*
 -   **After class:** use the *Glossary* and *Reporting checklist* while doing exercises/projects.
 -   **Extras:** optional modules (power, SAM, latent interactions, etc.) you can read when relevant.
 
-::: callout-tip
-**Tip**\
-If you get lost: come back here. This page is the “map” for everything.
-:::
-
 ## Approximate timetable (5×4h, split into two 2-hour blocks)
 
 | Day | Block A (2h) | Block B (2h) | Core lab |
@@ -26,6 +21,10 @@ If you get lost: come back here. This page is the “map” for everything.
 | 3 | [05 SEM](slides/05_sem_measurement-plus-structure_capstone.html){target="_blank"} | [06 Missing/robust/reporting](slides/06_missing-data_robustness_reporting.html){target="_blank"} | [Lab 05](labs/lab05_sem_capstone_eat.html){target="_blank"} + [Lab 06](labs/lab06_missing_fiml_mi_robust.html){target="_blank"} |
 | 4 | [07 Invariance (MG-CFA)](slides/07_invariance_mgcfa_partialinvariance.html){target="_blank"} | [08 Ordinal SEM](slides/08_ordinal-sem_thresholds_wlsmv_ordinal-invariance.html){target="_blank"} | [Lab 07](labs/lab07_invariance_mgcfa.html){target="_blank"} + [Lab 08](labs/lab08_ordinal_sem_invariance.html){target="_blank"} |
 | 5 | [09 Longitudinal SEM](slides/09_longitudinal-sem_growth_invariance-over-time.html){target="_blank"} | [10 Multilevel/clustered](slides/10_multilevel_clustered-data_robustse_twolevel-cfa.html){target="_blank"} | [Lab 09](labs/lab09_longitudinal_growth.html){target="_blank"} + [Lab 10](labs/lab10_multilevel_robustse_twolevelcfa.html){target="_blank"} |
+
+::: callout-tip
+If you want the pdf version of the slides: [/?print-pdf](https://revealjs.com/pdf-export/){target="_blank"}
+:::
 
 ## What you should keep open while working
 
@@ -39,6 +38,11 @@ If you get lost: come back here. This page is the “map” for everything.
 -   **Core fit indices** (default): χ², CFI/TLI, RMSEA (+ CI), SRMR
 -   **Local fit**: residuals + MI/EPC (with “modification discipline”)
 -   **Default mindset:** measurement first, then structure (“two-step mindset”)
+
+::: callout-tip
+**Tip**\
+If you get lost: come back here. This page is the “map” for everything.
+:::
 
 ::: callout-important
 **Important**\
