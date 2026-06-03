@@ -810,5 +810,75 @@
     "title": "Structural Equation Modelling in Psychological Sciences",
     "section": "More",
     "text": "More\n\n\n\n\n\n\nTip\n\n\n\nTip\nIf you get lost: come back here. This page is the “map” for everything.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nImportant\nSlides are optimized for live teaching. “Extras” are designed to be self-contained reading modules with code + exercises."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html",
+    "href": "labs/lab01_lavaan-basics.html",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "",
+    "text": "By the end of this lab, you can:\n\nFit observed-variable models in lavaan (no latent variables yet)\nExpress (multi)regression models using lavaan syntax (~, ~~)\nExtract and interpret key output (estimates, SE, standardized estimates)\nTest a simple equality constraint using nested model comparison"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#packages",
+    "href": "labs/lab01_lavaan-basics.html#packages",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Packages",
+    "text": "Packages\n\nlibrary(lavaan)"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#data",
+    "href": "labs/lab01_lavaan-basics.html#data",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Data",
+    "text": "Data\nWe will use the built-in dataset mtcars (motor trends cars; a classic toy dataset).\n\n\nShow code\ndat &lt;- mtcars\n\n# Keep only variables we use (and make names explicit)\ndat &lt;- dat[, c(\"mpg\", \"qsec\", \"wt\", \"hp\")]\n\n# Quick look\nsummary(dat)\n\n\n      mpg             qsec             wt              hp       \n Min.   :10.40   Min.   :14.50   Min.   :1.513   Min.   : 52.0  \n 1st Qu.:15.43   1st Qu.:16.89   1st Qu.:2.581   1st Qu.: 96.5  \n Median :19.20   Median :17.71   Median :3.325   Median :123.0  \n Mean   :20.09   Mean   :17.85   Mean   :3.217   Mean   :146.7  \n 3rd Qu.:22.80   3rd Qu.:18.90   3rd Qu.:3.610   3rd Qu.:180.0  \n Max.   :33.90   Max.   :22.90   Max.   :5.424   Max.   :335.0  \n\n\n\n\n\n\n\n\nWhy this dataset? It’s small, clean, and lets us practice the SEM workflow with manifest variables only."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#extracting-parameters-programmatically",
+    "href": "labs/lab01_lavaan-basics.html#extracting-parameters-programmatically",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Extracting parameters programmatically",
+    "text": "Extracting parameters programmatically\nUse the function parameterEstimates() to obtain the estimates. How do you extract standardized estimate?\n\n\nShow code\npe &lt;- parameterEstimates(fit_sem, standardized = TRUE)\nhead(pe, 10)\n\n\n  lhs op rhs      est    se      z pvalue ci.lower ci.upper   std.lv std.all\n1 mpg  ~  wt   -3.878 0.602 -6.438      0   -5.058   -2.697   -3.878  -0.630\n2 mpg  ~  hp   -0.032 0.009 -3.696      0   -0.049   -0.015   -0.032  -0.361\n3 mpg ~~ mpg    6.095 1.524  4.000      0    3.109    9.082    6.095   0.173\n4  wt ~~  wt    0.927 0.000     NA     NA    0.927    0.927    0.927   1.000\n5  wt ~~  hp   42.812 0.000     NA     NA   42.812   42.812   42.812   0.659\n6  hp ~~  hp 4553.965 0.000     NA     NA 4553.965 4553.965 4553.965   1.000\n7 mpg ~1       37.227 1.522 24.459      0   34.244   40.210   37.227   6.276\n8  wt ~1        3.217 0.000     NA     NA    3.217    3.217    3.217   3.341\n9  hp ~1      146.688 0.000     NA     NA  146.688  146.688  146.688   2.174\n   std.nox\n1   -0.654\n2   -0.005\n3    0.173\n4    0.927\n5   42.812\n6 4553.965\n7    6.276\n8    3.217\n9  146.688\n\n\n\nop tells you the operator (~ regression, ~~ variance/covariance, ~1 intercept)\nest is the estimate\nse is the standard error\nz and pvalue are the usual Wald test outputs\nstd.all is the fully standardized estimate\n\n\n\n\n\n\n\nAt this stage, focus on estimates only. We’ll talk about modeling strategy and diagnostics later.\n\n\n\n\n\n\n\n\n\nCheck-in: You just used lavaan as a “regression engine”. SEM becomes interesting when we connect multiple equations and allow covariances explicitly."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#compare-to-two-separate-regressions",
+    "href": "labs/lab01_lavaan-basics.html#compare-to-two-separate-regressions",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "Compare to two separate regressions",
+    "text": "Compare to two separate regressions\n\n\nShow code\nfit_lm_mpg  &lt;- lm(mpg  ~ wt + hp, data = dat)\nfit_lm_qsec &lt;- lm(qsec ~ wt + hp, data = dat)\n\nsummary(fit_lm_mpg)$coef\n\n\n               Estimate Std. Error   t value     Pr(&gt;|t|)\n(Intercept) 37.22727012 1.59878754 23.284689 2.565459e-20\nwt          -3.87783074 0.63273349 -6.128695 1.119647e-06\nhp          -0.03177295 0.00902971 -3.518712 1.451229e-03\n\n\nShow code\nsummary(fit_lm_qsec)$coef\n\n\n               Estimate  Std. Error   t value     Pr(&gt;|t|)\n(Intercept) 18.82558525 0.671867025 28.019808 1.493575e-22\nwt           0.94153237 0.265896975  3.540967 1.368578e-03\nhp          -0.02730962 0.003794603 -7.196964 6.362107e-08\n\n\n\n\n\n\n\n\nSeparate lm() fits ignore the joint structure (e.g., residual covariance). lavaan makes it explicit."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#a-unconstrained-model",
+    "href": "labs/lab01_lavaan-basics.html#a-unconstrained-model",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4a) Unconstrained model",
+    "text": "4a) Unconstrained model\n(You already fit it as fit_mv.)"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#b-constrained-model",
+    "href": "labs/lab01_lavaan-basics.html#b-constrained-model",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4b) Constrained model",
+    "text": "4b) Constrained model\nLabel the two wt slopes with the same name (e.g., b_wt):\n\n\nShow code\nmod_mv_equal &lt;- '\n  mpg  ~ b_wt*wt + hp\n  qsec ~ b_wt*wt + hp\n\n  wt ~~ hp\n  mpg ~~ qsec\n'\n\nfit_mv_equal &lt;- sem(mod_mv_equal, data = dat, meanstructure = TRUE)\nsummary(fit_mv_equal, standardized = TRUE)\n\n\nlavaan 0.6-19 ended normally after 64 iterations\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                        14\n  Number of equality constraints                     1\n\n  Number of observations                            32\n\nModel Test User Model:\n                                                      \n  Test statistic                                35.243\n  Degrees of freedom                                 1\n  P-value (Chi-square)                           0.000\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nRegressions:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n  mpg ~                                                                  \n    wt      (b_wt)    0.524    0.248     2.114    0.035    0.524    0.082\n    hp               -0.073    0.011    -6.762    0.000   -0.073   -0.805\n  qsec ~                                                                 \n    wt      (b_wt)    0.524    0.248     2.114    0.035    0.524    0.298\n    hp               -0.023    0.004    -6.378    0.000   -0.023   -0.932\n\nCovariances:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n  wt ~~                                                                  \n    hp               42.812    8.643     4.953    0.000   42.812    0.659\n .mpg ~~                                                                 \n   .qsec             -0.416    0.774    -0.537    0.591   -0.416   -0.095\n\nIntercepts:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n   .mpg              29.136    1.766    16.502    0.000   29.136    4.751\n   .qsec             19.594    0.645    30.368    0.000   19.594   11.579\n    wt                3.217    0.170    18.898    0.000    3.217    3.341\n    hp              146.687   11.929    12.296    0.000  146.687    2.174\n\nVariances:\n                   Estimate  Std.Err  z-value   P(&gt;|z|)   Std.lv  Std.all\n   .mpg              16.266    4.066     4.000    0.000   16.266    0.432\n   .qsec              1.168    0.292     4.000    0.000    1.168    0.408\n    wt                0.927    0.209     4.440    0.000    0.927    1.000\n    hp             4553.971    0.081 56034.919    0.000 4553.971    1.000"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#c-compare-nested-models",
+    "href": "labs/lab01_lavaan-basics.html#c-compare-nested-models",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "4c) Compare nested models",
+    "text": "4c) Compare nested models\n\n\nShow code\nanova(fit_mv, fit_mv_equal)\n\n\n\nChi-Squared Difference Test\n\n             Df    AIC    BIC  Chisq Chisq diff  RMSEA Df diff Pr(&gt;Chisq)    \nfit_mv        0 698.87 719.40  0.000                                         \nfit_mv_equal  1 732.12 751.17 35.243     35.243 1.0345       1  2.911e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nInterpretation questions\n\nIf the constrained model fits significantly worse, what does that imply?\nIf there is little/no difference, what does that imply?\nWhich model would you prefer and why (think theory + parsimony)?\n\n\n\n\n\n\n\nWe’ll later discuss when χ² difference tests are appropriate, and what changes under robust estimators."
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#what-you-should-take-away",
+    "href": "labs/lab01_lavaan-basics.html#what-you-should-take-away",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "What you should take away",
+    "text": "What you should take away\n\nlavaan models are written with a small “grammar”: ~, ~~, ~1 (and later =~)\nEven with manifest variables only, SEM lets you model systems of equations and covariances\nEquality constraints are easy: reuse parameter labels"
+  },
+  {
+    "objectID": "labs/lab01_lavaan-basics.html#whats-next",
+    "href": "labs/lab01_lavaan-basics.html#whats-next",
+    "title": "Lab 01 — lavaan basics with observed variables",
+    "section": "What’s next",
+    "text": "What’s next\n\nIn the next lecture we move from “multivariate regression” to path models and mediation\nYou will reuse the same syntax you practiced today (plus parameter labels for effects)"
   }
 ]
