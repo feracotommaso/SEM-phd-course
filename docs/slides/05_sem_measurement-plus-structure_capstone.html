@@ -355,21 +355,21 @@ We will <strong>repeat fit/diagnostics on purpose</strong>: by now it should bec
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   xi =~                                                                 
-    x1                1.000                               0.941    0.755
-    x2                0.595    0.179    3.321    0.001    0.560    0.490
+    x1                1.000                               0.939    0.731
+    x2                0.558    0.221    2.529    0.011    0.524    0.445
   eta =~                                                                
-    y1                1.000                               0.544    0.475
-    y2                1.324    0.395    3.347    0.001    0.720    0.579
+    y1                1.000                               0.538    0.458
+    y2                1.633    0.619    2.640    0.008    0.879    0.686
 
 [...]
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .x1                0.668    0.266    2.508    0.012    0.668    0.430
-   .x2                0.991    0.104    9.574    0.000    0.991    0.760
-   .y1                1.013    0.100   10.135    0.000    1.013    0.774
-   .y2                1.030    0.163    6.325    0.000    1.030    0.665
-    xi                0.886    0.272    3.259    0.001    1.000    1.000
-   .eta               0.267    0.086    3.090    0.002    0.903    0.903
+   .x1                0.768    0.349    2.203    0.028    0.768    0.466
+   .x2                1.110    0.119    9.326    0.000    1.110    0.802
+   .y1                1.093    0.120    9.122    0.000    1.093    0.791
+   .y2                0.868    0.294    2.949    0.003    0.868    0.529
+    xi                0.882    0.353    2.497    0.013    1.000    1.000
+   .eta               0.272    0.106    2.564    0.010    0.941    0.941
 
 [...]</code></pre>
 </div>
@@ -383,21 +383,21 @@ Variances:
 Latent Variables:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
   xi =~                                                                 
-    x1                0.941    0.144    6.518    0.000    0.941    0.755
-    x2                0.560    0.090    6.208    0.000    0.560    0.490
+    x1                0.939    0.188    4.994    0.000    0.939    0.731
+    x2                0.524    0.109    4.808    0.000    0.524    0.445
   eta =~                                                                
-    y1                0.517    0.084    6.181    0.000    0.544    0.475
-    y2                0.684    0.113    6.069    0.000    0.720    0.579
+    y1                0.522    0.102    5.128    0.000    0.538    0.458
+    y2                0.853    0.171    4.997    0.000    0.879    0.686
 
 [...]
 Variances:
                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-   .x1                0.668    0.266    2.508    0.012    0.668    0.430
-   .x2                0.991    0.104    9.574    0.000    0.991    0.760
-   .y1                1.013    0.100   10.135    0.000    1.013    0.774
-   .y2                1.030    0.163    6.325    0.000    1.030    0.665
+   .x1                0.768    0.349    2.203    0.028    0.768    0.466
+   .x2                1.110    0.119    9.326    0.000    1.110    0.802
+   .y1                1.093    0.120    9.122    0.000    1.093    0.791
+   .y2                0.868    0.294    2.949    0.003    0.868    0.529
     xi                1.000                               1.000    1.000
-   .eta               1.000                               0.903    0.903
+   .eta               1.000                               0.941    0.941
 
 [...]</code></pre>
 </div>
@@ -412,17 +412,17 @@ Variances:
 <div class="cell-output cell-output-stdout">
 <pre><code>$lambda
       xi   eta
-x1 0.755 0.000
-x2 0.490 0.000
-y1 0.000 0.475
-y2 0.000 0.579
+x1 0.731 0.000
+x2 0.445 0.000
+y1 0.000 0.458
+y2 0.000 0.686
 
 $theta
       x1    x2    y1    y2
-x1 0.430                  
-x2 0.000 0.760            
-y1 0.000 0.000 0.774      
-y2 0.000 0.000 0.000 0.665</code></pre>
+x1 0.466                  
+x2 0.000 0.802            
+y1 0.000 0.000 0.791      
+y2 0.000 0.000 0.000 0.529</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -430,12 +430,12 @@ y2 0.000 0.000 0.000 0.665</code></pre>
 <pre><code>$psi
        xi   eta
 xi  1.000      
-eta 0.000 0.903
+eta 0.000 0.941
 
 $beta
        xi eta
 xi  0.000   0
-eta 0.312   0</code></pre>
+eta 0.242   0</code></pre>
 </div>
 </div>
 </section>
@@ -666,7 +666,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="the-eat-dataset" class="slide level2">
 <h2>The <code>EAT</code> dataset</h2>
-<p>The dataset includes 13 items that measure ‘peer pressure’, ‘social media use’, ‘social comparison’, and ‘eating disorders’.</p>
+<p>The <a href="https://github.com/feracotommaso/SEM-phd-course/tree/main/data">dataset</a> includes 13 items that measure ‘peer pressure’, ‘social media use’, ‘social comparison’, and ‘eating disorders’.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/Exercise4_1.Rdata"</span>)</span>
 <span id="cb23-2"><a aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">head</span>(dE4_1),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

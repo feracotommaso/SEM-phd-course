@@ -501,7 +501,7 @@ fit2.1 <- sem(m2.1, data = dE4_1, std.lv=T)
 
 ## The `EAT` dataset
 
-The dataset includes 13 items that measure 'peer pressure', 'social media use', 'social comparison', and 'eating disorders'.
+The [dataset](https://github.com/feracotommaso/SEM-phd-course/tree/main/data) includes 13 items that measure 'peer pressure', 'social media use', 'social comparison', and 'eating disorders'.
 
 ```{r}
 #| echo: true
