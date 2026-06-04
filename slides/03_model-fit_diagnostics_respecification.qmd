@@ -451,7 +451,7 @@ As usual *all models are false, but some are useful*.
 
 Go to:
 
--   **`labs/lab03_fit-diagnostics_MI_residuals.qmd`** [link](lab03_fit-diagnostics_MI_residuals.html){target="_blank"}
+-   **`labs/lab03_fit-diagnostics_MI_residuals.qmd`** [link](https://feracotommaso.github.io/SEM-phd-course/labs/lab03_fit-diagnostics_MI_residuals.html){target="_blank"}
 
 You’ll practice:
 
