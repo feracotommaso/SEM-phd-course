@@ -9,6 +9,10 @@ These labs are the hands-on part of the course. Each lab is designed to be runna
 If you get stuck, start from the top of the lab and run chunks in order.
 :::
 
+## A CFA dataset
+
+Try lab 4 using different [data](https://github.com/feracotommaso/SEM-phd-course/blob/main/data/Exercise3_2.csv)
+
 ## A Dataset To Rule Them All
 
 All the labs listed below are topic-specific and include solutions. Instead, you can practice everything from scratch using the [oh God I collected so many data and I don't know what to do now dataset](labs/sem_school_adjustment_project-description.html){target="_blank"}. You can download the data from `/data/processed` folder which also include a codebook [data](https://github.com/feracotommaso/SEM-phd-course/tree/main/data/processed).
